@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morphe — Pro</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles-form.css" />
+</head>
+<body>
+  <header class="page-header">
+    <div class="container">
+      <a href="../index.html" class="logo-link">
+        <div class="logo">Morphe</div>
+      </a>
+      <nav class="page-nav">
+        <a href="../pages/profile.html" class="nav-link">👤 Профиль</a>
+        <a href="../pages/workouts.html" class="nav-link">💪 Тренировки</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="premium-page">
+    <div class="container">
+      <h1>💎 Morphe Pro — твой умный тренер</h1>
+      <p>Полный доступ ко всем функциям — без рекламы, с персонализацией и интеллектом.</p>
+
+      <!-- Статус подписки -->
+      <div id="statusSection">
+        <p>Загрузка...</p>
+      </div>
+
+      <!-- Планы -->
+      <div class="pricing-cards">
+        <div class="card free">
+          <h3>Бесплатно</h3>
+          <div class="price">₽0</div>
+          <ul>
+            <li>✅ Базовый профиль</li>
+            <li>✅ Генератор тренировок</li>
+            <li>✅ Расчёт питания</li>
+            <li>✅ Прогресс-трекер</li>
+            <li>❌ Нет AI-советов</li>
+            <li>❌ Нет видео техники</li>
+            <li>❌ Нет AR-подсказок</li>
+          </ul>
+          <button class="btn-secondary" disabled>Ваш текущий план</button>
+        </div>
+
+        <div class="card pro">
+          <h3>Morphe Pro</h3>
+          <div class="price">₽299/мес<br><small>или ₽2990/год (−30%)</small></div>
+          <ul>
+            <li>✅ Всё из бесплатной версии</li>
+            <li>✅ AI-советник: "Что делать, если болит плечо?"</li>
+            <li>✅ Видео техники с AR-наложением</li>
+            <li>✅ Прогрессия нагрузки с прогнозом</li>
+            <li>✅ Экспорт в PDF и Google Sheets</li>
+            <li>✅ Приоритетная поддержка</li>
+            <li>✅ Темная тема + кастомизация</li>
+          </ul>
+          <button onclick="startTrial()" class="btn-primary">🚀 Начать 7 дней бесплатно</button>
+          <button onclick="buyYearly()" class="btn-accent">🎁 Купить год — сэкономить 30%</button>
+        </div>
+      </div>
+
+      <!-- Частые вопросы -->
+      <div class="faq">
+        <h2>❓ Частые вопросы</h2>
+        <details>
+          <summary>Можно ли отменить подписку?</summary>
+          <p>Да. Вы можете отключить автопродление в любой момент. Доступ сохраняется до конца оплаченного периода.</p>
+        </details>
+        <details>
+          <summary>Работает ли это без интернета?</summary>
+          <p>Да. Morphe Pro работает оффлайн, как и бесплатная версия.</p>
+        </details>
+        <details>
+          <summary>Есть ли скидки для студентов?</summary>
+          <p>Да. Напишите нам на support@morphe.app — мы проверим и вышлем скидку 50%.</p>
+        </details>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { PremiumManager } from '../modules/premiumManager.js';
+
+    const premium = new PremiumManager();
+    const statusEl = document.getElementById('statusSection');
+
+    function updateStatus() {
+      const status = premium.getStatus();
+
+      if (status.isPremium) {
+        const expiry = new Date(status.expiry).toLocaleDateString('ru-RU');
+        statusEl.innerHTML = `
+          <div class="status-card success">
+            <h3>✅ Вы в Morphe Pro</h3>
+            <p>Доступ до: <strong>${expiry}</strong></p>
+            <p>Осталось дней: <strong>${status.daysLeft}</strong></p>
+            <button onclick="location.reload()" class="btn-secondary">Обновить</button>
+          </div>
+        `;
+      } else {
+        statusEl.innerHTML = `
+          <div class="status-card info">
+            <h3>🔒 Бесплатная версия</h3>
+            <p>Получите больше возможностей с Morphe Pro.</p>
+          </div>
+        `;
+      }
+    }
+
+    function startTrial() {
+      if (premium.startTrial()) {
+        updateStatus();
+      }
+    }
+
+    function buyYearly() {
+      alert("🛠 Интеграция с Stripe скоро будет!\nСейчас можно активировать тестовую подписку.");
+      premium.activate('yearly');
+      updateStatus();
+    }
+
+    window.startTrial = startTrial;
+    window.buyYearly = buyYearly;
+
+    updateStatus();
+  </script>
+</body>
+</html>

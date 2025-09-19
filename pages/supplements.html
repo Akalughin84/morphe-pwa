@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morphe — Витамины</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../styles-form.css" />
+</head>
+<body>
+  <header class="page-header">
+    <div class="container">
+      <a href="../index.html" class="logo-link">
+        <div class="logo">Morphe</div>
+      </a>
+
+      <!-- Гамбургер -->
+      <button id="menuToggle" class="menu-toggle" aria-label="Открыть меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav id="mainNav" class="page-nav">
+        <a href="../pages/profile.html" class="nav-link">👤 Профиль</a>
+        <a href="../pages/nutrition.html" class="nav-link">🍽 Питание</a>
+        <a href="../pages/workouts.html" class="nav-link">💪 Тренировки</a>
+        <a href="../pages/progress.html" class="nav-link">📈 Прогресс</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="supplements-page">
+    <div class="container">
+      <h1>💊 Витамины и добавки</h1>
+      <p>Рекомендации основаны на клинических исследованиях и вашем профиле.</p>
+
+      <div id="recommendations"></div>
+
+      <div class="divider"></div>
+
+      <h2>📚 Полный справочник</h2>
+      <div id="allSupplements"></div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { MorpheProfile } from '../modules/profile.js';
+    import { SupplementAdvisor } from '../core/supplementAdvisor.js';
+
+    const profile = new MorpheProfile();
+    const recContainer = document.getElementById('recommendations');
+    const allContainer = document.getElementById('allSupplements');
+
+    if (!profile.isComplete()) {
+      recContainer.innerHTML = `
+        <p>❌ Чтобы получить рекомендации, сначала <a href="../pages/profile.html">заполните профиль</a>.</p>
+      `;
+      throw new Error("Профиль не заполнен");
+    }
+
+    const advisor = new SupplementAdvisor(profile.data);
+    await advisor.load();
+
+    // === Персональные рекомендации ===
+    const recommendations = advisor.getRecommendations();
+
+    recContainer.innerHTML = `
+      <div class="ai-advice-panel">
+        <h3>🎯 Рекомендовано вам:</h3>
+        ${recommendations.map(s => `
+          <div class="supplement-card">
+            <h4>${s.name}</h4>
+            <p><strong>Дозировка:</strong> ${s.form}</p>
+            <p><strong>Помогает при:</strong> ${s.bestFor.join(', ')}</p>
+            <p><strong>Когда принимать:</strong> ${s.whenToTake}</p>
+            ${s.notes ? `<p><small>💡 ${s.notes}</small></p>` : ''}
+            
+            <details style="margin-top: 10px;">
+              <summary>Источники исследований</summary>
+              <ul>${s.research.map(r => `<li><small>${r}</small></li>`).join('')}</ul>
+            </details>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // === Полный справочник ===
+    allContainer.innerHTML = advisor.getAll().map(s => `
+      <div class="supplement-card">
+        <h4>${s.name}</h4>
+        <p><strong>Форма:</strong> ${s.form}</p>
+        <p><strong>Показания:</strong> ${s.bestFor.join(', ')}</p>
+        <p><strong>Время приёма:</strong> ${s.whenToTake}</p>
+        ${s.seasonalUse ? `<p><strong>Сезонность:</strong> ${s.seasonalUse}</p>` : ''}
+        ${s.notes ? `<p><small>💡 ${s.notes}</small></p>` : ''}
+        
+        <details>
+          <summary>Научные источники</summary>
+          <ul>${s.research.map(r => `<li><small>${r}</small></li>`).join('')}</ul>
+        </details>
+      </div>
+    `).join('');
+
+    // === Гамбургер-меню ===
+    const menuToggle = document.getElementById('menuToggle');
+    const mainNav = document.getElementById('mainNav');
+
+    if (menuToggle && mainNav) {
+      menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        mainNav.classList.toggle('active');
+      });
+
+      document.querySelectorAll('.page-nav a').forEach(link => {
+        link.addEventListener('click', () => {
+          menuToggle.classList.remove('active');
+          mainNav.classList.remove('active');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
+          menuToggle.classList.remove('active');
+          mainNav.classList.remove('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

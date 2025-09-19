@@ -1,0 +1,249 @@
+<!-- pages/simple-workouts.html -->
+<!-- Version: 2.0.0 -->
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Morphe — Простые тренировки</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    .simple-workout-card {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e0e0e0;
+    }
+    
+    .simple-exercise {
+      padding: 15px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border-left: 3px solid #2E7D32;
+    }
+    
+    .simple-timer {
+      background: #FF6F00;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    
+    .timer-display {
+      font-weight: bold;
+      color: #2E7D32;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <div class="container">
+      <a href="../index.html" class="logo-link">
+        <div class="logo">Morphe</div>
+      </a>
+      <nav class="page-nav">
+        <a href="../index.html" class="nav-link">🏠 Главная</a>
+        <a href="profile.html" class="nav-link">👤 Профиль</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="workouts-page">
+    <div class="container">
+      <div class="page-header-section">
+        <h1>💪 Твоя простая программа</h1>
+        <p>Работает всегда, независимо от оборудования</p>
+        <button id="regenerateBtn" class="btn-secondary">🔄 Обновить программу</button>
+      </div>
+
+      <div id="programContainer">
+        <div style="text-align: center; padding: 50px;">
+          <p>Загрузка программы...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    console.log("🚀 ЗАГРУЗКА ПРОСТЫХ ТРЕНИРОВОК v2.0.0");
+    
+    try {
+      // Импортируем модули
+      const profileModule = await import('../modules/profile.js');
+      const workoutModule = await import('../modules/simpleWorkout.js');
+      
+      const MorpheProfile = profileModule.MorpheProfile;
+      const SimpleWorkoutGenerator = workoutModule.SimpleWorkoutGenerator;
+      
+      // Инициализация
+      const profile = new MorpheProfile();
+      const generator = new SimpleWorkoutGenerator();
+      
+      console.log("👤 Профиль:", profile.data);
+      
+      // Загружаем или генерируем программу
+      let program = generator.loadProgram();
+      if (!program) {
+        program = generator.generate(profile.data);
+        generator.saveProgram(program);
+      }
+      
+      console.log("📋 Программа:", program);
+      renderProgram(program);
+
+      // Рендер программы
+      function renderProgram(program) {
+        const container = document.getElementById('programContainer');
+        container.innerHTML = '';
+
+        for (let dayKey in program) {
+          const day = program[dayKey];
+          const dayNum = dayKey.replace('day', '');
+
+          const card = document.createElement('div');
+          card.className = 'simple-workout-card';
+          
+          if (day.type === "rest") {
+            card.innerHTML = `
+              <h3>📅 День ${dayNum}: ${day.name}</h3>
+              <p style="color: #666; font-style: italic;">Отдыхай и восстанавливайся 💤</p>
+            `;
+          } else {
+            let exercisesHTML = '';
+            if (day.exercises && day.exercises.length > 0) {
+              exercisesHTML = day.exercises.map(ex => `
+                <div class="simple-exercise">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <strong>${ex.name}</strong>
+                    <span style="background: #e8f5e9; color: #2E7D32; padding: 3px 8px; border-radius: 12px; font-size: 12px;">
+                      ${ex.sets} × ${ex.reps}
+                    </span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; color: #666;">
+                    <span>Вес: ${ex.recommendedWeight || 0} кг</span>
+                    <span>Отдых: ${ex.rest} сек</span>
+                  </div>
+                  <button class="simple-timer" onclick="startTimer('${ex.id}', ${ex.rest})" id="timer-${ex.id}">
+                    ⏱️ Таймер (${ex.rest}с)
+                  </button>
+                  <div class="timer-display" id="display-${ex.id}" style="display: none;"></div>
+                </div>
+              `).join('');
+            } else {
+              exercisesHTML = '<p style="color: #999;">Нет упражнений</p>';
+            }
+
+            card.innerHTML = `
+              <h3>📅 День ${dayNum}: ${day.name}</h3>
+              <div style="margin-top: 15px;">
+                ${exercisesHTML}
+              </div>
+              <div style="margin-top: 20px; text-align: center;">
+                <button class="btn-primary" onclick="completeDay('${dayKey}')">✅ Завершить день</button>
+              </div>
+            `;
+          }
+          
+          container.appendChild(card);
+        }
+      }
+
+      // Таймер
+      let activeTimer = null;
+      let timerInterval = null;
+
+      window.startTimer = function(exerciseId, seconds) {
+        // Если таймер уже активен - останавливаем
+        if (activeTimer === exerciseId && timerInterval) {
+          clearInterval(timerInterval);
+          timerInterval = null;
+          activeTimer = null;
+          document.getElementById(`timer-${exerciseId}`).textContent = `⏱️ Таймер (${seconds}с)`;
+          document.getElementById(`display-${exerciseId}`).style.display = 'none';
+          return;
+        }
+
+        // Останавливаем предыдущий таймер
+        if (timerInterval) {
+          clearInterval(timerInterval);
+        }
+
+        // Запускаем новый таймер
+        activeTimer = exerciseId;
+        let timeLeft = seconds;
+        const timerBtn = document.getElementById(`timer-${exerciseId}`);
+        const display = document.getElementById(`display-${exerciseId}`);
+        
+        timerBtn.textContent = `⏹️ Остановить (${timeLeft}с)`;
+        display.textContent = `⏳ ${formatTime(timeLeft)}`;
+        display.style.display = 'block';
+
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          display.textContent = `⏳ ${formatTime(timeLeft)}`;
+          
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            activeTimer = null;
+            
+            // Звук и вибрация
+            if (navigator.vibrate) {
+              navigator.vibrate([500]);
+            }
+            
+            display.textContent = '⏰ Время!';
+            display.style.color = '#FF6F00';
+            timerBtn.textContent = `⏱️ Таймер (${seconds}с)`;
+            
+            setTimeout(() => {
+              display.style.display = 'none';
+              display.style.color = '#2E7D32';
+            }, 3000);
+          }
+        }, 1000);
+      };
+
+      // Формат времени
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      }
+
+      // Завершить день
+      window.completeDay = function(dayKey) {
+        alert(`🎉 День ${dayKey.replace('day', '')} завершён! Отличная работа!`);
+      };
+
+      // Перегенерация
+      document.getElementById('regenerateBtn').addEventListener('click', () => {
+        const newProgram = generator.generate(profile.data);
+        generator.saveProgram(newProgram);
+        renderProgram(newProgram);
+        alert("✅ Программа обновлена!");
+      });
+
+    } catch (error) {
+      console.error("💥 ОШИБКА:", error);
+      document.getElementById('programContainer').innerHTML = `
+        <div style="text-align: center; padding: 50px; color: red;">
+          <h3>❌ Ошибка загрузки</h3>
+          <p>${error.message}</p>
+          <button onclick="location.reload()" class="btn-primary" style="margin-top: 20px;">Обновить страницу</button>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
