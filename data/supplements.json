@@ -1,0 +1,68 @@
+{
+  "supplements": [
+    {
+      "id": "vitamin_d",
+      "name": "Витамин D3",
+      "form": "2000–4000 МЕ/день",
+      "bestFor": ["иммунитет", "тестостерон", "здоровье костей"],
+      "whenToTake": "Утром с жирной едой",
+      "seasonalUse": "Октябрь – Апрель (в средних широтах)",
+      "research": [
+        "Holick MF. Vitamin D deficiency. N Engl J Med. 2007;",
+        "ISSN Position Stand: vitamins and minerals."
+      ],
+      "notes": "Проверяйте уровень в крови (цель: 40–60 нг/мл)."
+    },
+    {
+      "id": "magnesium",
+      "name": "Магний (цитрат/глицинат)",
+      "form": "300–400 мг/день",
+      "bestFor": ["сон", "расслабление мышц", "восстановление"],
+      "whenToTake": "Вечером, за 1 час до сна",
+      "seasonalUse": "Круглый год",
+      "research": [
+        "Boyle NB et al. The effects of magnesium supplementation on subjective anxiety...",
+        "NIH Office of Dietary Supplements."
+      ],
+      "notes": "Глицинат лучше усваивается, меньше слабительного эффекта."
+    },
+    {
+      "id": "omega_3",
+      "name": "Омега-3 (EPA+DHA)",
+      "form": "1000–2000 мг/день (минимум 600 мг EPA+DHA)",
+      "bestFor": ["здоровье сердца", "снижение воспаления", "мозг"],
+      "whenToTake": "Со второй или последней едой",
+      "seasonalUse": "Круглый год",
+      "research": [
+        "Mozaffarian D, Wu JH. Omega-3 fatty acids and cardiovascular disease...",
+        "Harvard T.H. Chan School of Public Health."
+      ],
+      "notes": "Выбирайте очищенные от тяжёлых металлов."
+    },
+    {
+      "id": "creatine",
+      "name": "Креатин моногидрат",
+      "form": "3–5 г/день",
+      "bestFor": ["сила", "мышечная масса", "работоспособность"],
+      "whenToTake": "В любое время, с углеводами",
+      "seasonalUse": "Круглый год",
+      "research": [
+        "Kreider RB et al. International Society of Sports Nutrition position stand: safety and efficacy of creatine...",
+        "Meta-анализ 300+ исследований."
+      ],
+      "notes": "Безопасен для почек при нормальной функции."
+    },
+    {
+      "id": "zma",
+      "name": "ZMA (цинк + магний + витамин B6)",
+      "form": "За 30–60 мин до сна",
+      "bestFor": ["сон", "уровень тестостерона", "восстановление"],
+      "whenToTake": "На пустой желудок вечером",
+      "seasonalUse": "При дефиците или стрессе",
+      "research": [
+        "Brilla LR, Conte V. Effects of a novel zinc-magnesium formulation on hormones..."
+      ],
+      "notes": "Цинк может снижать усвоение меди — не принимайте долго без перерыва."
+    }
+  ]
+}

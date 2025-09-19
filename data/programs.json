@@ -1,0 +1,36 @@
+{
+  "programs": [
+    {
+      "id": "upperLower",
+      "name": "Upper / Lower",
+      "daysPerWeek": 4,
+      "split": [
+        { "day": 1, "type": "upper", "name": "Верх тела" },
+        { "day": 2, "type": "lower", "name": "Ниж тела" },
+        { "day": 3, "type": "rest", "name": "Отдых" },
+        { "day": 4, "type": "upper", "name": "Верх тела" },
+        { "day": 5, "type": "lower", "name": "Ниж тела" },
+        { "day": 6, "type": "rest", "name": "Отдых" },
+        { "day": 7, "type": "rest", "name": "Отдых" }
+      ],
+      "forGoals": ["muscle", "fatloss"],
+      "forExperience": ["intermediate", "advanced"]
+    },
+    {
+      "id": "fullBody",
+      "name": "Full Body",
+      "daysPerWeek": 3,
+      "split": [
+        { "day": 1, "type": "fullBody", "name": "Полное тело" },
+        { "day": 2, "type": "rest", "name": "Отдых" },
+        { "day": 3, "type": "fullBody", "name": "Полное тело" },
+        { "day": 4, "type": "rest", "name": "Отдых" },
+        { "day": 5, "type": "fullBody", "name": "Полное тело" },
+        { "day": 6, "type": "rest", "name": "Отдых" },
+        { "day": 7, "type": "rest", "name": "Отдых" }
+      ],
+      "forGoals": ["health", "beginner"],
+      "forExperience": ["beginner"]
+    }
+  ]
+}

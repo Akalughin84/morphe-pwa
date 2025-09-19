@@ -1,1 +1,288 @@
-
+{
+  "exercises": [
+    {
+      "id": "goblet_squat",
+      "name": "Приседания с гантелью",
+      "muscleGroup": {
+        "primary": ["quads", "glutes"],
+        "secondary": ["core", "hamstrings"]
+      },
+      "activityType": "legs",
+      "category": "free_weights",
+      "equipment": ["dumbbell"],
+      "difficulty": "beginner",
+      "injuryRisk": ["knee"],
+      "mechanics": "compound",
+      "forceVector": "axial",
+      "trainingGoal": ["hypertrophy", "strength", "endurance"],
+      "description": "Держите гантель у груди, спина прямая, опускайтесь до параллели. Колени — по направлению стоп.",
+      "executionTips": [
+        "Сохраняйте естественный прогиб в пояснице",
+        "Не отрывайте пятки от пола",
+        "Голова смотрит вперёд"
+      ],
+      "commonMistakes": [
+        "Слишком быстрое опускание",
+        "Колени заваливаются внутрь",
+        "Спина округляется"
+      ],
+      "videoUrl": "",
+      "image": "/assets/exercises/goblet-squat.jpg",
+      "alternatives": ["bodyweight_squat", "barbell_squat", "leg_press"],
+      "variations": [
+        {
+          "id": "goblet_squat_pause",
+          "name": "С паузой в нижней точке",
+          "purpose": "Улучшение контроля и силы выхода"
+        }
+      ]
+    },
+    {
+      "id": "barbell_squat",
+      "name": "Приседания со штангой",
+      "muscleGroup": {
+        "primary": ["quads", "glutes"],
+        "secondary": ["hamstrings", "lower_back", "core"]
+      },
+      "activityType": "legs",
+      "category": "free_weights",
+      "equipment": ["barbell", "squat_rack"],
+      "difficulty": "advanced",
+      "injuryRisk": ["knee", "lower_back"],
+      "mechanics": "compound",
+      "forceVector": "axial",
+      "trainingGoal": ["strength", "hypertrophy"],
+      "description": "Штанга на трапециях или над плечами. Опускайтесь глубоко, сохраняя нейтральное положение позвоночника.",
+      "executionTips": [
+        "Надевайте обувь с жёсткой подошвой",
+        "Дышите: вдох перед опусканием, выдох при подъёме",
+        "Сводите лопатки"
+      ],
+      "commonMistakes": [
+        "Разгибание коленей раньше спины",
+        "Подъём пяток",
+        "Округление спины"
+      ],
+      "videoUrl": "",
+      "image": "/assets/exercises/barbell-squat.jpg",
+      "alternatives": ["goblet_squat", "front_squat", "leg_press"],
+      "variations": [
+        {
+          "id": "front_squat",
+          "name": "Фронтальные приседания",
+          "purpose": "Большая нагрузка на квадрицепсы, меньше давление на поясницу"
+        },
+        {
+          "id": "overhead_squat",
+          "name": "Приседания над головой",
+          "purpose": "Мобилизация плеч, стабильность корпуса"
+        }
+      ]
+    },
+    {
+      "id": "db_bench_press",
+      "name": "Жим гантелей лёжа",
+      "muscleGroup": {
+        "primary": ["chest", "triceps", "front_delts"],
+        "secondary": []
+      },
+      "activityType": "push",
+      "category": "free_weights",
+      "equipment": ["dumbbells", "bench"],
+      "difficulty": "intermediate",
+      "injuryRisk": ["shoulder"],
+      "mechanics": "compound",
+      "forceVector": "vertical_push",
+      "trainingGoal": ["hypertrophy", "strength"],
+      "description": "Лягте на скамью, ноги упирайтесь. Жмите гантели по траектории дуги, локти под 75°.",
+      "executionTips": [
+        "Сводите лопатки",
+        "Не отрывайте поясницу от скамьи",
+        "Контролируйте опускание"
+      ],
+      "commonMistakes": [
+        "Слишком широкий хват",
+        "Полное расслабление в нижней точке",
+        "Рывковые движения"
+      ],
+      "videoUrl": "",
+      "image": "/assets/exercises/db-bench.jpg",
+      "alternatives": ["machine_chest_press", "push_up", "barbell_bench_press"],
+      "variations": [
+        {
+          "id": "incline_db_press",
+          "name": "На наклонной скамье",
+          "purpose": "Акцент на верхнюю часть груди"
+        },
+        {
+          "id": "decline_db_press",
+          "name": "На обратной скамье",
+          "purpose": "Акцент на нижнюю часть груди"
+        }
+      ]
+    },
+    {
+      "id": "push_up",
+      "name": "Отжимания",
+      "muscleGroup": {
+        "primary": ["chest", "triceps", "front_delts"],
+        "secondary": ["core"]
+      },
+      "activityType": "push",
+      "category": "bodyweight",
+      "equipment": [],
+      "difficulty": "beginner",
+      "injuryRisk": ["wrist", "shoulder"],
+      "mechanics": "compound",
+      "forceVector": "vertical_push",
+      "trainingGoal": ["hypertrophy", "endurance"],
+      "description": "Прямая линия тела. Опускайтесь до 90° в локтях. Можете делать на коленях при старте.",
+      "executionTips": [
+        "Голова смотрит вперёд, не запрокидывайте",
+        "Локти чуть внутрь, не в стороны",
+        "Не прогибайте поясницу"
+      ],
+      "commonMistakes": [
+        "Опускание головы",
+        "Слишком быстрое выполнение",
+        "Неполная амплитуда"
+      ],
+      "videoUrl": "",
+      "image": "/assets/exercises/push-up.jpg",
+      "alternatives": ["db_bench_press", "machine_chest_press"],
+      "variations": [
+        {
+          "id": "diamond_push_up",
+          "name": "Обратные отжимания",
+          "purpose": "Акцент на трицепс"
+        },
+        {
+          "id": "wide_push_up",
+          "name": "Широкий хват",
+          "purpose": "Больше нагрузки на грудь"
+        },
+        {
+          "id": "feet_elevated_push_up",
+          "name": "На возвышении",
+          "purpose": "Увеличение нагрузки"
+        }
+      ]
+    },
+    {
+      "id": "row_incline",
+      "name": "Тяга гантели в наклоне",
+      "muscleGroup": {
+        "primary": ["back", "biceps", "rear_delts"],
+        "secondary": ["lats", "rhomboids"]
+      },
+      "activityType": "pull",
+      "category": "free_weights",
+      "equipment": ["dumbbell"],
+      "difficulty": "intermediate",
+      "injuryRisk": ["lower_back"],
+      "mechanics": "compound",
+      "forceVector": "horizontal_pull",
+      "trainingGoal": ["hypertrophy", "strength"],
+      "description": "Наклонитесь, спина параллельна полу. Тяните гантель к поясу, локтем, а не рукой.",
+      "executionTips": [
+        "Сохраняйте нейтральный позвоночник",
+        "Не раскачивайтесь",
+        "Сведите лопатки в верхней точке"
+      ],
+      "commonMistakes": [
+        "Подъём гантели рукой",
+        "Округление спины",
+        "Чрезмерный вес"
+      ],
+      "videoUrl": "",
+      "image": "/assets/exercises/row-incline.jpg",
+      "alternatives": ["seated_row_machine", "t_bar_row"],
+      "variations": [
+        {
+          "id": "single_arm_row",
+          "name": "Одной рукой",
+          "purpose": "Изоляция, коррекция дисбаланса"
+        }
+      ]
+    },
+    {
+      "id": "overhead_press",
+      "name": "Жим стоя",
+      "muscleGroup": {
+        "primary": ["shoulders", "triceps"],
+        "secondary": ["core", "upper_back"]
+      },
+      "activityType": "push",
+      "category": "free_weights",
+      "equipment": ["dumbbells", "barbell"],
+      "difficulty": "intermediate",
+      "injuryRisk": ["shoulder"],
+      "mechanics": "compound",
+      "forceVector": "vertical_push",
+      "trainingGoal": ["strength", "hypertrophy"],
+      "description": "Корпус напряжён, вес над центром. Не перегибайте поясницу. Двигайте только руками.",
+      "executionTips": [
+        "Не закидывайте голову назад",
+        "Локти немного впереди при подъёме",
+        "Выдыхайте при усилии"
+      ],
+      "commonMistakes": [
+        "Рывковый жим",
+        "Прогиб в пояснице",
+        "Недостаточная амплитуда"
+      ],
+      "videoUrl": "",
+      "image": "/assets/exercises/overhead-press.jpg",
+      "alternatives": ["machine_shoulder_press", "arnold_press"],
+      "variations": [
+        {
+          "id": "arnold_press",
+          "name": "Жим Арнольда",
+          "purpose": "Вращательное движение для задней части дельт"
+        }
+      ]
+    },
+    {
+      "id": "plank",
+      "name": "Планка",
+      "muscleGroup": {
+        "primary": ["core", "transverse_abdominis"],
+        "secondary": ["shoulders", "glutes"]
+      },
+      "activityType": "core",
+      "category": "bodyweight",
+      "equipment": [],
+      "difficulty": "beginner",
+      "injuryRisk": [],
+      "mechanics": "isometric",
+      "forceVector": "anti-extension",
+      "trainingGoal": ["endurance", "stability"],
+      "description": "Прямая линия тела. Локти под плечами. Держите, пока не начнёт дрожать.",
+      "executionTips": [
+        "Не опускайте бёдра",
+        "Не поднимайте ягодицы",
+        "Дышите ровно"
+      ],
+      "commonMistakes": [
+        "Прогиб в пояснице",
+        "Задержка дыхания",
+        "Опускание головы"
+      ],
+      "videoUrl": "",
+      "image": "/assets/exercises/plank.jpg",
+      "alternatives": ["side_plank", "dead_bug"],
+      "variations": [
+        {
+          "id": "side_plank",
+          "name": "Боковая планка",
+          "purpose": "Работа с косыми мышцами"
+        },
+        {
+          "id": "plank_with_leg_lift",
+          "name": "С отведением ноги",
+          "purpose": "Увеличение нагрузки на стабилизаторы"
+        }
+      ]
+    }
+  ]
+}
