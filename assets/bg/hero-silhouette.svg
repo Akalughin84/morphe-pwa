@@ -1,0 +1,50 @@
+<svg width="600" height="600" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2E7D32;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FF6F00;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M300 50 
+       C280 90, 260 130, 250 170 
+       C240 210, 245 250, 260 290 
+       C270 320, 290 340, 300 360 
+       C310 340, 330 320, 340 290 
+       C355 250, 360 210, 350 170 
+       C340 130, 320 90, 300 50 
+       Z
+       M260 290 
+       L230 350 
+       L240 380 
+       L270 360 
+       Z
+       M340 290 
+       L370 350 
+       L360 380 
+       L330 360 
+       Z
+       M300 360 
+       L300 450 
+       L280 480 
+       L290 500 
+       L300 490 
+       L310 500 
+       L320 480 
+       L300 450 
+       Z"
+    fill="url(#grad1)"
+    opacity="0.95"
+  />
+  <!-- Анимация плавного движения -->
+  <animateTransform
+    attributeName="transform"
+    attributeType="XML"
+    type="rotate"
+    from="0 300 300"
+    to="5 300 300"
+    dur="3s"
+    repeatCount="indefinite"
+    additive="sum"
+  />
+</svg>
