@@ -36,7 +36,7 @@
 
 ## Как использовать
 
-1. Откройте в браузере: [https://morphe.vercel.app](https://morphe.vercel.app)
+1. Откройте в браузере: [https://morphe-pwa.vercel.app/](https://morphe-pwa.vercel.app/)
 2. Заполните профиль
 3. Добавьте на экран (PWA):
    - **Android**: ⋮ → «Добавить на главный экран»
