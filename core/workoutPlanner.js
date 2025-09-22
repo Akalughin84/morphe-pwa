@@ -1,286 +1,368 @@
-// core/workoutPlanner.js
+// /core/workoutPlanner.js
+// v3.1.1 — Исправлено: ротация, volumeMultiplier, безопасность, структура
 
-import { AdaptiveEngine } from './adaptiveEngine.js';
+import { UserService } from '/services/userService.js';
+import { WorkoutTracker } from '/modules/workoutTracker.js';
+import { ProgressTracker } from '/modules/progressTracker.js';
+import { DataService } from '/services/dataService.js';
+import { ExerciseRecommender } from './exerciseRecommender.js';
+import { WorkoutBalancer } from './workoutBalancer.js';
 
 export class WorkoutPlanner {
-  constructor(profile, history = {}) {
-    this.profile = profile;
-    this.history = history;
-    this.engine = new AdaptiveEngine(profile, history);
-    this.exercises = this.loadExercises();
+  constructor() {
+    this.storageKey = 'morphe-current-plan';
+    this.user = null;
+    this.history = new WorkoutTracker();
+    this.progress = new ProgressTracker();
+    this.exercises = [];
+    this.recommender = new ExerciseRecommender();
+    this.balancer = new WorkoutBalancer();
   }
 
-  loadExercises() {
-    // Можно загружать из /data/exercises.json
-    return [
-      // Push
-      { id: 'push_up', name: 'Отжимания', type: 'push', equipment: [], primary: 'chest' },
-      { id: 'db_bench_press', name: 'Жим гантелей лёжа', type: 'push', equipment: ['dumbbells', 'bench'], primary: 'chest' },
-      { id: 'overhead_press', name: 'Жим стоя', type: 'push', equipment: ['dumbbells'], primary: 'shoulders' },
-      
-      // Pull
-      { id: 'row_incline', name: 'Тяга гантели в наклоне', type: 'pull', equipment: ['dumbbells'], primary: 'back' },
-      { id: 'lat_pulldown', name: 'Тяга блока к поясу', type: 'pull', equipment: ['machine'], primary: 'back' },
-      { id: 'face_pull', name: 'Фейспаллы', type: 'pull', equipment: ['cable'], primary: 'rear_delts' },
-
-      // Legs
-      { id: 'goblet_squat', name: 'Приседания с гантелью', type: 'legs', equipment: ['dumbbells'], primary: 'quads' },
-      { id: 'split_squat', name: 'Выпады', type: 'legs', equipment: ['dumbbells'], primary: 'quads' },
-      { id: 'hamstring_curl', name: 'Сгибание ног', type: 'legs', equipment: ['machine'], primary: 'hamstrings' },
-
-      // Core
-      { id: 'plank', name: 'Планка', type: 'core', equipment: [], primary: 'core' }
-    ];
+  async init() {
+    const profile = UserService.getProfile();
+    if (!profile || !profile.data) {
+      throw new Error("Профиль не заполнен или повреждён");
+    }
+    this.user = profile.data;
+    this.exercises = await DataService.getExercises();
+    await this.recommender.loadAll();
+    await this.balancer.init();
+    return this;
   }
 
-  // Основной метод — создание программы
-  plan() {
-    const state = this.engine.analyze();
-    const recommendation = this.engine.getRecommendation();
-
-    console.log('🎯 Рекомендация:', recommendation);
-
-    switch (recommendation) {
-      case 'deload':
-        return this.generateDeloadProgram();
-      case 'modify_exercises':
-        return this.generateSafeProgram();
-      case 'simplify':
-        return this.generateSimpleProgram();
-      case 'change_stimulus':
-        return this.generateNewStimulusProgram();
-      default:
-        return this.generateAdaptiveProgram();
+  getCurrent() {
+    try {
+      const saved = localStorage.getItem(this.storageKey);
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      console.error("Failed to parse workout plan from localStorage", e);
+      return null;
     }
   }
 
-  // === ПРОГРАММЫ ===
-
-  generateAdaptiveProgram() {
-    const priority = this.profile.priority || 'balanced';
-    const goal = this.profile.goal;
-
-    if (priority === 'time') {
-      return this.generateFullBody3xWeek();
-    } else if (priority === 'strength') {
-      return this.generateStrengthOriented();
-    } else if (priority === 'muscle') {
-      return this.generateHypertrophySplit();
-    } else {
-      return this.generateUpperLower();
+  save(plan) {
+    try {
+      localStorage.setItem(this.storageKey, JSON.stringify(plan));
+    } catch (e) {
+      console.error("Failed to save workout plan", e);
     }
   }
 
-  // 1. Программа для тех, кто ценит время
-  generateFullBody3xWeek() {
-    return [
-      {
-        day: 1,
-        type: 'fullBody',
-        name: '🔥 Полное тело (быстро)',
-        description: '3 упражнения, 3 подхода, минимум времени — идеально при нехватке времени',
-        exercises: [
-          { ...this.getExercise('goblet_squat'), sets: 3, reps: '12-15', rest: '60 сек' },
-          { ...this.getExercise('db_bench_press'), sets: 3, reps: '10-12', rest: '60 сек' },
-          { ...this.getExercise('row_incline'), sets: 3, reps: '12-15', rest: '60 сек' }
-        ]
-      },
-      {
-        day: 3,
-        type: 'fullBody',
-        name: '🔥 Полное тело (быстро)',
-        description: 'Изменённый акцент: спина + кора',
-        exercises: [
-          { ...this.getExercise('split_squat'), sets: 3, reps: '12-15', rest: '60 сек' },
-          { ...this.getExercise('lat_pulldown'), sets: 3, reps: '10-12', rest: '60 сек' },
-          { ...this.getExercise('plank'), sets: 3, reps: '45 сек', rest: '30 сек' }
-        ]
+  /**
+   * Генерирует УНИКАЛЬНУЮ тренировку на лету
+   */
+  async generateUniqueSession(focus = 'full', dayOfWeek = 0, context = {}) {
+    const { rpe = 7, doms = 1, mood = 'normal' } = context;
+
+    // Фильтрация по оборудованию
+    const availableExercises = this.exercises.filter(ex =>
+      (this.user.equipment || []).includes(ex.equipment)
+    );
+
+    // Адаптация под самочувствие
+    const intensityMultiplier = doms >= 4 ? 0.7 : mood === 'tired' ? 0.8 : 1.0;
+    const volumeMultiplier = doms >= 4 ? 0.6 : mood === 'energetic' ? 1.2 : 1.0;
+
+    // Выбор упражнений по фокусу
+    const targetTypes = this._getFocusTypes(focus);
+    const basePool = availableExercises.filter(ex =>
+      targetTypes.includes(ex.type) && this._isLevelAppropriate(ex.level)
+    );
+
+    // Ротация через детерминированный хеш
+    const rotatedPool = this._rotateExercises(basePool, dayOfWeek);
+
+    // Берём 4–6 упражнений
+    let selectedExercises = rotatedPool.slice(0, 4 + (dayOfWeek % 3));
+
+    // Применяем альтернативы каждому второму упражнению
+    selectedExercises = this._applyAlternatives(selectedExercises, dayOfWeek);
+
+    // Генерируем параметры для каждого упражнения
+    const workoutExercises = selectedExercises.map((ex, index) =>
+      this._generateExerciseParams(ex, index, dayOfWeek, rpe, intensityMultiplier, volumeMultiplier)
+    );
+
+    // Анализ баланса
+    const analysis = this.balancer.classifyWorkout(workoutExercises);
+    const advice = this.balancer.getBalanceAdvice(analysis);
+
+    // Создание сессии
+    const session = {
+      id: `session-${Date.now()}`,
+      name: this._generateSessionName(focus, dayOfWeek, mood),
+      focus,
+      date: new Date().toISOString().split('T')[0],
+      exercises: workoutExercises,
+      analysis,
+      advice,
+      context: { rpe, doms, mood, intensityMultiplier, volumeMultiplier },
+      generatedAt: new Date().toISOString()
+    };
+    // ✅ Защита: убедимся, что есть упражнения
+    if (!session.exercises || session.exercises.length === 0) {
+      console.warn('⚠️ Сгенерирована пустая сессия — используем fallback');
+      session.exercises = [
+        { id: 'squat-barbell', name: 'Приседания', sets: 3, reps: 8, rest: 90, technique: 'standard' },
+        { id: 'bench-press', name: 'Жим лёжа', sets: 3, reps: 8, rest: 90, technique: 'standard' }
+      ];
+    }
+
+    return session;
+  }
+
+  /**
+   * Получить типы упражнений по фокусу
+   */
+  _getFocusTypes(focus) {
+    const map = {
+      push: ['chest', 'shoulders'],
+      pull: ['back', 'arms'],
+      legs: ['legs'],
+      core: ['core'],
+      full: ['chest', 'back', 'legs', 'shoulders', 'arms', 'core']
+    };
+    return map[focus] || map.full;
+  }
+
+  /**
+   * Детерминированная ротация упражнений
+   */
+  _rotateExercises(pool, seed) {
+    const hash = (str, seed) => {
+      let h = seed;
+      for (let i = 0; i < str.length; i++) {
+        h = ((h << 5) - h + str.charCodeAt(i)) | 0;
       }
-    ];
+      return Math.abs(h);
+    };
+
+    return [...pool]
+      .map(ex => ({ ex, key: hash(ex.id, seed) }))
+      .sort((a, b) => a.key - b.key)
+      .map(item => item.ex);
   }
 
-  // 2. Для роста силы
-  generateStrengthOriented() {
-    return [
-      {
-        day: 1,
-        type: 'upper',
-        name: '💪 Верх тела (сила)',
-        description: 'Высокий вес, низкое количество повторений — фокус на прогрессии жима и тяги',
-        exercises: [
-          { ...this.getExercise('db_bench_press'), sets: 5, reps: '4-6', rest: '120 сек', progression: '+2 кг или +1 повт' },
-          { ...this.getExercise('overhead_press'), sets: 4, reps: '6-8', rest: '90 сек', progression: '+1 повт' },
-          { ...this.getExercise('row_incline'), sets: 4, reps: '8-10', rest: '75 сек' }
-        ]
-      },
-      {
-        day: 3,
-        type: 'lower',
-        name: '🦵 Ниж тела (сила)',
-        description: 'Работа с высокой нагрузкой — фокус на приседаниях',
-        exercises: [
-          { ...this.getExercise('goblet_squat'), sets: 5, reps: '5-6', rest: '120 сек', progression: '+2 кг' },
-          { ...this.getExercise('split_squat'), sets: 3, reps: '10-12', rest: '60 сек' },
-          { ...this.getExercise('hamstring_curl'), sets: 3, reps: '12-15', rest: '60 сек' }
-        ]
+  /**
+   * Заменить каждое второе упражнение на альтернативу
+   */
+  _applyAlternatives(exercises, daySeed) {
+    return exercises.map((ex, index) => {
+      if (index % 2 === 1) {
+        const alternatives = this.recommender.getAlternatives(ex, 3, 'equipment');
+        return alternatives.length > 0 ? alternatives[daySeed % alternatives.length] : ex;
       }
-    ];
+      return ex;
+    });
   }
 
-  // 3. Для роста мышечной массы
-  generateHypertrophySplit() {
-    return [
-      {
-        day: 1,
-        type: 'push',
-        name: '🏋️‍♂️ Грудь/Плечи/Трицепс',
-        description: 'Высокий объём, средние веса — оптимально для гипертрофии',
-        exercises: [
-          { ...this.getExercise('db_bench_press'), sets: 4, reps: '8-12', rest: '90 сек' },
-          { ...this.getExercise('overhead_press'), sets: 3, reps: '10-15', rest: '75 сек' },
-          { ...this.getExercise('push_up'), sets: 3, reps: 'до отказа', rest: '60 сек' }
-        ]
-      },
-      {
-        day: 3,
-        type: 'pull',
-        name: '🏋️‍♀️ Спина/Бицепс',
-        description: 'Акцент на растяжение и контроль',
-        exercises: [
-          { ...this.getExercise('lat_pulldown'), sets: 4, reps: '10-12', rest: '90 сек' },
-          { ...this.getExercise('row_incline'), sets: 3, reps: '12-15', rest: '75 сек' },
-          { ...this.getExercise('face_pull'), sets: 3, reps: '15-20', rest: '60 сек' }
-        ]
-      },
-      {
-        day: 5,
-        type: 'legs',
-        name: '🦵 Ноги + Корпус',
-        description: 'Полная проработка нижней части тела',
-        exercises: [
-          { ...this.getExercise('goblet_squat'), sets: 4, reps: '10-15', rest: '90 сек' },
-          { ...this.getExercise('split_squat'), sets: 3, reps: '12-15', rest: '75 сек' },
-          { ...this.getExercise('hamstring_curl'), sets: 3, reps: '15-20', rest: '60 сек' },
-          { ...this.getExercise('plank'), sets: 3, reps: '60 сек', rest: '30 сек' }
-        ]
-      }
-    ];
+  /**
+   * Генерация параметров упражнения с вариативностью
+   */
+  _generateExerciseParams(ex, index, dayOfWeek, rpe, intensityMult, volumeMult) {
+    const baseSets = this._getBaseSets(ex.type);
+    const baseReps = this._getBaseReps(ex.primaryMuscles[0]);
+    const baseRIR = this._getBaseRIR(rpe);
+
+    const variationSeed = (dayOfWeek + ex.id.length + index) % 5;
+
+    let sets, reps, tempo, rest, technique;
+
+    switch (variationSeed) {
+      case 0: // Wave Loading
+        sets = Math.max(1, Math.round(baseSets * volumeMult));
+        reps = `${baseReps - 2}–${baseReps}`;
+        tempo = ex.scientificBasis?.tempo || "3-1-1";
+        rest = Math.round((ex.scientificBasis?.rest || 90) * intensityMult);
+        technique = "wave";
+        break;
+      case 1: // Drop Set
+        sets = Math.max(1, Math.round((baseSets - 1) * volumeMult));
+        reps = `${baseReps}+`;
+        tempo = "2-1-1";
+        rest = 60;
+        technique = "drop-set";
+        break;
+      case 2: // Rest-Pause
+        sets = 1;
+        reps = `MAX × 3`;
+        tempo = "1-0-1";
+        rest = 20;
+        technique = "rest-pause";
+        break;
+      case 3: // Cluster
+        sets = Math.max(1, Math.round(baseSets * volumeMult));
+        reps = `${Math.floor(baseReps / 2)} × 2`;
+        tempo = "1-5-1";
+        rest = 15;
+        technique = "cluster";
+        break;
+      default: // Стандарт
+        sets = Math.max(1, Math.round(baseSets * volumeMult));
+        reps = baseReps;
+        tempo = ex.scientificBasis?.tempo || "3-1-1";
+        rest = Math.round((ex.scientificBasis?.rest || 90) * intensityMult);
+        technique = "standard";
+    }
+
+    return {
+      id: ex.id,
+      name: ex.name,
+      type: ex.type,
+      equipment: ex.equipment,
+      sets,
+      reps,
+      tempo,
+      rest,
+      technique,
+      rir: baseRIR,
+      scientificBasis: ex.scientificBasis
+    };
   }
 
-  // 4. Баланс: Upper/Lower
-  generateUpperLower() {
-    return [
-      {
-        day: 1,
-        type: 'upper',
-        name: '💪 Верх тела',
-        description: 'Комплексная тренировка груди, спины, плеч',
-        exercises: [
-          { ...this.getExercise('db_bench_press'), sets: 4, reps: '8-12', rest: '90 сек' },
-          { ...this.getExercise('row_incline'), sets: 4, reps: '10-15', rest: '75 сек' },
-          { ...this.getExercise('overhead_press'), sets: 3, reps: '10-12', rest: '75 сек' }
-        ]
-      },
-      {
-        day: 3,
-        type: 'lower',
-        name: '🦵 Ниж тела',
-        description: 'Приседания, выпады, работа с задней цепью',
-        exercises: [
-          { ...this.getExercise('goblet_squat'), sets: 4, reps: '10-15', rest: '90 сек' },
-          { ...this.getExercise('split_squat'), sets: 3, reps: '12-15', rest: '75 сек' },
-          { ...this.getExercise('hamstring_curl'), sets: 3, reps: '15-20', rest: '60 сек' }
-        ]
-      }
-    ];
+  /**
+   * Генерация имени сессии
+   */
+  _generateSessionName(focus, dayOfWeek, mood) {
+    const focusNames = {
+      push: "Жимовой день",
+      pull: "Тяговый день",
+      legs: "Ноги",
+      core: "Ядро",
+      full: "Фулбоди"
+    };
+
+    const moodNames = {
+      tired: "Восстановительная",
+      normal: "Стандартная",
+      energetic: "Энергетическая"
+    };
+
+    const dayNames = ["Альфа", "Бета", "Гамма", "Дельта", "Эпсилон", "Зета", "Эта"];
+
+    return `${focusNames[focus]} ${dayNames[dayOfWeek % 7]} (${moodNames[mood]})`;
   }
 
-  // 5. Разгрузка
-  generateDeloadProgram() {
-    return [
-      {
-        day: 1,
-        type: 'upper',
-        name: '🔄 Разгрузка: Верх тела',
-        description: '60% от обычного веса, 2 подхода × 10–15 — восстановление без перегрузки',
-        exercises: [
-          { ...this.getExercise('push_up'), sets: 2, reps: '10-15', rest: '60 сек' },
-          { ...this.getExercise('row_incline'), sets: 2, reps: '12-15', rest: '60 сек' },
-          { ...this.getExercise('overhead_press'), sets: 2, reps: '10-12', rest: '60 сек' }
-        ]
-      },
-      {
-        day: 3,
-        type: 'lower',
-        name: '🔄 Разгрузка: Ниж тела',
-        description: 'Лёгкие приседания и выпады — кровообращение без стресса',
-        exercises: [
-          { ...this.getExercise('goblet_squat'), sets: 2, reps: '12-15', rest: '60 сек' },
-          { ...this.getExercise('split_squat'), sets: 2, reps: '10-12', rest: '60 сек' }
-        ]
-      }
-    ];
+  /**
+   * Базовое количество подходов
+   */
+  _getBaseSets(exerciseType) {
+    const map = { legs: 3, back: 3, chest: 3, shoulders: 4, arms: 3, core: 3 };
+    return map[exerciseType] || 3;
   }
 
-  // 6. Безопасная программа (при травме)
-  generateSafeProgram() {
-    const safeExercises = this.filterHighRisk(this.exercises);
-    return [
-      {
-        day: 1,
-        type: 'safe_upper',
-        name: '🛡 Безопасные упражнения',
-        warning: `Избегаем нагрузки на ${this.profile.injuries[0]}`,
-        exercises: [
-          { ...this.getExercise('row_incline'), sets: 3, reps: '12-15', rest: '75 сек' },
-          { ...this.getExercise('face_pull'), sets: 3, reps: '15-20', rest: '60 сек' }
-        ]
-      }
-    ];
+  /**
+   * Базовое количество повторений
+   */
+  _getBaseReps(muscleGroup) {
+    const map = {
+      quadriceps: 8, glutes: 8, hamstrings: 8,
+      pectorals: 8, lats: 8, deltoids: 12,
+      biceps: 10, triceps: 10, core: 15
+    };
+    return map[muscleGroup] || 10;
   }
 
-  // 7. Упрощённая программа
-  generateSimpleProgram() {
-    return [
-      {
-        day: 1,
-        type: 'fullBody',
-        name: '🟢 Простая тренировка',
-        description: '3 упражнения, 3 подхода — чтобы не пропустить неделю',
-        exercises: [
-          { name: 'Приседания с гантелью', sets: 3, reps: '12-15', rest: '60 сек' },
-          { name: 'Жим гантелей лёжа', sets: 3, reps: '10-12', rest: '60 сек' },
-          { name: 'Тяга гантели в наклоне', sets: 3, reps: '12-15', rest: '60 сек' }
-        ]
-      }
-    ];
+  /**
+   * RIR на основе RPE
+   */
+  _getBaseRIR(rpe) {
+    return rpe >= 9 ? 0 : rpe >= 8 ? 1 : rpe >= 7 ? 2 : 3;
   }
 
-  // 8. Новый стимул (при плато)
-  generateNewStimulusProgram() {
-    return [
-      {
-        day: 1,
-        type: 'new_stimulus',
-        name: '💥 Новый стимул!',
-        description: 'Замена упражнений для преодоления плато',
-        exercises: [
-          { name: 'Выпады с гантелей', sets: 4, reps: '10-12', rest: '75 сек', note: 'Новое упражнение!' },
-          { name: 'Жим гантелей на наклонной скамье', sets: 4, reps: '8-12', rest: '90 сек', note: 'Новое упражнение!' },
-          { name: 'Тяга блока к поясу', sets: 3, reps: '12-15', rest: '60 сек' }
-        ]
-      }
-    ];
+  /**
+   * Проверка уровня сложности
+   */
+  _isLevelAppropriate(exLevel) {
+    const allowed = {
+      beginner: ['beginner'],
+      intermediate: ['beginner', 'intermediate'],
+      advanced: ['beginner', 'intermediate', 'advanced']
+    };
+    return allowed[this.user.level]?.includes(exLevel);
   }
 
-  // === ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ===
+  /**
+   * Генерация недельной программы
+   */
+  async generateWeeklyProgram() {
+    const daysPerWeek = this.user.daysPerWeek || 3;
+    const rotation = ['push', 'pull', 'legs', 'full', 'core', 'push', 'pull'];
+    const program = {
+      id: `program-${Date.now()}`,
+      name: `Персональная программа ${new Date().toLocaleDateString('ru-RU')}`,
+      goal: this.user.goal,
+      level: this.user.level,
+      daysPerWeek,
+      schedule: [],
+      generatedAt: new Date().toISOString()
+    };
 
-  getExercise(id) {
-    return this.exercises.find(ex => ex.id === id) || { id, name: 'Упражнение' };
+    for (let i = 0; i < daysPerWeek; i++) {
+      const dayIndex = i % 7;
+      const focus = rotation[dayIndex];
+      const session = await this.generateUniqueSession(focus, dayIndex, { rpe: 7, doms: 1, mood: 'normal' });
+
+      program.schedule.push({
+        day: `День ${i + 1}`,
+        focus,
+        session
+      });
+    }
+
+    this.save(program);
+    return program;
   }
 
-  filterHighRisk(exercises) {
-    const riskyNames = ['overhead_press', 'bench_press', 'deep_squats'];
-    return exercises.filter(ex => !riskyNames.includes(ex.id));
+  /**
+   * Основные методы
+   */
+  async generate() {
+    return await this.generateWeeklyProgram();
+  }
+
+  async regenerate() {
+    return await this.generateWeeklyProgram();
+  }
+
+  /**
+   * Плато: менее 100 г прироста в неделю
+   */
+  isPlateaued() {
+    const recent = this.progress.getSince(21);
+    if (recent.length < 3) return false;
+
+    const changes = recent.slice(1).map((curr, i) => curr.weight - recent[i].weight);
+    const avgChange = changes.reduce((a, b) => a + b, 0) / changes.length;
+    return Math.abs(avgChange) < 0.1;
+  }
+
+  /**
+   * Рекомендация по нагрузке
+   */
+  _getLoadRecommendation() {
+    const weeklyCount = this.history.getWeeklyCount();
+    const recent = this.progress.getSince(21);
+
+    if (weeklyCount >= 5 && this.user.level !== 'advanced') {
+      return 'reduce';
+    }
+
+    if (recent.length < 3) return 'maintain';
+
+    const first = recent[recent.length - 1];
+    const last = recent[0];
+    const change = last.weight - first.weight;
+
+    if (this.user.goal === 'gain' && change < 0.3) {
+      return 'increase';
+    }
+
+    if (this.user.goal === 'lose' && change > 0) {
+      return 'adjust-nutrition';
+    }
+
+    return 'maintain';
   }
 }
