@@ -1,75 +1,173 @@
-// modules/aiAssistant.js
+// /modules/aiAssistant.js
+// v2.0.0 — Локальный ИИ-ассистент (перенесён из core)
 
-export class AIAgent {
-  constructor(profile, program) {
-    this.profile = profile;
-    this.program = program;
+import { UserService } from '/services/userService.js';
+import { WorkoutTracker } from '/modules/workoutTracker.js';
+import { ProgressTracker } from '/modules/progressTracker.js';
+import { NutritionTracker } from '/modules/nutritionTracker.js';
+
+/**
+ * AIAssistant — ваш цифровой советник
+ * Анализирует данные пользователя и даёт персональные советы
+ * Полностью в браузере, без передачи данных
+ */
+export class AIAssistant {
+  constructor() {
+    this.profile = null;
+    this.workouts = new WorkoutTracker();
+    this.progress = new ProgressTracker();
+    this.nutrition = new NutritionTracker();
   }
 
-  getAdvice() {
-    const tips = [];
-    const dayOfWeek = new Date().getDay(); // 0 = вс, 1 = пн...
-    const todayWorkout = this.program[dayOfWeek === 0 ? 6 : dayOfWeek - 1];
+  /**
+   * Загружает профиль
+   */
+  async loadUserData() {
+    const user = UserService.getProfile();
+    if (!user) return null;
 
-    // 1. Травмы
-    if (this.profile.injuries && this.profile.injuries.length > 0) {
-      tips.push({
-        type: 'warning',
-        text: `⚠️ Сегодня у тебя запланированы упражнения на ${this.profile.injuries.join(', ')}. Следи за техникой.`
-      });
+    this.profile = user.data;
+    return this.profile;
+  }
+
+  /**
+   * Генерирует совет на основе анализа
+   */
+  async generateAdvice() {
+    const profile = await this.loadUserData();
+    if (!profile) {
+      return this._genericGuestAdvice();
     }
 
-    // 2. Прогрессия
-    tips.push({
-      type: 'success',
-      text: `✅ Попробуй увеличить вес на 1–2 кг в следующем подходе — ты готов к прогрессии!`
-    });
+    const advicePool = [];
 
-    // 3. Питание после тренировки
-    if (this.profile.goal === 'muscle') {
-      tips.push({
-        type: 'nutrition',
-        text: `🥛 После тренировки выпей белок в течение 45 минут — это ускорит восстановление мышц.`
-      });
+    // 1. Активность
+    const weeklyWorkouts = this.workouts.getWeeklyCount();
+    if (weeklyWorkouts === 0) {
+      advicePool.push(this._suggestStartTraining());
+    } else if (weeklyWorkouts < 2) {
+      advicePool.push(this._encourageConsistency());
     }
 
-    // 4. Вода
-    tips.push({
+    // 2. Вес
+    const recentProgress = this.progress.getSince(14);
+    if (recentProgress.length >= 2) {
+      const first = recentProgress[recentProgress.length - 1];
+      const last = recentProgress[0];
+      const weightChange = last.weight - first.weight;
+
+      if (profile.goal === 'lose' && weightChange > 0) {
+        advicePool.push(this._adviseOnWeightGain());
+      } else if (profile.goal === 'gain' && weightChange < 0.5) {
+        advicePool.push(this._adviseOnMassGain());
+      }
+    }
+
+    // 3. Последняя тренировка
+    const lastWorkout = this.workouts.getLast();
+    if (lastWorkout) {
+      const daysSince = (Date.now() - lastWorkout.timestamp) / (1000 * 60 * 60 * 24);
+      if (daysSince > 3 && profile.goal !== 'maintain') {
+        advicePool.push(this._remindToTrain());
+      }
+    }
+
+    // 4. Целевой совет
+    advicePool.push(this._goalSpecificTip());
+
+    return advicePool.length > 0
+      ? this._pickRandom(advicePool)
+      : this._neutralObservation();
+  }
+
+  _pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  _genericGuestAdvice() {
+    return {
       type: 'info',
-      text: `💧 Не забывай пить воду! Минимум 30 мл на кг веса — тебе нужно ~${Math.round(this.profile.weight * 30)} мл.`
-    });
-
-    // 5. Личный совет для опытных
-    if (this.profile.experience === 'advanced') {
-      tips.push({
-        type: 'personal',
-        text: `🔥 Отличная дисциплина! Следующая цель — +5 кг в приседе за 8 недель.`
-      });
-    }
-
-    // 6. Сегодняшняя тренировка
-    if (todayWorkout && todayWorkout.type !== 'rest') {
-      tips.unshift({
-        type: 'info',
-        text: `📅 Сегодня у тебя: <strong>${todayWorkout.name}</strong>. Готов?`
-      });
-    }
-
-    // Возвращаем случайный совет
-    return tips.length > 0 
-      ? tips[Math.floor(Math.random() * tips.length)] 
-      : { type: 'info', text: 'Продолжай в том же духе!' };
+      title: 'Заполните профиль',
+      message: 'Чтобы получать персональные советы, заполните свой профиль.',
+      action: { text: 'Перейти', url: '/pages/profile.html' }
+    };
   }
 
-  render(containerId = 'aiAdvice') {
-    const container = document.getElementById(containerId);
-    if (!container) return;
+  _suggestStartTraining() {
+    return {
+      type: 'motivation',
+      title: 'Начните двигаться',
+      message: 'Вы ещё не начали тренироваться. Даже 20 минут в неделю меняют всё.',
+      emoji: '💪'
+    };
+  }
 
-    const advice = this.getAdvice();
-    container.innerHTML = `
-      <div class="advice-item advice-${advice.type}">
-        ${advice.text}
-      </div>
-    `;
+  _encourageConsistency() {
+    return {
+      type: 'reminder',
+      title: 'Старайтесь быть стабильнее',
+      message: 'Регулярность важнее интенсивности. Постройте привычку — результат придет.',
+      emoji: '🔁'
+    };
+  }
+
+  _adviseOnWeightGain() {
+    return {
+      type: 'warning',
+      title: 'Вес растёт, а цель — похудеть?',
+      message: 'Возможно, калорий слишком много или мало кардио. Проверьте питание.',
+      emoji: '⚖️'
+    };
+  }
+
+  _adviseOnMassGain() {
+    return {
+      type: 'tip',
+      title: 'Нужен профицит',
+      message: 'Для набора массы важно потреблять больше калорий, чем тратите. Ешьте чаще.',
+      emoji: '🍗'
+    };
+  }
+
+  _remindToTrain() {
+    return {
+      type: 'reminder',
+      title: 'Вы давно не тренировались',
+      message: 'Тело помнит. Вернитесь — даже лёгкая тренировка поднимет уровень.',
+      emoji: '🏋️‍♂️'
+    };
+  }
+
+  _goalSpecificTip() {
+    const tips = {
+      lose: {
+        type: 'tip',
+        title: 'Фокус на белке',
+        message: 'При дефиците калорий сохраняйте мышцы: ешьте 1.8–2.2 г белка на кг веса.',
+        emoji: '🥚'
+      },
+      gain: {
+        type: 'tip',
+        title: 'Прогрессия нагрузки',
+        message: 'Добавляйте по 1–2 кг в неделю. Это ключ к росту силы и массы.',
+        emoji: '📈'
+      },
+      maintain: {
+        type: 'tip',
+        title: 'Баланс — ваш друг',
+        message: 'Поддержание формы — это тоже достижение. Не недооценивайте стабильность.',
+        emoji: '🕊'
+      }
+    };
+    return tips[this.profile.goal] || tips.maintain;
+  }
+
+  _neutralObservation() {
+    return {
+      type: 'info',
+      title: 'Всё идёт своим чередом',
+      message: 'Продолжайте в том же духе. Прогресс не всегда виден сразу.',
+      emoji: '🟢'
+    };
   }
 }
