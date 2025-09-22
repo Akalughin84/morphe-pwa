@@ -1,16 +1,97 @@
+<!-- /pages/offline.html -->
+<!-- v0.9.0 — Страница оффлайн-режима -->
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <title>Morphe — Оффлайн</title>
-  <link rel="stylesheet" href="../styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Нет интернета — Morphe</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Предзагрузка шрифтов (уже закэшированы) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Стили (все уже в кэше) -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
+  <!-- Skip-link -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+    .skip-link:focus { top: 10px; }
+  </style>
 </head>
 <body>
-  <div class="container" style="text-align: center; padding: 4rem 2rem;">
-    <h1>📴 Вы в оффлайне</h1>
-    <p>Интернет недоступен. Но вы можете продолжить работу с уже загруженными данными.</p>
-    <p><small>Как только появится соединение — изменения синхронизируются.</small></p>
-    <a href="/" class="btn-primary" style="margin-top: 1rem;">Вернуться на главную</a>
-  </div>
+
+  
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
+
+  <main id="main-content">
+    <div class="container">
+      <section class="offline-hero">
+        <h1>📴 Вы в оффлайн-режиме</h1>
+        <p>Но ваша трансформация продолжается.</p>
+      </section>
+
+      <section class="card">
+        <h2>Что доступно без интернета?</h2>
+        <ul>
+          <li>✅ Просмотр профиля</li>
+          <li>✅ Ввод веса и обхватов</li>
+          <li>✅ Фиксация тренировки</li>
+          <li>✅ Просмотр советов ИИ</li>
+          <li>✅ Расчёт БЖУ и генерация меню</li>
+        </ul>
+        <p><strong>Все ваши данные сохранены в этом устройстве.</strong></p>
+      </section>
+
+      <section class="card">
+        <h2>Когда интернет появится:</h2>
+        <p>Morphe автоматически:</p>
+        <ul>
+          <li>Обновит интерфейс</li>
+          <li>Синхронизирует данные (если будет бэкенд)</li>
+          <li>Покажет новые советы ИИ</li>
+        </ul>
+      </section>
+
+      <section class="card">
+        <h2>💡 Совет дня</h2>
+        <p>Настоящая дисциплина — это делать шаг вперёд, даже когда никто не смотрит.</p>
+      </section>
+
+      <div style="text-align: center; margin: 2rem 0;">
+        <a href="/" class="cta-button" style="display: inline-block;">Продолжить без интернета →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Service Worker уже активен -->
+  <script>
+    // Можно добавить аналитику оффлайн-посещений (в localStorage)
+    const offlineCount = localStorage.getItem('morphe-offline-visits') || '0';
+    localStorage.setItem('morphe-offline-visits', parseInt(offlineCount) + 1);
+  </script>
 </body>
 </html>
