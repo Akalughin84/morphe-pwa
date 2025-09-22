@@ -1,128 +1,113 @@
-// modules/workoutTracker.js
+// /modules/workoutTracker.js
+// v1.2.0 — Сохраняет полные данные тренировки для интеграции с ProgressCalendar
+
+import { StorageManager } from '/utils/storage.js';
 
 export class WorkoutTracker {
   constructor() {
-    this.history = this.load(); // Должен быть массивом
+    this.storageKey = 'morphe-workout-history';
+    this.history = this.load();
   }
 
   load() {
-    try {
-      const saved = localStorage.getItem('morphe_workout_history');
-      const parsed = saved ? JSON.parse(saved) : [];
-      
-      // Убедимся, что это массив
-      if (!Array.isArray(parsed)) {
-        console.warn('История тренировок не является массивом. Сброс.');
-        return [];
-      }
-      
-      return parsed;
-    } catch (e) {
-      console.error('Ошибка парсинга истории тренировок:', e);
-      return [];
-    }
+    return StorageManager.getItem(this.storageKey) || [];
   }
 
   save() {
-    try {
-      localStorage.setItem('morphe_workout_history', JSON.stringify(this.history));
-    } catch (e) {
-      console.error('Не удалось сохранить историю:', e);
-    }
+    StorageManager.setItem(this.storageKey, this.history);
   }
 
-  logWorkout(workoutPlan, userInputs, feedback = '') {
-    const completedWorkout = {
-      id: Date.now(),
-      date: new Date().toISOString(),
-      dayOfWeek: new Date().toLocaleDateString('ru-RU', { weekday: 'long' }),
-      program: workoutPlan.map(day => ({
-        ...day,
-        exercises: day.exercises.map(ex => {
-          const userEx = userInputs.find(u => u.exerciseId === ex.id);
-          return {
-            id: ex.id,
-            name: ex.name,
-            sets: ex.sets,
-            reps: ex.reps,
-            rest: ex.rest,
-            completedSets: userEx?.completedSets || [],
-            note: ex.note
-          };
-        })
-      })),
-      feedback,
-      duration: this.estimateDuration(workoutPlan),
-      summary: this.generateSummary(workoutPlan, userInputs)
+  /**
+   * ✅ Сохраняет ПОЛНУЮ тренировочную сессию (включая упражнения, веса, RIR)
+   */
+  logSession(sessionData) {
+    const entry = {
+      id: Date.now().toString(),
+      date: sessionData.date.split('T')[0], // YYYY-MM-DD
+      timestamp: new Date(sessionData.date).getTime(),
+      programId: sessionData.programId,
+      programName: sessionData.programName,
+      rpe: sessionData.rpe || null,
+      doms: sessionData.doms || null,
+      exercises: sessionData.exercises || [], // ← ВАЖНО: сохраняем упражнения
+      durationMinutes: sessionData.exercises?.length * 5 || 30, // примерная оценка
+      notes: ""
     };
 
-    this.history.push(completedWorkout);
+    this.history.push(entry);
+    this.history.sort((a, b) => b.timestamp - a.timestamp);
     this.save();
-    return completedWorkout;
-  }
 
-  generateSummary(plan, inputs) {
-    const totalSets = inputs.reduce((acc, ex) => acc + ex.completedSets.length, 0);
-    const completedReps = inputs.reduce((acc, ex) => 
-      acc + ex.completedSets.reduce((sum, s) => sum + s.reps, 0), 0);
-
-    const rpes = inputs.flatMap(ex => ex.completedSets.map(s => s.rpe)).filter(r => r);
-    const avgRPE = rpes.length > 0 ? (rpes.reduce((a, b) => a + b, 0) / rpes.length).toFixed(1) : null;
-
-    return { totalSets, completedReps, avgRPE };
-  }
-
-  estimateDuration(plan) {
-    let seconds = 0;
-    plan.forEach(day => {
-      day.exercises.forEach(ex => {
-        const sets = parseInt(ex.sets) || 4;
-        const restSec = ex.rest.includes('90') ? 90 : ex.rest.includes('75') ? 75 : 60;
-        seconds += sets * restSec;
-      });
-    });
-    return Math.round(seconds / 60);
-  }
-
-  getLastPerformance(exerciseId) {
-    for (let i = this.history.length - 1; i >= 0; i--) {
-      const workout = this.history[i];
-      for (const day of workout.program) {
-        const ex = day.exercises.find(e => e.id === exerciseId);
-        if (ex && ex.completedSets && ex.completedSets.length > 0) {
-          const lastSet = ex.completedSets[ex.completedSets.length - 1];
-          return {
-            weight: lastSet.weight,
-            reps: lastSet.reps,
-            rpe: lastSet.rpe,
-            date: workout.date.split('T')[0]
-          };
-        }
-      }
-    }
-    return null;
-  }
-
-  getExerciseHistory(exerciseId) {
-    const history = [];
-
-    this.history.forEach(workout => {
-      workout.program.forEach(day => {
-        day.exercises.forEach(ex => {
-          if (ex.id === exerciseId && ex.completedSets && ex.completedSets.length > 0) {
-            ex.completedSets.forEach(set => {
-              history.push({
-                x: workout.date.split('T')[0],
-                y: set.weight,
-                reps: set.reps,
-                rpe: set.rpe
-              });
-            });
-          }
-        });
-      });
+    StorageManager.setItem('morphe-last-workout', {
+      workoutName: sessionData.programName,
+      timestamp: entry.timestamp
     });
 
-    return history;
+    return entry;
+  }
+
+  /**
+   * Устаревший метод (для обратной совместимости)
+   */
+  log(workoutName, programId) {
+    return this.logSession({
+      date: new Date().toISOString(),
+      programName: workoutName,
+      programId: programId,
+      exercises: []
+    });
+  }
+
+  /**
+   * Получить все тренировки
+   */
+  getAll() {
+    return this.history;
+  }
+
+  /**
+   * Получить за последнюю неделю
+   */
+  getLastWeek() {
+    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    return this.history.filter(t => t.timestamp >= weekAgo);
+  }
+
+  /**
+   * Количество тренировок за неделю
+   */
+  getWeeklyCount() {
+    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    return this.history.filter(t => t.timestamp >= weekAgo).length;
+  }
+
+  /**
+   * Последняя тренировка
+   */
+  getLast() {
+    return this.history[0] || null;
+  }
+
+  /**
+   * Проверить, была ли тренировка в указанную дату
+   */
+  hasWorkoutOnDate(dateStr) {
+    return this.history.some(workout => workout.date === dateStr);
+  }
+
+  /**
+   * Получить тренировки за указанную дату
+   */
+  getWorkoutsByDate(dateStr) {
+    return this.history.filter(workout => workout.date === dateStr);
+  }
+
+  /**
+   * Очистка (для тестов)
+   */
+  clear() {
+    this.history = [];
+    StorageManager.removeItem(this.storageKey);
+    StorageManager.removeItem('morphe-last-workout');
   }
 }
