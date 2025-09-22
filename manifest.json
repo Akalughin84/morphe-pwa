@@ -1,43 +1,25 @@
 {
   "name": "Morphe",
   "short_name": "Morphe",
-  "description": "Умное фитнес-приложение от Алексея Калугина. Адаптируется под твой пол, возраст, цели. Наука, а не мода. Бесплатно. Оффлайн.",
   "start_url": "/index.html",
-  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait",
-  "lang": "ru",
-  "dir": "ltr",
-  "background_color": "#FAFAFA",
-  "theme_color": "#2E7D32",
-  
+  "background_color": "#0f172a",
+  "theme_color": "#8b5cf6",
   "icons": [
+    {
+      "src": "/assets/icons/icon-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/icon-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
     {
       "src": "/assets/icons/icon-192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/assets/icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-
-  "screenshots": [
-    {
-      "src": "/assets/screenshots/workouts.jpg",
-      "type": "image/jpeg",
-      "sizes": "1280x720",
-      "description": "Программа тренировок с подходами и таймером"
-    },
-    {
-      "src": "/assets/screenshots/progress.jpg",
-      "type": "image/jpeg",
-      "sizes": "1280x720",
-      "description": "Графики веса и фото до/после"
+      "type": "image/png"
     }
   ]
 }
