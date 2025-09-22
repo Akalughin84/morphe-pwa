@@ -1,709 +1,483 @@
+<!-- /pages/progress.html -->
+<!-- v3.0.1 — Исправлена ошибка с undefined exercises -->
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Morphe — Прогресс</title>
-  <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="../styles-form.css" />
+  <title>Прогресс — Morphe</title>
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
   <style>
-    .chart-loading {
+    /* Календарь прогресса */
+    .progress-calendar {
+      margin: 32px 0;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin: 16px 0;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
       display: flex;
-      justify-content: center;
       align-items: center;
-      height: 300px;
-      color: #666;
-      font-style: italic;
+      justify-content: center;
+      font-size: 0.8rem;
+      border-radius: 8px;
+      background: var(--bg-surface);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid var(--border);
     }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+
+    .calendar-day:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
-    .btn[disabled] {
-      opacity: 0.6;
-      cursor: not-allowed;
+
+    .calendar-day.has-body {
+      background: #2ecc71; /* 🟢 Замер */
+      color: white;
+    }
+
+    .calendar-day.has-nutrition {
+      background: #f39c12; /* 🟡 Питание */
+      color: white;
+    }
+
+    .calendar-day.has-workout {
+      background: #3498db; /* 🔵 Тренировка */
+      color: white;
+    }
+
+    .calendar-day.has-multiple {
+      background: #9b59b6; /* 🟣 Несколько типов */
+      color: white;
+    }
+
+    .calendar-day.today {
+      border: 2px solid var(--accent);
+    }
+
+    .calendar-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    .legend {
+      display: flex;
+      gap: 16px;
+      margin: 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+    }
+
+    /* Детали дня */
+    .day-details {
+      margin-top: 32px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--card-bg);
+    }
+
+    .day-details h3 {
+      margin-top: 0;
+      color: var(--text);
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--accent);
+    }
+
+    .detail-section {
+      margin: 24px 0;
+    }
+
+    .detail-section h4 {
+      margin: 0 0 16px 0;
+      color: var(--text);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-item {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .detail-item:last-child {
+      border-bottom: none;
     }
   </style>
 </head>
 <body>
-  <header class="page-header">
+
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
+
+  <main id="main-content" tabindex="-1">
     <div class="container">
-      <a href="../index.html" class="logo-link">
-        <div class="logo">Morphe</div>
-      </a>
+      <h1>📈 Ваш прогресс</h1>
+      <p>Фиксируйте изменения тела, питания и тренировок — это лучший мотиватор.</p>
 
-      <!-- Гамбургер -->
-      <button id="menuToggle" class="menu-toggle" aria-label="Открыть меню">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <nav id="mainNav" class="page-nav" aria-label="Основная навигация">
-        <a href="../pages/profile.html" class="nav-link">👤 Профиль</a>
-        <a href="../pages/workouts.html" class="nav-link">💪 Тренировки</a>
-        <a href="../pages/nutrition.html" class="nav-link">🍽 Питание</a>
-        <a href="../pages/supplements.html" class="nav-link">💊 Витамины</a>
-        <a href="../pages/premium.html" class="nav-link">💎 Pro</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="progress-page">
-    <div class="container">
-      <h1>📈 Отслеживай свой прогресс</h1>
-      <p>Регулярные замеры — ключ к пониманию, работает ли программа.</p>
-
-      <!-- Статус цели -->
-      <div id="goalSummary" aria-live="polite"></div>
-
-      <!-- Форма ввода -->
-      <div class="controls-group">
+      <!-- Форма ввода замеров -->
+      <form id="progressForm" class="card" novalidate>
         <div class="form-group">
-          <label for="weight">Вес (кг)</label>
-          <input type="number" id="weight" step="0.1" placeholder="77.7" aria-describedby="weightHelp">
-          <div id="weightHelp" class="sr-only">Нажмите Enter или кнопку для сохранения</div>
-          <button id="addWeightBtn" class="btn-primary">Добавить</button>
+          <label for="date">Дата</label>
+          <input type="date" id="date" name="date" required class="form-control">
         </div>
 
         <div class="form-group">
-          <label for="waist">Обхват талии (см)</label>
-          <input type="number" id="waist" step="0.5" placeholder="108" aria-describedby="waistHelp">
-          <div id="waistHelp" class="sr-only">Нажмите Enter или кнопку для сохранения</div>
-          <button id="addWaistBtn" class="btn-primary">Добавить</button>
+          <label for="weight">Вес (кг)</label>
+          <input type="number" id="weight" name="weight" step="0.1" min="40" max="200" required placeholder="75.5" class="form-control">
         </div>
-      </div>
 
-      <!-- Последние значения -->
-      <section class="stats-grid" aria-labelledby="statsHeading">
-        <h2 id="statsHeading" class="sr-only">Последние замеры</h2>
-        <article class="stat-card">
-          <h3>⚖️ Последний вес</h3>
-          <p id="lastWeight" aria-live="polite">—</p>
-        </article>
-        <article class="stat-card">
-          <h3>📏 Последняя талия</h3>
-          <p id="lastWaist" aria-live="polite">—</p>
-        </article>
-        <article class="stat-card">
-          <h3>📅 Последнее измерение</h3>
-          <p id="lastDate" aria-live="polite">—</p>
-        </article>
-      </section>
-
-      <!-- Графики -->
-      <section class="charts" aria-labelledby="chartsHeading">
-        <h2 id="chartsHeading" class="sr-only">Графики прогресса</h2>
-        <div class="chart-box">
-          <h2>📉 Вес по дням</h2>
-          <div id="weightChartContainer">
-            <div class="chart-loading" id="weightChartLoading">Загрузка графика веса...</div>
-            <canvas id="weightChart" role="img" aria-label="График изменения веса с течением времени"></canvas>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="chest">Грудь (см)</label>
+            <input type="number" id="chest" name="chest" step="0.5" placeholder="100" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="waist">Талия (см)</label>
+            <input type="number" id="waist" name="waist" step="0.5" placeholder="85" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="hips">Бёдра (см)</label>
+            <input type="number" id="hips" name="hips" step="0.5" placeholder="98" class="form-control">
           </div>
         </div>
-        <div class="chart-box">
-          <h2>📉 Обхват талии</h2>
-          <div id="waistChartContainer">
-            <div class="chart-loading" id="waistChartLoading">Загрузка графика талии...</div>
-            <canvas id="waistChart" role="img" aria-label="График изменения обхвата талии с течением времени"></canvas>
+
+        <div class="form-group">
+          <label for="notes">Комментарий (опционально)</label>
+          <textarea id="notes" name="notes" rows="3" placeholder="Чувствую прирост силы..." class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn-large">Сохранить прогресс →</button>
+      </form>
+
+      <div id="formFeedback" aria-live="polite"></div>
+
+      <!-- 📅 Календарь прогресса -->
+      <section class="card progress-calendar">
+        <h2>📅 Последние 30 дней</h2>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background: #2ecc71;"></div>
+            <span>🟢 Замер тела</span>
           </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #f39c12;"></div>
+            <span>🟡 Питание</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #3498db;"></div>
+            <span>🔵 Тренировка</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #9b59b6;"></div>
+            <span>🟣 Несколько</span>
+          </div>
+        </div>
+        <div class="calendar-header">
+          <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+        </div>
+        <div class="calendar-grid" id="progressCalendar"></div>
+      </section>
+
+      <!-- 📋 Детали выбранного дня -->
+      <section id="dayDetailsSection" class="day-details" style="display: none;">
+        <h3 id="dayDetailsTitle">Детали за —</h3>
+        
+        <!-- Замеры тела -->
+        <div id="bodyDetails" class="detail-section" style="display: none;">
+          <h4>📏 Замеры тела</h4>
+          <div id="bodyItems"></div>
+        </div>
+
+        <!-- Питание -->
+        <div id="nutritionDetails" class="detail-section" style="display: none;">
+          <h4>🍽 Питание</h4>
+          <div id="nutritionItems"></div>
+        </div>
+
+        <!-- Тренировки -->
+        <div id="workoutDetails" class="detail-section" style="display: none;">
+          <h4>🏋️‍♂️ Тренировки</h4>
+          <div id="workoutItems"></div>
         </div>
       </section>
 
-      <!-- Фото до/после -->
-      <section class="photo-section" aria-labelledby="photoHeading">
-        <h3 id="photoHeading">📸 Фото до/после</h3>
-        <p>Добавьте фото, чтобы увидеть визуальный прогресс.</p>
-        <input type="file" accept="image/*" id="photoInput" style="margin-bottom: 1rem;" aria-label="Выбрать фото прогресса">
-        <button id="savePhotoBtn" class="btn-secondary">📷 Сохранить фото</button>
-        <div id="photoPreview" style="margin-top: 1rem;" aria-live="polite"></div>
+      <!-- История замеров -->
+      <section class="card" id="historySection" style="display: none; margin-top: 32px;">
+        <h2>📏 История замеров тела</h2>
+        <div id="progressHistory"></div>
       </section>
-
-      <!-- Экспорт данных -->
-      <div style="text-align: center; margin: 2rem 0;">
-        <button id="exportCsvBtn" class="btn-secondary">📤 Экспорт в CSV</button>
-        <button id="clearProgressBtn" class="btn-danger" style="margin-left: 1rem;">⚠️ Очистить всё</button>
-      </div>
     </div>
   </main>
 
-  <script type="module">
-    import { MorpheProfile } from '../modules/profile.js';
-    import { ProgressTracker } from '../modules/progressTracker.js';
-    import { GoalTracker } from '../core/goalTracker.js';
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
 
-    const profile = new MorpheProfile();
-    const progressTracker = new ProgressTracker();
-
-    // === КЭШ ДЛЯ ФОРМАТА ДАТ ===
-    const dateFormatter = new Intl.DateTimeFormat('ru-RU', {
-      day: 'numeric',
-      month: 'short'
-    });
-
-    function formatDate(isoDate) {
-      if (!isoDate) return '—';
-      const date = new Date(isoDate);
-      return dateFormatter.format(date);
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
     }
+  </script>
 
-    // === ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ ===
-    async function init() {
+  <!-- Логика страницы -->
+  <script type="module">
+    import { HeaderController } from '/core/HeaderController.js';
+    import { ThemeManager } from '/core/themeManager.js';
+    import { ProgressTracker } from '/modules/progressTracker.js';
+    import { ProgressCalendar } from '/modules/progressCalendar.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
       try {
-        // Проверка профиля
-        if (!profile.isComplete()) {
-          const overlay = document.createElement('div');
-          overlay.innerHTML = `
-            <div class="container" style="padding: 4rem 2rem; text-align: center;">
-              <h2>🔒 Данные недоступны</h2>
-              <p>Чтобы начать отслеживать прогресс, сначала <a href="../pages/profile.html">заполните профиль</a>.</p>
-            </div>`;
-          overlay.style.position = 'fixed';
-          overlay.style.top = '0';
-          overlay.style.left = '0';
-          overlay.style.width = '100%';
-          overlay.style.height = '100%';
-          overlay.style.backgroundColor = 'white';
-          overlay.style.zIndex = '9999';
-          overlay.style.display = 'flex';
-          overlay.style.justifyContent = 'center';
-          overlay.style.alignItems = 'center';
-          document.body.appendChild(overlay);
-          return;
-        }
+        await HeaderController.loadHeader();
+        new ThemeManager();
 
-        // Загрузка цели
-        const goalTracker = new GoalTracker(profile.data || {}, {
-          weights: progressTracker.weightLog,
-          waist: progressTracker.waistLog
-        });
-        goalTracker.load();
+        const form = document.getElementById('progressForm');
+        const feedback = document.getElementById('formFeedback');
+        const historySection = document.getElementById('historySection');
+        const historyList = document.getElementById('progressHistory');
+        const calendarEl = document.getElementById('progressCalendar');
+        const dayDetailsSection = document.getElementById('dayDetailsSection');
+        const dayDetailsTitle = document.getElementById('dayDetailsTitle');
 
-        const lastWeightEl = document.getElementById('lastWeight');
-        const lastWaistEl = document.getElementById('lastWaist');
-        const lastDateEl = document.getElementById('lastDate');
-        const goalSummaryEl = document.getElementById('goalSummary');
+        const tracker = new ProgressTracker();
+        const calendar = new ProgressCalendar();
 
-        // === ЛОКАЛИЗАЦИЯ ===
-        function getGoalLabel(type) {
-          const labels = {
-            'muscle_gain': 'Набор мышечной массы',
-            'fat_loss': 'Снижение процента жира'
-          };
-          return labels[type] || type;
-        }
+        // Установка сегодняшней даты
+        document.getElementById('date').valueAsDate = new Date();
 
-        function getPhaseLabel(phase) {
-          const labels = {
-            foundation: 'Закладка основы',
-            intensify: 'Интенсификация',
-            peak: 'Пиковая фаза'
-          };
-          return labels[phase] || phase;
-        }
+        // === Рендер истории замеров ===
+        function renderBodyProgress() {
+          const entries = tracker.getAll();
+          if (entries.length === 0) return;
 
-        // === ОТОБРАЖЕНИЕ ЦЕЛИ ===
-        function renderGoal() {
-          if (!goalTracker.goal) {
-            goalSummaryEl.innerHTML = `
-              <div class="ai-advice-panel" style="margin-bottom: 30px;">
-                <h3>🎯 Установи цель</h3>
-                <p>Хочешь набрать мышцы или снизить % жира? Поставь цель — и я проведу тебя до финиша.</p>
-                <button id="createGoalBtn" class="btn-accent">➕ Поставить цель</button>
+          historySection.style.display = 'block';
+          historyList.innerHTML = entries.map(entry => {
+            const date = new Date(entry.date).toLocaleDateString('ru-RU', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric'
+            });
+
+            const nutritionEntries = calendar.nutrition.entries.filter(e => e.date === entry.date);
+            const nutritionCalories = nutritionEntries.reduce((sum, item) => {
+              const ratio = item.grams / 100;
+              return sum + (item.calories * ratio);
+            }, 0);
+
+            const nutritionText = nutritionCalories > 0
+              ? `• 🍽️ ${Math.round(nutritionCalories)} ккал`
+              : '';
+
+            return `
+              <div class="history-item">
+                <strong>${date}</strong> • ${entry.weight} кг ${nutritionText}
+                ${entry.chest ? `• Грудь: ${entry.chest} см` : ''}
+                ${entry.waist ? `• Талия: ${entry.waist} см` : ''}
+                ${entry.hips ? `• Бёдра: ${entry.hips} см` : ''}
+                ${entry.notes ? `<p><small>💬 ${entry.notes}</small></p>` : ''}
               </div>
             `;
-            const createBtn = document.getElementById('createGoalBtn');
-            if (createBtn) {
-              createBtn.addEventListener('click', createGoal);
-            }
-            return;
-          }
-
-          const status = goalTracker.getStatus();
-
-          goalSummaryEl.innerHTML = `
-            <div class="ai-advice-panel" style="margin-bottom: 30px;">
-              <h3>🎯 Твоя цель: ${getGoalLabel(goalTracker.goal.type)}</h3>
-              <p><strong>Фаза:</strong> ${getPhaseLabel(status.phase)}</p>
-              <p><strong>Неделя:</strong> ${status.currentWeek} из ${goalTracker.goal.weeks}</p>
-              <p><strong>Осталось:</strong> ${status.daysLeft} дней</p>
-              
-              <div class="progress-bar-container">
-                <div class="progress-bar" style="width: ${Math.round(status.progress)}%"></div>
-              </div>
-              <p>${Math.round(status.progress)}% завершено</p>
-
-              ${status.nextMilestone ? 
-                `<p><small>Следующая веха: ${status.nextMilestone.target} кг — ${formatDate(status.nextMilestone.date)}</small></p>` 
-                : ''}
-
-              <p class="encouragement">${status.encouragement}</p>
-            </div>
-          `;
+          }).join('');
         }
 
-        // === СОЗДАНИЕ ЦЕЛИ ===
-        function createGoal() {
-          const choice = prompt(
-            "Какая у тебя цель?\n\n" +
-            "1 — Набор мышечной массы\n" +
-            "2 — Снижение процента жира"
-          );
+        // === Рендер календаря прогресса ===
+        function renderProgressCalendar() {
+          const data = calendar.getLast30DaysData();
+          calendarEl.innerHTML = '';
 
-          let type = null;
-          if (choice === '1') type = 'muscle_gain';
-          if (choice === '2') type = 'fat_loss';
+          data.forEach(day => {
+            const date = new Date(day.date);
+            const dayEl = document.createElement('div');
+            dayEl.className = 'calendar-day';
+            dayEl.textContent = date.getDate();
+            dayEl.dataset.date = day.date;
 
-          if (!type) {
-            alert("❌ Неверный выбор.");
-            return;
-          }
+            const types = [];
+            if (day.hasBody) types.push('body');
+            if (day.hasNutrition) types.push('nutrition');
+            if (day.hasWorkout) types.push('workout');
 
-          const target = parseFloat(prompt(`На сколько кг хочешь ${choice === '1' ? 'набрать' : 'снизить'}?`));
-          const weeks = parseInt(prompt("За сколько недель?", "12"));
-
-          if (isNaN(target) || isNaN(weeks) || weeks <= 0) {
-            alert("❌ Введите корректные числа.");
-            return;
-          }
-
-          goalTracker.setGoal(type, target, weeks);
-          goalTracker.save();
-          renderGoal();
-          alert(`🎯 Цель установлена: ${getGoalLabel(type)} на ${target} кг за ${weeks} недель!`);
-        }
-
-        // === ВВОД ДАННЫХ ===
-        function addWeight() {
-          const input = document.getElementById('weight');
-          const value = parseFloat(input.value.trim());
-          if (isNaN(value) || value <= 0) {
-            alert("Введите корректное положительное значение веса.");
-            return;
-          }
-
-          const today = new Date().toISOString().split('T')[0];
-          const existing = progressTracker.weightLog.find(e => e.date === today);
-          if (existing) {
-            if (!confirm(`Уже есть запись за сегодня: ${existing.weight} кг. Перезаписать?`)) {
-              return;
-            }
-            // Удаляем старую запись
-            progressTracker.weightLog = progressTracker.weightLog.filter(e => e.date !== today);
-          }
-
-          progressTracker.logWeight(value);
-          input.value = '';
-          updateAll();
-          alert(`✅ Вес ${value} кг добавлен!`);
-        }
-
-        function addWaist() {
-          const input = document.getElementById('waist');
-          const value = parseFloat(input.value.trim());
-          if (isNaN(value) || value <= 0) {
-            alert("Введите корректное положительное значение талии.");
-            return;
-          }
-
-          const today = new Date().toISOString().split('T')[0];
-          const existing = progressTracker.waistLog.find(e => e.date === today);
-          if (existing) {
-            if (!confirm(`Уже есть запись за сегодня: ${existing.waist} см. Перезаписать?`)) {
-              return;
-            }
-            progressTracker.waistLog = progressTracker.waistLog.filter(e => e.date !== today);
-          }
-
-          progressTracker.logWaist(value);
-          input.value = '';
-          updateAll();
-          alert(`✅ Талия ${value} см добавлена!`);
-        }
-
-        // === ОЧИСТКА ===
-        function clearProgress() {
-          if (confirm("Вы уверены, что хотите удалить все данные прогресса? Это действие нельзя отменить.")) {
-            progressTracker.clearAll();
-            localStorage.removeItem('morphe_current_goal');
-            localStorage.removeItem('morphe_progress_photos');
-            goalTracker.goal = null;
-            goalTracker.load();
-            updateAll();
-            document.getElementById('photoPreview').innerHTML = '';
-            alert("🗑 Все данные прогресса и цели удалены.");
-          }
-        }
-
-        // === ОБНОВЛЕНИЕ С ДЕБАУНСОМ ===
-        let updateTimeout;
-        function updateAll() {
-          clearTimeout(updateTimeout);
-          updateTimeout = setTimeout(() => {
-            updateStats();
-            updateCharts();
-            renderGoal();
-          }, 300);
-        }
-
-        function updateStats() {
-          const lastWeight = progressTracker.getLastEntry('weight');
-          const lastWaist = progressTracker.getLastEntry('waist');
-
-          lastWeightEl.textContent = lastWeight ? `${lastWeight.weight} кг (${lastWeight.dayOfWeek})` : "Не указано";
-          lastWaistEl.textContent = lastWaist ? `${lastWaist.waist} см (${lastWaist.dayOfWeek})` : "Не указано";
-          lastDateEl.textContent = lastWeight ? formatDate(lastWeight.date) : "—";
-
-          goalTracker.history.weights = progressTracker.weightLog;
-        }
-
-        // === ГРАФИКИ ===
-        let weightChart, waistChart;
-
-        function updateCharts() {
-          try {
-            const weightCtx = document.getElementById('weightChart').getContext('2d');
-            const waistCtx = document.getElementById('waistChart').getContext('2d');
-
-            const weightData = progressTracker.getWeightData();
-            const waistData = progressTracker.getWaistData();
-
-            if (!Array.isArray(weightData)) {
-              console.error("Invalid weight data:", weightData);
-              return;
-            }
-
-            if (weightChart) weightChart.destroy();
-            if (waistChart) waistChart.destroy();
-
-            // Скрываем лоадеры
-            document.getElementById('weightChartLoading').style.display = 'none';
-            document.getElementById('waistChartLoading').style.display = 'none';
-            document.getElementById('weightChart').style.display = 'block';
-            document.getElementById('waistChart').style.display = 'block';
-
-            // === ГРАФИК ВЕСА ===
-            let labels = weightData.map(d => formatDate(d.x));
-            let values = weightData.map(d => d.y);
-
-            const datasets = [
-              {
-                label: 'Вес (кг)',
-                data: values, // ✅ ИСПРАВЛЕНО: data вместо values
-                borderColor: '#2E7D32',
-                backgroundColor: 'rgba(46,125,50,0.1)',
-                fill: true,
-                tension: 0.4,
-                pointRadius: 4
-              }
-            ];
-
-            // Прогноз только если >=2 точек
-            if (weightData.length >= 2) {
-              const regression = linearRegression(weightData.map(d => ({ x: new Date(d.x).getTime(), y: d.y })));
-              const forecast = generateForecastPoints(regression, 8);
-              
-              const forecastValues = Array(labels.length).fill(null);
-              forecast.forEach(p => forecastValues.push(p.y));
-
-              // Расширяем метки
-              const extendedLabels = [...labels];
-              for (let i = 1; i <= 8; i++) {
-                extendedLabels.push(`+${i}н`);
-              }
-
-              datasets.push({
-                label: 'Прогноз',
-                data: forecastValues, // ✅ ИСПРАВЛЕНО: data вместо forecastValues
-                borderColor: '#FF9800',
-                borderDash: [5, 5],
-                pointRadius: 0,
-                showLine: true
-              });
-
-              labels = extendedLabels;
-            }
-
-            weightChart = new Chart(weightCtx, {
-              type: 'line',
-              data: { // ✅ ИСПРАВЛЕНО: добавлен ключ data
-                datasets,
-                labels
-              },
-              options: {
-                responsive: true,
-                plugins: {
-                  legend: { display: true }, // ✅ Включил легенду для ясности
-                  tooltip: {
-                    callbacks: {
-                      title: (context) => formatDate(context[0].parsed.x),
-                      label: (context) => `Вес: ${context.parsed.y} кг`
-                    }
-                  }
-                },
-                scales: {
-                  x: {
-                    title: { display: true, text: 'Дата' }
-                  },
-                  y: {
-                    title: { display: true, text: 'Килограммы' },
-                    beginAtZero: false
-                  }
-                }
-              }
-            });
-
-            // === ГРАФИК ТАЛИИ ===
-            const waistLabels = waistData.map(d => formatDate(d.x));
-            const waistValues = waistData.map(d => d.y);
-
-            waistChart = new Chart(waistCtx, {
-              type: 'line',
-              data: { // ✅ ИСПРАВЛЕНО: добавлен ключ data
-                datasets: [{
-                  label: 'Талия (см)',
-                  data: waistValues, // ✅ ИСПРАВЛЕНО: data вместо waistValues
-                  borderColor: '#FF6F00',
-                  backgroundColor: 'rgba(255,111,0,0.1)',
-                  fill: true,
-                  tension: 0.4,
-                  pointRadius: 4
-                }],
-                labels: waistLabels
-              },
-              options: {
-                responsive: true,
-                plugins: {
-                  legend: { display: true }, // ✅ Включил легенду
-                  tooltip: {
-                    callbacks: {
-                      title: (context) => formatDate(context[0].parsed.x),
-                      label: (context) => `Талия: ${context.parsed.y} см`
-                    }
-                  }
-                },
-                scales: {
-                  x: {
-                    title: { display: true, text: 'Дата' }
-                  },
-                  y: {
-                    title: { display: true, text: 'Сантиметры' },
-                    beginAtZero: false
-                  }
-                }
-              }
-            });
-
-          } catch (err) {
-            console.error("Ошибка при построении графиков:", err);
-            alert("Не удалось построить графики. Попробуйте обновить страницу.");
-          }
-        }
-
-        // === ЛИНЕЙНАЯ РЕГРЕССИЯ И ПРОГНОЗ ===
-        function linearRegression(points) {
-          let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
-          const n = points.length;
-
-          points.forEach(p => {
-            sumX += p.x;
-            sumY += p.y;
-            sumXY += p.x * p.y;
-            sumXX += p.x * p.x;
-          });
-
-          const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-          const intercept = (sumY - slope * sumX) / n;
-
-          return { slope, intercept };
-        }
-
-        function generateForecastPoints(regression, weeks) {
-          const now = Date.now();
-          const points = [];
-
-          for (let i = 1; i <= weeks * 7; i++) {
-            const date = new Date(now + i * 24 * 60 * 60 * 1000);
-            const x = date.toISOString().split('T')[0];
-            const y = regression.intercept + regression.slope * date.getTime();
-            points.push({ x, y: parseFloat(y.toFixed(1)) });
-          }
-
-          return points;
-        }
-
-        // === ФОТО ДО/ПОСЛЕ ===
-        function savePhoto() {
-          const input = document.getElementById('photoInput');
-          const file = input.files[0];
-          if (!file) {
-            alert("Выберите фото");
-            return;
-          }
-
-          if (!file.type.startsWith('image/')) {
-            alert("Выберите изображение");
-            return;
-          }
-
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const photos = JSON.parse(localStorage.getItem('morphe_progress_photos') || '[]');
-            const today = new Date().toISOString().split('T')[0];
-            
-            // Проверка на дубликат по дате
-            const existingIndex = photos.findIndex(p => p.date === today);
-            if (existingIndex >= 0) {
-              if (!confirm("Фото за сегодня уже существует. Заменить?")) {
-                return;
-              }
-              photos[existingIndex] = {
-                url: e.target.result,
-                date: today
-              };
+            if (types.length === 0) {
+              // Ничего
+            } else if (types.length === 1) {
+              dayEl.classList.add(`has-${types[0]}`);
             } else {
-              photos.push({
-                url: e.target.result,
-                date: today
-              });
+              dayEl.classList.add('has-multiple');
             }
 
-            localStorage.setItem('morphe_progress_photos', JSON.stringify(photos));
-            showPhotos();
-            alert("✅ Фото сохранено");
-            input.value = '';
-          };
-          reader.onerror = function() {
-            alert("Ошибка при чтении файла");
-          };
-          reader.readAsDataURL(file);
+            const today = new Date();
+            if (date.toDateString() === today.toDateString()) {
+              dayEl.classList.add('today');
+            }
+
+            dayEl.addEventListener('click', () => {
+              showDayDetails(day.date);
+            });
+
+            calendarEl.appendChild(dayEl);
+          });
         }
 
-        function showPhotos() {
-          const container = document.getElementById('photoPreview');
-          const photos = JSON.parse(localStorage.getItem('morphe_progress_photos') || '[]');
+        // === Показать детали дня ===
+        function showDayDetails(dateStr) {
+          const details = calendar.getDayDetails(dateStr);
+          const date = new Date(dateStr).toLocaleDateString('ru-RU', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
 
-          if (photos.length === 0) {
-            container.innerHTML = '<p>Фото ещё не добавлены</p>';
-            return;
+          dayDetailsTitle.textContent = `Детали за ${date}`;
+          dayDetailsSection.style.display = 'block';
+
+          // Замеры тела
+          const bodyDetails = document.getElementById('bodyDetails');
+          const bodyItems = document.getElementById('bodyItems');
+          if (details.body.length > 0) {
+            bodyDetails.style.display = 'block';
+            bodyItems.innerHTML = details.body.map(entry => `
+              <div class="detail-item">
+                Вес: ${entry.weight} кг
+                ${entry.chest ? ` | Грудь: ${entry.chest} см` : ''}
+                ${entry.waist ? ` | Талия: ${entry.waist} см` : ''}
+                ${entry.hips ? ` | Бёдра: ${entry.hips} см` : ''}
+                ${entry.notes ? `<br><small>💬 ${entry.notes}</small>` : ''}
+              </div>
+            `).join('');
+          } else {
+            bodyDetails.style.display = 'none';
           }
 
-          container.innerHTML = photos.map(p => `
-            <div style="display:inline-block; margin:5px; text-align:center;">
-              <img src="${p.url}" alt="Фото прогресса от ${p.date}" style="max-width:150px; border-radius:12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-              <p style="margin:5px 0 0 0; font-size:0.8rem; color: #555;">${formatDate(p.date)}</p>
-            </div>
-          `).join('');
+          // Питание
+          const nutritionDetails = document.getElementById('nutritionDetails');
+          const nutritionItems = document.getElementById('nutritionItems');
+          if (details.nutrition.length > 0) {
+            nutritionDetails.style.display = 'block';
+            nutritionItems.innerHTML = details.nutrition.map(entry => `
+              <div class="detail-item">
+                <strong>${entry.name}</strong> (${entry.meal})
+                <br>
+                ${entry.grams} г • ${Math.round(entry.calories * entry.grams / 100)} ккал
+              </div>
+            `).join('');
+          } else {
+            nutritionDetails.style.display = 'none';
+          }
+
+          // Тренировки — ✅ ИСПРАВЛЕНО: защита от undefined
+          const workoutDetails = document.getElementById('workoutDetails');
+          const workoutItems = document.getElementById('workoutItems');
+          if (details.workouts.length > 0) {
+            workoutDetails.style.display = 'block';
+            workoutItems.innerHTML = details.workouts.map(workout => {
+              // ✅ Защита: если exercises undefined — используем пустой массив
+              const exercises = workout.exercises || [];
+              
+              return `
+                <div class="detail-item">
+                  <strong>${workout.programName}</strong> (${workout.durationMinutes} мин)
+                  ${exercises.length > 0 ? 
+                    `<ul>${exercises.map(ex => 
+                      `<li>${ex.id}: ${ex.weight || 0} кг${
+                        ex.rir != null ? `, RIR ${ex.rir}` : ''
+                      }${
+                        ex.notes ? ` (${ex.notes})` : ''
+                      }</li>`
+                    ).join('')}</ul>` : ''}
+                  ${workout.rpe ? `<small>📊 RPE: ${workout.rpe}</small>` : ''}
+                  ${workout.doms ? `<small> 💢 DOMS: ${workout.doms}</small>` : ''}
+                </div>
+              `;
+            }).join('');
+          } else {
+            workoutDetails.style.display = 'none';
+          }
+
+          dayDetailsSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // === ЭКСПОРТ В CSV ===
-        function exportToCSV() {
+        // === Инициализация ===
+        renderBodyProgress();
+        renderProgressCalendar();
+
+        // === Обработка формы замеров ===
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const formData = new FormData(form);
+
           try {
-            const weightMap = new Map(progressTracker.weightLog.map(e => [e.date, e.weight]));
-            const waistMap = new Map(progressTracker.waistLog.map(e => [e.date, e.waist]));
-
-            const allDates = [...new Set([...weightMap.keys(), ...waistMap.keys()])].sort();
-
-            let csv = 'Дата,Вес (кг),Талия (см)\n';
-            
-            allDates.forEach(date => {
-              const weight = weightMap.get(date) || '';
-              const waist = waistMap.get(date) || '';
-              csv += `${date},${weight},${waist}\n`;
+            tracker.add({
+              date: formData.get('date'),
+              weight: parseFloat(formData.get('weight')),
+              chest: formData.get('chest') ? parseFloat(formData.get('chest')) : null,
+              waist: formData.get('waist') ? parseFloat(formData.get('waist')) : null,
+              hips: formData.get('hips') ? parseFloat(formData.get('hips')) : null,
+              notes: formData.get('notes')
             });
 
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `morphe_progress_${new Date().toISOString().split('T')[0]}.csv`;
-            a.click();
-            URL.revokeObjectURL(url);
+            feedback.innerHTML = '<p class="success-text">✅ Прогресс сохранён!</p>';
+            form.reset();
+            document.getElementById('date').valueAsDate = new Date();
+
+            renderBodyProgress();
+            renderProgressCalendar();
+
+            setTimeout(() => {
+              feedback.innerHTML = '';
+            }, 2000);
+
           } catch (err) {
-            console.error("Ошибка экспорта:", err);
-            alert("Не удалось экспортировать данные");
+            feedback.innerHTML = `<p class="error-text">❌ Ошибка: ${err.message}</p>`;
           }
-        }
-
-        // === ГАМБУРГЕР-МЕНЮ ===
-        const menuToggle = document.getElementById('menuToggle');
-        const mainNav = document.getElementById('mainNav');
-
-        if (menuToggle && mainNav) {
-          menuToggle.addEventListener('click', () => {
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
-            menuToggle.classList.toggle('active');
-            mainNav.classList.toggle('active');
-          });
-
-          document.querySelectorAll('.page-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-              menuToggle.classList.remove('active');
-              mainNav.classList.remove('active');
-              menuToggle.setAttribute('aria-expanded', 'false');
-            });
-          });
-
-          document.addEventListener('click', (e) => {
-            if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
-              menuToggle.classList.remove('active');
-              mainNav.classList.remove('active');
-              menuToggle.setAttribute('aria-expanded', 'false');
-            }
-          });
-        }
-
-        // === ОБРАБОТЧИКИ СОБЫТИЙ ===
-        document.getElementById('addWeightBtn')?.addEventListener('click', addWeight);
-        document.getElementById('addWaistBtn')?.addEventListener('click', addWaist);
-        document.getElementById('savePhotoBtn')?.addEventListener('click', savePhoto);
-        document.getElementById('exportCsvBtn')?.addEventListener('click', exportToCSV);
-        document.getElementById('clearProgressBtn')?.addEventListener('click', clearProgress);
-
-        // Enter для быстрого ввода
-        document.getElementById('weight')?.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') addWeight();
-        });
-        document.getElementById('waist')?.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') addWaist();
         });
 
-        // === ЗАПУСК ===
-        showPhotos();
-        updateStats();
-        updateCharts();
-        renderGoal();
-
-      } catch (initError) {
-        console.error("Ошибка инициализации:", initError);
-        alert("Произошла ошибка при загрузке страницы. Попробуйте обновить или зайти позже.");
+      } catch (err) {
+        console.error('❌ Ошибка на странице прогресса:', err);
+        const feedback = document.getElementById('formFeedback');
+        if (feedback) {
+          feedback.innerHTML = `<p class="error-text">❌ Произошла ошибка: ${err.message}</p>`;
+        }
       }
-    }
-
-    // Проверка загрузки Chart.js
-    if (typeof Chart === 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        alert("Не удалось загрузить библиотеку графиков. Проверьте подключение к интернету.");
-        document.querySelectorAll('.chart-loading').forEach(el => {
-          el.textContent = "Ошибка загрузки графиков";
-          el.style.color = "red";
-        });
-      });
-    } else {
-      // Запускаем приложение
-      init();
-    }
+    });
   </script>
 </body>
 </html>
