@@ -1,0 +1,455 @@
+<!-- /pages/workout-session.html -->
+<!-- v3.0.0 — Реальный план из WorkoutPlanner -->
+
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Выполнение тренировки — Morphe</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
+  <style>
+    /* Таймер */
+    .timer-display {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      padding: 20px;
+      background: var(--bg-surface-alt);
+      border-radius: 16px;
+      margin: 24px 0;
+      border: 2px dashed var(--accent);
+    }
+
+    /* Упражнение */
+    .exercise-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .exercise-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .exercise-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .form-row .form-group {
+      flex: 1;
+    }
+
+    .exercise-advice {
+      margin-top: 16px;
+      padding: 16px;
+      background-color: var(--bg-surface-alt);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      border-left: 4px solid var(--accent);
+    }
+
+    /* Сравнение с прошлой тренировкой */
+    .comparison {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Техника выполнения */
+    .technique-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      background: var(--accent);
+      color: white;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
+
+  <main id="main-content">
+    <div class="container">
+      <h1>💪 Выполнение тренировки</h1>
+      <p id="sessionStatus">Загрузка плана...</p>
+
+      <!-- Информация о программе -->
+      <section class="card" id="programInfo" style="display: none;">
+        <h2 id="programName">—</h2>
+        <p><strong>Цель:</strong> <span id="programGoal">—</span></p>
+        <p><strong>Уровень:</strong> <span id="programLevel">—</span></p>
+        <p><strong>Фокус:</strong> <span id="programFocus">—</span></p>
+      </section>
+
+      <!-- Оценка готовности -->
+      <section class="card" id="readinessSection" style="display: none;">
+        <h2>📊 Ваша готовность</h2>
+        <div class="form-group">
+          <label for="rpeInput">Общая нагрузка (RPE):</label>
+          <select id="rpeInput" class="form-control">
+            <option value="">Выберите</option>
+            <option value="5">5 — легко</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10 — максимум</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="domsInput">Боль в мышцах (DOMS):</label>
+          <select id="domsInput" class="form-control">
+            <option value="">Выберите</option>
+            <option value="1">1 — нет боли</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5 — сильная боль</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Список упражнений -->
+      <div id="exercisesContainer"></div>
+
+      <!-- Таймер отдыха -->
+      <div class="timer-display" id="timerDisplay" style="display: none;">
+        ⏱ Отдых: <strong id="timer">90</strong> сек
+      </div>
+
+      <!-- Кнопка сохранения -->
+      <button id="saveSession" class="btn-primary btn-large" style="margin: 2rem 0 4rem;">
+        ✅ Сохранить тренировку
+      </button>
+    </div>
+  </main>
+
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+
+  <!-- Логика -->
+  <script type="module">
+    import { HeaderController } from '/core/HeaderController.js';
+    import { ThemeManager } from '/core/themeManager.js';
+    import { WorkoutTracker } from '/modules/workoutTracker.js';
+    import { DataService } from '/services/dataService.js';
+    import { StorageManager } from '/utils/storage.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await HeaderController.loadHeader();
+      new ThemeManager();
+
+      const sessionStatus = document.getElementById('sessionStatus');
+      const programInfo = document.getElementById('programInfo');
+      const readinessSection = document.getElementById('readinessSection');
+      const exercisesContainer = document.getElementById('exercisesContainer');
+
+      try {
+        // === Получаем ID программы из URL ===
+        const urlParams = new URLSearchParams(window.location.search);
+        const programId = urlParams.get('id');
+        const programName = urlParams.get('name');
+
+        if (!programId || !programName) {
+          sessionStatus.textContent = "❌ Не указан ID или название программы.";
+          sessionStatus.className = 'error-text';
+          return;
+        }
+
+        // === Инициализируем WorkoutPlanner ===
+        const { WorkoutPlanner } = await import('../core/workoutPlanner.js');
+        const planner = new WorkoutPlanner();
+        await planner.init();
+
+        // === Получаем программу по ID ===
+        let program = planner.getCurrent();
+
+        // ✅ Если программы нет ИЛИ нет расписания — генерируем новую
+        if (!program || !program.schedule || program.schedule.length === 0) {
+          sessionStatus.textContent = "Генерация программы...";
+          program = await planner.generate();
+        }
+
+        // ✅ Проверяем, что schedule существует и не пуст
+        if (!program.schedule || program.schedule.length === 0) {
+          throw new Error("Программа не содержит тренировок");
+        }
+
+        // === Находим сессию для сегодняшнего дня (или первую) ===
+        let session = program.schedule[0].session;
+
+        // Можно доработать: брать по дню недели
+        const dayOfWeek = new Date().getDay(); // 0-6
+        const todayIndex = dayOfWeek % program.schedule.length;
+        if (program.schedule[todayIndex] && program.schedule[todayIndex].session) {
+          session = program.schedule[todayIndex].session;
+        }
+
+        if (!session) {
+          throw new Error("Не удалось найти тренировочную сессию в программе");
+        }
+
+        // ✅ Проверяем, что у сессии есть упражнения
+        if (!session.exercises || session.exercises.length === 0) {
+          throw new Error("Тренировочная сессия не содержит упражнений");
+        }
+
+        // === Загружаем базу упражнений ===
+        const exercisesData = await DataService.getExercises();
+        const exerciseMap = Object.fromEntries(exercisesData.map(e => [e.id, e]));
+
+        // === Отображаем информацию о программе ===
+        document.getElementById('programName').textContent = program.name || programName;
+        document.getElementById('programGoal').textContent = program.goal || '—';
+        document.getElementById('programLevel').textContent = program.level || '—';
+        document.getElementById('programFocus').textContent = session.focus || '—';
+
+        programInfo.style.display = 'block';
+        readinessSection.style.display = 'block';
+        sessionStatus.style.display = 'none';
+
+        // === Функция: получить последнюю сессию для упражнения ===
+        function getLastSessionForExercise(exId) {
+          const keys = Object.keys(localStorage).filter(k => k.startsWith('morphe-workout-'));
+          keys.sort((a, b) => b.localeCompare(a));
+
+          for (const key of keys) {
+            const session = StorageManager.getItem(key);
+            if (!session?.exercises) continue;
+
+            const exRecord = session.exercises.find(e => e.id === exId);
+            if (exRecord) {
+              return {
+                weight: typeof exRecord.weight === 'number' ? exRecord.weight : 0,
+                reps: typeof exRecord.reps === 'number' ? exRecord.reps : 10,
+                rir: exRecord.rir ?? '?',
+                notes: exRecord.notes || ''
+              };
+            }
+          }
+
+          return null;
+        }
+
+        // === Генерация упражнений из реальной сессии ===
+        let timerInterval = null;
+
+        session.exercises.forEach(ex => {
+          const exercise = exerciseMap[ex.id] || { name: ex.name || 'Неизвестное упражнение' };
+          const restSec = ex.rest || 90;
+
+          const exerciseEl = document.createElement('div');
+          exerciseEl.className = 'exercise-card';
+
+          const lastSession = getLastSessionForExercise(ex.id);
+          let comparisonHtml = '';
+          if (lastSession) {
+            comparisonHtml = `
+              <div class="comparison">
+                📌 Последний раз: ${lastSession.weight} кг × ${lastSession.reps}, RIR ${lastSession.rir}${
+                  lastSession.notes ? ` (${lastSession.notes})` : ''
+                }
+              </div>
+            `;
+          }
+
+          // Техника выполнения
+          const techniqueTag = ex.technique ? 
+            `<span class="technique-tag">${ex.technique}</span>` : '';
+
+          exerciseEl.innerHTML = `
+            <div class="exercise-header">
+              <h3>${exercise.name}</h3>
+              <span class="pill">${ex.sets}×${ex.reps}${techniqueTag}</span>
+            </div>
+            ${ex.tempo ? `<p><small>⏱ Темп: ${ex.tempo}</small></p>` : ''}
+            ${exercise.scientificBasis?.progressionRule ? 
+              `<p><small>💡 ${exercise.scientificBasis.progressionRule}</small></p>` : ''
+            }
+            <div class="form-row">
+              <div class="form-group">
+                <label>Вес (кг)</label>
+                <input type="number" step="0.5" class="weight-input form-control" data-id="${ex.id}" placeholder="например, 80">
+              </div>
+              <div class="form-group">
+                <label>RIR</label>
+                <select class="rir-select form-control" data-id="${ex.id}">
+                  <option value=""></option>
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Заметки</label>
+              <textarea class="notes-input form-control" data-id="${ex.id}" rows="1" placeholder="Как прошла техника?"></textarea>
+            </div>
+            <button 
+              onclick="startRest(${restSec})"
+              class="btn-outline btn-small">
+              ⏱ Начать отдых (${restSec} сек)
+            </button>
+            ${comparisonHtml}
+          `;
+          exercisesContainer.appendChild(exerciseEl);
+        });
+
+        // === Таймер отдыха ===
+        window.startRest = function(duration) {
+          const timerEl = document.getElementById('timer');
+          const display = document.getElementById('timerDisplay');
+
+          if (timerInterval) clearInterval(timerInterval);
+
+          let time = duration;
+          timerEl.textContent = time;
+          display.style.display = 'block';
+
+          timerInterval = setInterval(() => {
+            time--;
+            timerEl.textContent = time;
+            if (time <= 0) {
+              clearInterval(timerInterval);
+              display.style.display = 'none';
+              alert("Отдых завершён! Готовы к следующему подходу.");
+            }
+          }, 1000);
+        };
+
+        // === Силовые советы ===
+        try {
+          const { StrengthProgress } = await import('../core/strengthProgress.js');
+          const progressEngine = new StrengthProgress();
+
+          document.querySelectorAll('.exercise-card').forEach(card => {
+            const input = card.querySelector('.weight-input');
+            if (!input) return;
+
+            const exId = input.dataset.id;
+            const lastSession = getLastSessionForExercise(exId);
+            if (!lastSession) return;
+
+            const rmEstimate = progressEngine.calculateOneRepMax(lastSession.weight, lastSession.reps);
+            const doubleProgressReady = progressEngine.checkDoubleProgression(exId, lastSession);
+
+            const adviceLines = [];
+            if (rmEstimate) {
+              adviceLines.push(`📊 Ваш 1ПМ: ~${Math.round(rmEstimate)} кг`);
+            }
+            if (doubleProgressReady.ready) {
+              adviceLines.push(`✅ Готовы к увеличению веса!`);
+            }
+
+            if (adviceLines.length > 0) {
+              const adviceEl = document.createElement('div');
+              adviceEl.className = 'exercise-advice';
+              adviceEl.innerHTML = adviceLines.map(line => `<small>${line}</small><br>`).join('');
+
+              const timerButton = card.querySelector('button[onclick^="startRest"]');
+              if (timerButton) {
+                timerButton.insertAdjacentElement('afterend', adviceEl);
+              } else {
+                card.appendChild(adviceEl);
+              }
+            }
+          });
+
+        } catch (err) {
+          console.warn('⚠️ Не удалось загрузить модуль strengthProgress:', err.message);
+        }
+
+        // === Сохранение сессии ===
+        document.getElementById('saveSession').addEventListener('click', () => {
+          const sessionData = {
+            programId,
+            programName: program.name || programName,
+            date: new Date().toISOString(),
+            rpe: document.getElementById('rpeInput').value || null,
+            doms: document.getElementById('domsInput').value || null,
+            exercises: []
+          };
+
+          document.querySelectorAll('.weight-input').forEach(input => {
+            const id = input.dataset.id;
+            const weight = input.value;
+            const rir = document.querySelector(`.rir-select[data-id="${id}"]`).value;
+            const notes = document.querySelector(`.notes-input[data-id="${id}"]`).value;
+
+            if (weight) {
+              sessionData.exercises.push({ 
+                id, 
+                weight: parseFloat(weight), 
+                rir, 
+                notes 
+              });
+            }
+          });
+
+          // Сохраняем полную сессию в WorkoutTracker
+          const tracker = new WorkoutTracker();
+          tracker.logSession(sessionData);
+
+          alert("✅ Тренировка сохранена!");
+          window.location.href = '/index.html';
+        });
+
+      } catch (err) {
+        sessionStatus.textContent = `❌ Ошибка: ${err.message}`;
+        sessionStatus.className = 'error-text';
+        console.error(err);
+      }
+    });
+
+    // Подвал
+    document.addEventListener('DOMContentLoaded', () => {
+      import('/core/HeaderController.js')
+        .then(m => m.HeaderController.loadFooter())
+        .catch(err => console.error('❌ Ошибка загрузки подвала:', err));
+    });
+  </script>
+</body>
+</html>
