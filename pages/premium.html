@@ -1,133 +1,266 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Morphe — Pro</title>
-  <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="../styles-form.css" />
+  <title>Morphe Pro — Поддержите развитие</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Morphe остаётся бесплатным, оффлайн и этичным. Pro — это ваш вклад в будущее честного подхода к здоровью.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
+  <!-- Skip-link -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+    .skip-link:focus { top: 10px; }
+
+    /* Стили для Pro-страницы */
+    .future-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin: 24px 0;
+    }
+
+    .feature-card {
+      padding: 20px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .feature-card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 12px 0;
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .pro-badge {
+      display: inline-block;
+      background: #8b5cf6;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 50px;
+      margin-left: 8px;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, #8b5cf610, #ec489910);
+      border: 1px solid #8b5cf630;
+      border-radius: 16px;
+      padding: 24px;
+      margin: 32px 0;
+      text-align: center;
+    }
+
+    .highlight-box h3 {
+      margin: 0 0 16px 0;
+      color: var(--accent);
+    }
+
+    .highlight-box p {
+      max-width: 600px;
+      margin: 0 auto 16px;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+    }
+
+    .support-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin: 24px 0;
+    }
+
+    .support-btn {
+      padding: 12px 24px;
+      border: 2px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .support-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <header class="page-header">
-    <div class="container">
-      <a href="../index.html" class="logo-link">
-        <div class="logo">Morphe</div>
-      </a>
-      <nav class="page-nav">
-        <a href="../pages/profile.html" class="nav-link">👤 Профиль</a>
-        <a href="../pages/workouts.html" class="nav-link">💪 Тренировки</a>
-      </nav>
-    </div>
-  </header>
 
-  <main class="premium-page">
-    <div class="container">
-      <h1>💎 Morphe Pro — твой умный тренер</h1>
-      <p>Полный доступ ко всем функциям — без рекламы, с персонализацией и интеллектом.</p>
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
 
-      <!-- Статус подписки -->
-      <div id="statusSection">
-        <p>Загрузка...</p>
+  <main id="main-content">
+    <div class="container">
+      <h1>💎 Morphe Pro</h1>
+      <p><strong>Бесплатно. Оффлайн. Этично.</strong></p>
+      <p>Все базовые функции всегда будут бесплатными. Pro — это не доступ к возможностям, а <strong>ваш вклад в развитие проекта</strong>.</p>
+
+      <div class="highlight-box">
+        <h3>Вы уже используете Pro-функции</h3>
+        <p>Научные добавки, адаптивные программы, прогноз силы — всё это работает без интернета, без учётной записи, без слежки.</p>
+        <p><small>Спасибо, что выбираете осознанность.</small></p>
       </div>
 
-      <!-- Планы -->
-      <div class="pricing-cards">
-        <div class="card free">
-          <h3>Бесплатно</h3>
-          <div class="price">₽0</div>
-          <ul>
-            <li>✅ Базовый профиль</li>
-            <li>✅ Генератор тренировок</li>
-            <li>✅ Расчёт питания</li>
-            <li>✅ Прогресс-трекер</li>
-            <li>❌ Нет AI-советов</li>
-            <li>❌ Нет видео техники</li>
-            <li>❌ Нет AR-подсказок</li>
-          </ul>
-          <button class="btn-secondary" disabled>Ваш текущий план</button>
+      <section class="card">
+        <h2>🚀 Что будет развиваться благодаря поддержке</h2>
+        <div class="future-features-grid">
+          <div class="feature-card">
+            <div class="icon">📊</div>
+            <h3>Глубокий анализ прогресса</h3>
+            <p>AI проанализирует 3 месяца данных: сила, вес, восстановление — и даст персонализированный вывод: «Вы набираете мышцы быстрее среднего».</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">📤</div>
+            <h3>Экспорт в PDF</h3>
+            <p>Красивый отчёт о вашем пути — для врача, тренера или просто на память. С графиками, рекомендациями, статистикой.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🧠</div>
+            <h3>Обучение ИИ под вас</h3>
+            <p>Чем дольше вы используете Morphe — тем точнее он предсказывает вашу готовность к нагрузке, риск перетренированности и идеальную прогрессию.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">📱</div>
+            <h3>Офлайн-синхронизация</h3>
+            <p>Если вы захотите — ваши данные можно будет безопасно синхронизировать между устройствами через зашифрованный канал (например, WebDAV).</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🎯</div>
+            <h3>Цели с обратным отсчётом</h3>
+            <p>«До цели — 14 дней. При текущем темпе вы достигнете её 15 мая». Прогноз с учётом реального прогресса.</p>
+          </div>
+          <div class="feature-card">
+            <div class="icon">🛡️</div>
+            <h3>Резервное копирование</h3>
+            <p>Автоматическое сохранение резервных копий в Google Drive, Dropbox или экспортирование одним кликом.</p>
+          </div>
         </div>
+      </section>
 
-        <div class="card pro">
-          <h3>Morphe Pro</h3>
-          <div class="price">₽299/мес<br><small>или ₽2990/год (−30%)</small></div>
-          <ul>
-            <li>✅ Всё из бесплатной версии</li>
-            <li>✅ AI-советник: "Что делать, если болит плечо?"</li>
-            <li>✅ Видео техники с AR-наложением</li>
-            <li>✅ Прогрессия нагрузки с прогнозом</li>
-            <li>✅ Экспорт в PDF и Google Sheets</li>
-            <li>✅ Приоритетная поддержка</li>
-            <li>✅ Темная тема + кастомизация</li>
-          </ul>
-          <button onclick="startTrial()" class="btn-primary">🚀 Начать 7 дней бесплатно</button>
-          <button onclick="buyYearly()" class="btn-accent">🎁 Купить год — сэкономить 30%</button>
+      <section class="card">
+        <h2>Почему нет подписки?</h2>
+        <p>Потому что <strong>здоровье не должно зависеть от денег</strong>.</p>
+        <p>Morphe остаётся:</p>
+        <ul>
+          <li>✅ <strong>Бесплатным</strong> — все ключевые функции доступны каждому</li>
+          <li>✅ <strong>Оффлайн</strong> — работает без интернета</li>
+          <li>✅ <strong>Приватным</strong> — никаких данных не отправляется</li>
+          <li>✅ <strong>Открытым</strong> — исходный код доступен всем</li>
+          <li>✅ <strong>Этичным</strong> — без рекламы, манипуляций и страха</li>
+        </ul>
+        <p>Pro — это не ограничение, а возможность <strong>ускорить развитие того, во что вы верите</strong>.</p>
+      </section>
+
+      <section class="card">
+        <h2>Как вы можете поддержать?</h2>
+        <p>Любым способом — каждый вклад важен:</p>
+        <div class="support-actions">
+          <button class="support-btn" onclick="window.open('https://github.com/morphe-app', 'blank')">⭐ GitHub</button>
+          <button class="support-btn" onclick="shareApp()">💬 Рассказать</button>
+          <button class="support-btn" onclick="window.location.href='/pages/feedback.html'">💡 Предложить идею</button>
+          <button class="support-btn" onclick="donateOnce()" disabled>💸 Внести один раз</button>
         </div>
-      </div>
+        <p><small>Функция пожертвований появится, когда будет куда направить средства (например, хостинг тестового бэкенда).</small></p>
+      </section>
 
-      <!-- Частые вопросы -->
-      <div class="faq">
-        <h2>❓ Частые вопросы</h2>
-        <details>
-          <summary>Можно ли отменить подписку?</summary>
-          <p>Да. Вы можете отключить автопродление в любой момент. Доступ сохраняется до конца оплаченного периода.</p>
-        </details>
-        <details>
-          <summary>Работает ли это без интернета?</summary>
-          <p>Да. Morphe Pro работает оффлайн, как и бесплатная версия.</p>
-        </details>
-        <details>
-          <summary>Есть ли скидки для студентов?</summary>
-          <p>Да. Напишите нам на support@morphe.app — мы проверим и вышлем скидку 50%.</p>
-        </details>
+      <div class="highlight-box">
+        <h3>Спасибо, что вы — часть движения</h3>
+        <p>Вы помогаете строить будущее, где технологии служат людям, а не эксплуатируют их.</p>
       </div>
     </div>
   </main>
 
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+
+  <!-- Логика страницы -->
   <script type="module">
-    import { PremiumManager } from '../modules/premiumManager.js';
+    import { HeaderController } from '/core/HeaderController.js';
+    import { ThemeManager } from '/core/themeManager.js';
 
-    const premium = new PremiumManager();
-    const statusEl = document.getElementById('statusSection');
+    document.addEventListener('DOMContentLoaded', async () => {
+      await HeaderController.loadHeader();
+      new ThemeManager();
 
-    function updateStatus() {
-      const status = premium.getStatus();
-
-      if (status.isPremium) {
-        const expiry = new Date(status.expiry).toLocaleDateString('ru-RU');
-        statusEl.innerHTML = `
-          <div class="status-card success">
-            <h3>✅ Вы в Morphe Pro</h3>
-            <p>Доступ до: <strong>${expiry}</strong></p>
-            <p>Осталось дней: <strong>${status.daysLeft}</strong></p>
-            <button onclick="location.reload()" class="btn-secondary">Обновить</button>
-          </div>
-        `;
-      } else {
-        statusEl.innerHTML = `
-          <div class="status-card info">
-            <h3>🔒 Бесплатная версия</h3>
-            <p>Получите больше возможностей с Morphe Pro.</p>
-          </div>
-        `;
+      // === Функция: поделиться приложением ===
+      function shareApp() {
+        if (navigator.share) {
+          navigator.share({
+            title: 'Morphe — Твоя форма — твоя история',
+            text: 'Научный, этичный, оффлайн-тренер. Без подписок и лжи.',
+            url: 'https://morphe.app'
+          }).catch(err => console.log('Поделиться отменено:', err));
+        } else {
+          alert('Вы можете скопировать ссылку и поделиться вручную: https://morphe.app');
+        }
       }
-    }
 
-    function startTrial() {
-      if (premium.startTrial()) {
-        updateStatus();
+      // === Заглушка для пожертвований ===
+      function donateOnce() {
+        alert('Спасибо за желание поддержать! Функция скоро появится.');
       }
-    }
 
-    function buyYearly() {
-      alert("🛠 Интеграция с Stripe скоро будет!\nСейчас можно активировать тестовую подписку.");
-      premium.activate('yearly');
-      updateStatus();
-    }
+      // Делаем доступными в глобальной области
+      window.shareApp = shareApp;
+      window.donateOnce = donateOnce;
+    });
 
-    window.startTrial = startTrial;
-    window.buyYearly = buyYearly;
-
-    updateStatus();
+    // Подвал
+    document.addEventListener('DOMContentLoaded', () => {
+      import('/core/HeaderController.js')
+        .then(m => m.HeaderController.loadFooter())
+        .catch(err => console.error('❌ Ошибка загрузки подвала:', err));
+    });
   </script>
 </body>
 </html>
