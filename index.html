@@ -1,160 +1,114 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="Morphe — персональный тренер и нутрициолог в одном приложении. Адаптивные тренировки, умное питание, научные добавки и прогноз прогресса — без подписок и рекламы.">
+  <title>Morphe — Твоя форма — твоя история</title>
 
-  <!-- Open Graph / Social -->
+  <!-- SEO & Open Graph -->
+  <meta name="description" content="Адаптивные тренировки, умное питание, научные добавки. Работает оффлайн.">
   <meta property="og:title" content="Morphe — Твоя форма — твоя история">
   <meta property="og:description" content="Стань лучшей версией себя с персональным AI-тренером.">
-  <meta property="og:image" content="https://example.com/assets/og-image.jpg">
+  <!--<meta property="og:image" content="/assets/screenshots/preview.jpg">-->
   <meta property="og:type" content="website">
-
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Morphe — Твоя форма — твоя история">
   <meta name="twitter:description" content="Стань лучшей версией себя с персональным AI-тренером.">
-  <meta name="twitter:image" content="https://example.com/assets/og-image.jpg">
-
-  <!-- iOS PWA -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-  <title>Morphe — Твоя форма — твоя история</title>
+  <!--<meta name="twitter:image" content="/assets/screenshots/preview.jpg">-->
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/icon-16.png">
-  <link rel="apple-touch-icon" href="assets/icons/icon-180.png">
-  <link rel="icon" type="image/png" href="assets/icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/icon-16.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
 
-  <!-- Preconnect для шрифтов -->
+  <!-- Theme color for PWA -->
+  <meta name="theme-color" content="#8b5cf6">
+
+  <!-- Шрифты -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <!-- Предзагрузка шрифтов -->
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap"></noscript>
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+  </noscript>
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="manifest" href="manifest.json" />
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+  <link rel="stylesheet" href="/styles-home.css">
 
-  <!-- Schema.org для SEO -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Morphe — Твоя форма — твоя история",
-    "applicationCategory": "FitnessApplication",
-    "operatingSystem": "All",
-    "offers": {
-      "@type": "Offer",
-      "price": "0"
-    },
-    "creator": {
-      "@type": "Person",
-      "name": "Алексей Калугин"
-    }
-  }
-  </script>
-
+  <!-- Кнопка переключения темы (фиксированная) -->
   <style>
-    /* Skip link только при фокусе */
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 10px;
-      background: #000;
-      color: #fff;
-      padding: 8px;
-      text-decoration: none;
+    .theme-toggle-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      width: 40px;
+      height: 40px;
+      border: none;
+      background: var(--bg-surface-alt);
+      color: var(--text-primary);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px var(--shadow);
       z-index: 1000;
-      transition: top 0.3s;
-    }
-    .skip-link:focus {
-      top: 10px;
-    }
-
-    /* Плавный скролл */
-    html {
-      scroll-behavior: smooth;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
     }
 
-    /* Поддержка reduced motion */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
+    .theme-toggle-btn:hover {
+      transform: scale(1.1);
+      background: var(--accent);
+      color: white;
     }
   </style>
 </head>
 <body>
-  <!-- Skip to content link -->
-  <a href="#main-content" class="skip-link">Перейти к содержанию</a>
 
-  <header class="page-header">
-    <div class="container">
-      <a href="index.html" class="logo" aria-label="Morphe — на главную">
-        Morphe
-        <span class="visually-hidden"></span>
-      </a>
+  <!-- Кнопка переключения темы -->
+  <button id="themeToggle" aria-label="Переключить тему" class="theme-toggle-btn">
+    <span class="theme-icon">🌙</span>
+  </button>
 
-      <!-- Гамбургер -->
-      <button id="menuToggle" class="menu-toggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="mainNav">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <nav id="mainNav" class="page-nav" aria-label="Главное меню">
-        <a href="../pages/profile.html" class="nav-link">👤 Профиль</a>
-        <a href="../pages/workouts.html" class="nav-link">💪 Тренировки</a>
-        <a href="../pages/nutrition.html" class="nav-link">🍽 Питание</a>
-        <a href="../pages/progress.html" class="nav-link">📈 Прогресс</a>
-        <a href="../pages/supplements.html" class="nav-link">💊 Витамины</a>
-        <a href="../pages/premium.html" class="nav-link">💎 Pro</a>
-      </nav>
-    </div>
-  </header>
+  <!-- Заглушка для шапки -->
+  <div id="header-placeholder"></div>
 
   <main id="main-content">
-    <!-- Герой-секция -->
+    <!-- Герой -->
     <section class="hero">
       <div class="container">
         <div class="hero-wrapper">
-          <!-- Левый блок: текст -->
           <div class="hero-content">
             <div class="hero-badge">Создано Алексеем Калугиным</div>
-            <div class="hero-headline">
-              <h1>Твоя форма — <span>твоя история</span></h1>
-            </div>
+            <h1>Твоя форма — <span>твоя история</span></h1>
             <p class="hero-subtitle">
               Morphe не превращает тебя в кого-то другого.<br>
               Он помогает тебе стать <strong>лучшей версией себя</strong>.
             </p>
-            <a href="pages/profile.html" data-testid="cta-start-transformation" class="cta-button">Начать мою трансформацию →</a>
-            <a href="#dashboard-section" class="hero-scroll">Пролистайте вниз</a>
-          </div>
+            <a href="/pages/workouts.html" class="cta-button">Начать мою трансформацию →</a>
 
-          <!-- Правый блок: изображение -->
-          <div class="hero-image">
-            <img src="assets/bg/hero-silhouette.svg"
-                 alt="Силуэт человека, совершающего шаг вперёд — символ личной трансформации в Morphe"
-                 loading="lazy"
-                 fetchpriority="high">
+            <!-- Информация о пользователе -->
+            <div class="user-summary" id="current-stats">
+              Загрузка...
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- DASHBOARD — Сводка по прогрессу -->
-    <section id="dashboard-section" class="dashboard-section" aria-labelledby="dashboard-title">
+    <!-- Аналитика без графиков -->
+    <section class="dashboard-section">
       <div class="container">
-        <h2 id="dashboard-title">📊 Твоя сводка</h2>
-        <p id="dashboardStatus" aria-live="polite">Загрузка аналитики...</p>
-        <div id="dashboardContent" role="region" aria-label="Аналитика прогресса"></div>
+        <h2>📊 Ваш прогресс</h2>
+        <p id="dashboardStatus">Анализирую ваши данные...</p>
+        <div id="analyticsSummary" style="display: none;">
+          <h3 id="analyticsTitle">—</h3>
+          <p id="analyticsText">—</p>
+        </div>
       </div>
     </section>
 
@@ -163,7 +117,7 @@
       <div class="container">
         <h2>Почему <span>Morphe?</span></h2>
         <p class="section-intro">
-          Потому что настоящая трансформация требует не просто упражнений — а понимания, адаптации и поддержки.
+          Потому что настоящая трансформация требует понимания, адаптации и поддержки.
         </p>
         <div class="why-grid">
           <div class="why-card">
@@ -212,150 +166,132 @@
       <div class="container">
         <h2>Готов начать?</h2>
         <p>Присоединяйся к тем, кто выбирает рост — без рекламы, подписок и лжи.</p>
-        <a href="pages/profile.html" data-testid="cta-start-now" class="cta-button">Начать сейчас</a>
+        <a href="/pages/profile.html" class="cta-button">Начать сейчас</a>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <p>&copy; 2025 Morphe. Создано с ❤️ для тех, кто хочет быть лучше.</p>
-      <p><strong>Open-source • Оффлайн • Безопасно</strong></p>
-      <div class="footer-links">
-        <a href="pages/supplements.html" class="footer-link">💊 Витамины</a>
-        <a href="pages/progress.html" class="footer-link">📈 Прогресс</a>
-        <a href="pages/premium.html" class="footer-link">💎 Pro</a>
-      </div>
-    </div>
-  </footer>
+  <!-- Заглушка для подвала -->
+  <div id="footer-placeholder"></div>
 
   <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
-          .then(reg => {
-            console.log('✅ SW зарегистрирован:', reg.scope);
-          })
-          .catch(err => {
-            console.log('❌ Ошибка SW:', err);
-          });
+          .then(reg => console.log('✅ SW зарегистрирован:', reg.scope))
+          .catch(err => console.log('❌ Ошибка SW:', err));
       });
     }
-
-    // Индикатор оффлайн-режима
-    window.addEventListener('online', () => {
-      document.body.classList.remove('offline');
-    });
-    window.addEventListener('offline', () => {
-      document.body.classList.add('offline');
-    });
   </script>
 
-  <!-- Модули -->
+  <!-- Модульная загрузка ядра -->
   <script type="module">
+    // === Защита от дублирования themeToggle ===
+    if (document.getElementById('themeToggle')) {
+      const duplicates = document.querySelectorAll('#themeToggle:not(:first-of-type)');
+      duplicates.forEach(el => el.remove());
+    }
+
+    // === Импорты через относительные пути ===
+    import { HeaderController } from './core/HeaderController.js';
+    import { ThemeManager } from './core/themeManager.js';
+    import { HomeDashboard } from './core/HomeDashboard.js';
+    import { AnalyticsEngine } from './core/analytics.js';
+    import { OnboardingManager } from './modules/onboardingManager.js';
+
     document.addEventListener('DOMContentLoaded', async () => {
       try {
-        const { MorpheProfile } = await import('./modules/profile.js');
-        const { AnalyticsEngine } = await import('./core/analytics.js');
+        // === Проверка онбординга ===
+        const onboarding = new OnboardingManager();
+        if (onboarding.shouldShow()) {
+          window.location.href = '/pages/onboarding.html';
+          return;
+        }
 
-        const profile = new MorpheProfile();
-        const dashboardStatus = document.getElementById('dashboardStatus');
-        const dashboardContent = document.getElementById('dashboardContent');
+        // === Тема ===
+        const themeManager = new ThemeManager();
+        const themeToggle = document.getElementById('themeToggle');
+        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
-        // Загрузка истории (пример)
-        const mockHistory = {
-          weights: [
-            { date: '2025-04-01', weight: 77.5 },
-            { date: '2025-04-08', weight: 77.7 },
-            { date: '2025-04-15', weight: 78.0 },
-            { date: '2025-04-20', weight: 78.2 }
-          ],
-          workouts: [
-            { date: '2025-04-10', completed: true, intensity: 8, exercises: [{ name: 'Приседания с гантелью', progression: '+2 кг' }] },
-            { date: '2025-04-12', completed: true, intensity: 7 },
-            { date: '2025-04-14', completed: false }
-          ],
-          dailyNutrition: [
-            { date: '2025-04-18', protein: 120 },
-            { date: '2025-04-19', protein: 130 },
-            { date: '2025-04-20', protein: 110 }
-          ]
-        };
-
-        // Если профиль заполнен — показываем аналитику
-        if (profile.isComplete()) {
-          dashboardStatus.textContent = "Анализирую твой прогресс...";
-
-          try {
-            const analytics = new AnalyticsEngine(profile.data, mockHistory);
-            const summary = analytics.getDashboardSummary();
-
-            dashboardContent.innerHTML = `
-              <div class="stats-grid">
-                <div class="stat-card">
-                  <h3>📈 Вес</h3>
-                  <p>${summary.weight.weeklyChange > 0 ? '🔼' : summary.weight.weeklyChange < 0 ? '🔽' : '➡️'} 
-                     ${Math.abs(summary.weight.weeklyChange).toFixed(2)} кг/нед</p>
-                  ${summary.weight.forecast 
-                    ? `<small>Через 8 нед: ${summary.weight.forecast.weight} кг</small>` 
-                    : ''}
-                </div>
-                <div class="stat-card">
-                  <h3>💪 Сила</h3>
-                  <p>Рост: ${summary.strength.score} кг/нед</p>
-                  <small>Присед: +${summary.strength.squat || 0} кг</small>
-                </div>
-                <div class="stat-card">
-                  <h3>🍽 Питание</h3>
-                  <p>${summary.nutrition}</p>
-                </div>
-                <div class="stat-card">
-                  <h3>🟢 Готовность</h3>
-                  <p>Уровень: ${summary.readiness}/10</p>
-                </div>
-              </div>
-            `;
-            dashboardStatus.style.display = 'none';
-          } catch (e) {
-            dashboardStatus.textContent = "Ошибка анализа данных.";
-            console.error(e);
+        function updateThemeIcon() {
+          const icon = themeToggle.querySelector('.theme-icon');
+          if (icon) {
+            icon.textContent = themeManager.get() === 'dark' ? '☀️' : '🌙';
           }
-        } else {
-          dashboardStatus.textContent = "Чтобы увидеть аналитику, заполните профиль.";
         }
 
-        // === Гамбургер-меню ===
-        const menuToggle = document.getElementById('menuToggle');
-        const mainNav = document.getElementById('mainNav');
-
-        if (menuToggle && mainNav) {
-          menuToggle.addEventListener('click', () => {
-            const isActive = mainNav.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', isActive);
-          });
-
-          document.querySelectorAll('.page-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-              menuToggle.classList.remove('active');
-              mainNav.classList.remove('active');
-              menuToggle.setAttribute('aria-expanded', 'false');
-            });
-          });
-
-          document.addEventListener('click', (e) => {
-            if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
-              menuToggle.classList.remove('active');
-              mainNav.classList.remove('active');
-              menuToggle.setAttribute('aria-expanded', 'false');
-            }
-          });
+        function updateThemeColor() {
+          if (themeColorMeta) {
+            const color = themeManager.get() === 'dark' ? '#1e293b' : '#8b5cf6';
+            themeColorMeta.setAttribute('content', color);
+          }
         }
+
+        themeToggle?.addEventListener('click', () => {
+          themeManager.toggle();
+          updateThemeIcon();
+          updateThemeColor();
+        });
+
+        updateThemeIcon(); // Инициализация иконки
+        updateThemeColor(); // Инициализация цвета темы
+
+        // === Загрузка шапки ===
+        await HeaderController.loadHeader();
+
+        // === Инициализация главной страницы ===
+        const dashboard = new HomeDashboard();
+        await dashboard.init();
+
+        // Обновляем user-summary, если HomeDashboard не сделал этого
+        const currentStatsEl = document.getElementById('current-stats');
+        if (currentStatsEl && currentStatsEl.textContent === 'Загрузка...') {
+          currentStatsEl.textContent = 'Данные загружены. Начните тренироваться!';
+        }
+
+        // === Аналитика без графиков ===
+        const analyticsStatus = document.getElementById('dashboardStatus');
+        const analyticsSummary = document.getElementById('analyticsSummary');
+        const analyticsTitle = document.getElementById('analyticsTitle');
+        const analyticsText = document.getElementById('analyticsText');
+
+        try {
+          const analytics = new AnalyticsEngine();
+          const summary = analytics.getSummary();
+
+          analyticsTitle.textContent = summary.title || 'Нет данных';
+          analyticsText.textContent = summary.summary || 'Начните тренироваться, чтобы увидеть прогресс.';
+
+          analyticsStatus.style.display = 'none';
+          analyticsSummary.style.display = 'block';
+
+        } catch (err) {
+          analyticsStatus.textContent = `❌ Ошибка аналитики: ${err.message}`;
+          analyticsStatus.className = 'error-text';
+          console.error(err);
+        }
+
       } catch (err) {
-        console.error('❌ Ошибка инициализации приложения:', err);
-        document.getElementById('dashboardStatus').textContent = "Ошибка загрузки модулей.";
+        console.error('❌ Ошибка инициализации index.html:', err);
+        const statusEl = document.getElementById('dashboardStatus');
+        if (statusEl) {
+          statusEl.textContent = "Ошибка загрузки данных.";
+          statusEl.className = 'error-text';
+        }
       }
+    });
+
+    // === Загрузка подвала — используем уже импортированный HeaderController ===
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Ждём, пока основной DOMContentLoaded не выполнится (или запускаем параллельно — безопасно)
+      setTimeout(async () => {
+        try {
+          await HeaderController.loadFooter();
+        } catch (err) {
+          console.error('❌ Ошибка загрузки подвала:', err);
+        }
+      }, 0);
     });
   </script>
 </body>
