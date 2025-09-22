@@ -1,134 +1,107 @@
-// core/nutritionEngine.js
+// /core/nutritionEngine.js
+// v2.4.1 — Исправлено: принимает MorpheProfile, а не сырые данные
 
+/**
+ * NutritionEngine — расчёт норм калорий и БЖУ
+ * На основе: Mifflin-St Jeor + коэффициент активности + цель
+ */
 export class NutritionEngine {
   constructor(profile) {
-    this.profile = profile;
-    this.foods = [];
-    this.meals = [];
-    this.dailyLog = []; // { date, time, items, totals }
+    // ✅ Проверяем, что передан MorpheProfile с данными
+    if (!profile || !profile.isComplete || !profile.data) {
+      throw new Error("Профиль не заполнен. Невозможно рассчитать нормы.");
+    }
+    this.profile = profile.data; // ← сохраняем только данные для расчётов
   }
 
-  async loadFoods() {
-    const response = await fetch('../data/foods.json');
-    const data = await response.json();
-    this.foods = data.foods;
-    this.meals = data.meals;
-  }
+  /**
+   * Расчёт базового метаболизма (BMR)
+   * Mifflin-St Jeor Equation
+   */
+  calculateBMR() {
+    const { weight, height, age, gender } = this.profile;
 
-  getFood(id) {
-    return this.foods.find(f => f.id === id);
-  }
-
-  getMeal(id) {
-    return this.meals.find(m => m.id === id);
-  }
-
-  calculateTDEE() {
-    let bmr = 10 * this.profile.weight + 6.25 * this.profile.height - 5 * this.profile.age;
-    bmr += this.profile.gender === 'male' ? 5 : -161;
-
-    const activityLevel = [1.2, 1.375, 1.55, 1.725, 1.9][this.profile.activity || 2];
-    return Math.round(bmr * activityLevel);
-  }
-
-  calculateMacros(tdee) {
-    let targetCalories = tdee;
-    let protein, fat, carbs;
-
-    if (this.profile.goal === 'muscle') {
-      targetCalories += 250;
-      protein = Math.round(2.2 * this.profile.weight);
-      fat = Math.round(1.0 * this.profile.weight);
-    } else if (this.profile.goal === 'fatloss') {
-      targetCalories -= 300;
-      protein = Math.round(2.0 * this.profile.weight);
-      fat = Math.round(0.8 * this.profile.weight);
+    let bmr;
+    if (gender === 'male') {
+      bmr = 10 * weight + 6.25 * height - 5 * age + 5;
     } else {
-      protein = Math.round(1.8 * this.profile.weight);
-      fat = Math.round(0.9 * this.profile.weight);
+      bmr = 10 * weight + 6.25 * height - 5 * age - 161;
     }
 
-    const carbsCal = targetCalories - (protein * 4) - (fat * 9);
-    carbs = Math.max(0, Math.round(carbsCal / 4));
-
-    return { calories: targetCalories, protein, fat, carbs };
+    return Math.round(bmr);
   }
 
-  addMeal(foodItems) {
-    const totals = { calories: 0, protein: 0, fat: 0, carbs: 0 };
+  /**
+   * Общая суточная норма (TDEE)
+   */
+  calculateTDEE() {
+    const bmr = this.calculateBMR();
+    // ✅ Убедимся, что activityLevel существует и число
+    const activityLevel = this.profile.activityLevel || 1.375;
+    const tdee = bmr * activityLevel;
+    return Math.round(tdee);
+  }
 
-    foodItems.forEach(item => {
-      const food = this.getFood(item.foodId);
-      if (!food) return;
+  /**
+   * Целевые калории в зависимости от цели
+   */
+  calculateTargetCalories() {
+    const tdee = this.calculateTDEE();
+    let target;
 
-      const multiplier = item.amount / 100;
-      totals.calories += food.calories * multiplier;
-      totals.protein += food.protein * multiplier;
-      totals.fat += food.fat * multiplier;
-      totals.carbs += food.carbs * multiplier;
-    });
+    switch (this.profile.goal) {
+      case 'lose':
+        target = tdee - 300;
+        break;
+      case 'gain':
+        target = tdee + 300;
+        break;
+      default:
+        target = tdee;
+    }
 
-    const entry = {
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toTimeString().slice(0, 5),
-      items: foodItems,
-      totals
+    return Math.round(target);
+  }
+
+  /**
+   * Распределение БЖУ (в граммах)
+   */
+  calculateMacros() {
+    const calories = this.calculateTargetCalories();
+    const { weight, goal } = this.profile;
+
+    const proteinPerKg = goal === 'gain' ? 2.0 : 1.8;
+    const proteinGrams = Math.round(weight * proteinPerKg);
+    const proteinCalories = proteinGrams * 4;
+
+    const fatPercentage = 0.25;
+    const fatCalories = calories * fatPercentage;
+    const fatGrams = Math.round(fatCalories / 9);
+
+    const carbsCalories = calories - proteinCalories - fatCalories;
+    const carbGrams = Math.round(carbsCalories / 4);
+
+    return {
+      calories,
+      protein: proteinGrams,
+      fats: fatGrams,
+      carbs: carbGrams
+    };
+  }
+
+  /**
+   * Человеко-понятные рекомендации
+   */
+  getAdvice() {
+    const { goal } = this.profile;
+    const macros = this.calculateMacros();
+
+    const adviceMap = {
+      lose: `Вы хотите сбросить вес. Рекомендуется умеренный дефицит. Акцент на белке (${macros.protein} г) для сохранения мышц.`,
+      gain: `Цель — набор массы. Убедитесь, что питание стабильное. Ешьте каждые 3–4 часа, включая ${macros.carbs} г углеводов.`,
+      maintain: `Поддержание формы. Старайтесь держаться около ${macros.calories} ккал в день.`
     };
 
-    this.dailyLog.push(entry);
-    this.saveLog();
-    return entry;
-  }
-
-  getDailyTotal() {
-    const today = new Date().toISOString().split('T')[0];
-    const todayEntries = this.dailyLog.filter(e => e.date === today);
-    
-    return todayEntries.reduce((acc, entry) => {
-      acc.calories += entry.totals.calories;
-      acc.protein += entry.totals.protein;
-      acc.fat += entry.totals.fat;
-      acc.carbs += entry.totals.carbs;
-      return acc;
-    }, { calories: 0, protein: 0, fat: 0, carbs: 0 });
-  }
-
-  getWeeklyProteinHistory() {
-    const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0];
-    const recent = this.dailyLog.filter(e => e.date >= weekAgo);
-
-    return recent.map(entry => ({
-      x: entry.date,
-      y: entry.totals.protein
-    }));
-  }
-
-  generateShoppingList() {
-    const dailyLog = this.dailyLog.slice(-7);
-    if (dailyLog.length === 0) return ["Фрукты", "Овёс", "Яйца"];
-
-    const avgProtein = dailyLog.reduce((a, d) => a + d.totals.protein, 0) / dailyLog.length;
-    const target = Math.round(2.2 * this.profile.weight);
-
-    if (avgProtein < target * 0.8) {
-      return ["Творог", "Яйца", "Рыба", "Протеин"];
-    }
-
-    return ["Фрукты", "Орехи", "Авокадо", "Шпинат"];
-  }
-
-  saveLog() {
-    localStorage.setItem('morphe_nutrition_log', JSON.stringify(this.dailyLog));
-  }
-
-  loadLog() {
-    const saved = localStorage.getItem('morphe_nutrition_log');
-    if (saved) {
-      try {
-        this.dailyLog = JSON.parse(saved);
-      } catch (e) {
-        console.error("Failed to load nutrition log:", e);
-      }
-    }
+    return adviceMap[goal] || "Следите за балансом и регулярностью приёмов пищи.";
   }
 }
