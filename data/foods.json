@@ -1,93 +1,465 @@
-{
-  "foods": [
-    {
-      "id": "oats",
-      "name": "Овсяные хлопья (сухие)",
-      "calories": 389,
-      "protein": 16.9,
-      "fat": 6.9,
-      "carbs": 66.3,
-      "per100g": true,
-      "category": "carbs"
-    },
-    {
-      "id": "chicken_breast",
-      "name": "Куриная грудка (отварная)",
-      "calories": 165,
-      "protein": 31.0,
-      "fat": 3.6,
-      "carbs": 0.0,
-      "per100g": true,
-      "category": "protein"
-    },
-    {
-      "id": "salmon",
-      "name": "Лосось (запечённый)",
-      "calories": 208,
-      "protein": 20.4,
-      "fat": 13.4,
-      "carbs": 0.0,
-      "per100g": true,
-      "category": "protein"
-    },
-    {
-      "id": "greek_yogurt",
-      "name": "Натуральный йогурт 5%",
-      "calories": 97,
-      "protein": 10.0,
-      "fat": 5.0,
-      "carbs": 4.7,
-      "per100g": true,
-      "category": "protein"
-    },
-    {
-      "id": "avocado",
-      "name": "Авокадо",
-      "calories": 160,
-      "protein": 2.0,
-      "fat": 14.7,
-      "carbs": 8.5,
-      "per100g": true,
-      "category": "fats"
-    },
-    {
-      "id": "banana",
-      "name": "Банан",
-      "calories": 89,
-      "protein": 1.1,
-      "fat": 0.3,
-      "carbs": 22.8,
-      "per100g": true,
-      "category": "carbs"
-    },
-    {
-      "id": "almonds",
-      "name": "Миндаль (сырой)",
-      "calories": 579,
-      "protein": 21.2,
-      "fat": 49.9,
-      "carbs": 21.6,
-      "per100g": true,
-      "category": "fats"
-    }
-  ],
-  "meals": [
-    {
-      "id": "oat_banana",
-      "name": "Овсянка с бананом",
-      "items": [
-        { "foodId": "oats", "amount": 50 },
-        { "foodId": "banana", "amount": 100 },
-        { "foodId": "greek_yogurt", "amount": 100 }
-      ]
-    },
-    {
-      "id": "chicken_rice",
-      "name": "Курица с гречкой",
-      "items": [
-        { "foodId": "chicken_breast", "amount": 150 },
-        { "foodId": "rice", "amount": 100 }
-      ]
-    }
-  ]
-}
+[
+  
+  {
+    "id": "chicken-breast",
+    "name": "Куриная грудка (варёная)",
+    "calories": 165,
+    "protein": 31,
+    "fats": 3.6,
+    "carbs": 0,
+    "category": "meat",
+    "portion": 100
+  },
+  {
+    "id": "beef-steak",
+    "name": "Говядина (стейк)",
+    "calories": 250,
+    "protein": 26,
+    "fats": 15,
+    "carbs": 0,
+    "category": "meat",
+    "portion": 100
+  },
+  {
+    "id": "pork-chops",
+    "name": "Свиные отбивные",
+    "calories": 242,
+    "protein": 25,
+    "fats": 14,
+    "carbs": 0,
+    "category": "meat",
+    "portion": 100
+  },
+  {
+    "id": "turkey-breast",
+    "name": "Индейка (грудка)",
+    "calories": 189,
+    "protein": 29,
+    "fats": 8,
+    "carbs": 0,
+    "category": "meat",
+    "portion": 100
+  },
+
+  
+  {
+    "id": "salmon",
+    "name": "Лосось (запечённый)",
+    "calories": 208,
+    "protein": 20,
+    "fats": 13,
+    "carbs": 0,
+    "category": "fish",
+    "portion": 100
+  },
+  {
+    "id": "tuna",
+    "name": "Тунец (консервированный в собственном соку)",
+    "calories": 116,
+    "protein": 26,
+    "fats": 0.8,
+    "carbs": 0,
+    "category": "fish",
+    "portion": 100
+  },
+  {
+    "id": "shrimp",
+    "name": "Креветки (отварные)",
+    "calories": 99,
+    "protein": 24,
+    "fats": 0.3,
+    "carbs": 0,
+    "category": "seafood",
+    "portion": 100
+  },
+  {
+    "id": "cod",
+    "name": "Треска (запечённая)",
+    "calories": 82,
+    "protein": 18,
+    "fats": 0.7,
+    "carbs": 0,
+    "category": "fish",
+    "portion": 100
+  },
+
+  
+  {
+    "id": "broccoli",
+    "name": "Брокколи (варёная)",
+    "calories": 35,
+    "protein": 2.4,
+    "fats": 0.4,
+    "carbs": 7,
+    "category": "vegetables",
+    "portion": 100
+  },
+  {
+    "id": "spinach",
+    "name": "Шпинат (свежий)",
+    "calories": 23,
+    "protein": 2.9,
+    "fats": 0.4,
+    "carbs": 3.6,
+    "category": "vegetables",
+    "portion": 100
+  },
+  {
+    "id": "carrots",
+    "name": "Морковь (сырая)",
+    "calories": 41,
+    "protein": 0.9,
+    "fats": 0.2,
+    "carbs": 9.6,
+    "category": "vegetables",
+    "portion": 100
+  },
+  {
+    "id": "bell-pepper",
+    "name": "Перец болгарский (сырой)",
+    "calories": 31,
+    "protein": 1,
+    "fats": 0.3,
+    "carbs": 6,
+    "category": "vegetables",
+    "portion": 100
+  },
+
+  
+  {
+    "id": "banana",
+    "name": "Банан",
+    "calories": 89,
+    "protein": 1.1,
+    "fats": 0.3,
+    "carbs": 23,
+    "category": "fruit",
+    "portion": 100
+  },
+  {
+    "id": "apple",
+    "name": "Яблоко",
+    "calories": 52,
+    "protein": 0.3,
+    "fats": 0.2,
+    "carbs": 14,
+    "category": "fruit",
+    "portion": 100
+  },
+  {
+    "id": "orange",
+    "name": "Апельсин",
+    "calories": 47,
+    "protein": 0.9,
+    "fats": 0.1,
+    "carbs": 12,
+    "category": "fruit",
+    "portion": 100
+  },
+  {
+    "id": "berries",
+    "name": "Ягоды смешанные (клубника, черника, малина)",
+    "calories": 57,
+    "protein": 0.7,
+    "fats": 0.3,
+    "carbs": 14,
+    "category": "fruit",
+    "portion": 100
+  },
+
+  
+  {
+    "id": "rice-white",
+    "name": "Рис белый (варёный)",
+    "calories": 130,
+    "protein": 2.7,
+    "fats": 0.3,
+    "carbs": 28,
+    "category": "grains",
+    "portion": 100
+  },
+  {
+    "id": "quinoa",
+    "name": "Киноа (варёная)",
+    "calories": 120,
+    "protein": 4.4,
+    "fats": 1.9,
+    "carbs": 21,
+    "category": "grains",
+    "portion": 100
+  },
+  {
+    "id": "oatmeal",
+    "name": "Овсянка на воде",
+    "calories": 68,
+    "protein": 2.5,
+    "fats": 1.4,
+    "carbs": 12,
+    "category": "grains",
+    "portion": 100
+  },
+  {
+    "id": "whole-wheat-bread",
+    "name": "Хлеб цельнозерновой (1 ломтик)",
+    "calories": 69,
+    "protein": 3.6,
+    "fats": 1.1,
+    "carbs": 12,
+    "category": "grains",
+    "portion": 30
+  },
+
+  
+  {
+    "id": "greek-yogurt",
+    "name": "Греческий йогурт 0%",
+    "calories": 59,
+    "protein": 10,
+    "fats": 0.4,
+    "carbs": 3.6,
+    "category": "dairy",
+    "portion": 100
+  },
+  {
+    "id": "cottage-cheese",
+    "name": "Творог 2%",
+    "calories": 103,
+    "protein": 18,
+    "fats": 2,
+    "carbs": 3,
+    "category": "dairy",
+    "portion": 100
+  },
+  {
+    "id": "milk",
+    "name": "Молоко 2.5%",
+    "calories": 54,
+    "protein": 3.2,
+    "fats": 2.5,
+    "carbs": 4.7,
+    "category": "dairy",
+    "portion": 100
+  },
+  {
+    "id": "cheese",
+    "name": "Сыр твёрдый (чеддер)",
+    "calories": 402,
+    "protein": 25,
+    "fats": 33,
+    "carbs": 1.3,
+    "category": "dairy",
+    "portion": 30
+  },
+
+  
+  {
+    "id": "almonds",
+    "name": "Миндаль",
+    "calories": 579,
+    "protein": 21,
+    "fats": 50,
+    "carbs": 22,
+    "category": "nuts",
+    "portion": 30
+  },
+  {
+    "id": "walnuts",
+    "name": "Грецкие орехи",
+    "calories": 654,
+    "protein": 15,
+    "fats": 65,
+    "carbs": 14,
+    "category": "nuts",
+    "portion": 30
+  },
+  {
+    "id": "chia-seeds",
+    "name": "Семена чиа",
+    "calories": 486,
+    "protein": 17,
+    "fats": 31,
+    "carbs": 42,
+    "category": "seeds",
+    "portion": 30
+  },
+  {
+    "id": "peanut-butter",
+    "name": "Арахисовая паста (натуральная)",
+    "calories": 588,
+    "protein": 25,
+    "fats": 50,
+    "carbs": 20,
+    "category": "nuts",
+    "portion": 30
+  },
+
+  
+  {
+    "id": "olive-oil",
+    "name": "Оливковое масло",
+    "calories": 884,
+    "protein": 0,
+    "fats": 100,
+    "carbs": 0,
+    "category": "oils",
+    "portion": 15
+  },
+  {
+    "id": "soy-sauce",
+    "name": "Соевый соус",
+    "calories": 53,
+    "protein": 8.1,
+    "fats": 0.1,
+    "carbs": 4.9,
+    "category": "sauces",
+    "portion": 30
+  },
+  {
+    "id": "tomato-sauce",
+    "name": "Томатный соус (без сахара)",
+    "calories": 24,
+    "protein": 1.2,
+    "fats": 0.2,
+    "carbs": 5.2,
+    "category": "sauces",
+    "portion": 100
+  },
+  {
+    "id": "mustard",
+    "name": "Горчица",
+    "calories": 97,
+    "protein": 3.7,
+    "fats": 3.3,
+    "carbs": 5.8,
+    "category": "sauces",
+    "portion": 20
+  },
+
+  
+  {
+    "id": "breakfast-scramble",
+    "name": "Яичница с овощами и авокадо",
+    "calories": 320,
+    "protein": 18,
+    "fats": 22,
+    "carbs": 12,
+    "category": "meal-breakfast",
+    "portion": 300
+  },
+  {
+    "id": "oatmeal-berry",
+    "name": "Овсянка с ягодами и орехами",
+    "calories": 350,
+    "protein": 12,
+    "fats": 10,
+    "carbs": 55,
+    "category": "meal-breakfast",
+    "portion": 350
+  },
+  {
+    "id": "greek-yogurt-bowl",
+    "name": "Йогуртовая миска с фруктами и семенами чиа",
+    "calories": 280,
+    "protein": 20,
+    "fats": 8,
+    "carbs": 35,
+    "category": "meal-breakfast",
+    "portion": 300
+  },
+
+  
+  {
+    "id": "chicken-rice-bowl",
+    "name": "Боул с курицей, рисом и овощами",
+    "calories": 450,
+    "protein": 35,
+    "fats": 12,
+    "carbs": 50,
+    "category": "meal-lunch",
+    "portion": 400
+  },
+  {
+    "id": "salmon-quinoa-salad",
+    "name": "Салат с лососем, киноа и зеленью",
+    "calories": 520,
+    "protein": 30,
+    "fats": 28,
+    "carbs": 40,
+    "category": "meal-lunch",
+    "portion": 350
+  },
+  {
+    "id": "beef-stir-fry",
+    "name": "Говядина с овощами по-азиатски",
+    "calories": 380,
+    "protein": 28,
+    "fats": 18,
+    "carbs": 25,
+    "category": "meal-lunch",
+    "portion": 350
+  },
+
+ 
+  {
+    "id": "baked-cod-veggies",
+    "name": "Запечённая треска с овощами",
+    "calories": 280,
+    "protein": 35,
+    "fats": 8,
+    "carbs": 15,
+    "category": "meal-dinner",
+    "portion": 350
+  },
+  {
+    "id": "turkey-stuffed-peppers",
+    "name": "Перцы, фаршированные индейкой и рисом",
+    "calories": 320,
+    "protein": 25,
+    "fats": 10,
+    "carbs": 30,
+    "category": "meal-dinner",
+    "portion": 300
+  },
+  {
+    "id": "shrimp-pasta",
+    "name": "Паста с креветками и томатным соусом",
+    "calories": 480,
+    "protein": 30,
+    "fats": 12,
+    "carbs": 60,
+    "category": "meal-dinner",
+    "portion": 400
+  },
+
+  
+  {
+    "id": "protein-shake",
+    "name": "Белковый коктейль с бананом",
+    "calories": 250,
+    "protein": 25,
+    "fats": 3,
+    "carbs": 30,
+    "category": "snack",
+    "portion": 300
+  },
+  {
+    "id": "fruit-nut-mix",
+    "name": "Смесь орехов и сухофруктов",
+    "calories": 400,
+    "protein": 10,
+    "fats": 25,
+    "carbs": 40,
+    "category": "snack",
+    "portion": 50
+  },
+  {
+    "id": "veggie-hummus",
+    "name": "Овощи с хумусом",
+    "calories": 180,
+    "protein": 6,
+    "fats": 10,
+    "carbs": 15,
+    "category": "snack",
+    "portion": 200
+  }
+]
