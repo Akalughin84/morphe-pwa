@@ -1,64 +1,234 @@
-// core/exerciseRecommender.js
+// /core/exerciseRecommender.js
+// v2.0.0 — Полная интеграция с системой генерации тренировок
 
+import { UserService } from '/services/userService.js';
+import { WorkoutTracker } from '/modules/workoutTracker.js';
+import { ProgressTracker } from '/modules/progressTracker.js';
+import { DataService } from '/services/dataService.js';
+
+/**
+ * ExerciseRecommender — даёт персональные советы и альтернативы
+ * На основе: цель, уровень, история, риски, оборудование
+ */
 export class ExerciseRecommender {
-  constructor(exercises) {
-    this.exercises = exercises;
+  constructor() {
+    this.profile = null;
+    this.workouts = new WorkoutTracker();
+    this.progress = new ProgressTracker();
+    this.exercises = [];
   }
 
-  // Основной метод: найти замены
-  getAlternatives(exerciseId, userInjuries = []) {
-    const original = this.exercises.find(e => e.id === exerciseId);
-    if (!original) return [];
+  /**
+   * Загружает все данные
+   */
+  async loadAll() {
+    const user = UserService.getProfile();
+    if (!user) throw new Error("Профиль не заполнен");
 
-    // Фильтр 1: не использовать упражнения с риском для травм
-    const safeExercises = this.exercises.filter(ex => {
-      return !userInjuries.some(injury => ex.injuryRisk.includes(injury));
-    });
+    this.profile = user.data;
 
-    // Фильтр 2: совпадение по activityType (push, pull, legs)
-    const matchingType = safeExercises.filter(ex => ex.activityType === original.activityType);
-
-    // Фильтр 3: совпадение по category или mechanics
-    const highPriority = matchingType.filter(ex => 
-      ex.category === original.category || 
-      ex.mechanics === original.mechanics
-    );
-
-    // Фильтр 4: по primary muscle group
-    const byMuscle = matchingType.filter(ex => 
-      this.hasMatchingPrimaryMuscle(ex, original)
-    );
-
-    // Объединяем и убираем дубли
-    const all = [...new Set([...highPriority, ...byMuscle])];
-
-    // Исключаем оригинал
-    return all.filter(ex => ex.id !== exerciseId);
-  }
-
-  hasMatchingPrimaryMuscle(ex1, ex2) {
-    const primary1 = new Set(ex1.muscleGroup.primary);
-    const primary2 = new Set(ex2.muscleGroup.primary);
-    
-    for (let muscle of primary1) {
-      if (primary2.has(muscle)) return true;
+    try {
+      this.exercises = await DataService.getExercises();
+    } catch (err) {
+      console.error('❌ Не удалось загрузить упражнения:', err);
+      throw err;
     }
-    return false;
   }
 
-  // Получить упражнения по группе мышц
-  getByMuscleGroup(muscle, userInjuries = []) {
-    return this.exercises.filter(ex => {
-      if (userInjuries.some(injury => ex.injuryRisk.includes(injury))) return false;
-      return ex.muscleGroup.primary.includes(muscle) || ex.muscleGroup.secondary.includes(muscle);
-    });
+  /**
+   * Получает рекомендации
+   */
+  async getRecommendations() {
+    await this.loadAll();
+
+    const recommendations = [];
+
+    // 1. Рекомендация на основе цели
+    recommendations.push(...this._getGoalBased());
+
+    // 2. Компенсация дисбалансов
+    recommendations.push(...this._getCorrective());
+
+    // 3. Альтернативы при высоком риске
+    recommendations.push(...this._getSafeAlternatives());
+
+    // 4. Прогрессия для опытных
+    recommendations.push(...this._getProgression());
+
+    return recommendations;
   }
 
-  // Получить упражнения по оборудованию
-  getByEquipment(equipment, userInjuries = []) {
-    return this.exercises.filter(ex => {
-      if (userInjuries.some(injury => ex.injuryRisk.includes(injury))) return false;
-      return ex.equipment.includes(equipment);
-    });
+  /**
+   * ✅ Получить альтернативные упражнения для ротации
+   * @param {Object} baseExercise - базовое упражнение
+   * @param {number} count - количество альтернатив
+   * @param {string} variationType - 'equipment', 'intensity', 'tempo'
+   * @returns {Array} - массив альтернативных упражнений
+   */
+  getAlternatives(baseExercise, count = 3, variationType = 'equipment') {
+    if (!baseExercise) return [];
+    
+    const userEquipment = this.profile?.equipment || ['bodyweight'];
+    const userLevel = this.profile?.level || 'beginner';
+
+    let alternatives = this.exercises.filter(ex => 
+      ex.id !== baseExercise.id &&
+      ex.type === baseExercise.type && // тот же тип движения
+      this._isLevelAppropriate(ex.level, userLevel) &&
+      userEquipment.includes(ex.equipment) // доступное оборудование
+    );
+
+    // Сортируем по приоритету — сначала другие типы оборудования
+    if (variationType === 'equipment') {
+      alternatives.sort((a, b) => {
+        if (a.equipment !== baseExercise.equipment && b.equipment === baseExercise.equipment) return -1;
+        if (a.equipment === baseExercise.equipment && b.equipment !== baseExercise.equipment) return 1;
+        return 0;
+      });
+    }
+
+    // Рандомизируем оставшиеся
+    alternatives = alternatives.sort(() => Math.random() - 0.5);
+
+    return alternatives.slice(0, count);
+  }
+
+  /**
+   * Рекомендации на основе цели
+   */
+  _getGoalBased() {
+    const goal = this.profile.goal;
+    const level = this._getExperienceLevel();
+
+    if (goal === 'gain' || goal === 'maintain') {
+      return [{
+        exercise: this._findExercise('squat-barbell'),
+        reason: 'Базовое упражнение для роста мышц ног и силы',
+        priority: 'high'
+      }, {
+        exercise: this._findExercise('bench-press'),
+        reason: 'Основное упражнение для развития груди и трицепса',
+        priority: 'high'
+      }];
+    }
+
+    if (goal === 'lose') {
+      return [{
+        exercise: this._findExercise('pull-ups'),
+        reason: 'Высокое потребление калорий, развивает мышцы без лишнего веса',
+        priority: 'medium'
+      }, {
+        exercise: this._findExercise('burpees'),
+        reason: 'Комплексное упражнение для сжигания калорий',
+        priority: 'medium'
+      }];
+    }
+
+    return [];
+  }
+
+  /**
+   * Коррекционные упражнения (если есть дисбалансы)
+   */
+  _getCorrective() {
+    const recent = this.progress.getSince(14); // за 2 недели
+    if (recent.length < 2) return [];
+
+    const first = recent[0];
+    const last = recent[recent.length - 1];
+    const waistChange = last.waist - first.waist;
+
+    if (waistChange > 0 && this.profile.goal === 'lose') {
+      return [{
+        exercise: this._findExercise('plank'),
+        reason: 'Укрепляет кор, помогает снизить жир на талии',
+        priority: 'high'
+      }, {
+        exercise: this._findExercise('russian-twist'),
+        reason: 'Развивает косые мышцы живота для лучшего контроля талии',
+        priority: 'medium'
+      }];
+    }
+
+    return [];
+  }
+
+  /**
+   * Безопасные альтернативы при высоком риске
+   */
+  _getSafeAlternatives() {
+    const hasBackPain = localStorage.getItem('morphe-has-back-pain') === 'true';
+
+    if (hasBackPain) {
+      return [{
+        exercise: this._findExercise('leg-press'),
+        reason: 'Замена приседаниям с меньшей нагрузкой на поясницу',
+        priority: 'critical'
+      }, {
+        exercise: this._findExercise('chest-press-machine'),
+        reason: 'Меньше стресса на позвоночник по сравнению с жимом лёжа',
+        priority: 'high'
+      }];
+    }
+
+    return [];
+  }
+
+  /**
+   * Прогрессия для опытных
+   */
+  _getProgression() {
+    const level = this._getExperienceLevel();
+    const weeklyCount = this.workouts.getWeeklyCount();
+
+    if (level === 'advanced' && weeklyCount >= 4) {
+      return [{
+        exercise: this._findExercise('deadlift'),
+        reason: 'Сложное упражнение для комплексного развития силы',
+        priority: 'high'
+      }, {
+        exercise: this._findExercise('overhead-press'),
+        reason: 'Развивает силу плечевого пояса и стабильность корпуса',
+        priority: 'medium'
+      }];
+    }
+
+    return [];
+  }
+
+  /**
+   * Поиск упражнения по ID
+   */
+  _findExercise(id) {
+    return this.exercises.find(e => e.id === id) || null;
+  }
+
+  /**
+   * Оценка уровня опыта
+   */
+  _getExperienceLevel() {
+    const workoutCount = this.workouts.getAll().length;
+    if (workoutCount < 10) return 'beginner';
+    if (workoutCount < 50) return 'intermediate';
+    return 'advanced';
+  }
+
+  /**
+   * Проверка соответствия уровня
+   */
+  _isLevelAppropriate(exLevel, userLevel) {
+    const levelMap = {
+      beginner: ['beginner'],
+      intermediate: ['beginner', 'intermediate'],
+      advanced: ['beginner', 'intermediate', 'advanced']
+    };
+    return levelMap[userLevel]?.includes(exLevel);
+  }
+
+  /**
+   * Фильтрация по оборудованию
+   */
+  _filterByEquipment(exercises, equipment) {
+    return exercises.filter(e => e.equipment === equipment);
   }
 }
