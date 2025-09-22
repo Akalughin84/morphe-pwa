@@ -1,20 +1,22 @@
 {
   "headers": [
     {
-      "source": "/manifest.json",
+      "source": "/(.*)",
       "headers": [
-        { "key": "Content-Type", "value": "application/manifest+json" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
       ]
     },
     {
-      "source": "/(.*)",
+      "source": "/manifest.json",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" }
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        }
       ]
     }
-  ],
-  "redirects": [
-    { "source": "/offline", "destination": "/pages/offline.html" }
   ]
 }
