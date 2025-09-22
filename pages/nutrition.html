@@ -1,647 +1,579 @@
+<!-- /pages/nutrition.html -->
+<!-- v3.0.0 — Полноценное добавление продуктов и приёмов пищи -->
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Morphe — Питание</title>
-  <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="../styles-form.css" />
-  <link rel="icon" href="../favicon.ico" />
-  <meta name="description" content="Отслеживайте питание с Morphe — AI-советник, графики, шаблоны блюд и удобный лог." />
+  <title>Питание — Morphe</title>
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Morphe — Питание" />
-  <meta property="og:description" content="Отслеживайте питание с Morphe — AI-советник, графики, шаблоны блюд и удобный лог." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://вашсайт.ру/pages/nutrition.html" />
-  <meta property="og:image" content="https://вашсайт.ру/logo-og.png" />
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
 
-  <!-- Chart.js (исправлен URL) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+      border: 2px solid transparent;
+    }
+    .skip-link:focus {
+      top: 10px;
+      outline: 2px solid #fff;
+    }
+
+    /* Прогресс-бары */
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #eee;
+      border-radius: 4px;
+      margin: 8px 0 12px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.5s ease;
+    }
+    .bar-fill.near-limit { background: #f39c12; }
+    .bar-fill.over-limit { background: #e74c3c; }
+
+    /* Сетка статистики */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    /* Блоки приёмов пищи */
+    .meal-plan {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .meal h3 {
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    /* Общие стили */
+    .error-text { color: #e74c3c; font-weight: 500; }
+    .success-text { color: #2ecc71; font-weight: 500; }
+    .info-text { color: #3498db; font-weight: 500; }
+
+    /* Добавление продуктов */
+    .food-search-container {
+      margin: 24px 0;
+      padding: 24px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .food-search {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .food-suggestions {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: none;
+      background: white;
+    }
+
+    .food-item {
+      padding: 12px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+    }
+    .food-item:hover {
+      background: var(--bg-surface-alt);
+    }
+
+    .food-details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+
+    .meal-log {
+      margin-top: 24px;
+    }
+
+    .meal-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      background: var(--bg-surface-alt);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .remove-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    /* Прогноз веса */
+    .forecast-card {
+      border-left: 4px solid #3498db;
+      background: var(--bg-surface-alt);
+    }
+    .trend-up { color: #2ecc71; }
+    .trend-down { color: #e74c3c; }
+  </style>
 </head>
 <body>
-  <header class="page-header">
+
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
+
+  <main id="main-content" tabindex="-1">
     <div class="container">
-      <a href="../index.html" class="logo-link">
-        <div class="logo">Morphe</div>
-      </a>
+      <h1>🍽 Питание</h1>
+      <p id="nutritionStatus">Загрузка данных...</p>
 
-      <button id="menuToggle" class="menu-toggle" aria-label="Открыть меню" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+      <div id="nutritionContent" style="display: none;">
 
-      <nav id="mainNav" class="page-nav">
-        <a href="../pages/profile.html" class="nav-link">👤 Профиль</a>
-        <a href="../pages/workouts.html" class="nav-link">💪 Тренировки</a>
-        <a href="../pages/progress.html" class="nav-link">📈 Прогресс</a>
-        <a href="../pages/supplements.html" class="nav-link">💊 Витамины</a>
-        <a href="../pages/premium.html" class="nav-link">💎 Pro</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="nutrition-page">
-    <div class="container">
-      <h1>🍽 Твоё питание</h1>
-
-      <!-- Цели по БЖУ -->
-      <div class="macros-box">
-        <h3>🎯 Цель: <span id="targetCalories">...</span> ккал</h3>
-        <div class="calories-progress" style="margin: 1rem 0; height: 12px; background: #e0e0e0; border-radius: 6px; overflow: hidden;">
-          <div id="caloriesProgressFill" style="height: 100%; width: 0%; background: #FF6F00; transition: width 0.5s ease;"></div>
-        </div>
-        <p><strong>Белки:</strong> <span id="targetProtein">...</span> г</p>
-        <p><strong>Жиры:</strong> <span id="targetFat">...</span> г</p>
-        <p><strong>Углеводы:</strong> <span id="targetCarbs">...</span> г</p>
-      </div>
-
-      <!-- AI-Советник -->
-      <div class="ai-advice-panel">
-        <h3>🤖 Morphe AI: Анализ питания</h3>
-        <div id="aiAdvice" aria-live="polite">Анализирую твой рацион...</div>
-      </div>
-
-      <!-- Поиск и ввод -->
-      <div class="form-container">
-        <h3>➕ Добавить приём пищи</h3>
-        
-        <div class="form-group">
-          <label for="foodSearch">Поиск продукта</label>
-          <input type="text" id="foodSearch" placeholder="Загрузка продуктов..." autocomplete="off">
-          <select id="foodSelect" size="6" aria-label="Список продуктов"></select>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="amountInput">Количество (г)</label>
-            <input type="number" id="amountInput" placeholder="100" min="1" step="1">
+        <!-- Нормы -->
+        <section class="card">
+          <h2>📊 Ваши нормы на сегодня</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <h3>🔥 Калории</h3>
+              <div class="progress-bar">
+                <div id="caloriesBar" class="bar-fill" style="width: 0%"></div>
+              </div>
+              <p><strong><span id="caloriesEaten">0</span></strong> / <span id="caloriesTarget">—</span> ккал</p>
+            </div>
+            <div class="stat-card">
+              <h3>🍗 Белки</h3>
+              <div class="progress-bar">
+                <div id="proteinBar" class="bar-fill" style="width: 0%"></div>
+              </div>
+              <p><strong><span id="proteinEaten">0</span></strong> / <span id="proteinTarget">—</span> г</p>
+            </div>
+            <div class="stat-card">
+              <h3>🥑 Жиры</h3>
+              <div class="progress-bar">
+                <div id="fatsBar" class="bar-fill" style="width: 0%"></div>
+              </div>
+              <p><strong><span id="fatsEaten">0</span></strong> / <span id="fatsTarget">—</span> г</p>
+            </div>
+            <div class="stat-card">
+              <h3>🍚 Углеводы</h3>
+              <div class="progress-bar">
+                <div id="carbsBar" class="bar-fill" style="width: 0%"></div>
+              </div>
+              <p><strong><span id="carbsEaten">0</span></strong> / <span id="carbsTarget">—</span> г</p>
+            </div>
           </div>
-          <div class="form-actions">
-            <button id="btnAddFood" class="btn-secondary">Добавить</button>
-            <button id="btnLoadTemplate" class="btn-accent">📋 Шаблон</button>
+        </section>
+
+        <!-- Совет -->
+        <section class="card">
+          <h2>💡 Совет дня</h2>
+          <p id="dailyAdvice">—</p>
+        </section>
+
+        <!-- ✅ Добавление продуктов -->
+        <section class="food-search-container">
+          <h2>➕ Добавить продукт</h2>
+          <select id="mealSelect" class="food-search">
+            <option value="breakfast">🌅 Завтрак</option>
+            <option value="lunch">🌞 Обед</option>
+            <option value="dinner">🌙 Ужин</option>
+            <option value="snack">🍪 Перекус</option>
+          </select>
+          <input type="text" id="foodSearch" class="food-search" placeholder="Начните вводить название продукта...">
+          <div id="foodSuggestions" class="food-suggestions"></div>
+          <div id="selectedFoodDetails" style="display: none;">
+            <h4>Сколько грамм?</h4>
+            <input type="number" id="foodGrams" placeholder="100" min="1" step="1" class="food-search">
+            <div class="food-details">
+              <div>
+                <p><strong>Калории:</strong> <span id="foodCalories">—</span> ккал/100г</p>
+                <p><strong>Белки:</strong> <span id="foodProtein">—</span> г</p>
+              </div>
+              <div>
+                <p><strong>Жиры:</strong> <span id="foodFats">—</span> г</p>
+                <p><strong>Углеводы:</strong> <span id="foodCarbs">—</span> г</p>
+              </div>
+            </div>
+            <button id="addFoodBtn" class="btn-primary btn-small" style="margin-top: 16px;">Добавить в дневник</button>
           </div>
-        </div>
-      </div>
+        </section>
 
-      <!-- Корзина -->
-      <div id="currentMeal" style="margin: 2rem 0; padding: 1rem; background: #f0f0f0; border-radius: 12px;">
-        <p>Пока ничего не добавлено</p>
-      </div>
+        <!-- ✅ Сегодняшний дневник питания -->
+        <section class="card">
+          <h2>📋 Сегодняшний дневник</h2>
+          <div id="todayMealsLog">
+            <div id="breakfastLog" class="meal-log">
+              <h3>🌅 Завтрак</h3>
+              <div id="breakfastEntries"></div>
+            </div>
+            <div id="lunchLog" class="meal-log">
+              <h3>🌞 Обед</h3>
+              <div id="lunchEntries"></div>
+            </div>
+            <div id="dinnerLog" class="meal-log">
+              <h3>🌙 Ужин</h3>
+              <div id="dinnerEntries"></div>
+            </div>
+            <div id="snackLog" class="meal-log">
+              <h3>🍪 Перекус</h3>
+              <div id="snackEntries"></div>
+            </div>
+          </div>
+        </section>
 
-      <!-- Быстрые действия -->
-      <div class="quick-actions">
-        <button id="btnCopyYesterday" class="btn-small">🔁 Вчера</button>
-        <button id="btnShoppingList" class="btn-small">🛒 Покупки</button>
-        <button id="btnProteinChart" class="btn-small">📊 График</button>
-        <button id="btnClearMeal" class="btn-small" style="background: #f44336; color: white;">🗑️ Очистить</button>
-      </div>
+        <!-- Генератор меню -->
+        <section class="card">
+          <h2>🍽 Сгенерированное меню на сегодня</h2>
+          <p id="menuStatus">Генерация меню...</p>
+          <div id="dailyMenu" style="display: none;">
+            <div class="meal-plan">
+              <div class="meal">
+                <h3>🌅 Завтрак</h3>
+                <ul id="breakfastItems"></ul>
+              </div>
+              <div class="meal">
+                <h3>🌞 Обед</h3>
+                <ul id="lunchItems"></ul>
+              </div>
+              <div class="meal">
+                <h3>🌙 Ужин</h3>
+                <ul id="dinnerItems"></ul>
+              </div>
+            </div>
+            <div class="total-calories" style="margin-top: 16px; padding-top: 16px; border-top: 1px dashed #ccc;">
+              <strong>Итого: <span id="totalCalories">—</span> ккал</strong>
+              <br>
+              <small>Цель: <span id="targetCalories">—</span> ккал</small>
+            </div>
+          </div>
+        </section>
 
-      <!-- Сегодняшние приёмы -->
-      <div id="mealLog">
-        <p>Сегодня ещё нет записей</p>
-      </div>
+        <!-- ✅ Прогноз веса -->
+        <section class="card forecast-card" id="weightForecastSection" style="display: none; margin-top: 24px;">
+          <h2>📈 Прогноз изменения веса</h2>
+          <p id="weightForecastText">—</p>
+          <p><small>Рассчитано на основе вашего текущего баланса калорий.</small></p>
+        </section>
 
-      <!-- График белка -->
-      <div class="chart-box" id="proteinChartBox" style="display:none; margin-top: 40px;">
-        <h2>📊 Потребление белка за неделю</h2>
-        <canvas id="proteinChart" height="100" aria-label="График потребления белка за неделю"></canvas>
-        <div id="proteinChartTable" style="margin-top: 1rem; font-size: 0.9rem; display: none;" aria-hidden="true">
-          <!-- Таблица будет заполнена JS для доступности -->
-        </div>
       </div>
     </div>
   </main>
 
-  <script type="module">
-    import { MorpheProfile } from '../modules/profile.js';
-    import { NutritionEngine } from '../core/nutritionEngine.js';
-    import { NutritionAdvisor } from '../core/nutritionAdvisor.js';
-    import { MenuGenerator } from '../core/menuGenerator.js';
-
-    let proteinChart = null;
-    let currentMealItems = [];
-    let debounceTimeout;
-
-    try {
-      const profile = new MorpheProfile();
-      const engine = new NutritionEngine(profile.data);
-      const aiAdviceEl = document.getElementById('aiAdvice');
-
-      if (!profile.isComplete()) {
-        document.body.innerHTML = `
-          <div class="container" style="padding: 4rem 2rem; text-align: center;">
-            <h2>🔒 Данные недоступны</h2>
-            <p>Чтобы начать отслеживать питание, сначала <a href="../pages/profile.html">заполните профиль</a>.</p>
-          </div>`;
-        throw new Error("Профиль не заполнен");
-      }
-
-      // Загрузка данных
-      document.getElementById('foodSearch').placeholder = "Загрузка продуктов...";
-      await engine.loadFoods();
-      engine.loadLog();
-      document.getElementById('foodSearch').placeholder = "Овсянка, курица, творог...";
-
-      initUI();
-      renderTargets();
-      renderCurrentMeal();
-      renderMealLog();
-      showAIAdvice();
-
-      // === Инициализация UI и обработчиков ===
-      function initUI() {
-        const select = document.getElementById('foodSelect');
-        const search = document.getElementById('foodSearch');
-
-        updateFoodList();
-
-        search.addEventListener('input', () => {
-          clearTimeout(debounceTimeout);
-          debounceTimeout = setTimeout(() => {
-            filterFoodList(search.value);
-          }, 300);
-        });
-
-        // Enter для добавления продукта
-        search.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            addFoodItem();
-          }
-        });
-
-        document.getElementById('amountInput').addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault();
-            addFoodItem();
-          }
-        });
-
-        // Кнопки через addEventListener
-        document.getElementById('btnAddFood').addEventListener('click', addFoodItem);
-        document.getElementById('btnLoadTemplate').addEventListener('click', loadMealTemplate);
-        document.getElementById('btnCopyYesterday').addEventListener('click', copyYesterday);
-        document.getElementById('btnShoppingList').addEventListener('click', showShoppingList);
-        document.getElementById('btnProteinChart').addEventListener('click', showProteinChart);
-        document.getElementById('btnClearMeal').addEventListener('click', clearCurrentMeal);
-
-        // === ГЕНЕРАЦИЯ МЕНЮ ===
-        const menuGenerator = new MenuGenerator(
-          profile.data, 
-          engine.foods, 
-          { nutritionLog: engine.dailyLog }
-        );
-
-        generateDailyMenu();
-
-        function generateDailyMenu() {
-          try {
-            const menu = menuGenerator.generate();
-
-            const container = document.createElement('div');
-            container.className = 'ai-advice-panel';
-            container.innerHTML = `
-              <h3>🍽 Твоё меню на сегодня</h3>
-              <p><strong>Завтрак:</strong> ${formatMeal(menu.breakfast)}</p>
-              <p><strong>Обед:</strong> ${formatMeal(menu.lunch)}</p>
-              <p><strong>Ужин:</strong> ${formatMeal(menu.dinner)}</p>
-              <p><small>💡 Это предложение основано на твоих целях и оставшихся калориях.</small></p>
-            `;
-
-            aiAdviceEl.parentNode.insertBefore(container, aiAdviceEl);
-          } catch (e) {
-            console.error("Failed to generate menu:", e);
-          }
-        }
-
-        function formatMeal(meal) {
-          return meal.items.map(item => {
-            const food = engine.getFood(item.foodId);
-            return food ? `${Math.round(item.amount)} г ${food.name}` : 'Неизвестный продукт';
-          }).join(', ');
-        }
-      }
-
-      function filterFoodList(query) {
-        const select = document.getElementById('foodSelect');
-        select.innerHTML = '';
-        const lowerQuery = query.toLowerCase().trim();
-
-        if (!lowerQuery) {
-          updateFoodList();
-          return;
-        }
-
-        const filtered = engine.foods.filter(food =>
-          food.name.toLowerCase().includes(lowerQuery) ||
-          food.id.toLowerCase().includes(lowerQuery)
-        );
-
-        if (filtered.length === 0) {
-          const option = document.createElement('option');
-          option.textContent = '❌ Ничего не найдено';
-          option.disabled = true;
-          select.appendChild(option);
-        } else {
-          filtered.forEach(food => {
-            const option = document.createElement('option');
-            option.value = food.id;
-            option.textContent = `${food.name} (${food.calories} ккал/100г)`;
-            select.appendChild(option);
-          });
-        }
-      }
-
-      function updateFoodList() {
-        const select = document.getElementById('foodSelect');
-        select.innerHTML = '';
-        
-        engine.foods.forEach(food => {
-          const option = document.createElement('option');
-          option.value = food.id;
-          option.textContent = `${food.name} (${food.calories} ккал/100г)`;
-          select.appendChild(option);
-        });
-      }
-
-      function addFoodItem() {
-        const foodId = document.getElementById('foodSelect').value;
-        const amount = parseFloat(document.getElementById('amountInput').value);
-
-        if (!foodId || isNaN(amount) || amount <= 0) {
-          alert("Выберите продукт и укажите корректное количество (больше 0)");
-          return;
-        }
-
-        const food = engine.getFood(foodId);
-        if (!food) {
-          alert("Продукт не найден в базе");
-          return;
-        }
-
-        currentMealItems.push({ foodId, amount });
-        document.getElementById('amountInput').value = '';
-        renderCurrentMeal();
-      }
-
-      function loadMealTemplate() {
-        const mealId = prompt(
-          "Введите ID шаблона:\n" +
-          "oat_banana — Овсянка с бананом\n" +
-          "chicken_rice — Курица с гречкой"
-        );
-
-        if (!mealId) return;
-
-        const meal = engine.getMeal(mealId);
-        if (!meal) {
-          alert("Шаблон не найден");
-          return;
-        }
-
-        meal.items.forEach(item => {
-          currentMealItems.push({ foodId: item.foodId, amount: item.amount });
-        });
-
-        renderCurrentMeal();
-        alert(`✅ Добавлено блюдо: ${meal.name}`);
-      }
-
-      function copyYesterday() {
-        const today = new Date().toISOString().split('T')[0];
-        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-        
-        const meals = engine.dailyLog.filter(m => m.date === yesterday);
-        if (meals.length === 0) {
-          alert("Вчера не было записей.");
-          return;
-        }
-
-        if (confirm("Скопировать вчерашний рацион?")) {
-          meals.forEach(meal => {
-            engine.addMeal(meal.items);
-          });
-          renderMealLog();
-          alert("✅ Вчерашний рацион скопирован");
-        }
-      }
-
-      function showShoppingList() {
-        const list = engine.generateShoppingList();
-        if (list.length === 0) {
-          alert("🛒 Список покупок пуст");
-        } else {
-          alert("🛒 Вам стоит купить:\n\n" + list.join("\n"));
-        }
-      }
-
-      function clearCurrentMeal() {
-        if (currentMealItems.length === 0) return;
-        if (confirm("Очистить текущий приём пищи?")) {
-          currentMealItems = [];
-          renderCurrentMeal();
-        }
-      }
-
-      function saveMeal() {
-        if (currentMealItems.length === 0) return;
-
-        const entry = engine.addMeal(currentMealItems);
-        currentMealItems = [];
-        renderCurrentMeal();
-        renderMealLog();
-        updateProgress();
-        playBeep();
-        alert(`✅ Приём пищи сохранён: ${Math.round(entry.totals.calories)} ккал`);
-      }
-
-      function renderTargets() {
-        const tdee = engine.calculateTDEE();
-        const macros = engine.calculateMacros(tdee);
-
-        document.getElementById('targetCalories').textContent = Math.round(macros.calories);
-        document.getElementById('targetProtein').textContent = Math.round(macros.protein);
-        document.getElementById('targetFat').textContent = Math.round(macros.fat);
-        document.getElementById('targetCarbs').textContent = Math.round(macros.carbs);
-      }
-
-      function renderCurrentMeal() {
-        const container = document.getElementById('currentMeal');
-        if (currentMealItems.length === 0) {
-          container.innerHTML = "<p>Пока ничего не добавлено</p>";
-          return;
-        }
-
-        const totals = { c: 0, p: 0, f: 0, cr: 0 };
-        const list = currentMealItems.map(item => {
-          const food = engine.getFood(item.foodId);
-          if (!food) return ''; // защита
-          const mult = item.amount / 100;
-          totals.c += food.calories * mult;
-          totals.p += food.protein * mult;
-          totals.f += food.fat * mult;
-          totals.cr += food.carbs * mult;
-          return `<li>${food.name}: ${item.amount} г</li>`;
-        }).filter(Boolean).join('');
-
-        container.innerHTML = `
-          <ul>${list}</ul>
-          <p><strong>Итого:</strong> ${totals.c.toFixed(0)} ккал, 
-          Б: ${totals.p.toFixed(1)} г, 
-          Ж: ${totals.f.toFixed(1)} г, 
-          У: ${totals.cr.toFixed(1)} г</p>
-          <div style="display: flex; gap: 10px; margin-top: 10px;">
-            <button id="btnSaveMeal" class="btn-primary">✅ Сохранить приём пищи</button>
-            <button id="btnClearMealInline" class="btn-small" style="background: #f44336; color: white;">🗑️ Очистить</button>
-          </div>
-        `;
-
-        // Добавляем обработчики для динамически созданных кнопок
-        document.getElementById('btnSaveMeal')?.addEventListener('click', saveMeal);
-        document.getElementById('btnClearMealInline')?.addEventListener('click', clearCurrentMeal);
-      }
-
-      function renderMealLog() {
-        const container = document.getElementById('mealLog');
-        const today = new Date().toLocaleDateString('sv'); // YYYY-MM-DD
-        const todayMeals = engine.dailyLog.filter(m => m.date === today);
-
-        if (todayMeals.length === 0) {
-          container.innerHTML = '<p>Сегодня ещё нет записей</p>';
-          updateProgressUI(0, 0);
-          return;
-        }
-
-        const dailyTotal = engine.getDailyTotal();
-        const targetCalories = parseInt(document.getElementById('targetCalories').textContent);
-
-        container.innerHTML = `
-          <h3>📋 Сегодняшние приёмы пищи</h3>
-          ${todayMeals.map(meal => `
-            <div class="meal-card">
-              <small>${formatTime(meal.time)}</small>
-              <ul>${meal.items.map(i => {
-                const f = engine.getFood(i.foodId);
-                if (!f) return `<li>Неизвестный продукт (${i.foodId}) — ${i.amount} г</li>`;
-                return `<li>${f.name} — ${i.amount} г</li>`;
-              }).join('')}</ul>
-              <p><em>🔥 ${meal.totals.calories.toFixed(0)} ккал</em></p>
-            </div>
-          `).join('')}
-          
-          <div class="macros-box" style="margin-top: 2rem;">
-            <h3>📊 Итого за день: ${dailyTotal.calories.toFixed(0)} из ${targetCalories} ккал</h3>
-            <div class="calories-progress" style="margin: 1rem 0; height: 12px; background: #e0e0e0; border-radius: 6px; overflow: hidden;">
-              <div id="caloriesProgressFillLog" style="height: 100%; background: #4CAF50; transition: width 0.5s ease;"></div>
-            </div>
-            <p>Белки: ${dailyTotal.protein.toFixed(1)} г</p>
-            <p>Жиры: ${dailyTotal.fat.toFixed(1)} г</p>
-            <p>Углеводы: ${dailyTotal.carbs.toFixed(1)} г</p>
-          </div>
-        `;
-
-        updateProgressUI(dailyTotal.calories, targetCalories);
-      }
-
-      function updateProgressUI(current, target) {
-        const pct = target > 0 ? Math.min(100, (current / target) * 100) : 0;
-        const fill1 = document.getElementById('caloriesProgressFill');
-        const fill2 = document.getElementById('caloriesProgressFillLog');
-        if (fill1) fill1.style.width = `${pct}%`;
-        if (fill2) fill2.style.width = `${pct}%`;
-      }
-
-      function formatTime(isoTime) {
-        // Обрабатываем строку времени в формате HH:mm:ss
-        const [hours, minutes] = isoTime.split(':');
-        const date = new Date();
-        date.setHours(hours, minutes, 0);
-        return date.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-      }
-
-      // === ГРАФИК БЕЛКА ===
-      function showProteinChart() {
-        const box = document.getElementById('proteinChartBox');
-        if (box.style.display === 'block') {
-          box.style.display = 'none';
-          return;
-        }
-
-        const history = engine.getWeeklyProteinHistory();
-        if (!history || history.length === 0) {
-          alert("Нет данных за неделю.");
-          return;
-        }
-
-        // Преобразуем в формат {x: дата, y: значение}
-        const chartData = history.map((val, i) => {
-          const date = new Date();
-          date.setDate(date.getDate() - (6 - i));
-          return {
-            x: date.toISOString().split('T')[0],
-            y: typeof val === 'number' ? val : val.y
-          };
-        });
-
-        const ctx = document.getElementById('proteinChart').getContext('2d');
-        if (proteinChart) proteinChart.destroy();
-
-        proteinChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            datasets: [{
-              label: 'Белки (г)',
-               chartData,
-              borderColor: '#FF6F00',
-              backgroundColor: 'rgba(255,111,0,0.1)',
-              fill: true,
-              tension: 0.4,
-              pointRadius: 5
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { 
-              legend: { display: false },
-              tooltip: {
-                callbacks: {
-                  title: (context) => {
-                    const date = new Date(context[0].parsed.x);
-                    return date.toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
-                  },
-                  label: (context) => `Белки: ${context.parsed.y} г`
-                }
-              }
-            },
-            scales: {
-              x: { 
-                type: 'time',
-                time: { 
-                  unit: 'day', 
-                  tooltipFormat: 'dd MMM yyyy',
-                  displayFormats: { day: 'dd MMM' }
-                },
-                title: { display: true, text: 'Дата' },
-                adapters: {
-                  date: {
-                    locale: 'ru-RU'
-                  }
-                }
-              },
-              y: { 
-                title: { display: true, text: 'Граммы' }, 
-                beginAtZero: true,
-                suggestedMin: 0
-              }
-            }
-          }
-        });
-
-        // Доступность: генерируем таблицу
-        const tableContainer = document.getElementById('proteinChartTable');
-        tableContainer.style.display = 'block';
-        tableContainer.innerHTML = `
-          <h4>Данные графика (для экранных читалок):</h4>
-          <table aria-hidden="false">
-            <thead>
-              <tr><th>Дата</th><th>Белки (г)</th></tr>
-            </thead>
-            <tbody>
-              ${chartData.map(item => {
-                const date = new Date(item.x);
-                return `<tr><td>${date.toLocaleDateString('ru-RU')}</td><td>${item.y} г</td></tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-        `;
-
-        box.style.display = 'block';
-      }
-
-      // === AI-советы ===
-      function showAIAdvice() {
-        const advisor = new NutritionAdvisor(profile.data, {
-          nutritionLog: engine.dailyLog,
-          workouts: [],
-          weightTrend: 'stable',
-          hydration: { avg: 2.5 },
-          eatsFishRegularly: false
-        });
-
-        const tips = advisor.getAdvice();
-        if (!tips || tips.length === 0) {
-          aiAdviceEl.innerHTML = "Нет рекомендаций.";
-          return;
-        }
-
-        const randomTip = tips[Math.floor(Math.random() * tips.length)];
-
-        aiAdviceEl.innerHTML = `
-          <div class="advice-item advice-${randomTip.type || 'info'}">
-            ${randomTip.text}
-          </div>
-        `;
-      }
-
-      // === Гамбургер-меню ===
-      const menuToggle = document.getElementById('menuToggle');
-      const mainNav = document.getElementById('mainNav');
-
-      if (menuToggle && mainNav) {
-        menuToggle.addEventListener('click', () => {
-          const isActive = mainNav.classList.toggle('active');
-          menuToggle.classList.toggle('active', isActive);
-          menuToggle.setAttribute('aria-expanded', isActive);
-        });
-
-        document.querySelectorAll('.page-nav a').forEach(link => {
-          link.addEventListener('click', () => {
-            menuToggle.classList.remove('active');
-            mainNav.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-          });
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
-            menuToggle.classList.remove('active');
-            mainNav.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-          }
-        });
-      }
-
-      // === Утилиты ===
-      function playBeep() {
-        try {
-          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = audioCtx.createOscillator();
-          const gainNode = audioCtx.createGain();
-          oscillator.connect(gainNode);
-          gainNode.connect(audioCtx.destination);
-          oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
-          gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-          oscillator.start(audioCtx.currentTime);
-          oscillator.stop(audioCtx.currentTime + 0.5);
-        } catch (e) {
-          console.warn("Не удалось воспроизвести звук:", e);
-        }
-      }
-
-    } catch (error) {
-      console.error("Критическая ошибка приложения:", error);
-      document.body.innerHTML = `
-        <div class="container" style="padding: 4rem 2rem; text-align: center; color: #d32f2f;">
-          <h2>⚠️ Ошибка приложения</h2>
-          <p>Не удалось загрузить модуль питания. Попробуйте обновить страницу или зайти позже.</p>
-          <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem;">Обновить</button>
-        </div>
-      `;
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
     }
+  </script>
+
+  <!-- Основная логика -->
+  <script type="module">
+    import { HeaderController } from '/core/HeaderController.js';
+    import { ThemeManager } from '/core/themeManager.js';
+    import { UserService } from '/services/userService.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await HeaderController.loadHeader();
+        new ThemeManager();
+
+        const statusEl = document.getElementById('nutritionStatus');
+        const contentEl = document.getElementById('nutritionContent');
+        const forecastSection = document.getElementById('weightForecastSection');
+
+        // === Проверка профиля ===
+        if (!UserService.isProfileComplete()) {
+          statusEl.textContent = "❌ Чтобы увидеть нормы, заполните профиль.";
+          statusEl.className = "error-text";
+          return;
+        }
+
+        const plan = await UserService.getNutritionPlan();
+        if (!plan) {
+          statusEl.textContent = "❌ Не удалось рассчитать план питания.";
+          statusEl.className = "error-text";
+          return;
+        }
+
+        // === Инициализация трекера ===
+        const { NutritionTracker } = await import('../modules/nutritionTracker.js');
+        const tracker = new NutritionTracker();
+
+        // === Загрузка продуктов ===
+        let foods = [];
+        try {
+          const response = await fetch('/data/foods.json');
+          foods = await response.json();
+        } catch (err) {
+          console.error('❌ Не удалось загрузить базу продуктов:', err);
+          foods = [
+            { id: 'custom', name: 'Кастомный продукт', calories: 0, protein: 0, fats: 0, carbs: 0 }
+          ];
+        }
+
+        // === Обновление прогресса ===
+        const updateProgress = () => {
+          const daily = tracker.getTotalMacrosToday();
+          document.getElementById('caloriesEaten').textContent = Math.round(daily.calories);
+          document.getElementById('proteinEaten').textContent = Math.round(daily.protein);
+          document.getElementById('fatsEaten').textContent = Math.round(daily.fats);
+          document.getElementById('carbsEaten').textContent = Math.round(daily.carbs);
+
+          const updateBar = (value, max, barId) => {
+            if (!max || max <= 0) return;
+            const percent = Math.min(100, (value / max) * 100);
+            const bar = document.getElementById(barId);
+            bar.style.width = `${percent}%`;
+            bar.className = 'bar-fill';
+            if (percent >= 100) bar.classList.add('over-limit');
+            else if (percent >= 80) bar.classList.add('near-limit');
+          };
+
+          updateBar(daily.calories, plan.target, 'caloriesBar');
+          updateBar(daily.protein, plan.macros.protein, 'proteinBar');
+          updateBar(daily.fats, plan.macros.fats, 'fatsBar');
+          updateBar(daily.carbs, plan.macros.carbs, 'carbsBar');
+
+          // Динамический совет
+          let advice = plan.advice;
+          if (daily.protein < plan.macros.protein * 0.7) {
+            advice = "🍗 Вам не хватает белка! Добавьте яйца, творог или куриную грудку.";
+          } else if (daily.calories > plan.target * 1.1) {
+            advice = "⚠️ Вы превысили калораж. Снизьте порции углеводов.";
+          } else if (daily.calories < plan.target * 0.8) {
+            advice = "⚡️ У вас есть запас калорий — не голодайте!";
+          }
+          document.getElementById('dailyAdvice').textContent = advice;
+        };
+
+        // === Рендер лога за сегодня ===
+        const renderTodayLog = () => {
+          const meals = ['breakfast', 'lunch', 'dinner', 'snack'];
+          meals.forEach(meal => {
+            const entries = tracker.getTodayByMeal(meal);
+            const container = document.getElementById(`${meal}Entries`);
+            
+            if (entries.length === 0) {
+              container.innerHTML = '<p class="small-text">Нет записей</p>';
+              return;
+            }
+
+            container.innerHTML = entries.map(entry => `
+              <div class="meal-entry">
+                <div>
+                  <strong>${entry.name}</strong> (${entry.grams}г) • ${Math.round(entry.calories * entry.grams / 100)} ккал
+                </div>
+                <button class="remove-btn" data-timestamp="${entry.timestamp}">Удалить</button>
+              </div>
+            `).join('');
+
+            // Обработчики удаления
+            container.querySelectorAll('.remove-btn').forEach(btn => {
+              btn.addEventListener('click', () => {
+                tracker.remove(parseInt(btn.dataset.timestamp));
+                renderTodayLog();
+                updateProgress();
+              });
+            });
+          });
+        };
+
+        // === Поиск продуктов ===
+        const foodSearch = document.getElementById('foodSearch');
+        const foodSuggestions = document.getElementById('foodSuggestions');
+        const selectedFoodDetails = document.getElementById('selectedFoodDetails');
+        let selectedFood = null;
+
+        foodSearch.addEventListener('input', () => {
+          const term = foodSearch.value.toLowerCase();
+          if (term.length < 2) {
+            foodSuggestions.style.display = 'none';
+            return;
+          }
+
+          const matches = foods.filter(f => f.name.toLowerCase().includes(term));
+          foodSuggestions.innerHTML = matches.map(f => `
+            <div class="food-item" data-id="${f.id}" data-name="${f.name}" data-cal="${f.calories}" data-pro="${f.protein}" data-fat="${f.fats}" data-carb="${f.carbs}">
+              ${f.name} — ${f.calories} ккал
+            </div>
+          `).join('');
+
+          foodSuggestions.style.display = matches.length > 0 ? 'block' : 'none';
+
+          // Обработчики выбора
+          foodSuggestions.querySelectorAll('.food-item').forEach(item => {
+            item.addEventListener('click', () => {
+              selectedFood = {
+                id: item.dataset.id,
+                name: item.dataset.name,
+                calories: parseFloat(item.dataset.cal),
+                protein: parseFloat(item.dataset.pro),
+                fats: parseFloat(item.dataset.fat),
+                carbs: parseFloat(item.dataset.carb)
+              };
+
+              document.getElementById('foodCalories').textContent = selectedFood.calories;
+              document.getElementById('foodProtein').textContent = selectedFood.protein;
+              document.getElementById('foodFats').textContent = selectedFood.fats;
+              document.getElementById('foodCarbs').textContent = selectedFood.carbs;
+
+              foodSearch.value = selectedFood.name;
+              foodSuggestions.style.display = 'none';
+              selectedFoodDetails.style.display = 'block';
+              document.getElementById('foodGrams').focus();
+            });
+          });
+        });
+
+        // === Добавление продукта ===
+        document.getElementById('addFoodBtn').addEventListener('click', () => {
+          if (!selectedFood) {
+            alert('Сначала выберите продукт из списка');
+            return;
+          }
+
+          const grams = parseFloat(document.getElementById('foodGrams').value);
+          if (!grams || grams <= 0) {
+            alert('Укажите количество грамм');
+            return;
+          }
+
+          const mealType = document.getElementById('mealSelect').value;
+
+          tracker.add(selectedFood, grams, mealType);
+
+          // Сброс формы
+          foodSearch.value = '';
+          selectedFoodDetails.style.display = 'none';
+          selectedFood = null;
+          document.getElementById('foodGrams').value = '';
+
+          // Обновление
+          renderTodayLog();
+          updateProgress();
+
+          // Уведомление
+          const status = document.createElement('div');
+          status.className = 'success-text';
+          status.textContent = '✅ Продукт добавлен!';
+          status.style.margin = '16px 0';
+          document.querySelector('.food-search-container').appendChild(status);
+          setTimeout(() => status.remove(), 3000);
+        });
+
+        // === Генератор меню ===
+        const menuStatus = document.getElementById('menuStatus');
+        const dailyMenu = document.getElementById('dailyMenu');
+
+        try {
+          const { MenuGenerator } = await import('../core/menuGenerator.js');
+          const generator = new MenuGenerator();
+          const menu = await generator.generateMenu();
+
+          if (menu && menu.breakfast && menu.lunch && menu.dinner) {
+            const renderMealItems = (items, containerId) => {
+              const container = document.getElementById(containerId);
+              if (!container) return;
+              container.innerHTML = items.map(i =>
+                `<li>${i.name}: ${i.grams} г (${Math.round(i.calories * i.grams / 100)} ккал)</li>`
+              ).join('');
+            };
+
+            renderMealItems(menu.breakfast.items, 'breakfastItems');
+            renderMealItems(menu.lunch.items, 'lunchItems');
+            renderMealItems(menu.dinner.items, 'dinnerItems');
+
+            document.getElementById('totalCalories').textContent = menu.totalCalories || 0;
+            document.getElementById('targetCalories').textContent = menu.targetCalories || plan.target;
+
+            menuStatus.style.display = 'none';
+            dailyMenu.style.display = 'block';
+          }
+        } catch (err) {
+          console.error('❌ Ошибка генерации меню:', err);
+          menuStatus.textContent = `❌ Не удалось сгенерировать меню: ${err.message}`;
+          menuStatus.className = 'error-text';
+        }
+
+        // === Прогноз веса ===
+        try {
+          const daily = tracker.getTotalMacrosToday();
+          const dailyBalance = daily.calories - plan.target;
+          const totalDeficit = dailyBalance * 14;
+          const weightChangeKg = totalDeficit / 7700;
+
+          const forecastText = document.getElementById('weightForecastText');
+
+          if (Math.abs(weightChangeKg) < 0.1) {
+            forecastText.innerHTML = `→ При текущем питании ваш вес останется стабильным.`;
+          } else if (weightChangeKg < 0) {
+            forecastText.innerHTML = `📉 <strong class="trend-down">Прогноз: потеря ${Math.abs(weightChangeKg).toFixed(1)} кг за 2 недели</strong><br>Вы в дефиците — продолжайте в том же духе!`;
+          } else {
+            forecastText.innerHTML = `📈 <strong class="trend-up">Прогноз: набор ${weightChangeKg.toFixed(1)} кг за 2 недели</strong><br>Вы в профиците — это нормально, если цель — набор массы.`;
+          }
+
+          forecastSection.style.display = 'block';
+        } catch (err) {
+          console.warn('⚠️ Не удалось рассчитать прогноз веса:', err);
+        }
+
+        // === Инициализация ===
+        updateProgress();
+        renderTodayLog();
+        statusEl.style.display = 'none';
+        contentEl.style.display = 'block';
+
+      } catch (err) {
+        console.error('❌ Ошибка на странице питания:', err);
+        const statusEl = document.getElementById('nutritionStatus');
+        if (statusEl) {
+          statusEl.textContent = `❌ Произошла ошибка: ${err.message}`;
+          statusEl.className = 'error-text';
+        }
+      }
+    });
   </script>
 </body>
 </html>
