@@ -1,288 +1,266 @@
-{
-  "exercises": [
-    {
-      "id": "goblet_squat",
-      "name": "Приседания с гантелью",
-      "muscleGroup": {
-        "primary": ["quads", "glutes"],
-        "secondary": ["core", "hamstrings"]
-      },
-      "activityType": "legs",
-      "category": "free_weights",
-      "equipment": ["dumbbell"],
-      "difficulty": "beginner",
-      "injuryRisk": ["knee"],
-      "mechanics": "compound",
-      "forceVector": "axial",
-      "trainingGoal": ["hypertrophy", "strength", "endurance"],
-      "description": "Держите гантель у груди, спина прямая, опускайтесь до параллели. Колени — по направлению стоп.",
-      "executionTips": [
-        "Сохраняйте естественный прогиб в пояснице",
-        "Не отрывайте пятки от пола",
-        "Голова смотрит вперёд"
-      ],
-      "commonMistakes": [
-        "Слишком быстрое опускание",
-        "Колени заваливаются внутрь",
-        "Спина округляется"
-      ],
-      "videoUrl": "",
-      "image": "/assets/exercises/goblet-squat.jpg",
-      "alternatives": ["bodyweight_squat", "barbell_squat", "leg_press"],
-      "variations": [
-        {
-          "id": "goblet_squat_pause",
-          "name": "С паузой в нижней точке",
-          "purpose": "Улучшение контроля и силы выхода"
-        }
-      ]
-    },
-    {
-      "id": "barbell_squat",
-      "name": "Приседания со штангой",
-      "muscleGroup": {
-        "primary": ["quads", "glutes"],
-        "secondary": ["hamstrings", "lower_back", "core"]
-      },
-      "activityType": "legs",
-      "category": "free_weights",
-      "equipment": ["barbell", "squat_rack"],
-      "difficulty": "advanced",
-      "injuryRisk": ["knee", "lower_back"],
-      "mechanics": "compound",
-      "forceVector": "axial",
-      "trainingGoal": ["strength", "hypertrophy"],
-      "description": "Штанга на трапециях или над плечами. Опускайтесь глубоко, сохраняя нейтральное положение позвоночника.",
-      "executionTips": [
-        "Надевайте обувь с жёсткой подошвой",
-        "Дышите: вдох перед опусканием, выдох при подъёме",
-        "Сводите лопатки"
-      ],
-      "commonMistakes": [
-        "Разгибание коленей раньше спины",
-        "Подъём пяток",
-        "Округление спины"
-      ],
-      "videoUrl": "",
-      "image": "/assets/exercises/barbell-squat.jpg",
-      "alternatives": ["goblet_squat", "front_squat", "leg_press"],
-      "variations": [
-        {
-          "id": "front_squat",
-          "name": "Фронтальные приседания",
-          "purpose": "Большая нагрузка на квадрицепсы, меньше давление на поясницу"
-        },
-        {
-          "id": "overhead_squat",
-          "name": "Приседания над головой",
-          "purpose": "Мобилизация плеч, стабильность корпуса"
-        }
-      ]
-    },
-    {
-      "id": "db_bench_press",
-      "name": "Жим гантелей лёжа",
-      "muscleGroup": {
-        "primary": ["chest", "triceps", "front_delts"],
-        "secondary": []
-      },
-      "activityType": "push",
-      "category": "free_weights",
-      "equipment": ["dumbbells", "bench"],
-      "difficulty": "intermediate",
-      "injuryRisk": ["shoulder"],
-      "mechanics": "compound",
-      "forceVector": "vertical_push",
-      "trainingGoal": ["hypertrophy", "strength"],
-      "description": "Лягте на скамью, ноги упирайтесь. Жмите гантели по траектории дуги, локти под 75°.",
-      "executionTips": [
-        "Сводите лопатки",
-        "Не отрывайте поясницу от скамьи",
-        "Контролируйте опускание"
-      ],
-      "commonMistakes": [
-        "Слишком широкий хват",
-        "Полное расслабление в нижней точке",
-        "Рывковые движения"
-      ],
-      "videoUrl": "",
-      "image": "/assets/exercises/db-bench.jpg",
-      "alternatives": ["machine_chest_press", "push_up", "barbell_bench_press"],
-      "variations": [
-        {
-          "id": "incline_db_press",
-          "name": "На наклонной скамье",
-          "purpose": "Акцент на верхнюю часть груди"
-        },
-        {
-          "id": "decline_db_press",
-          "name": "На обратной скамье",
-          "purpose": "Акцент на нижнюю часть груди"
-        }
-      ]
-    },
-    {
-      "id": "push_up",
-      "name": "Отжимания",
-      "muscleGroup": {
-        "primary": ["chest", "triceps", "front_delts"],
-        "secondary": ["core"]
-      },
-      "activityType": "push",
-      "category": "bodyweight",
-      "equipment": [],
-      "difficulty": "beginner",
-      "injuryRisk": ["wrist", "shoulder"],
-      "mechanics": "compound",
-      "forceVector": "vertical_push",
-      "trainingGoal": ["hypertrophy", "endurance"],
-      "description": "Прямая линия тела. Опускайтесь до 90° в локтях. Можете делать на коленях при старте.",
-      "executionTips": [
-        "Голова смотрит вперёд, не запрокидывайте",
-        "Локти чуть внутрь, не в стороны",
-        "Не прогибайте поясницу"
-      ],
-      "commonMistakes": [
-        "Опускание головы",
-        "Слишком быстрое выполнение",
-        "Неполная амплитуда"
-      ],
-      "videoUrl": "",
-      "image": "/assets/exercises/push-up.jpg",
-      "alternatives": ["db_bench_press", "machine_chest_press"],
-      "variations": [
-        {
-          "id": "diamond_push_up",
-          "name": "Обратные отжимания",
-          "purpose": "Акцент на трицепс"
-        },
-        {
-          "id": "wide_push_up",
-          "name": "Широкий хват",
-          "purpose": "Больше нагрузки на грудь"
-        },
-        {
-          "id": "feet_elevated_push_up",
-          "name": "На возвышении",
-          "purpose": "Увеличение нагрузки"
-        }
-      ]
-    },
-    {
-      "id": "row_incline",
-      "name": "Тяга гантели в наклоне",
-      "muscleGroup": {
-        "primary": ["back", "biceps", "rear_delts"],
-        "secondary": ["lats", "rhomboids"]
-      },
-      "activityType": "pull",
-      "category": "free_weights",
-      "equipment": ["dumbbell"],
-      "difficulty": "intermediate",
-      "injuryRisk": ["lower_back"],
-      "mechanics": "compound",
-      "forceVector": "horizontal_pull",
-      "trainingGoal": ["hypertrophy", "strength"],
-      "description": "Наклонитесь, спина параллельна полу. Тяните гантель к поясу, локтем, а не рукой.",
-      "executionTips": [
-        "Сохраняйте нейтральный позвоночник",
-        "Не раскачивайтесь",
-        "Сведите лопатки в верхней точке"
-      ],
-      "commonMistakes": [
-        "Подъём гантели рукой",
-        "Округление спины",
-        "Чрезмерный вес"
-      ],
-      "videoUrl": "",
-      "image": "/assets/exercises/row-incline.jpg",
-      "alternatives": ["seated_row_machine", "t_bar_row"],
-      "variations": [
-        {
-          "id": "single_arm_row",
-          "name": "Одной рукой",
-          "purpose": "Изоляция, коррекция дисбаланса"
-        }
-      ]
-    },
-    {
-      "id": "overhead_press",
-      "name": "Жим стоя",
-      "muscleGroup": {
-        "primary": ["shoulders", "triceps"],
-        "secondary": ["core", "upper_back"]
-      },
-      "activityType": "push",
-      "category": "free_weights",
-      "equipment": ["dumbbells", "barbell"],
-      "difficulty": "intermediate",
-      "injuryRisk": ["shoulder"],
-      "mechanics": "compound",
-      "forceVector": "vertical_push",
-      "trainingGoal": ["strength", "hypertrophy"],
-      "description": "Корпус напряжён, вес над центром. Не перегибайте поясницу. Двигайте только руками.",
-      "executionTips": [
-        "Не закидывайте голову назад",
-        "Локти немного впереди при подъёме",
-        "Выдыхайте при усилии"
-      ],
-      "commonMistakes": [
-        "Рывковый жим",
-        "Прогиб в пояснице",
-        "Недостаточная амплитуда"
-      ],
-      "videoUrl": "",
-      "image": "/assets/exercises/overhead-press.jpg",
-      "alternatives": ["machine_shoulder_press", "arnold_press"],
-      "variations": [
-        {
-          "id": "arnold_press",
-          "name": "Жим Арнольда",
-          "purpose": "Вращательное движение для задней части дельт"
-        }
-      ]
-    },
-    {
-      "id": "plank",
-      "name": "Планка",
-      "muscleGroup": {
-        "primary": ["core", "transverse_abdominis"],
-        "secondary": ["shoulders", "glutes"]
-      },
-      "activityType": "core",
-      "category": "bodyweight",
-      "equipment": [],
-      "difficulty": "beginner",
-      "injuryRisk": [],
-      "mechanics": "isometric",
-      "forceVector": "anti-extension",
-      "trainingGoal": ["endurance", "stability"],
-      "description": "Прямая линия тела. Локти под плечами. Держите, пока не начнёт дрожать.",
-      "executionTips": [
-        "Не опускайте бёдра",
-        "Не поднимайте ягодицы",
-        "Дышите ровно"
-      ],
-      "commonMistakes": [
-        "Прогиб в пояснице",
-        "Задержка дыхания",
-        "Опускание головы"
-      ],
-      "videoUrl": "",
-      "image": "/assets/exercises/plank.jpg",
-      "alternatives": ["side_plank", "dead_bug"],
-      "variations": [
-        {
-          "id": "side_plank",
-          "name": "Боковая планка",
-          "purpose": "Работа с косыми мышцами"
-        },
-        {
-          "id": "plank_with_leg_lift",
-          "name": "С отведением ноги",
-          "purpose": "Увеличение нагрузки на стабилизаторы"
-        }
-      ]
+[
+  {
+    "id": "squat-barbell",
+    "name": "Приседания со штангой",
+    "type": "legs",
+    "equipment": "barbell",
+    "primaryMuscles": ["quadriceps", "glutes", "hamstrings"],
+    "secondaryMuscles": ["lower back", "core"],
+    "riskLevel": "medium",
+    "level": "intermediate",
+    "formTips": [
+      "Спина прямая",
+      "Колени не выходят за носки",
+      "Опускайся до параллели"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "10–20 подходов/неделю",
+      "intensityOptimal": "70–85% 1ПМ",
+      "tempo": "3-1-1",
+      "rest": 120,
+      "progressionRule": "Добавляй +2.5 кг при успехе в 3×8"
     }
-  ]
-}
+  },
+  {
+    "id": "bench-press",
+    "name": "Жим лёжа",
+    "type": "chest",
+    "equipment": "barbell",
+    "primaryMuscles": ["pectorals", "triceps", "front delts"],
+    "secondaryMuscles": ["core"],
+    "riskLevel": "medium",
+    "level": "intermediate",
+    "formTips": [
+      "Лопатки сводим",
+      "Штанга к нижней части груди",
+      "Не отрывайте поясницу"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "10–18 подходов/неделю",
+      "intensityOptimal": "75–85% 1ПМ",
+      "tempo": "2-1-1",
+      "rest": 120,
+      "progressionRule": "Добавляй +2 кг при успехе в 3×6"
+    }
+  },
+  {
+    "id": "deadlift",
+    "name": "Становая тяга",
+    "type": "back",
+    "equipment": "barbell",
+    "primaryMuscles": ["hamstrings", "glutes", "lower back"],
+    "secondaryMuscles": ["traps", "forearms"],
+    "riskLevel": "high",
+    "level": "advanced",
+    "formTips": [
+      "Спина прямая",
+      "Таз выше головы",
+      "Выпрямляй ноги после корпуса"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "4–8 подходов/неделю",
+      "intensityOptimal": "80–90% 1ПМ",
+      "tempo": "1-1-1",
+      "rest": 180,
+      "progressionRule": "Добавляй +5 кг каждую вторую неделю"
+    }
+  },
+  {
+    "id": "pull-ups",
+    "name": "Подтягивания",
+    "type": "back",
+    "equipment": "bodyweight",
+    "primaryMuscles": ["lats", "biceps", "rhomboids"],
+    "secondaryMuscles": ["core"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": [
+      "Плечи опущены",
+      "Движение грудью к перекладине",
+      "Полное раскрытие внизу"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 повторений/тренировку",
+      "intensityOptimal": "RIR 1–2",
+      "tempo": "2-1-1",
+      "rest": 90,
+      "progressionRule": "Увеличивай количество или добавь вес"
+    }
+  },
+  {
+    "id": "overhead-press",
+    "name": "Жим стоя",
+    "type": "shoulders",
+    "equipment": "barbell",
+    "primaryMuscles": ["deltoids", "triceps"],
+    "secondaryMuscles": ["upper chest", "core"],
+    "riskLevel": "medium",
+    "level": "intermediate",
+    "formTips": [
+      "Голова в сторону",
+      "Не блокируйте локти",
+      "Контролируйте опускание"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "9–15 подходов/неделю",
+      "intensityOptimal": "70–80% 1ПМ",
+      "tempo": "2-1-1",
+      "rest": 90,
+      "progressionRule": "Добавляй +1.25 кг при успехе в 3×8"
+    }
+  },
+  {
+    "id": "romanian-deadlift",
+    "name": "Румынская становая",
+    "type": "legs",
+    "equipment": "dumbbells",
+    "primaryMuscles": ["hamstrings", "glutes"],
+    "secondaryMuscles": ["lower back"],
+    "riskLevel": "medium",
+    "level": "intermediate",
+    "formTips": [
+      "Ноги чуть согнуты",
+      "Наклон корпуса",
+      "Гантели скользят по ногам"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "8–16 подходов/неделю",
+      "intensityOptimal": "65–75% 1ПМ",
+      "tempo": "3-1-1",
+      "rest": 90,
+      "progressionRule": "Добавляй +2 кг при успехе в 3×10"
+    }
+  },
+  {
+    "id": "push-ups",
+    "name": "Отжимания",
+    "type": "chest",
+    "equipment": "bodyweight",
+    "primaryMuscles": ["pectorals", "triceps", "front delts"],
+    "secondaryMuscles": ["core"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": [
+      "Тело прямое",
+      "Локти под 45°",
+      "Грудь к полу"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "15–30 повторений/подход",
+      "intensityOptimal": "RIR 1–2",
+      "tempo": "2-1-1",
+      "rest": 60,
+      "progressionRule": "Увеличивай количество или усложняй (на возвышении)"
+    }
+  },
+  {
+    "id": "lat-pulldown",
+    "name": "Тяга верхнего блока",
+    "type": "back",
+    "equipment": "cable",
+    "primaryMuscles": ["lats", "biceps"],
+    "secondaryMuscles": ["rhomboids"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": [
+      "Тянуть локтями вниз",
+      "Не раскачиваться",
+      "Полную амплитуду"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "70–80% 1ПМ",
+      "tempo": "2-1-1",
+      "rest": 90,
+      "progressionRule": "Добавляй +2.5 кг при успехе в 3×10"
+    }
+  },
+  {
+    "id": "lateral-raises",
+    "name": "Махи гантелями в стороны",
+    "type": "shoulders",
+    "equipment": "dumbbells",
+    "primaryMuscles": ["medial delts"],
+    "secondaryMuscles": ["front delts"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": [
+      "Лёгкий наклон вперёд",
+      "Мизинец выше большого",
+      "Без инерции"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "легкие веса",
+      "tempo": "2-1-2",
+      "rest": 60,
+      "progressionRule": "Увеличивай объём перед весом"
+    }
+  },
+  {
+    "id": "curl-barbell",
+    "name": "Подъём штанги на бицепс",
+    "type": "arms",
+    "equipment": "barbell",
+    "primaryMuscles": ["biceps"],
+    "secondaryMuscles": ["brachialis"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": [
+      "Локти прижаты",
+      "Не раскачивайся",
+      "Контролируй опускание"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "9–18 подходов/неделю",
+      "intensityOptimal": "70–80% 1ПМ",
+      "tempo": "2-1-2",
+      "rest": 60,
+      "progressionRule": "Добавляй +1.25 кг при успехе в 3×10"
+    }
+  },
+  {
+    "id": "plank",
+    "name": "Планка",
+    "type": "core",
+    "equipment": "bodyweight",
+    "primaryMuscles": ["transverse abdominis", "rectus abdominis"],
+    "secondaryMuscles": ["shoulders", "glutes"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": [
+      "Тело прямое",
+      "Не проваливай поясницу",
+      "Дыши ровно"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "3–5 подходов по 30–60 сек",
+      "intensityOptimal": "до усталости",
+      "tempo": "-",
+      "rest": 60,
+      "progressionRule": "Увеличивай время на 10 сек каждую неделю"
+    }
+  },
+  {
+    "id": "burpees",
+    "name": "Бёрпи",
+    "type": "full-body",
+    "equipment": "bodyweight",
+    "primaryMuscles": ["pectorals", "quadriceps", "core"],
+    "secondaryMuscles": ["cardiovascular system"],
+    "riskLevel": "medium",
+    "level": "intermediate",
+    "formTips": [
+      "Полный присед",
+      "Отжимание",
+      "Взлёт руками"
+    ],
+    "scientificBasis": {
+      "volumeOptimal": "3–5 раундов по 10–20 раз",
+      "intensityOptimal": "HIIT",
+      "tempo": "-",
+      "rest": 30,
+      "progressionRule": "Увеличивай количество или снижай отдых"
+    }
+  }
+]
