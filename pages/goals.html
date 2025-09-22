@@ -1,0 +1,253 @@
+<!-- /pages/goals.html -->
+<!-- v1.2.0 — Страница целей по силе -->
+
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Цели — Morphe</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-form.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
+  <!-- Skip-link -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+    .skip-link:focus { top: 10px; }
+  </style>
+</head>
+<body>
+
+  
+
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
+
+  <main id="main-content">
+    <div class="container">
+      <h1>🎯 Ваши цели по силе</h1>
+      <p>Ставьте цели — и достигайте их шаг за шагом.</p>
+
+      <!-- Форма добавления -->
+      <form id="goalForm" novalidate style="margin-bottom: 2rem;">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="exerciseName">Упражнение</label>
+            <input type="text" id="exerciseName" name="exerciseName" required placeholder="Приседания">
+          </div>
+          <div class="form-group">
+            <label for="unit">Единица</label>
+            <select id="unit" name="unit" required>
+              <option value="kg">кг (вес)</option>
+              <option value="reps">повторений</option>
+              <option value="time">время (сек)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="currentValue">Текущее значение</label>
+            <input type="number" step="0.1" id="currentValue" name="currentValue" required placeholder="80">
+          </div>
+          <div class="form-group">
+            <label for="targetValue">Целевое значение</label>
+            <input type="number" step="0.1" id="targetValue" name="targetValue" required placeholder="100">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Комментарий (опционально)</label>
+          <textarea id="notes" name="notes" rows="2" placeholder="Хочу поднять плато..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn-large">Добавить цель →</button>
+      </form>
+
+      <div id="formFeedback" aria-live="polite"></div>
+
+      <!-- Активные цели -->
+      <section class="card" id="activeGoalsSection">
+        <h2>💪 Активные цели</h2>
+        <div id="activeGoalsList"></div>
+      </section>
+
+      <!-- Завершённые -->
+      <section class="card" id="completedGoalsSection" style="display: none;">
+        <h2>✅ Достигнутые цели</h2>
+        <div id="completedGoalsList"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+
+  <!-- Логика страницы -->
+  <script type="module">
+    import { HeaderController } from '/core/HeaderController.js';
+    import { ThemeManager } from '/core/themeManager.js';
+    import { StrengthGoalTracker } from '/core/strengthGoalTracker.js';
+    import { DateUtils } from '/utils/dateUtils.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await HeaderController.loadHeader();
+      new ThemeManager();
+
+      const form = document.getElementById('goalForm');
+      const feedback = document.getElementById('formFeedback');
+      const activeList = document.getElementById('activeGoalsList');
+      const completedList = document.getElementById('completedGoalsList');
+      const completedSection = document.getElementById('completedGoalsSection');
+
+      const tracker = new StrengthGoalTracker();
+
+      // === Рендеринг целей ===
+      function renderGoals() {
+        const active = tracker.getActive();
+        const completed = tracker.getCompleted();
+
+        // Активные
+        activeList.innerHTML = active.length > 0 
+          ? active.map(renderGoalCard).join('')
+          : '<p>Нет активных целей. Добавьте первую!</p>';
+
+        // Завершённые
+        if (completed.length > 0) {
+          completedList.innerHTML = completed.map(renderCompletedGoal).join('');
+          completedSection.style.display = 'block';
+        }
+      }
+
+      function renderGoalCard(goal) {
+        const progress = tracker.getProgressPercent(goal);
+        const forecast = tracker.getCompletionForecast(goal);
+        const rate = tracker.getProgressRate(goal);
+
+        return `
+          <div class="goal-card">
+            <div class="goal-header">
+              <strong>${goal.exerciseName}</strong>
+              <span class="pill">${goal.unit === 'kg' ? 'вес' : goal.unit === 'reps' ? 'повт.' : 'время'}</span>
+            </div>
+            
+            <div class="progress-bar">
+              <div class="bar-fill" style="width: ${progress}%"></div>
+            </div>
+            
+            <p><strong>${goal.currentValue}</strong> / ${goal.targetValue} ${goal.unit}</p>
+            
+            ${forecast ? `
+              <p><small>📅 Прогноз: ${forecast.date} (${forecast.days} дн.)</small></p>
+            ` : ''}
+            
+            <p><small>📊 Темп: ${{
+              fast: 'Быстрый',
+              steady: 'Стабильный',
+              slow: 'Медленный',
+              stalled: 'Застой'
+            }[rate]}</small></p>
+
+            ${goal.notes ? `<p><small>💬 ${goal.notes}</small></p>` : ''}
+
+            <div style="margin-top: 1rem;">
+              <button 
+                onclick="updateGoalProgress(${goal.id})"
+                class="btn-outline btn-small">
+                Обновить прогресс
+              </button>
+            </div>
+          </div>
+        `;
+      }
+
+      function renderCompletedGoal(goal) {
+        const completedDate = new Date(goal.completedAt).toLocaleDateString('ru-RU');
+        return `
+          <div class="goal-card completed">
+            <strong>🎉 ${goal.exerciseName}</strong>
+            <p>Достигнуто: ${completedDate}</p>
+            <p><strong>${goal.targetValue} ${goal.unit}</strong></p>
+          </div>
+        `;
+      }
+
+      renderGoals();
+
+      // === Добавление цели ===
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        try {
+          tracker.add({
+            exerciseName: formData.get('exerciseName'),
+            currentValue: parseFloat(formData.get('currentValue')),
+            targetValue: parseFloat(formData.get('targetValue')),
+            unit: formData.get('unit'),
+            notes: formData.get('notes')
+          });
+
+          feedback.innerHTML = '<p class="success-text">✅ Цель добавлена! Продолжайте в том же духе.</p>';
+          form.reset();
+          setTimeout(() => feedback.innerHTML = '', 3000);
+
+          renderGoals();
+
+        } catch (err) {
+          feedback.innerHTML = `<p class="error-text">❌ Ошибка: ${err.message}</p>`;
+        }
+      });
+
+      // === Обновление прогресса ===
+      window.updateGoalProgress = function(goalId) {
+        const goal = tracker.findById(goalId);
+        const newValue = prompt(
+          `Введите новое значение для "${goal.exerciseName}"`,
+          goal.currentValue
+        );
+
+        if (!newValue) return;
+
+        const numValue = parseFloat(newValue);
+        if (isNaN(numValue) || numValue < goal.currentValue) {
+          alert('Значение должно быть числом и больше предыдущего.');
+          return;
+        }
+
+        tracker.updateProgress(goalId, numValue);
+        alert(`Прогресс обновлён: ${numValue} ${goal.unit}`);
+        renderGoals();
+      };
+
+    });
+  </script>
+</body>
+</html>
