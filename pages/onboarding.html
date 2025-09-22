@@ -1,6 +1,3 @@
-<!-- /pages/onboarding.html -->
-<!-- v1.6.0 — Онбординг -->
-
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
@@ -31,12 +28,63 @@
       transition: top 0.3s;
     }
     .skip-link:focus { top: 10px; }
+
+    .onboarding-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .onboarding-progress {
+      margin-bottom: 32px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-surface-alt);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    .slide {
+      display: none;
+      padding: 24px 0;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .slide-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .onboarding-controls {
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 480px) {
+      .onboarding-controls {
+        flex-direction: column;
+      }
+      .onboarding-controls button {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
-
-
-
   <!-- Заглушка шапки -->
   <div id="header-placeholder"></div>
 
@@ -51,7 +99,6 @@
         </div>
 
         <div id="onboardingSlides">
-          <!-- Слайд 1 -->
           <div class="slide active" data-step="1">
             <div class="slide-icon">🌱</div>
             <h2>Добро пожаловать в Morphe</h2>
@@ -59,7 +106,6 @@
             <p><strong>Никаких подписок. Никакой рекламы. Только вы и ваш рост.</strong></p>
           </div>
 
-          <!-- Слайд 2 -->
           <div class="slide" data-step="2">
             <div class="slide-icon">🎯</div>
             <h2>Ваша цель — ваша история</h2>
@@ -67,7 +113,6 @@
             <p>Заполните профиль — и начнётся персонализация.</p>
           </div>
 
-          <!-- Слайд 3 -->
           <div class="slide" data-step="3">
             <div class="slide-icon">🧠</div>
             <h2>Умный, но простой</h2>
@@ -75,7 +120,6 @@
             <p>Вы — хозяин своих данных.</p>
           </div>
 
-          <!-- Слайд 4 -->
           <div class="slide" data-step="4">
             <div class="slide-icon">🚀</div>
             <h2>Готовы начать?</h2>
@@ -116,70 +160,72 @@
     import { OnboardingManager } from '/modules/onboardingManager.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      await HeaderController.loadHeader();
-      new ThemeManager();
+      try {
+        await HeaderController.loadHeader();
+        new ThemeManager();
 
-      const manager = new OnboardingManager();
-      const slides = document.querySelectorAll('.slide');
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const skipBtn = document.getElementById('skipBtn');
-      const progressFill = document.getElementById('onboardingProgress');
-      const stepCounter = document.getElementById('stepCounter');
+        const manager = new OnboardingManager();
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const progressFill = document.getElementById('onboardingProgress');
+        const stepCounter = document.getElementById('stepCounter');
 
-      let currentStep = 0;
-      const totalSteps = slides.length;
+        let currentStep = 0;
+        const totalSteps = slides.length;
 
-      // === Обновление прогресса ===
-      function updateUI() {
-        slides.forEach((slide, index) => {
-          slide.classList.toggle('active', index === currentStep);
+        function updateUI() {
+          slides.forEach((slide, index) => {
+            slide.classList.toggle('active', index === currentStep);
+          });
+
+          const progress = ((currentStep + 1) / totalSteps) * 100;
+          progressFill.style.width = `${progress}%`;
+          stepCounter.textContent = `Шаг ${currentStep + 1} из ${totalSteps}`;
+          prevBtn.disabled = currentStep === 0;
+          nextBtn.textContent = currentStep === totalSteps - 1 ? 'Завершить →' : 'Далее →';
+        }
+
+        prevBtn.addEventListener('click', () => {
+          if (currentStep > 0) {
+            currentStep--;
+            updateUI();
+          }
         });
 
-        const progress = ((currentStep + 1) / totalSteps) * 100;
-        progressFill.style.width = `${progress}%`;
-        stepCounter.textContent = `Шаг ${currentStep + 1} из ${totalSteps}`;
+        nextBtn.addEventListener('click', () => {
+          if (currentStep < totalSteps - 1) {
+            currentStep++;
+            updateUI();
+          } else {
+            manager.complete();
+            goToMain();
+          }
+        });
 
-        prevBtn.disabled = currentStep === 0;
-        nextBtn.textContent = currentStep === totalSteps - 1 ? 'Завершить →' : 'Далее →';
-      }
+        skipBtn.addEventListener('click', () => {
+          if (confirm("Вы уверены, что хотите пропустить онбординг?")) {
+            manager.complete();
+            goToMain();
+          }
+        });
 
-      // === Кнопки ===
-      prevBtn.addEventListener('click', () => {
-        if (currentStep > 0) {
-          currentStep--;
-          updateUI();
+        function goToMain() {
+          window.location.href = '/index.html';
         }
-      });
 
-      nextBtn.addEventListener('click', () => {
-        if (currentStep < totalSteps - 1) {
-          currentStep++;
-          updateUI();
-        } else {
-          // Завершение
-          manager.complete();
+        // === Корректная проверка ПОСЛЕ загрузки ===
+        if (!manager.shouldShow()) {
           goToMain();
+          return;
         }
-      });
 
-      skipBtn.addEventListener('click', () => {
-        if (confirm("Вы уверены, что хотите пропустить онбординг?")) {
-          manager.complete();
-          goToMain();
-        }
-      });
-
-      function goToMain() {
-        window.location.href = '/index.html';
-      }
-
-      // === Инициализация ===
-      if (!manager.shouldShow()) {
-        // Если уже прошёл — редирект
-        window.location.href = '/index.html';
-      } else {
         updateUI();
+
+      } catch (err) {
+        console.error('❌ Ошибка онбординга:', err);
+        window.location.href = '/index.html';
       }
     });
   </script>
