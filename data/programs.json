@@ -1,36 +1,73 @@
-{
-  "programs": [
-    {
-      "id": "upperLower",
-      "name": "Upper / Lower",
-      "daysPerWeek": 4,
-      "split": [
-        { "day": 1, "type": "upper", "name": "Верх тела" },
-        { "day": 2, "type": "lower", "name": "Ниж тела" },
-        { "day": 3, "type": "rest", "name": "Отдых" },
-        { "day": 4, "type": "upper", "name": "Верх тела" },
-        { "day": 5, "type": "lower", "name": "Ниж тела" },
-        { "day": 6, "type": "rest", "name": "Отдых" },
-        { "day": 7, "type": "rest", "name": "Отдых" }
-      ],
-      "forGoals": ["muscle", "fatloss"],
-      "forExperience": ["intermediate", "advanced"]
-    },
-    {
-      "id": "fullBody",
-      "name": "Full Body",
-      "daysPerWeek": 3,
-      "split": [
-        { "day": 1, "type": "fullBody", "name": "Полное тело" },
-        { "day": 2, "type": "rest", "name": "Отдых" },
-        { "day": 3, "type": "fullBody", "name": "Полное тело" },
-        { "day": 4, "type": "rest", "name": "Отдых" },
-        { "day": 5, "type": "fullBody", "name": "Полное тело" },
-        { "day": 6, "type": "rest", "name": "Отдых" },
-        { "day": 7, "type": "rest", "name": "Отдых" }
-      ],
-      "forGoals": ["health", "beginner"],
-      "forExperience": ["beginner"]
-    }
-  ]
-}
+[
+  {
+    "id": "strength-beginner",
+    "name": "Начальный силовой",
+    "level": "beginner",
+    "goal": "gain",
+    "durationWeeks": 8,
+    "daysPerWeek": 3,
+    "description": "Базовая программа для новичков. Акцент на технику и прогрессию весов.",
+    "weeklySchedule": [
+      "Сила: ноги + спина",
+      "Отдых",
+      "Сила: грудь + плечи + трицепс",
+      "Отдых",
+      "Полный корпус + кор",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "name": "Приседания со штангой", "sets": "3x8", "rest": "90 сек" },
+      { "name": "Становая тяга", "sets": "3x6", "rest": "120 сек" },
+      { "name": "Жим лёжа", "sets": "3x8", "rest": "90 сек" },
+      { "name": "Подтягивания", "sets": "3x6", "rest": "60 сек" },
+      { "name": "Пресс: скручивания", "sets": "3x15", "rest": "30 сек" }
+    ]
+  },
+  {
+    "id": "hypertrophy-intermediate",
+    "name": "Гипертрофия (средний)",
+    "level": "intermediate",
+    "goal": "gain",
+    "durationWeeks": 12,
+    "daysPerWeek": 5,
+    "description": "Объёмная программа для роста мышц. Разделение по группам мышц.",
+    "weeklySchedule": [
+      "Грудь + трицепс",
+      "Спина + бицепс",
+      "Ноги",
+      "Отдых",
+      "Плечи + кор",
+      "Кардио + кор",
+      "Отдых"
+    ],
+    "exercises": [
+      { "name": "Жим лёжа", "sets": "4x10", "rest": "90 сек" },
+      { "name": "Французский жим", "sets": "3x12", "rest": "60 сек" },
+      { "name": "Подтягивания узким хватом", "sets": "4x8", "rest": "75 сек" }
+    ]
+  },
+  {
+    "id": "maintenance-light",
+    "name": "Поддержание формы",
+    "level": "all",
+    "goal": "maintain",
+    "durationWeeks": 0,
+    "daysPerWeek": 3,
+    "description": "Лёгкая программа для поддержания тонуса без перетренированности.",
+    "weeklySchedule": [
+      "Полный корпус",
+      "Отдых",
+      "Кор + кардио",
+      "Отдых",
+      "Полный корпус",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "name": "Приседания с собственным весом", "sets": "3x15", "rest": "60 сек" },
+      { "name": "Отжимания", "sets": "3x12", "rest": "60 сек" },
+      { "name": "Планка", "sets": "3x30 сек", "rest": "30 сек" }
+    ]
+  }
+]
