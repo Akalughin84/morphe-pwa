@@ -1,0 +1,189 @@
+<!-- /pages/backup.html -->
+<!-- v1.5.0 — Страница резервного копирования -->
+
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Резервная копия — Morphe</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
+  <!-- Skip-link -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+    .skip-link:focus { top: 10px; }
+  </style>
+</head>
+<body>
+
+  
+
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
+
+  <main id="main-content">
+    <div class="container">
+      <h1>📤 Резервная копия</h1>
+      <p>Ваши данные — ваша собственность. Вы можете скачать их или восстановить из файла.</p>
+
+      <section class="card">
+        <h2>💾 Скачать резервную копию</h2>
+        <p>Создайте резервную копию всех ваших данных:</p>
+        <ul>
+          <li>Профиль</li>
+          <li>История тренировок</li>
+          <li>Прогресс (вес, обхваты)</li>
+          <li>Цели по силе</li>
+          <li>Лог питания</li>
+          <li>Настройки</li>
+        </ul>
+        <button id="downloadBackup" class="btn-primary">Скачать JSON-файл →</button>
+      </section>
+
+      <section class="card">
+        <h2>📥 Восстановить из резервной копии</h2>
+        <p>Выберите файл резервной копии, чтобы восстановить данные.</p>
+        <input type="file" id="restoreFile" accept=".json" style="margin: 1rem 0;">
+        <button id="restoreBackup" class="btn-outline">Загрузить и восстановить</button>
+        <p><small>⚠️ Внимание: это перезапишет текущие данные.</small></p>
+      </section>
+
+      <div id="backupFeedback" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
+  </script>
+
+  <!-- Логика страницы -->
+  <script type="module">
+    import { HeaderController } from '/core/HeaderController.js';
+    import { ThemeManager } from '/core/themeManager.js';
+    import { StorageManager } from '/utils/storage.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await HeaderController.loadHeader();
+      new ThemeManager();
+
+      const feedback = document.getElementById('backupFeedback');
+
+      // === Ключи для резервного копирования ===
+      const KEYS_TO_BACKUP = [
+        'morphe-user-profile',
+        'morphe-workout-history',
+        'morphe-progress-data',
+        'morphe-strength-goals',
+        'morphe-daily-food-log',
+        'morphe-notifications',
+        'morphe-scheduled-notifications',
+        'morphe-current-workout-plan',
+        'morphe-offline-visits',
+        'morphe-supplement-views',
+        'morphe-pro-unlocked',
+        'morphe-user-config',
+        'morphe-theme'
+      ];
+
+      // === Скачать резервную копию ===
+      document.getElementById('downloadBackup').addEventListener('click', () => {
+        const backupData = {};
+        
+        KEYS_TO_BACKUP.forEach(key => {
+          const value = localStorage.getItem(key);
+          if (value !== null) {
+            backupData[key] = JSON.parse(value);
+          }
+        });
+
+        backupData.meta = {
+          version: "v1.5.0",
+          appName: "Morphe",
+          exportDate: new Date().toISOString(),
+          device: navigator.userAgent
+        };
+
+        const blob = new Blob([JSON.stringify(backupData, null, 2)], { 
+          type: 'application/json' 
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `morphe-backup-${new Date().toISOString().split('T')[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        feedback.innerHTML = '<p class="success-text">✅ Резервная копия создана и скачана.</p>';
+        setTimeout(() => feedback.innerHTML = '', 3000);
+      });
+
+      // === Восстановить из файла ===
+      document.getElementById('restoreBackup').addEventListener('click', async () => {
+        const fileInput = document.getElementById('restoreFile');
+        if (!fileInput.files.length) {
+          feedback.innerHTML = '<p class="error-text">❌ Выберите файл для восстановления.</p>';
+          return;
+        }
+
+        const file = fileInput.files[0];
+        try {
+          const content = await file.text();
+          const data = JSON.parse(content);
+
+          // Подтверждение
+          const confirmRestore = confirm(
+            `Вы уверены, что хотите восстановить данные?\n\n` +
+            `Будут перезаписаны все текущие данные.\n` +
+            `Продолжить?`
+          );
+
+          if (!confirmRestore) return;
+
+          // Восстановление
+          Object.keys(data).forEach(key => {
+            if (key === 'meta') return;
+            if (KEYS_TO_BACKUP.includes(key)) {
+              localStorage.setItem(key, JSON.stringify(data[key]));
+            }
+          });
+
+          feedback.innerHTML = '<p class="success-text">✅ Данные успешно восстановлены. Перезагрузка...</p>';
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+
+        } catch (err) {
+          feedback.innerHTML = `<p class="error-text">❌ Ошибка: ${err.message}</p>`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
