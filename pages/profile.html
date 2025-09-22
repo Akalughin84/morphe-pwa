@@ -1,237 +1,191 @@
-<!-- pages/profile.html -->
+<!-- /pages/profile.html -->
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Morphe — Настрой профиль</title>
-  <link rel="stylesheet" href="../styles.css" />
+  <title>Профиль — Morphe</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Стили -->
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/styles-form.css">
+  <link rel="stylesheet" href="/styles-shared.css">
+
+  <!-- Skip-link -->
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+    .skip-link:focus { top: 10px; }
+
+    .success-text { color: #2ecc71; font-weight: 500; }
+    .error-text { color: #e74c3c; font-weight: 500; }
+    .info-text { color: #3498db; font-weight: 500; }
+  </style>
 </head>
 <body>
-  <header class="page-header">
+
+  <!-- Skip-link -->
+  <a href="#main-content" class="skip-link">Перейти к содержанию</a>
+
+  <!-- Заглушка шапки -->
+  <div id="header-placeholder"></div>
+
+  <main id="main-content" tabindex="-1">
     <div class="container">
-      <a href="../index.html" class="logo-link">
-        <div class="logo">Morphe</div>
-      </a>
-      <nav class="page-nav">
-        <a href="../index.html" class="nav-link">🏠 Главная</a>
-      </nav>
-    </div>
-  </header>
+      <h1>👤 Твой профиль</h1>
+      <p>Заполните данные — и Morphe начнёт помогать вам персонально.</p>
 
-  <main class="form-page">
-    <div class="form-container">
-      <div class="form-header">
-        <h1>👤 Давай познакомимся</h1>
-        <p>Это займёт 2 минуты — и Morphe построит программу, которая работает именно для тебя.</p>
-      </div>
-
-      <form id="profileForm">
+      <form id="profileForm" novalidate>
+        <!-- Имя -->
         <div class="form-group">
-          <label for="name">Как тебя зовут? (необязательно)</label>
-          <input type="text" id="name" name="name" placeholder="Алексей">
+          <label for="name">Имя</label>
+          <input type="text" id="name" name="name" required placeholder="Алексей">
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="age">Возраст</label>
-            <input type="number" id="age" name="age" min="13" max="100" required>
-          </div>
-
-          <div class="form-group">
-            <label for="gender">Пол</label>
-            <select id="gender" name="gender" required>
-              <option value="male">Мужской</option>
-              <option value="female">Женский</option>
-              <option value="other">Другое</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="height">Рост (см)</label>
-            <input type="number" id="height" name="height" min="100" max="250" required>
-          </div>
-
-          <div class="form-group">
-            <label for="weight">Вес (кг)</label>
-            <input type="number" id="weight" name="weight" min="30" max="200" step="0.1" required>
-          </div>
-        </div>
-
+        <!-- Пол -->
         <div class="form-group">
-          <label for="goal">Твоя главная цель?</label>
+          <label>Пол</label>
+          <div class="radio-group">
+            <label><input type="radio" name="gender" value="male" required> Мужской</label>
+            <label><input type="radio" name="gender" value="female"> Женский</label>
+          </div>
+        </div>
+
+        <!-- Возраст -->
+        <div class="form-group">
+          <label for="age">Возраст (лет)</label>
+          <input type="number" id="age" name="age" min="14" max="99" required placeholder="28">
+        </div>
+
+        <!-- Рост -->
+        <div class="form-group">
+          <label for="height">Рост (см)</label>
+          <input type="number" id="height" name="height" min="140" max="230" required placeholder="178">
+        </div>
+
+        <!-- Вес -->
+        <div class="form-group">
+          <label for="weight">Текущий вес (кг)</label>
+          <input type="number" id="weight" name="weight" step="0.1" min="40" max="200" required placeholder="75.5">
+        </div>
+
+        <!-- Уровень активности -->
+        <div class="form-group">
+          <label for="activity">Уровень активности</label>
+          <select id="activity" name="activity" required>
+            <option value="">Выберите...</option>
+            <option value="1.2">Сидячий (почти нет тренировок)</option>
+            <option value="1.375">Лёгкий (1–3 раза в неделю)</option>
+            <option value="1.55">Средний (3–5 раз в неделю)</option>
+            <option value="1.725">Высокий (6–7 раз)</option>
+            <option value="1.9">Очень высокий (ежедневно + работа)</option>
+          </select>
+        </div>
+
+        <!-- Цель -->
+        <div class="form-group">
+          <label for="goal">Цель</label>
           <select id="goal" name="goal" required>
-            <option value="muscle">Набрать мышцы и силу</option>
-            <option value="fatloss">Снизить % жира, подтянуться</option>
-            <option value="health">Здоровье, энергия, тонус</option>
+            <option value="">Выберите...</option>
+            <option value="lose">Сбросить вес</option>
+            <option value="maintain">Поддерживать форму</option>
+            <option value="gain">Набрать массу</option>
           </select>
         </div>
 
-        <div class="form-group">
-          <label for="experience">Твой опыт тренировок?</label>
-          <select id="experience" name="experience" required>
-            <option value="beginner">Новичок (0–6 мес)</option>
-            <option value="intermediate">Средний (6 мес – 2 года)</option>
-            <option value="advanced">Опытный (2+ года)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Что есть у тебя дома? (можно несколько)</label>
-          <div class="checkbox-grid">
-            <label class="checkbox-item">
-              <input type="checkbox" name="equipment" value="dumbbells">
-              <span>Гантели</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="equipment" value="bench">
-              <span>Скамья</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="equipment" value="bands">
-              <span>Резинки</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="equipment" value="bar">
-              <span>Штанг</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="equipment" value="none">
-              <span>Ничего — только вес тела</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Есть ли боли или ограничения? (можно несколько)</label>
-          <div class="checkbox-grid">
-            <label class="checkbox-item">
-              <input type="checkbox" name="injuries" value="shoulder">
-              <span>Плечи</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="injuries" value="back">
-              <span>Спина / поясница</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="injuries" value="knee">
-              <span>Колени</span>
-            </label>
-            <label class="checkbox-item">
-              <input type="checkbox" name="injuries" value="none">
-              <span>Нет, всё хорошо</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="availableDays">Сколько дней в неделю можешь тренироваться?</label>
-            <select id="availableDays" name="availableDays" required>
-              <option value="2">2 дня</option>
-              <option value="3">3 дня</option>
-              <option value="4" selected>4 дня</option>
-              <option value="5">5 дней</option>
-              <option value="6">6 дней</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="timePerSession">Сколько минут готов уделять одной тренировке?</label>
-            <select id="timePerSession" name="timePerSession" required>
-              <option value="30">30 минут</option>
-              <option value="45" selected>45 минут</option>
-              <option value="60">60 минут</option>
-              <option value="75">75+ минут</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="preferredTime">Когда тебе удобнее всего тренироваться?</label>
-          <select id="preferredTime" name="preferredTime" required>
-            <option value="morning">Утро (до 12:00)</option>
-            <option value="afternoon">День (12:00–18:00)</option>
-            <option value="evening">Вечер (после 18:00)</option>
-          </select>
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="btn-primary">Сохранить и перейти к программе →</button>
-          <a href="../index.html" class="btn-secondary">Пропустить (не рекомендуется)</a>
-        </div>
+        <!-- Кнопка -->
+        <button type="submit" class="btn-primary btn-large">Сохранить и продолжить →</button>
       </form>
+
+      <div id="formFeedback" aria-live="polite"></div>
     </div>
   </main>
 
-  <script type="module">
-    import { MorpheProfile } from '../modules/profile.js';
+  <!-- Заглушка подвала -->
+  <div id="footer-placeholder"></div>
 
-    const profile = new MorpheProfile();
-    const form = document.getElementById('profileForm');
-
-    // Автозаполнение формы из профиля
-    function populateForm() {
-      for (let key in profile.data) {
-        const el = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
-        if (!el) continue;
-
-        if (el.type === 'checkbox') {
-          // Пропускаем — обработаем отдельно
-        } else if (el.tagName === 'SELECT' || el.type === 'text' || el.type === 'number') {
-          el.value = profile.data[key];
-        }
-      }
-
-      // Заполняем чекбоксы оборудования
-      if (profile.data.equipment) {
-        document.querySelectorAll('input[name="equipment"]').forEach(cb => {
-          cb.checked = profile.data.equipment.includes(cb.value);
-        });
-      }
-
-      // Заполняем чекбоксы травм
-      if (profile.data.injuries) {
-        document.querySelectorAll('input[name="injuries"]').forEach(cb => {
-          cb.checked = profile.data.injuries.includes(cb.value);
-        });
-      }
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
     }
+  </script>
 
-    // Инициализация
-    populateForm();
+  <!-- Загрузка частей и логика -->
+  <script type="module">
+    import { HeaderController } from '/core/HeaderController.js';
+    import { ThemeManager } from '/core/themeManager.js';
+    import { MorpheProfile } from '/modules/profile.js';
 
-    // Обработка отправки формы
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Инициализация UI
+      await HeaderController.loadHeader();
+      new ThemeManager();
 
-      const formData = new FormData(form);
-      const data = {};
+      const form = document.getElementById('profileForm');
+      const feedback = document.getElementById('formFeedback');
 
-      // Обычные поля
-      for (let [key, value] of formData.entries()) {
-        if (key !== 'equipment' && key !== 'injuries') {
-          data[key] = value;
-        }
+      // === Загружаем существующий профиль и заполняем форму ===
+      const profile = new MorpheProfile();
+      if (profile.isComplete()) {
+        profile.fillForm(form); // ✅ Теперь метод существует!
+        feedback.innerHTML = '<p class="info-text">✅ Профиль уже заполнен. Вы можете его обновить.</p>';
       }
 
-      // Чекбоксы — оборудование
-      data.equipment = formData.getAll('equipment').filter(v => v !== 'none');
-      if (data.equipment.length === 0) data.equipment = ['none'];
+      // === Обработка отправки формы ===
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-      // Чекбоксы — травмы
-      data.injuries = formData.getAll('injuries').filter(v => v !== 'none');
-      if (data.injuries.length === 0) data.injuries = [];
+        // Валидация формы браузером
+        if (!form.checkValidity()) {
+          feedback.innerHTML = '<p class="error-text">❌ Пожалуйста, заполните все обязательные поля.</p>';
+          form.reportValidity();
+          return;
+        }
 
-      // Обновляем профиль
-      profile.updateBatch(data);
-      profile.markAsCompleted();
+        const formData = new FormData(form);
 
-      // Уведомление и редирект
-      alert("✅ Профиль сохранён! Morphe уже строит твою персональную программу...");
-      window.location.href = "../index.html";
+        try {
+          profile.save({
+            name: formData.get('name'),
+            gender: formData.get('gender'),
+            age: parseInt(formData.get('age')),
+            height: parseFloat(formData.get('height')),
+            weight: parseFloat(formData.get('weight')),
+            activityLevel: parseFloat(formData.get('activity')),
+            goal: formData.get('goal'),
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          });
+
+          feedback.innerHTML = '<p class="success-text">✅ Данные сохранены! Перенаправляем...</p>';
+          console.log('💾 Сохранён профиль:', profile.data);
+
+          setTimeout(() => {
+            window.location.href = '/index.html';
+          }, 1000);
+
+        } catch (err) {
+          console.error('❌ Ошибка сохранения:', err);
+          feedback.innerHTML = `<p class="error-text">❌ Ошибка: ${err.message}</p>`;
+        }
+      });
     });
   </script>
 </body>
