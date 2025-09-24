@@ -26,11 +26,11 @@
   <meta name="theme-color" content="#8b5cf6">
 
   <!-- Шрифты -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com  ">
+  <link rel="preconnect" href="https://fonts.gstatic.com  " crossorigin>
   <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+    <link href="  https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
   </noscript>
 
   <!-- Стили -->
@@ -38,7 +38,8 @@
   <link rel="stylesheet" href="/styles-shared.css">
   <link rel="stylesheet" href="/styles-home.css">
 
-  <!-- Кнопка переключения темы (фиксированная) -->
+  <!-- Кнопка переключения темы ВРЕМЕННО ОТКЛЮЧЕНА -->
+  <!--
   <style>
     .theme-toggle-btn {
       position: fixed;
@@ -66,13 +67,14 @@
       color: white;
     }
   </style>
+  -->
 </head>
 <body>
 
-  <!-- Кнопка переключения темы -->
-  <button id="themeToggle" aria-label="Переключить тему" class="theme-toggle-btn">
+  <!-- Кнопка переключения темы ВРЕМЕННО УДАЛЕНА -->
+  <!-- <button id="themeToggle" aria-label="Переключить тему" class="theme-toggle-btn">
     <span class="theme-icon">🌙</span>
-  </button>
+  </button> -->
 
   <!-- Заглушка для шапки -->
   <div id="header-placeholder"></div>
@@ -188,14 +190,14 @@
   <!-- Модульная загрузка ядра -->
   <script type="module">
     // === Защита от дублирования themeToggle ===
-    if (document.getElementById('themeToggle')) {
-      const duplicates = document.querySelectorAll('#themeToggle:not(:first-of-type)');
-      duplicates.forEach(el => el.remove());
-    }
+    // if (document.getElementById('themeToggle')) {
+    //   const duplicates = document.querySelectorAll('#themeToggle:not(:first-of-type)');
+    //   duplicates.forEach(el => el.remove());
+    // }
 
     // === Импорты через относительные пути ===
     import { HeaderController } from './core/HeaderController.js';
-    import { ThemeManager } from './core/themeManager.js';
+    // import { ThemeManager } from './core/themeManager.js'; // ← ВРЕМЕННО ОТКЛЮЧЁН
     import { HomeDashboard } from './core/HomeDashboard.js';
     import { AnalyticsEngine } from './core/analytics.js';
     import { OnboardingManager } from './modules/onboardingManager.js';
@@ -209,33 +211,33 @@
           return;
         }
 
-        // === Тема ===
-        const themeManager = new ThemeManager();
-        const themeToggle = document.getElementById('themeToggle');
-        const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        // === Тема — ВРЕМЕННО ОТКЛЮЧЕНА ===
+        // const themeManager = new ThemeManager();
+        // const themeToggle = document.getElementById('themeToggle');
+        // const themeColorMeta = document.querySelector('meta[name="theme-color"]');
 
-        function updateThemeIcon() {
-          const icon = themeToggle.querySelector('.theme-icon');
-          if (icon) {
-            icon.textContent = themeManager.get() === 'dark' ? '☀️' : '🌙';
-          }
-        }
+        // function updateThemeIcon() {
+        //   const icon = themeToggle.querySelector('.theme-icon');
+        //   if (icon) {
+        //     icon.textContent = themeManager.get() === 'dark' ? '☀️' : '🌙';
+        //   }
+        // }
 
-        function updateThemeColor() {
-          if (themeColorMeta) {
-            const color = themeManager.get() === 'dark' ? '#1e293b' : '#8b5cf6';
-            themeColorMeta.setAttribute('content', color);
-          }
-        }
+        // function updateThemeColor() {
+        //   if (themeColorMeta) {
+        //     const color = themeManager.get() === 'dark' ? '#1e293b' : '#8b5cf6';
+        //     themeColorMeta.setAttribute('content', color);
+        //   }
+        // }
 
-        themeToggle?.addEventListener('click', () => {
-          themeManager.toggle();
-          updateThemeIcon();
-          updateThemeColor();
-        });
+        // themeToggle?.addEventListener('click', () => {
+        //   themeManager.toggle();
+        //   updateThemeIcon();
+        //   updateThemeColor();
+        // });
 
-        updateThemeIcon(); // Инициализация иконки
-        updateThemeColor(); // Инициализация цвета темы
+        // updateThemeIcon(); // Инициализация иконки
+        // updateThemeColor(); // Инициализация цвета темы
 
         // === Загрузка шапки ===
         await HeaderController.loadHeader();
@@ -282,9 +284,8 @@
       }
     });
 
-    // === Загрузка подвала — используем уже импортированный HeaderController ===
+    // === Загрузка подвала ===
     document.addEventListener('DOMContentLoaded', async () => {
-      // Ждём, пока основной DOMContentLoaded не выполнится (или запускаем параллельно — безопасно)
       setTimeout(async () => {
         try {
           await HeaderController.loadFooter();
@@ -295,6 +296,4 @@
     });
   </script>
 </body>
-
 </html>
-
