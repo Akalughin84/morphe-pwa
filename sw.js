@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
   '/index.html',
   '/manifest.json',
   '/sw.js',
-  '/robots.txt',
+
   '/sitemap.xml',
   '/favicon.ico',
 
@@ -16,24 +16,35 @@ const ASSETS_TO_CACHE = [
   '/styles-form.css',
   '/styles-home.css',
   '/styles-shared.css',
+  '/styles-header.css',
+  '/styles-achievements.css',
+
+  '/js/profile.js',
 
   // Ядро
   '/core/HeaderController.js',
   '/core/HomeDashboard.js',
   '/core/themeManager.js',
-  '/core/analytics.js',
+  '/core/aiAssistant.js',
   '/core/workoutPlanner.js',
+  '/core/workoutBalancer.js',
+  '/core/workoutSession.js',
+  '/core/analytics.js',
+  '/core/strengthGoalTracker.js',
+  '/core/strengthProgress.js',
   '/core/menuGenerator.js',
   '/core/nutritionEngine.js',  // ← проверяем этот
   '/core/achievementEngine.js',
   '/core/exerciseRecommender.js',
   '/core/goalTracker.js',
-  '/core/adaptiveEngine.js',
+  
 
   // Модули
   '/modules/profile.js',
   '/modules/workoutTracker.js',
   '/modules/progressTracker.js',
+  '/modules/progressCalendar.js',
+  '/modules/progressHub.js',
   '/modules/nutritionTracker.js',
   '/modules/notifications.js',
   '/modules/achievementsManager.js',
@@ -41,6 +52,7 @@ const ASSETS_TO_CACHE = [
   '/modules/supplementAdvisor.js',
   '/modules/strengthGoalTracker.js',
   '/modules/aiAssistant.js',
+  '/modules/userProfile.js',
   '/modules/adaptiveEngine.js',
   '/modules/premiumManager.js',
   '/modules/timer.js',
@@ -68,6 +80,7 @@ const ASSETS_TO_CACHE = [
   '/pages/onboarding.html',
   '/pages/profile.html',
   '/pages/workouts.html',
+  '/pages/workout-session.html',
   '/pages/nutrition.html',
   '/pages/progress.html',
   '/pages/supplements.html',
