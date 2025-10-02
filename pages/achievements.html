@@ -1,22 +1,23 @@
-<!-- /pages/achievements.html -->
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Достижения — Morphe</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#f97316">
 
   <!-- Стили -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-shared.css">
-  <link rel="stylesheet" href="/styles-form.css">
+  <link rel="stylesheet" href="/styles-header.css">
+  <link rel="stylesheet" href="/styles-achievements.css">
 
-  <!-- Skip-link -->
+  <!-- Skip-link для доступности -->
   <style>
     .skip-link {
       position: absolute;
@@ -29,21 +30,22 @@
       z-index: 1000;
       transition: top 0.3s ease;
     }
-    .skip-link:focus { top: 10px; }
+    .skip-link:focus {
+      top: 10px;
+      outline: 2px solid #fff;
+    }
   </style>
 </head>
 <body>
 
-  
-
   <!-- Заглушка шапки -->
   <div id="header-placeholder"></div>
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <div class="container">
       <section class="card">
         <h1>🏆 Ваши достижения</h1>
-        <p id="achievementsStats">Загрузка...</p>
+        <p id="achievementsStats" class="info-text">Загрузка...</p>
 
         <div id="achievementsGrid" style="display: none;">
           <!-- Будет заполнено через JS -->
@@ -68,7 +70,6 @@
     }
   </script>
 
-  <!-- Логика страницы -->
   <script type="module">
     import { HeaderController } from '/core/HeaderController.js';
     import { ThemeManager } from '/core/themeManager.js';
@@ -76,64 +77,65 @@
     import { AchievementEngine } from '/core/achievementEngine.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      await HeaderController.loadHeader();
-      new ThemeManager();
-
-      const statsEl = document.getElementById('achievementsStats');
-      const gridEl = document.getElementById('achievementsGrid');
-      const noEl = document.getElementById('noAchievements');
-
       try {
+        await HeaderController.loadHeader();
+        new ThemeManager();
+
+        const statsEl = document.getElementById('achievementsStats');
+        const gridEl = document.getElementById('achievementsGrid');
+        const noEl = document.getElementById('noAchievements');
+
         const manager = new AchievementsManager();
         const engine = new AchievementEngine();
 
-        // Проверка достижений
+        // Проверка и выдача достижений
         await engine.checkAll();
 
         const achievements = manager.getAllWithStatus();
         const unlockedCount = manager.getUnlockedCount();
 
-        // Статистика
+        // Обновление статистики
         statsEl.innerHTML = `
           <strong>${unlockedCount}</strong> из ${achievements.length} достижений получено
         `;
 
         if (unlockedCount === 0) {
           noEl.style.display = 'block';
-          return;
+        } else {
+          // Рендеринг карточек
+          gridEl.innerHTML = achievements.map(a => {
+            const isUnlocked = a.unlocked;
+            return `
+              <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}" 
+                   role="article" 
+                   aria-label="${a.title} ${isUnlocked ? '— получено' : '— заблокировано'}">
+                <div class="achievement-icon">
+                  ${isUnlocked ? a.icon : '🔒'}
+                </div>
+                <h3>${a.title}</h3>
+                <p>${a.description}</p>
+                ${a.secret ? `<small class="text-tertiary"><em>Секретное достижение</em></small>` : ''}
+                ${a.type === 'streak' && a.progress !== null ? 
+                  `<progress value="${a.progress}" max="${a.target}" 
+                            aria-label="Прогресс: ${a.progress} из ${a.target}"></progress>
+                   <small>${a.progress}/${a.target}</small>` : ''
+                }
+              </div>
+            `;
+          }).join('');
+          gridEl.style.display = 'block';
         }
 
-        // Рендеринг
-        gridEl.innerHTML = achievements.map(a => {
-          const isUnlocked = a.unlocked;
-          return `
-            <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}">
-              <div class="achievement-icon">
-                ${isUnlocked ? a.icon : '🔒'}
-              </div>
-              <h3>${a.title}</h3>
-              <p>${a.description}</p>
-              ${a.secret ? `<small><em>Секретное достижение</em></small>` : ''}
-              ${a.type === 'streak' && a.progress !== null ? 
-                `<progress value="${a.progress}" max="${a.target}"></progress>
-                 <small>${a.progress}/${a.target}</small>` : ''
-              }
-            </div>
-          `;
-        }).join('');
-
-        gridEl.style.display = 'block';
+        await HeaderController.loadFooter();
 
       } catch (err) {
-        statsEl.textContent = `Ошибка: ${err.message}`;
-        statsEl.className = 'error-text';
-        console.error(err);
+        console.error('❌ Ошибка на странице достижений:', err);
+        const statsEl = document.getElementById('achievementsStats');
+        if (statsEl) {
+          statsEl.textContent = `Ошибка: ${err.message}`;
+          statsEl.className = 'error-text';
+        }
       }
-    });
-
-    // Подключение подвала
-    document.addEventListener('DOMContentLoaded', async () => {
-      await import('/core/HeaderController.js').then(m => m.HeaderController.loadFooter());
     });
   </script>
 </body>
