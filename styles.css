@@ -1,19 +1,21 @@
 /* /styles.css */
-/* v2.1.0 — Глобальные стили, переменные, сброс */
+/* v2.3.0 — Wellness + Energy: оранжевый акцент, осознанный рост */
 
-/* Темизация */
 :root[data-theme="light"] {
   --bg-primary: #ffffff;
-  --bg-surface: #f8fafc;
-  --bg-surface-alt: #f1f5f9;
+  --bg-surface: #fafafa;
+  --bg-surface-alt: #f4f4f5;
   --bg-input: #ffffff;
-  --text-primary: #1e293b;
-  --text-secondary: #475569;
-  --text-tertiary: #64748b;
-  --border: #e2e8f0;
-  --accent: #8b5cf6;
-  --accent-dark: #7c3aed;
-  --shadow: rgba(0, 0, 0, 0.1);
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+  --border: #e5e7eb;
+  --accent: #f97316; /* orange-500 — энергия и движение */
+  --accent-dark: #ea580c; /* orange-600 */
+  --success: #10b981; /* emerald-500 — успех */
+  --warning: #f59e0b; /* amber-500 — внимание */
+  --danger: #f87171; /* red-400 — интенсивность */
+  --shadow: rgba(0, 0, 0, 0.08);
 }
 
 :root[data-theme="dark"] {
@@ -21,16 +23,18 @@
   --bg-surface: #1e293b;
   --bg-surface-alt: #334155;
   --bg-input: #334155;
-  --text-primary: #e2e8f0;
-  --text-secondary: #cbd5e1;
-  --text-tertiary: #94a3b8;
-  --border: #334155;
-  --accent: #a78bfa;
-  --accent-dark: #8b5cf6;
-  --shadow: rgba(0, 0, 0, 0.3);
+  --text-primary: #f1f5f9;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --border: #374151;
+  --accent: #fb923c; /* orange-400 */
+  --accent-dark: #f97316; /* orange-500 */
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #fca5a5;
+  --shadow: rgba(0, 0, 0, 0.35);
 }
 
-/* Базовые стили */
 * {
   margin: 0;
   padding: 0;
@@ -60,30 +64,18 @@ img {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 clamp(1rem, 5vw, 1.5rem);
 }
 
-/* Текст */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
   line-height: 1.2;
   margin-bottom: 1rem;
 }
 
-h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-}
-
-h2 {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-h3 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
+h1 { font-size: 2.5rem; font-weight: 800; }
+h2 { font-size: 2rem; font-weight: 700; }
+h3 { font-size: 1.5rem; font-weight: 600; }
 
 p {
   margin-bottom: 1rem;
@@ -110,18 +102,120 @@ small {
   color: var(--text-tertiary);
 }
 
-/* Формы */
 input, select, textarea, button {
   font-family: inherit;
   font-size: 1rem;
 }
 
-/* Скрытие при печати */
 @media print {
   .theme-toggle-btn,
   header,
   footer,
-  .cta-button {
+  .btn-primary.cta {
     display: none !important;
   }
+}
+
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.no-transition *,
+body.no-transition *::before,
+body.no-transition *::after {
+  transition: none !important;
+}
+
+/* === ФУТУРИСТИЧЕСКИЙ СТИЛЬ === */
+
+.futuristic-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.glow-title {
+  background: linear-gradient(90deg, #f97316, #fb923c, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  text-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+}
+
+.form-grid-2x4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .form-grid-2x4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.input-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 8px 12px;
+  transition: background 0.3s ease;
+}
+
+.input-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.input-icon span {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.form-control-compact {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  width: 100%;
+  padding: 4px 0;
+  outline: none;
+}
+
+.form-control-compact::placeholder {
+  color: var(--text-tertiary);
+  opacity: 0.7;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.btn-neon {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #f97316, #ea580c);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+  transition: all 0.3s ease;
+}
+
+.btn-neon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
 }
