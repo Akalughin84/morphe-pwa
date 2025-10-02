@@ -2,7 +2,7 @@
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Morphe Pro — Поддержите развитие</title>
 
   <!-- SEO -->
@@ -12,127 +12,21 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#f97316">
 
   <!-- Стили -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-shared.css">
-
-  <!-- Skip-link -->
-  <style>
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 10px;
-      background: #000;
-      color: #fff;
-      padding: 8px;
-      text-decoration: none;
-      z-index: 1000;
-      transition: top 0.3s;
-    }
-    .skip-link:focus { top: 10px; }
-
-    /* Стили для Pro-страницы */
-    .future-features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-      margin: 24px 0;
-    }
-
-    .feature-card {
-      padding: 20px;
-      border-radius: 12px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-
-    .feature-card .icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-
-    .feature-card h3 {
-      margin: 0 0 12px 0;
-      color: var(--text-primary);
-    }
-
-    .feature-card p {
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .pro-badge {
-      display: inline-block;
-      background: #8b5cf6;
-      color: white;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 50px;
-      margin-left: 8px;
-    }
-
-    .highlight-box {
-      background: linear-gradient(135deg, #8b5cf610, #ec489910);
-      border: 1px solid #8b5cf630;
-      border-radius: 16px;
-      padding: 24px;
-      margin: 32px 0;
-      text-align: center;
-    }
-
-    .highlight-box h3 {
-      margin: 0 0 16px 0;
-      color: var(--accent);
-    }
-
-    .highlight-box p {
-      max-width: 600px;
-      margin: 0 auto 16px;
-      font-size: 1.1rem;
-      color: var(--text-primary);
-    }
-
-    .support-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-      margin: 24px 0;
-    }
-
-    .support-btn {
-      padding: 12px 24px;
-      border: 2px solid var(--accent);
-      background: transparent;
-      color: var(--accent);
-      font-weight: 600;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .support-btn:hover {
-      background: var(--accent);
-      color: white;
-    }
-  </style>
+  <link rel="stylesheet" href="/styles-header.css">
 </head>
 <body>
 
   <!-- Заглушка шапки -->
   <div id="header-placeholder"></div>
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <div class="container">
-      <h1>💎 Morphe Pro</h1>
+      <h1>⭐ Morphe Pro</h1>
       <p><strong>Бесплатно. Оффлайн. Этично.</strong></p>
       <p>Все базовые функции всегда будут бесплатными. Pro — это не доступ к возможностям, а <strong>ваш вклад в развитие проекта</strong>.</p>
 
@@ -181,7 +75,6 @@
       <section class="card">
         <h2>Почему нет подписки?</h2>
         <p>Потому что <strong>здоровье не должно зависеть от денег</strong>.</p>
-        <p>Morphe остаётся:</p>
         <ul>
           <li>✅ <strong>Бесплатным</strong> — все ключевые функции доступны каждому</li>
           <li>✅ <strong>Оффлайн</strong> — работает без интернета</li>
@@ -196,10 +89,10 @@
         <h2>Как вы можете поддержать?</h2>
         <p>Любым способом — каждый вклад важен:</p>
         <div class="support-actions">
-          <button class="support-btn" onclick="window.open('https://github.com/morphe-app', 'blank')">⭐ GitHub</button>
-          <button class="support-btn" onclick="shareApp()">💬 Рассказать</button>
-          <button class="support-btn" onclick="window.location.href='/pages/feedback.html'">💡 Предложить идею</button>
-          <button class="support-btn" onclick="donateOnce()" disabled>💸 Внести один раз</button>
+          <a href="https://github.com/morphe-app" target="_blank" class="btn-outline">⭐ GitHub</a>
+          <button type="button" class="btn-outline" onclick="shareApp()">💬 Рассказать</button>
+          <a href="/pages/feedback.html" class="btn-outline">💡 Предложить идею</a>
+          <button type="button" class="btn-outline" onclick="donateOnce()" disabled>💸 Внести один раз</button>
         </div>
         <p><small>Функция пожертвований появится, когда будет куда направить средства (например, хостинг тестового бэкенда).</small></p>
       </section>
@@ -211,7 +104,6 @@
     </div>
   </main>
 
-  <!-- Заглушка подвала -->
   <div id="footer-placeholder"></div>
 
   <!-- Service Worker -->
@@ -223,7 +115,6 @@
     }
   </script>
 
-  <!-- Логика страницы -->
   <script type="module">
     import { HeaderController } from '/core/HeaderController.js';
     import { ThemeManager } from '/core/themeManager.js';
@@ -232,7 +123,6 @@
       await HeaderController.loadHeader();
       new ThemeManager();
 
-      // === Функция: поделиться приложением ===
       function shareApp() {
         if (navigator.share) {
           navigator.share({
@@ -245,22 +135,117 @@
         }
       }
 
-      // === Заглушка для пожертвований ===
       function donateOnce() {
         alert('Спасибо за желание поддержать! Функция скоро появится.');
       }
 
-      // Делаем доступными в глобальной области
       window.shareApp = shareApp;
       window.donateOnce = donateOnce;
     });
 
-    // Подвал
     document.addEventListener('DOMContentLoaded', () => {
       import('/core/HeaderController.js')
         .then(m => m.HeaderController.loadFooter())
         .catch(err => console.error('❌ Ошибка загрузки подвала:', err));
     });
   </script>
+
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+    .skip-link:focus {
+      top: 10px;
+      outline: 2px solid #fff;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, var(--accent) 0%, #ea580c 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin: 32px 0;
+      text-align: center;
+    }
+
+    .highlight-box h3 {
+      margin: 0 0 16px 0;
+      font-size: 1.5rem;
+    }
+
+    .highlight-box p {
+      max-width: 600px;
+      margin: 0 auto 16px;
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+
+    .highlight-box small {
+      opacity: 0.8;
+    }
+
+    .future-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 24px 0;
+    }
+
+    .feature-card {
+      padding: 20px;
+      border-radius: 12px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px var(--shadow);
+    }
+
+    .feature-card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+      color: var(--accent);
+    }
+
+    .feature-card h3 {
+      margin: 0 0 12px 0;
+      color: var(--text-primary);
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .support-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center;
+      margin: 24px 0;
+    }
+
+    @media (max-width: 768px) {
+      .support-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      .support-actions .btn-outline {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
 </body>
 </html>
