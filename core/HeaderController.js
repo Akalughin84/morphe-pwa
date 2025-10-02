@@ -1,4 +1,7 @@
 // /core/HeaderController.js
+// v1.1.0 — Кэширование, защита от дублирования, улучшенная надёжность
+
+const CACHE = new Map();
 
 export class HeaderController {
   /**
@@ -8,15 +11,26 @@ export class HeaderController {
     const placeholder = document.getElementById('header-placeholder');
     if (!placeholder) return;
 
+    // Избегаем повторной загрузки
+    if (document.getElementById('main-header')) {
+      this.initMenu();
+      return;
+    }
+
     try {
-      const response = await fetch('/partials/header.html');
-      if (!response.ok) throw new Error('Не удалось загрузить шапку');
-      const html = await response.text();
+      let html = CACHE.get('/partials/header.html');
+      if (!html) {
+        const response = await fetch('/partials/header.html');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        html = await response.text();
+        CACHE.set('/partials/header.html', html);
+      }
+
       placeholder.outerHTML = `<header id="main-header">${html}</header>`;
       this.initMenu();
     } catch (err) {
       console.error('❌ Ошибка загрузки шапки:', err);
-      placeholder.innerHTML = '<header>Шапка недоступна</header>';
+      placeholder.outerHTML = '<header class="header-error">Шапка недоступна</header>';
     }
   }
 
@@ -27,19 +41,27 @@ export class HeaderController {
     const placeholder = document.getElementById('footer-placeholder');
     if (!placeholder) return;
 
+    // Избегаем повторной загрузки
+    if (document.querySelector('footer.footer')) return;
+
     try {
-      const response = await fetch('/partials/footer.html');
-      if (!response.ok) throw new Error('Не удалось загрузить подвал');
-      const html = await response.text();
+      let html = CACHE.get('/partials/footer.html');
+      if (!html) {
+        const response = await fetch('/partials/footer.html');
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        html = await response.text();
+        CACHE.set('/partials/footer.html', html);
+      }
+
       placeholder.outerHTML = `<footer class="footer">${html}</footer>`;
     } catch (err) {
       console.error('❌ Ошибка загрузки подвала:', err);
-      placeholder.innerHTML = '<footer>Подвал недоступен</footer>';
+      placeholder.outerHTML = '<footer class="footer-error">Подвал недоступен</footer>';
     }
   }
 
   /**
-   * Инициализация мобильного меню
+   * Инициализация мобильного меню (с защитой от дублирования)
    */
   static initMenu() {
     const menuToggle = document.getElementById('menuToggle');
@@ -47,19 +69,26 @@ export class HeaderController {
 
     if (!menuToggle || !mainNav) return;
 
-    menuToggle.addEventListener('click', () => {
+    // Удаляем старые слушатели, если есть
+    menuToggle.removeEventListener('click', this._menuClickListener);
+    document.removeEventListener('click', this._outsideClickListener);
+
+    // Новые слушатели
+    this._menuClickListener = () => {
       mainNav.classList.toggle('active');
       menuToggle.classList.toggle('active');
       menuToggle.setAttribute('aria-expanded', mainNav.classList.contains('active'));
-    });
+    };
 
-    // Закрытие при клике вне меню
-    document.addEventListener('click', (e) => {
+    this._outsideClickListener = (e) => {
       if (!mainNav.contains(e.target) && !menuToggle.contains(e.target)) {
         menuToggle.classList.remove('active');
         mainNav.classList.remove('active');
         menuToggle.setAttribute('aria-expanded', 'false');
       }
-    });
+    };
+
+    menuToggle.addEventListener('click', this._menuClickListener);
+    document.addEventListener('click', this._outsideClickListener);
   }
 }
