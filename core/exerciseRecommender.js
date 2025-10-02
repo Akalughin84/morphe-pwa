@@ -1,6 +1,5 @@
 // /core/exerciseRecommender.js
 // v2.0.0 — Полная интеграция с системой генерации тренировок
-
 import { UserService } from '/services/userService.js';
 import { WorkoutTracker } from '/modules/workoutTracker.js';
 import { ProgressTracker } from '/modules/progressTracker.js';
@@ -24,9 +23,7 @@ export class ExerciseRecommender {
   async loadAll() {
     const user = UserService.getProfile();
     if (!user) throw new Error("Профиль не заполнен");
-
     this.profile = user.data;
-
     try {
       this.exercises = await DataService.getExercises();
     } catch (err) {
@@ -40,7 +37,6 @@ export class ExerciseRecommender {
    */
   async getRecommendations() {
     await this.loadAll();
-
     const recommendations = [];
 
     // 1. Рекомендация на основе цели
@@ -67,10 +63,8 @@ export class ExerciseRecommender {
    */
   getAlternatives(baseExercise, count = 3, variationType = 'equipment') {
     if (!baseExercise) return [];
-    
     const userEquipment = this.profile?.equipment || ['bodyweight'];
     const userLevel = this.profile?.level || 'beginner';
-
     let alternatives = this.exercises.filter(ex => 
       ex.id !== baseExercise.id &&
       ex.type === baseExercise.type && // тот же тип движения
@@ -89,7 +83,6 @@ export class ExerciseRecommender {
 
     // Рандомизируем оставшиеся
     alternatives = alternatives.sort(() => Math.random() - 0.5);
-
     return alternatives.slice(0, count);
   }
 
@@ -99,7 +92,6 @@ export class ExerciseRecommender {
   _getGoalBased() {
     const goal = this.profile.goal;
     const level = this._getExperienceLevel();
-
     if (goal === 'gain' || goal === 'maintain') {
       return [{
         exercise: this._findExercise('squat-barbell'),
@@ -111,7 +103,6 @@ export class ExerciseRecommender {
         priority: 'high'
       }];
     }
-
     if (goal === 'lose') {
       return [{
         exercise: this._findExercise('pull-ups'),
@@ -123,7 +114,6 @@ export class ExerciseRecommender {
         priority: 'medium'
       }];
     }
-
     return [];
   }
 
@@ -133,11 +123,9 @@ export class ExerciseRecommender {
   _getCorrective() {
     const recent = this.progress.getSince(14); // за 2 недели
     if (recent.length < 2) return [];
-
     const first = recent[0];
     const last = recent[recent.length - 1];
     const waistChange = last.waist - first.waist;
-
     if (waistChange > 0 && this.profile.goal === 'lose') {
       return [{
         exercise: this._findExercise('plank'),
@@ -149,7 +137,6 @@ export class ExerciseRecommender {
         priority: 'medium'
       }];
     }
-
     return [];
   }
 
@@ -158,7 +145,6 @@ export class ExerciseRecommender {
    */
   _getSafeAlternatives() {
     const hasBackPain = localStorage.getItem('morphe-has-back-pain') === 'true';
-
     if (hasBackPain) {
       return [{
         exercise: this._findExercise('leg-press'),
@@ -170,7 +156,6 @@ export class ExerciseRecommender {
         priority: 'high'
       }];
     }
-
     return [];
   }
 
@@ -180,7 +165,6 @@ export class ExerciseRecommender {
   _getProgression() {
     const level = this._getExperienceLevel();
     const weeklyCount = this.workouts.getWeeklyCount();
-
     if (level === 'advanced' && weeklyCount >= 4) {
       return [{
         exercise: this._findExercise('deadlift'),
@@ -192,7 +176,6 @@ export class ExerciseRecommender {
         priority: 'medium'
       }];
     }
-
     return [];
   }
 
