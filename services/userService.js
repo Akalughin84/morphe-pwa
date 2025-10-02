@@ -1,6 +1,5 @@
 // /services/userService.js
 // v2.4.2 — Исправлено: передаём profile, а не profile.data в NutritionEngine
-
 import { MorpheProfile } from '/modules/profile.js';
 
 /**
@@ -24,11 +23,9 @@ export class UserService {
   static async getNutritionPlan() {
     const profile = this.getProfile(); // ✅ Это MorpheProfile, а не сырые данные
     if (!profile) return null;
-
     try {
       const { NutritionEngine } = await import('../core/nutritionEngine.js');
       const engine = new NutritionEngine(profile); // ✅ Передаём profile, а не profile.data
-      
       return {
         bmr: Math.round(engine.calculateBMR()),
         tdee: Math.round(engine.calculateTDEE()),
