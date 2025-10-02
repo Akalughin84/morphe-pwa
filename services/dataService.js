@@ -1,5 +1,4 @@
 // /services/dataService.js
-
 /**
  * DataService — безопасный доступ к JSON-файлам
  */
