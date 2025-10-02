@@ -1,12 +1,10 @@
 /* /styles-form.css */
-/* v2.1.0 — Стили для форм (профиль, тренировки, цели) */
-
-/* === Общие стили форм === */
+/* v2.2.0 — Специфичные стили для форм (профиль, цели и т.д.) */
 
 .form-container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .form-section {
@@ -36,73 +34,7 @@
   line-height: 1.5;
 }
 
-/* === Группировка полей === */
-
-.form-row {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-}
-
-.form-row .form-group {
-  flex: 1 1 200px;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  font-size: 0.95rem;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="date"],
-input[type="email"],
-select,
-textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: var(--bg-input);
-  color: var(--text-primary);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-  outline: none;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
-  transform: translateY(-1px);
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--text-tertiary);
-  opacity: 0.7;
-}
-
-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-  background-position: right 0.75rem center;
-  background-repeat: no-repeat;
-  background-size: 1.5em 1.5em;
-  padding-right: 2.5rem;
-}
-
-/* === Кнопки в формах === */
-
+/* === Кнопки форм === */
 .btn-submit {
   background: var(--accent);
   color: white;
@@ -115,13 +47,14 @@ select {
   transition: all 0.3s ease;
   display: inline-block;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+  min-height: 48px;
 }
 
 .btn-submit:hover {
   background: var(--accent-dark);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.4);
 }
 
 .btn-submit:disabled {
@@ -142,7 +75,7 @@ select {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
-  margin-left: 0.5rem;
+  min-height: 48px;
 }
 
 .btn-cancel:hover {
@@ -150,8 +83,7 @@ select {
   color: var(--accent);
 }
 
-/* === Сообщения формы === */
-
+/* === Обратная связь === */
 .form-feedback {
   margin-top: 1rem;
   padding: 0.75rem;
@@ -161,14 +93,14 @@ select {
 }
 
 .form-feedback.success {
-  background: #f0fdf4;
-  color: #16a34a;
+  background: #ecfdf5;
+  color: #065f46;
   border: 1px solid #bbf7d0;
 }
 
 .form-feedback.error {
   background: #fef2f2;
-  color: #b91c1c;
+  color: #991b1b;
   border: 1px solid #fecaca;
 }
 
@@ -183,7 +115,6 @@ select {
 }
 
 /* === Адаптивность === */
-
 @media (max-width: 768px) {
   .form-container {
     padding: 0 1rem;
@@ -200,6 +131,3 @@ select {
     margin-top: 0.5rem;
   }
 }
-
-/* === Темизация === */
-/* Все цвета берутся из :root[data-theme], никаких жёстких хардкодов */
