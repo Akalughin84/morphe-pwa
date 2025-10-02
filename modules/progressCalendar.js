@@ -1,73 +1,173 @@
 // /modules/progressCalendar.js
-// v2.0.0 — Поддержка тренировок + метод для получения деталей дня
-
-import { NutritionTracker } from '/modules/nutritionTracker.js';
-import { ProgressTracker } from '/modules/progressTracker.js';
-import { WorkoutTracker } from '/modules/workoutTracker.js';
+// v2.2.0 — Полная поддержка добавок, улучшенная надёжность
 
 export class ProgressCalendar {
   constructor() {
-    this.nutrition = new NutritionTracker();
-    this.body = new ProgressTracker();
-    this.workouts = new WorkoutTracker();
+    this._nutrition = null;
+    this._body = null;
+    this._workouts = null;
+    this._supplements = null;
   }
 
-  /**
-   * Получить данные за последние 30 дней
-   */
-  getLast30DaysData() {
+  async getNutrition() {
+    if (!this._nutrition) {
+      const { NutritionTracker } = await import('/modules/nutritionTracker.js');
+      this._nutrition = new NutritionTracker();
+    }
+    return this._nutrition;
+  }
+
+  async getBody() {
+    if (!this._body) {
+      const { ProgressTracker } = await import('/modules/progressTracker.js');
+      this._body = new ProgressTracker();
+    }
+    return this._body;
+  }
+
+  async getWorkouts() {
+    if (!this._workouts) {
+      const { WorkoutTracker } = await import('/modules/workoutTracker.js');
+      this._workouts = new WorkoutTracker();
+    }
+    return this._workouts;
+  }
+
+  async getSupplements() {
+    if (!this._supplements) {
+      const { SupplementTracker } = await import('/modules/supplementTracker.js');
+      this._supplements = new SupplementTracker();
+    }
+    return this._supplements;
+  }
+
+  async getLastDaysData(days = 30) {
     const today = new Date();
     const dates = [];
 
-    for (let i = 29; i >= 0; i--) {
+    for (let i = days - 1; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(today.getDate() - i);
       const dateStr = d.toISOString().split('T')[0];
       dates.push(dateStr);
     }
 
+    const [body, nutrition, workouts, supplements] = await Promise.all([
+      this.getBody(),
+      this.getNutrition(),
+      this.getWorkouts(),
+      this.getSupplements()
+    ]);
+
     return dates.map(dateStr => ({
       date: dateStr,
-      hasBody: this.hasBodyEntry(dateStr),
-      hasNutrition: this.hasNutritionEntry(dateStr),
-      hasWorkout: this.hasWorkoutEntry(dateStr)
+      hasBody: this._hasBodyEntry(body, dateStr),
+      hasNutrition: this._hasNutritionEntry(nutrition, dateStr),
+      hasWorkout: this._hasWorkoutEntry(workouts, dateStr),
+      hasSupplement: this._hasSupplementEntry(supplements, dateStr)
     }));
   }
 
-  /**
-   * Проверить наличие замера тела
-   */
-  hasBodyEntry(dateStr) {
-    return this.body.data.some(entry => entry.date === dateStr);
+  async getLast30DaysData() {
+    return this.getLastDaysData(30);
   }
 
-  /**
-   * Проверить наличие питания
-   */
-  hasNutritionEntry(dateStr) {
-    return this.nutrition.entries.some(entry => entry.date === dateStr);
+  _hasBodyEntry(tracker, dateStr) {
+    if (typeof tracker.getEntriesByDate === 'function') {
+      return tracker.getEntriesByDate(dateStr).length > 0;
+    }
+    if (Array.isArray(tracker.entries)) {
+      return tracker.entries.some(entry => entry.date === dateStr);
+    }
+    return false;
   }
 
-  /**
-   * Проверить наличие тренировки
-   */
-  hasWorkoutEntry(dateStr) {
-    return this.workouts.hasWorkoutOnDate(dateStr);
+  _hasNutritionEntry(tracker, dateStr) {
+    if (typeof tracker.getEntriesByDate === 'function') {
+      return tracker.getEntriesByDate(dateStr).length > 0;
+    }
+    if (Array.isArray(tracker.entries)) {
+      return tracker.entries.some(entry => entry.date === dateStr);
+    }
+    return false;
   }
 
-  /**
-   * Получить все данные за конкретную дату
-   */
-  getDayDetails(dateStr) {
-    const bodyEntries = this.body.data.filter(entry => entry.date === dateStr);
-    const nutritionEntries = this.nutrition.entries.filter(entry => entry.date === dateStr);
-    const workoutEntries = this.workouts.getWorkoutsByDate(dateStr);
+  _hasWorkoutEntry(tracker, dateStr) {
+    if (typeof tracker.getWorkoutsByDate === 'function') {
+      return tracker.getWorkoutsByDate(dateStr).length > 0;
+    }
+    if (typeof tracker.getAll === 'function') {
+      const all = tracker.getAll();
+      return Array.isArray(all) && all.some(w => w.date === dateStr);
+    }
+    if (Array.isArray(tracker.data)) {
+      return tracker.data.some(w => w.date === dateStr);
+    }
+    return false;
+  }
+
+  _hasSupplementEntry(tracker, dateStr) {
+    if (typeof tracker.getEntriesByDate === 'function') {
+      return tracker.getEntriesByDate(dateStr).length > 0;
+    }
+    if (Array.isArray(tracker.entries)) {
+      return tracker.entries.some(entry => entry.date === dateStr);
+    }
+    return false;
+  }
+
+  async getDayDetails(dateStr) {
+    const [body, nutrition, workouts, supplements] = await Promise.all([
+      this.getBody(),
+      this.getNutrition(),
+      this.getWorkouts(),
+      this.getSupplements()
+    ]);
+
+    let bodyEntries = [];
+    let nutritionEntries = [];
+    let workoutEntries = [];
+    let supplementEntries = [];
+
+    // Замеры тела
+    if (typeof body.getEntriesByDate === 'function') {
+      bodyEntries = body.getEntriesByDate(dateStr);
+    } else if (Array.isArray(body.entries)) {
+      bodyEntries = body.entries.filter(entry => entry.date === dateStr);
+    }
+
+    // Питание
+    if (typeof nutrition.getEntriesByDate === 'function') {
+      nutritionEntries = nutrition.getEntriesByDate(dateStr);
+    } else if (Array.isArray(nutrition.entries)) {
+      nutritionEntries = nutrition.entries.filter(entry => entry.date === dateStr);
+    }
+
+    // Тренировки
+    if (typeof workouts.getWorkoutsByDate === 'function') {
+      workoutEntries = workouts.getWorkoutsByDate(dateStr);
+    } else if (typeof workouts.getAll === 'function') {
+      const all = workouts.getAll();
+      if (Array.isArray(all)) {
+        workoutEntries = all.filter(w => w.date === dateStr);
+      }
+    } else if (Array.isArray(workouts.data)) {
+      workoutEntries = workouts.data.filter(w => w.date === dateStr);
+    }
+
+    // Добавки
+    if (typeof supplements.getEntriesByDate === 'function') {
+      supplementEntries = supplements.getEntriesByDate(dateStr);
+    } else if (Array.isArray(supplements.entries)) {
+      supplementEntries = supplements.entries.filter(entry => entry.date === dateStr);
+    }
 
     return {
       date: dateStr,
       body: bodyEntries,
       nutrition: nutritionEntries,
-      workouts: workoutEntries
+      workouts: workoutEntries,
+      supplements: supplementEntries
     };
   }
 }
