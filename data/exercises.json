@@ -4,15 +4,12 @@
     "name": "Приседания со штангой",
     "type": "legs",
     "equipment": "barbell",
+    "tags": ["legs", "push"],
     "primaryMuscles": ["quadriceps", "glutes", "hamstrings"],
     "secondaryMuscles": ["lower back", "core"],
     "riskLevel": "medium",
     "level": "intermediate",
-    "formTips": [
-      "Спина прямая",
-      "Колени не выходят за носки",
-      "Опускайся до параллели"
-    ],
+    "formTips": ["Спина прямая", "Колени не выходят за носки", "Опускайся до параллели"],
     "scientificBasis": {
       "volumeOptimal": "10–20 подходов/неделю",
       "intensityOptimal": "70–85% 1ПМ",
@@ -26,15 +23,12 @@
     "name": "Жим лёжа",
     "type": "chest",
     "equipment": "barbell",
+    "tags": ["push", "chest"],
     "primaryMuscles": ["pectorals", "triceps", "front delts"],
     "secondaryMuscles": ["core"],
     "riskLevel": "medium",
     "level": "intermediate",
-    "formTips": [
-      "Лопатки сводим",
-      "Штанга к нижней части груди",
-      "Не отрывайте поясницу"
-    ],
+    "formTips": ["Лопатки сводим", "Штанга к нижней части груди", "Не отрывайте поясницу"],
     "scientificBasis": {
       "volumeOptimal": "10–18 подходов/неделю",
       "intensityOptimal": "75–85% 1ПМ",
@@ -48,15 +42,12 @@
     "name": "Становая тяга",
     "type": "back",
     "equipment": "barbell",
+    "tags": ["pull", "legs", "posterior-chain"],
     "primaryMuscles": ["hamstrings", "glutes", "lower back"],
     "secondaryMuscles": ["traps", "forearms"],
     "riskLevel": "high",
     "level": "advanced",
-    "formTips": [
-      "Спина прямая",
-      "Таз выше головы",
-      "Выпрямляй ноги после корпуса"
-    ],
+    "formTips": ["Спина прямая", "Таз выше головы", "Выпрямляй ноги после корпуса"],
     "scientificBasis": {
       "volumeOptimal": "4–8 подходов/неделю",
       "intensityOptimal": "80–90% 1ПМ",
@@ -70,15 +61,12 @@
     "name": "Подтягивания",
     "type": "back",
     "equipment": "bodyweight",
+    "tags": ["pull", "back"],
     "primaryMuscles": ["lats", "biceps", "rhomboids"],
     "secondaryMuscles": ["core"],
     "riskLevel": "low",
     "level": "beginner",
-    "formTips": [
-      "Плечи опущены",
-      "Движение грудью к перекладине",
-      "Полное раскрытие внизу"
-    ],
+    "formTips": ["Плечи опущены", "Движение грудью к перекладине", "Полное раскрытие внизу"],
     "scientificBasis": {
       "volumeOptimal": "12–20 повторений/тренировку",
       "intensityOptimal": "RIR 1–2",
@@ -92,15 +80,12 @@
     "name": "Жим стоя",
     "type": "shoulders",
     "equipment": "barbell",
+    "tags": ["push", "shoulders"],
     "primaryMuscles": ["deltoids", "triceps"],
     "secondaryMuscles": ["upper chest", "core"],
     "riskLevel": "medium",
     "level": "intermediate",
-    "formTips": [
-      "Голова в сторону",
-      "Не блокируйте локти",
-      "Контролируйте опускание"
-    ],
+    "formTips": ["Голова в сторону", "Не блокируйте локти", "Контролируйте опускание"],
     "scientificBasis": {
       "volumeOptimal": "9–15 подходов/неделю",
       "intensityOptimal": "70–80% 1ПМ",
@@ -114,15 +99,12 @@
     "name": "Румынская становая",
     "type": "legs",
     "equipment": "dumbbells",
+    "tags": ["pull", "legs", "hamstrings"],
     "primaryMuscles": ["hamstrings", "glutes"],
     "secondaryMuscles": ["lower back"],
     "riskLevel": "medium",
     "level": "intermediate",
-    "formTips": [
-      "Ноги чуть согнуты",
-      "Наклон корпуса",
-      "Гантели скользят по ногам"
-    ],
+    "formTips": ["Ноги чуть согнуты", "Наклон корпуса", "Гантели скользят по ногам"],
     "scientificBasis": {
       "volumeOptimal": "8–16 подходов/неделю",
       "intensityOptimal": "65–75% 1ПМ",
@@ -136,15 +118,12 @@
     "name": "Отжимания",
     "type": "chest",
     "equipment": "bodyweight",
+    "tags": ["push", "chest"],
     "primaryMuscles": ["pectorals", "triceps", "front delts"],
     "secondaryMuscles": ["core"],
     "riskLevel": "low",
     "level": "beginner",
-    "formTips": [
-      "Тело прямое",
-      "Локти под 45°",
-      "Грудь к полу"
-    ],
+    "formTips": ["Тело прямое", "Локти под 45°", "Грудь к полу"],
     "scientificBasis": {
       "volumeOptimal": "15–30 повторений/подход",
       "intensityOptimal": "RIR 1–2",
@@ -158,15 +137,12 @@
     "name": "Тяга верхнего блока",
     "type": "back",
     "equipment": "cable",
+    "tags": ["pull", "back"],
     "primaryMuscles": ["lats", "biceps"],
     "secondaryMuscles": ["rhomboids"],
     "riskLevel": "low",
     "level": "beginner",
-    "formTips": [
-      "Тянуть локтями вниз",
-      "Не раскачиваться",
-      "Полную амплитуду"
-    ],
+    "formTips": ["Тянуть локтями вниз", "Не раскачиваться", "Полную амплитуду"],
     "scientificBasis": {
       "volumeOptimal": "12–20 подходов/неделю",
       "intensityOptimal": "70–80% 1ПМ",
@@ -180,18 +156,15 @@
     "name": "Махи гантелями в стороны",
     "type": "shoulders",
     "equipment": "dumbbells",
+    "tags": ["push", "shoulders"],
     "primaryMuscles": ["medial delts"],
     "secondaryMuscles": ["front delts"],
     "riskLevel": "low",
     "level": "beginner",
-    "formTips": [
-      "Лёгкий наклон вперёд",
-      "Мизинец выше большого",
-      "Без инерции"
-    ],
+    "formTips": ["Лёгкий наклон вперёд", "Мизинец выше большого", "Без инерции"],
     "scientificBasis": {
       "volumeOptimal": "12–20 подходов/неделю",
-      "intensityOptimal": "легкие веса",
+      "intensityOptimal": "лёгкие веса",
       "tempo": "2-1-2",
       "rest": 60,
       "progressionRule": "Увеличивай объём перед весом"
@@ -202,15 +175,12 @@
     "name": "Подъём штанги на бицепс",
     "type": "arms",
     "equipment": "barbell",
+    "tags": ["pull", "arms"],
     "primaryMuscles": ["biceps"],
     "secondaryMuscles": ["brachialis"],
     "riskLevel": "low",
     "level": "beginner",
-    "formTips": [
-      "Локти прижаты",
-      "Не раскачивайся",
-      "Контролируй опускание"
-    ],
+    "formTips": ["Локти прижаты", "Не раскачивайся", "Контролируй опускание"],
     "scientificBasis": {
       "volumeOptimal": "9–18 подходов/неделю",
       "intensityOptimal": "70–80% 1ПМ",
@@ -224,15 +194,12 @@
     "name": "Планка",
     "type": "core",
     "equipment": "bodyweight",
+    "tags": ["core", "stability"],
     "primaryMuscles": ["transverse abdominis", "rectus abdominis"],
     "secondaryMuscles": ["shoulders", "glutes"],
     "riskLevel": "low",
     "level": "beginner",
-    "formTips": [
-      "Тело прямое",
-      "Не проваливай поясницу",
-      "Дыши ровно"
-    ],
+    "formTips": ["Тело прямое", "Не проваливай поясницу", "Дыши ровно"],
     "scientificBasis": {
       "volumeOptimal": "3–5 подходов по 30–60 сек",
       "intensityOptimal": "до усталости",
@@ -246,15 +213,12 @@
     "name": "Бёрпи",
     "type": "full-body",
     "equipment": "bodyweight",
+    "tags": ["cardio", "full-body"],
     "primaryMuscles": ["pectorals", "quadriceps", "core"],
     "secondaryMuscles": ["cardiovascular system"],
     "riskLevel": "medium",
     "level": "intermediate",
-    "formTips": [
-      "Полный присед",
-      "Отжимание",
-      "Взлёт руками"
-    ],
+    "formTips": ["Полный присед", "Отжимание", "Взлёт руками"],
     "scientificBasis": {
       "volumeOptimal": "3–5 раундов по 10–20 раз",
       "intensityOptimal": "HIIT",
@@ -262,5 +226,2133 @@
       "rest": 30,
       "progressionRule": "Увеличивай количество или снижай отдых"
     }
+  },
+  {
+    "id": "running",
+    "name": "Бег",
+    "type": "cardio",
+    "equipment": "bodyweight",
+    "tags": ["cardio", "legs"],
+    "primaryMuscles": ["cardiovascular system"],
+    "secondaryMuscles": ["quadriceps", "hamstrings"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Держите спину прямой", "Не переносите вес на пятки"],
+    "scientificBasis": {
+      "volumeOptimal": "20–40 минут",
+      "intensityOptimal": "60–80% ЧСС",
+      "tempo": "-",
+      "rest": 0,
+      "progressionRule": "Увеличивайте время или скорость"
+    }
+  },
+  {
+    "id": "jumping-jacks",
+    "name": "Прыжки с хлопком",
+    "type": "cardio",
+    "equipment": "bodyweight",
+    "tags": ["cardio", "full-body"],
+    "primaryMuscles": ["cardiovascular system"],
+    "secondaryMuscles": ["shoulders", "quadriceps"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Мягко приземляйтесь на носки", "Не блокируйте колени"],
+    "scientificBasis": {
+      "volumeOptimal": "3–5 подходов по 30–60 сек",
+      "intensityOptimal": "HIIT",
+      "tempo": "-",
+      "rest": 30,
+      "progressionRule": "Увеличивайте длительность или снижайте отдых"
+    }
+  },
+  {
+    "id": "yoga-flow",
+    "name": "Йога-поток",
+    "type": "light",
+    "equipment": "bodyweight",
+    "tags": ["mobility", "recovery"],
+    "primaryMuscles": ["core", "flexibility"],
+    "secondaryMuscles": ["shoulders", "hamstrings"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Дышите глубоко", "Не перенапрягайтесь"],
+    "scientificBasis": {
+      "volumeOptimal": "20–30 минут",
+      "intensityOptimal": "низкая",
+      "tempo": "-",
+      "rest": 0,
+      "progressionRule": "Добавляйте новые асаны каждую неделю"
+    }
+  },
+  {
+    "id": "walking",
+    "name": "Ходьба",
+    "type": "cardio",
+    "equipment": "bodyweight",
+    "tags": ["cardio", "recovery"],
+    "primaryMuscles": ["cardiovascular system"],
+    "secondaryMuscles": ["glutes", "quadriceps"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Держите осанку", "Шагайте энергично"],
+    "scientificBasis": {
+      "volumeOptimal": "30–60 минут",
+      "intensityOptimal": "лёгкая",
+      "tempo": "-",
+      "rest": 0,
+      "progressionRule": "Увеличивайте дистанцию или скорость"
+    }
+  },
+  {
+    "id": "goblet-squat",
+    "name": "Приседания с гантелью (гоблет)",
+    "type": "legs",
+    "equipment": "dumbbells",
+    "tags": ["legs", "push"],
+    "primaryMuscles": ["quadriceps", "glutes"],
+    "secondaryMuscles": ["core", "upper back"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Гантель у груди", "Локти вниз", "Глубокий присед"],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "умеренные веса",
+      "tempo": "3-1-1",
+      "rest": 90,
+      "progressionRule": "Увеличивай вес или глубину"
+    }
+  },
+  {
+    "id": "inverted-rows",
+    "name": "Тяга в наклоне (горизонтальные подтягивания)",
+    "type": "back",
+    "equipment": "bodyweight",
+    "tags": ["pull", "back"],
+    "primaryMuscles": ["lats", "rhomboids", "biceps"],
+    "secondaryMuscles": ["core"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Тело прямое", "Лопатки сводим", "Грудь к перекладине"],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "RIR 1–2",
+      "tempo": "2-1-1",
+      "rest": 90,
+      "progressionRule": "Снижай угол наклона"
+    }
+  },
+  {
+    "id": "dumbbell-press",
+    "name": "Жим гантелей лёжа",
+    "type": "chest",
+    "equipment": "dumbbells",
+    "tags": ["push", "chest"],
+    "primaryMuscles": ["pectorals", "triceps", "front delts"],
+    "secondaryMuscles": ["core"],
+    "riskLevel": "medium",
+    "level": "intermediate",
+    "formTips": ["Лопатки сводим", "Гантели к груди", "Контроль вверху"],
+    "scientificBasis": {
+      "volumeOptimal": "10–16 подходов/неделю",
+      "intensityOptimal": "70–80% 1ПМ",
+      "tempo": "2-1-1",
+      "rest": 120,
+      "progressionRule": "Добавляй +1.25 кг на гантель"
+    }
+  },
+  {
+    "id": "face-pulls",
+    "name": "Тяга каната к лицу",
+    "type": "shoulders",
+    "equipment": "cable",
+    "tags": ["pull", "shoulders", "posture"],
+    "primaryMuscles": ["rear delts", "rhomboids"],
+    "secondaryMuscles": ["traps", "biceps"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Тянуть к лицу", "Локти выше кистей", "Сводить лопатки"],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "лёгкие веса",
+      "tempo": "2-1-2",
+      "rest": 60,
+      "progressionRule": "Увеличивай объём"
+    }
+  },
+  {
+    "id": "leg-press",
+    "name": "Жим ногами",
+    "type": "legs",
+    "equipment": "machine",
+    "tags": ["legs", "push"],
+    "primaryMuscles": ["quadriceps", "glutes"],
+    "secondaryMuscles": ["hamstrings"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Стопы на платформе", "Не блокируй колени", "Полная амплитуда"],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "70–85% 1ПМ",
+      "tempo": "2-1-1",
+      "rest": 120,
+      "progressionRule": "Добавляй +10 кг при успехе в 3×10"
+    }
+  },
+  {
+    "id": "hip-thrust",
+    "name": "Тазовый мост",
+    "type": "legs",
+    "equipment": "barbell",
+    "tags": ["legs", "glutes"],
+    "primaryMuscles": ["glutes", "hamstrings"],
+    "secondaryMuscles": ["quadriceps", "core"],
+    "riskLevel": "low",
+    "level": "intermediate",
+    "formTips": ["Лопатки на скамье", "Штанга на бёдрах", "Выпрямление таза"],
+    "scientificBasis": {
+      "volumeOptimal": "10–16 подходов/неделю",
+      "intensityOptimal": "75–85% 1ПМ",
+      "tempo": "2-1-1",
+      "rest": 120,
+      "progressionRule": "Добавляй +5 кг при успехе в 3×10"
+    }
+  },
+  {
+    "id": "mountain-climbers",
+    "name": "Альпинисты",
+    "type": "core",
+    "equipment": "bodyweight",
+    "tags": ["cardio", "core"],
+    "primaryMuscles": ["rectus abdominis", "hip flexors"],
+    "secondaryMuscles": ["shoulders", "quadriceps"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Тело прямое", "Быстрые движения", "Не поднимай таз"],
+    "scientificBasis": {
+      "volumeOptimal": "3–5 подходов по 30–45 сек",
+      "intensityOptimal": "HIIT",
+      "tempo": "-",
+      "rest": 30,
+      "progressionRule": "Увеличивай скорость или время"
+    }
+  },
+  {
+    "id": "russian-twist",
+    "name": "Русские скручивания",
+    "type": "core",
+    "equipment": "bodyweight",
+    "tags": ["core", "obliques"],
+    "primaryMuscles": ["obliques", "rectus abdominis"],
+    "secondaryMuscles": ["hip flexors"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Спина прямая", "Поворот корпуса", "Ноги не касаются пола"],
+    "scientificBasis": {
+      "volumeOptimal": "3–4 подхода по 20–30 повторений",
+      "intensityOptimal": "с весом или без",
+      "tempo": "1-1-1",
+      "rest": 60,
+      "progressionRule": "Добавляй вес или увеличивай амплитуду"
+    }
+  },
+  {
+    "id": "cable-rows",
+    "name": "Тяга блока к поясу",
+    "type": "back",
+    "equipment": "cable",
+    "tags": ["pull", "back"],
+    "primaryMuscles": ["lats", "rhomboids", "biceps"],
+    "secondaryMuscles": ["traps", "forearms"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Спина прямая", "Тянуть к поясу", "Сводить лопатки"],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "70–80% 1ПМ",
+      "tempo": "2-1-1",
+      "rest": 90,
+      "progressionRule": "Добавляй +2.5 кг при успехе в 3×10"
+    }
+  },
+  {
+    "id": "lunges",
+    "name": "Выпады",
+    "type": "legs",
+    "equipment": "bodyweight",
+    "tags": ["legs", "push"],
+    "primaryMuscles": ["quadriceps", "glutes", "hamstrings"],
+    "secondaryMuscles": ["core", "calves"],
+    "riskLevel": "medium",
+    "level": "beginner",
+    "formTips": ["Колено не выходит за носок", "Спина прямая", "Глубокий шаг"],
+    "scientificBasis": {
+      "volumeOptimal": "12–20 подходов/неделю",
+      "intensityOptimal": "с весом или без",
+      "tempo": "2-1-1",
+      "rest": 90,
+      "progressionRule": "Добавляй гантели или увеличивай глубину"
+    }
+  },
+  {
+    "id": "triceps-pushdown",
+    "name": "Жим трицепса на блоке",
+    "type": "arms",
+    "equipment": "cable",
+    "tags": ["push", "arms"],
+    "primaryMuscles": ["triceps"],
+    "secondaryMuscles": ["forearms"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Локти прижаты", "Движение только предплечьями"],
+    "scientificBasis": {
+      "volumeOptimal": "9–15 подходов/неделю",
+      "intensityOptimal": "70–80% 1ПМ",
+      "tempo": "2-1-2",
+      "rest": 60,
+      "progressionRule": "Добавляй +2.5 кг при успехе в 3×12"
+    }
+  },
+  {
+    "id": "pull-ups-weighted",
+    "name": "Подтягивания с весом",
+    "type": "back",
+    "equipment": "bodyweight",
+    "tags": ["pull", "back"],
+    "primaryMuscles": ["lats", "biceps"],
+    "secondaryMuscles": ["core"],
+    "riskLevel": "medium",
+    "level": "advanced",
+    "formTips": ["Медленно опускайся", "Полная амплитуда"],
+    "scientificBasis": {
+      "volumeOptimal": "6–12 повторений/тренировку",
+      "intensityOptimal": "RIR 1–2",
+      "tempo": "3-1-1",
+      "rest": 120,
+      "progressionRule": "Добавляй 2.5 кг каждую неделю"
+    }
+  },
+  {
+    "id": "squat-bodyweight",
+    "name": "Приседания с собственным весом",
+    "type": "legs",
+    "equipment": "bodyweight",
+    "tags": ["legs", "push"],
+    "primaryMuscles": ["quadriceps", "glutes"],
+    "secondaryMuscles": ["core"],
+    "riskLevel": "low",
+    "level": "beginner",
+    "formTips": ["Колени не выходят за носки", "Спина прямая"],
+    "scientificBasis": {
+      "volumeOptimal": "3–5 подходов по 15–20 повторений",
+      "intensityOptimal": "до отказа",
+      "tempo": "2-1-1",
+      "rest": 45,
+      "progressionRule": "Увеличивай глубину или добавь прыжок"
+    }
+  },
+  {
+  "id": "jump-rope",
+  "name": "Прыжки на скакалке",
+  "type": "cardio",
+  "equipment": "jump-rope",
+  "tags": ["cardio", "full-body", "coordination"],
+  "primaryMuscles": ["cardiovascular system"],
+  "secondaryMuscles": ["calves", "shoulders", "core"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Мягкое приземление на носки", "Локти близко к телу", "Вращайте запястьями, а не плечами"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 раундов по 30–60 сек",
+    "intensityOptimal": "HIIT или умеренная",
+    "tempo": "-",
+    "rest": 30,
+    "progressionRule": "Увеличивай скорость или длительность"
   }
+},
+{
+  "id": "farmer-walk",
+  "name": "Фермерская прогулка",
+  "type": "full-body",
+  "equipment": "dumbbells",
+  "tags": ["grip", "core", "posture", "functional"],
+  "primaryMuscles": ["traps", "forearms", "quadriceps"],
+  "secondaryMuscles": ["core", "glutes", "shoulders"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Спина прямая", "Плечи отведены назад", "Ходьба короткими шагами"],
+  "scientificBasis": {
+    "volumeOptimal": "4–6 проходов по 30–50 м",
+    "intensityOptimal": "максимальный вес, который можно удержать",
+    "tempo": "-",
+    "rest": 90,
+    "progressionRule": "Увеличивай вес или дистанцию"
+  }
+},
+{
+  "id": "calf-raises",
+  "name": "Подъёмы на носки",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["legs", "calves", "isolation"],
+  "primaryMuscles": ["calves"],
+  "secondaryMuscles": ["ankle stabilizers"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Полная амплитуда", "Медленное опускание", "Стопы параллельно"],
+  "scientificBasis": {
+    "volumeOptimal": "12–20 подходов/неделю",
+    "intensityOptimal": "с весом или без",
+    "tempo": "2-1-2",
+    "rest": 45,
+    "progressionRule": "Добавляй вес или увеличивай повторения"
+  }
+},
+{
+  "id": "glute-bridge",
+  "name": "Ягодичный мостик",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["glutes", "legs", "rehab"],
+  "primaryMuscles": ["glutes", "hamstrings"],
+  "secondaryMuscles": ["core", "lower back"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Пятки близко к ягодицам", "Сжимай ягодицы вверху", "Не прогибай поясницу"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 15–20 повторений",
+    "intensityOptimal": "до усталости",
+    "tempo": "2-1-1",
+    "rest": 60,
+    "progressionRule": "Добавляй вес на таз или переходи к hip-thrust"
+  }
+},
+{
+  "id": "bird-dog",
+  "name": "Птица-собака",
+  "type": "core",
+  "equipment": "bodyweight",
+  "tags": ["core", "stability", "mobility", "rehab"],
+  "primaryMuscles": ["transverse abdominis", "erector spinae"],
+  "secondaryMuscles": ["glutes", "shoulders"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Спина неподвижна", "Рука и нога на одной линии", "Дыши ровно"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 10–12 повторений/сторона",
+    "intensityOptimal": "контроль, а не скорость",
+    "tempo": "3-1-3",
+    "rest": 45,
+    "progressionRule": "Увеличивай время удержания или добавляй резинку"
+  }
+},
+{
+  "id": "side-plank",
+  "name": "Боковая планка",
+  "type": "core",
+  "equipment": "bodyweight",
+  "tags": ["core", "obliques", "stability"],
+  "primaryMuscles": ["obliques", "transverse abdominis"],
+  "secondaryMuscles": ["shoulders", "glutes"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Тело прямое", "Не проваливай бедро", "Смотри вперёд"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 20–40 сек/сторона",
+    "intensityOptimal": "до усталости",
+    "tempo": "-",
+    "rest": 60,
+    "progressionRule": "Увеличивай время или добавляй подъём ноги"
+  }
+},
+{
+  "id": "band-pull-aparts",
+  "name": "Разведения резинки перед собой",
+  "type": "shoulders",
+  "equipment": "resistance-band",
+  "tags": ["pull", "shoulders", "posture", "warm-up"],
+  "primaryMuscles": ["rear delts", "rhomboids"],
+  "secondaryMuscles": ["traps", "biceps"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Руки прямые", "Тянуть к груди", "Сводить лопатки"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 подхода по 15–20 повторений",
+    "intensityOptimal": "лёгкая резинка",
+    "tempo": "2-1-2",
+    "rest": 30,
+    "progressionRule": "Используй более жёсткую резинку"
+  }
+},
+{
+  "id": "high-knees",
+    "name": "Бег с высоким подниманием колен",
+    "type": "cardio",
+    "equipment": "bodyweight",
+    "tags": ["cardio", "full-body", "HIIT"],
+    "primaryMuscles": ["cardiovascular system"],
+    "secondaryMuscles": ["hip flexors", "quadriceps", "core"],
+    "riskLevel": "medium",
+    "level": "beginner",
+    "formTips": ["Колени выше бёдер", "Прямая осанка", "Быстрые движения"],
+    "scientificBasis": {
+      "volumeOptimal": "3–5 раундов по 30–45 сек",
+      "intensityOptimal": "HIIT",
+      "tempo": "-",
+      "rest": 30,
+      "progressionRule": "Увеличивай скорость или время"
+    }
+},
+{
+  "id": "butt-kicks",
+  "name": "Захлёсты голени",
+  "type": "cardio",
+  "equipment": "bodyweight",
+  "tags": ["cardio", "hamstrings", "warm-up"],
+  "primaryMuscles": ["cardiovascular system"],
+  "secondaryMuscles": ["hamstrings", "calves"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Пятки к ягодицам", "Маленькие шаги", "Руки на поясе или в движении"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 раунда по 30 сек",
+    "intensityOptimal": "лёгкая",
+    "tempo": "-",
+    "rest": 30,
+    "progressionRule": "Увеличивай темп"
+  }
+},
+{
+  "id": "worlds-greatest-stretch",
+  "name": "Лучшая растяжка в мире",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "recovery", "warm-up"],
+  "primaryMuscles": ["hip flexors", "hamstrings", "thoracic spine"],
+  "secondaryMuscles": ["glutes", "shoulders"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Глубокий выпад", "Рука на пол", "Поворот грудной клетки вверх"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 повторения/сторона",
+    "intensityOptimal": "лёгкое напряжение",
+    "tempo": "медленно",
+    "rest": 0,
+    "progressionRule": "Увеличивай глубину или время удержания"
+  }
+},
+{
+  "id": "dead-bug",
+  "name": "Мёртвый жук",
+  "type": "core",
+  "equipment": "bodyweight",
+  "tags": ["core", "stability", "rehab"],
+  "primaryMuscles": ["transverse abdominis", "rectus abdominis"],
+  "secondaryMuscles": ["hip flexors"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Поясница прижата к полу", "Движения медленные", "Не поднимай голову"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–12 повторений/сторона",
+    "intensityOptimal": "контроль",
+    "tempo": "3-1-3",
+    "rest": 45,
+    "progressionRule": "Добавляй вес или замедляй темп"
+  }
+},
+{
+  "id": "skater-jumps",
+  "name": "Прыжки конькобежца",
+  "type": "cardio",
+  "equipment": "bodyweight",
+  "tags": ["cardio", "legs", "agility"],
+  "primaryMuscles": ["quadriceps", "glutes"],
+  "secondaryMuscles": ["adductors", "core", "cardiovascular system"],
+  "riskLevel": "medium",
+  "level": "intermediate",
+  "formTips": ["Мягкое приземление", "Таз назад", "Руки помогают балансу"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 раунда по 20–30 сек",
+    "intensityOptimal": "HIIT",
+    "tempo": "-",
+    "rest": 45,
+    "progressionRule": "Увеличивай амплитуду или скорость"
+  }
+},
+{
+  "id": "wall-sit",
+  "name": "Стена (статический присед)",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["legs", "isometric", "endurance"],
+  "primaryMuscles": ["quadriceps"],
+  "secondaryMuscles": ["glutes", "core"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Колени под 90°", "Спина прижата к стене", "Не опускайся ниже параллели"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 30–60 сек",
+    "intensityOptimal": "до жжения",
+    "tempo": "-",
+    "rest": 60,
+    "progressionRule": "Увеличивай время или добавляй вес"
+  }
+},
+{
+  "id": "seated-row-machine",
+  "name": "Тяга сидя на тренажёре",
+  "type": "back",
+  "equipment": "machine",
+  "tags": ["pull", "back"],
+  "primaryMuscles": ["lats", "rhomboids", "biceps"],
+  "secondaryMuscles": ["traps", "rear delts"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Спина прямая", "Тянуть к животу", "Сводить лопатки"],
+  "scientificBasis": {
+    "volumeOptimal": "12–20 подходов/неделю",
+    "intensityOptimal": "70–80% 1ПМ",
+    "tempo": "2-1-1",
+    "rest": 90,
+    "progressionRule": "Добавляй +2.5 кг при успехе в 3×10"
+  }
+},
+{
+  "id": "leg-curl-machine",
+  "name": "Сгибание ног в тренажёре",
+  "type": "legs",
+  "equipment": "machine",
+  "tags": ["legs", "hamstrings", "isolation"],
+  "primaryMuscles": ["hamstrings"],
+  "secondaryMuscles": ["calves"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Не отрывай бёдра", "Полная амплитуда", "Контролируй опускание"],
+  "scientificBasis": {
+    "volumeOptimal": "8–12 подходов/неделю",
+    "intensityOptimal": "70–80% 1ПМ",
+    "tempo": "2-1-2",
+    "rest": 60,
+    "progressionRule": "Добавляй +2.5 кг при успехе в 3×12"
+  }
+},
+{
+  "id": "leg-extension-machine",
+  "name": "Разгибание ног в тренажёре",
+  "type": "legs",
+  "equipment": "machine",
+  "tags": ["legs", "quadriceps", "isolation"],
+  "primaryMuscles": ["quadriceps"],
+  "secondaryMuscles": ["hip flexors"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Не блокируй колени", "Медленное опускание", "Спина прижата"],
+  "scientificBasis": {
+    "volumeOptimal": "8–12 подходов/неделю",
+    "intensityOptimal": "70–80% 1ПМ",
+    "tempo": "2-1-2",
+    "rest": 60,
+    "progressionRule": "Добавляй +2.5 кг при успехе в 3×12"
+  }
+},
+{
+  "id": "banded-lateral-walk",
+  "name": "Ходьба в сторону с резинкой",
+  "type": "legs",
+  "equipment": "resistance-band",
+  "tags": ["glutes", "mobility", "warm-up"],
+  "primaryMuscles": ["gluteus medius", "abductors"],
+  "secondaryMuscles": ["quadriceps", "core"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Полуприсед", "Натяжение резинки", "Шаги широкие"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 подхода по 10–15 шагов/сторона",
+    "intensityOptimal": "лёгкая резинка",
+    "tempo": "медленно",
+    "rest": 45,
+    "progressionRule": "Используй более жёсткую резинку"
+  }
+},
+{
+  "id": "child-pose",
+  "name": "Поза ребёнка (йога)",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "recovery", "yoga"],
+  "primaryMuscles": ["lower back", "lats"],
+  "secondaryMuscles": ["hips", "shoulders"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Ягодицы к пяткам", "Лоб на пол", "Руки вытянуты или вдоль тела"],
+  "scientificBasis": {
+    "volumeOptimal": "1–2 минуты",
+    "intensityOptimal": "расслабление",
+    "tempo": "-",
+    "rest": 0,
+    "progressionRule": "Глубже расслабляйся с каждым вдохом"
+  }
+},
+{
+  "id": "downward-dog",
+  "name": "Собака мордой вниз",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "yoga", "hamstrings"],
+  "primaryMuscles": ["hamstrings", "shoulders", "calves"],
+  "secondaryMuscles": ["core", "spine"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Пятки к полу", "Спина прямая", "Грудь к бёдрам"],
+  "scientificBasis": {
+    "volumeOptimal": "30–60 сек",
+    "intensityOptimal": "лёгкое растяжение",
+    "tempo": "-",
+    "rest": 0,
+    "progressionRule": "Увеличивай время или чередуй с другими асанами"
+  }
+},
+{
+  "id": "hammer-curl",
+  "name": "Молотковый подъём на бицепс",
+  "type": "arms",
+  "equipment": "dumbbells",
+  "tags": ["pull", "arms", "brachialis"],
+  "primaryMuscles": ["brachialis", "biceps"],
+  "secondaryMuscles": ["forearms"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Ладони внутрь", "Локти прижаты", "Без раскачки"],
+  "scientificBasis": {
+    "volumeOptimal": "9–15 подходов/неделю",
+    "intensityOptimal": "70–80% 1ПМ",
+    "tempo": "2-1-2",
+    "rest": 60,
+    "progressionRule": "Добавляй +1.25 кг при успехе в 3×10"
+  }
+},
+{
+  "id": "front-squat",
+  "name": "Фронтальные приседания",
+  "type": "legs",
+  "equipment": "barbell",
+  "tags": ["legs", "push", "quad-dominant", "olympic"],
+  "primaryMuscles": ["quadriceps", "glutes", "core"],
+  "secondaryMuscles": ["upper back", "shoulders"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Локти вверх", "Штанга на дельтах", "Спина вертикальна", "Глубокий присед"],
+  "scientificBasis": {
+    "volumeOptimal": "8–14 подходов/неделю",
+    "intensityOptimal": "75–85% 1ПМ",
+    "tempo": "3-1-1",
+    "rest": 150,
+    "progressionRule": "Добавляй +2.5 кг при успехе в 4×6"
+  }
+},
+{
+  "id": "overhead-squat",
+  "name": "Приседания со штангой над головой",
+  "type": "legs",
+  "equipment": "barbell",
+  "tags": ["legs", "mobility", "core", "olympic"],
+  "primaryMuscles": ["quadriceps", "glutes", "shoulders"],
+  "secondaryMuscles": ["core", "upper back", "ankles"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Полная мобильность плеч и лодыжек", "Штанга над центром стопы", "Грудь вверх"],
+  "scientificBasis": {
+    "volumeOptimal": "4–8 подходов/неделю",
+    "intensityOptimal": "50–70% 1ПМ",
+    "tempo": "3-1-1",
+    "rest": 180,
+    "progressionRule": "Увеличивай глубину и стабильность перед весом"
+  }
+},
+{
+  "id": "handstand-push-up",
+  "name": "Отжимания в стойке на руках",
+  "type": "shoulders",
+  "equipment": "bodyweight",
+  "tags": ["push", "shoulders", "gymnastics", "bodyweight"],
+  "primaryMuscles": ["deltoids", "triceps", "traps"],
+  "secondaryMuscles": ["core", "upper chest"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Стойка у стены", "Полная амплитуда", "Контроль при опускании", "Тело прямое"],
+  "scientificBasis": {
+    "volumeOptimal": "4–8 повторений/тренировку",
+    "intensityOptimal": "RIR 1–2",
+    "tempo": "3-1-1",
+    "rest": 150,
+    "progressionRule": "Увеличивай глубину или переходи к freestanding"
+  }
+},
+{
+  "id": "muscle-up",
+  "name": "Мах подбородком (мускул-ап)",
+  "type": "back",
+  "equipment": "bodyweight",
+  "tags": ["pull", "back", "gymnastics", "explosive"],
+  "primaryMuscles": ["lats", "pectorals", "triceps"],
+  "secondaryMuscles": ["biceps", "core"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Взрывной подъём", "Плавный переход через перекладину", "Контроль внизу"],
+  "scientificBasis": {
+    "volumeOptimal": "3–6 повторений/тренировку",
+    "intensityOptimal": "RIR 2–3",
+    "tempo": "1-0-2",
+    "rest": 180,
+    "progressionRule": "Тренируй переход от подтягивания к дипсу"
+  }
+},
+{
+  "id": "deficit-deadlift",
+  "name": "Становая тяга с дефицитом",
+  "type": "back",
+  "equipment": "barbell",
+  "tags": ["pull", "posterior-chain", "strength"],
+  "primaryMuscles": ["hamstrings", "glutes", "lower back"],
+  "secondaryMuscles": ["quadriceps", "traps"],
+  "riskLevel": "high",
+  "level": "advanced",
+  "formTips": ["Стоя на платформе 5–10 см", "Спина нейтральна", "Большая амплитуда"],
+  "scientificBasis": {
+    "volumeOptimal": "3–6 подходов/неделю",
+    "intensityOptimal": "75–85% 1ПМ",
+    "tempo": "3-1-1",
+    "rest": 180,
+    "progressionRule": "Добавляй +5 кг каждую вторую неделю"
+  }
+},
+{
+  "id": "paused-squat",
+  "name": "Приседания с паузой в нижней точке",
+  "type": "legs",
+  "equipment": "barbell",
+  "tags": ["legs", "push", "strength", "control"],
+  "primaryMuscles": ["quadriceps", "glutes", "hamstrings"],
+  "secondaryMuscles": ["core", "lower back"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Пауза 2–3 сек на дне", "Без отскока", "Спина прямая"],
+  "scientificBasis": {
+    "volumeOptimal": "8–12 подходов/неделю",
+    "intensityOptimal": "70–80% 1ПМ",
+    "tempo": "3-2-1",
+    "rest": 150,
+    "progressionRule": "Увеличивай паузу или вес"
+  }
+},
+{
+  "id": "weighted-dip",
+  "name": "Отжимания на брусьях с весом",
+  "type": "chest",
+  "equipment": "bodyweight",
+  "tags": ["push", "chest", "triceps", "advanced"],
+  "primaryMuscles": ["pectorals", "triceps", "front delts"],
+  "secondaryMuscles": ["core", "lats"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Наклон вперёд для груди", "Полная амплитуда", "Контроль без раскачки"],
+  "scientificBasis": {
+    "volumeOptimal": "6–12 повторений/тренировку",
+    "intensityOptimal": "RIR 1–2",
+    "tempo": "3-1-1",
+    "rest": 120,
+    "progressionRule": "Добавляй 2.5–5 кг каждую неделю"
+  }
+},
+{
+  "id": "single-leg-romanian-deadlift",
+  "name": "Румынская становая на одной ноге",
+  "type": "legs",
+  "equipment": "dumbbells",
+  "tags": ["pull", "hamstrings", "balance", "unilateral"],
+  "primaryMuscles": ["hamstrings", "glutes"],
+  "secondaryMuscles": ["core", "calves", "lower back"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Опорная нога чуть согнута", "Спина прямая", "Движение из бедра", "Гантель скользит по ноге"],
+  "scientificBasis": {
+    "volumeOptimal": "8–12 подходов/неделю",
+    "intensityOptimal": "умеренные веса",
+    "tempo": "3-1-2",
+    "rest": 90,
+    "progressionRule": "Увеличивай вес или добавляй нестабильную поверхность"
+  }
+},
+{
+  "id": "pistol-squat",
+  "name": "Пистолет (присед на одной ноге)",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["legs", "push", "unilateral", "mobility"],
+  "primaryMuscles": ["quadriceps", "glutes", "hamstrings"],
+  "secondaryMuscles": ["core", "ankles"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Свободная нога вперёд", "Спина прямая", "Глубокий присед", "Не заваливай колено"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 подходов по 3–6 повторений/нога",
+    "intensityOptimal": "до отказа",
+    "tempo": "3-1-1",
+    "rest": 90,
+    "progressionRule": "Добавляй вес или замедляй темп"
+  }
+},
+{
+  "id": "kettlebell-swing",
+  "name": "Махи гирей",
+  "type": "full-body",
+  "equipment": "kettlebell",
+  "tags": ["posterior-chain", "power", "cardio", "functional"],
+  "primaryMuscles": ["glutes", "hamstrings", "lower back"],
+  "secondaryMuscles": ["shoulders", "core", "cardiovascular system"],
+  "riskLevel": "medium",
+  "level": "intermediate",
+  "formTips": ["Импульс из бёдер", "Не поднимай руками", "Спина прямая", "Фиксация вверху"],
+  "scientificBasis": {
+    "volumeOptimal": "5–10 раундов по 15–25 повторений",
+    "intensityOptimal": "70–80% от макс. веса",
+    "tempo": "взрывной",
+    "rest": 60,
+    "progressionRule": "Увеличивай вес гири или объём"
+  }
+},
+{
+  "id": "snatch-grip-deadlift",
+  "name": "Становая тяга хватом «рывок»",
+  "type": "back",
+  "equipment": "barbell",
+  "tags": ["pull", "posterior-chain", "olympic", "upper-back"],
+  "primaryMuscles": ["traps", "hamstrings", "glutes", "upper back"],
+  "secondaryMuscles": ["lower back", "forearms"],
+  "riskLevel": "high",
+  "level": "advanced",
+  "formTips": ["Широкий хват", "Высокая начальная позиция", "Спина напряжена"],
+  "scientificBasis": {
+    "volumeOptimal": "4–8 подходов/неделю",
+    "intensityOptimal": "70–85% 1ПМ",
+    "tempo": "2-1-1",
+    "rest": 180,
+    "progressionRule": "Добавляй +5 кг при успехе в 3×5"
+  }
+},
+{
+  "id": "z-press",
+  "name": "Жим Зыгманта (сидя на полу)",
+  "type": "shoulders",
+  "equipment": "barbell",
+  "tags": ["push", "shoulders", "core", "stability"],
+  "primaryMuscles": ["deltoids", "triceps"],
+  "secondaryMuscles": ["core", "upper back"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Сидя на полу, ноги вытянуты", "Нет опоры для спины", "Контроль на спуске"],
+  "scientificBasis": {
+    "volumeOptimal": "6–10 подходов/неделю",
+    "intensityOptimal": "65–75% 1ПМ",
+    "tempo": "2-1-1",
+    "rest": 120,
+    "progressionRule": "Добавляй +1.25 кг при успехе в 4×6"
+  }
+},
+{
+  "id": "sled-push",
+  "name": "Толкание саней",
+  "type": "full-body",
+  "equipment": "sled",
+  "tags": ["power", "legs", "cardio", "functional"],
+  "primaryMuscles": ["quadriceps", "glutes", "calves"],
+  "secondaryMuscles": ["shoulders", "core", "cardiovascular system"],
+  "riskLevel": "low",
+  "level": "advanced",
+  "formTips": ["Наклон вперёд", "Мощный толчок ногами", "Руки прямые"],
+  "scientificBasis": {
+    "volumeOptimal": "4–8 проходов по 20–40 м",
+    "intensityOptimal": "максимальное усилие",
+    "tempo": "взрывной",
+    "rest": 90,
+    "progressionRule": "Увеличивай вес на санях или дистанцию"
+  }
+},
+{
+  "id": "eccentric-pull-up",
+  "name": "Эксцентрические подтягивания",
+  "type": "back",
+  "equipment": "bodyweight",
+  "tags": ["pull", "back", "strength", "time-under-tension"],
+  "primaryMuscles": ["lats", "biceps", "rhomboids"],
+  "secondaryMuscles": ["core"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Подпрыгни вверх", "Медленно опускайся 5–8 сек", "Полный контроль"],
+  "scientificBasis": {
+    "volumeOptimal": "4–6 повторений/подход",
+    "intensityOptimal": "максимальное замедление",
+    "tempo": "0-5-0",
+    "rest": 120,
+    "progressionRule": "Увеличивай время опускания"
+  }
+},
+{
+  "id": "isometric-hold-squat",
+  "name": "Изометрический присед (на корточках)",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["legs", "mobility", "endurance", "rehab"],
+  "primaryMuscles": ["quadriceps", "glutes", "adductors"],
+  "secondaryMuscles": ["ankles", "core"],
+  "riskLevel": "low",
+  "level": "advanced",
+  "formTips": ["Полный присед (корточки)", "Пятки на полу", "Спина прямая", "Грудь вверх"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 удержаний по 30–90 сек",
+    "intensityOptimal": "до жжения",
+    "tempo": "-",
+    "rest": 60,
+    "progressionRule": "Увеличивай время или добавляй вес на колени"
+  }
+},
+{
+  "id": "box-jump",
+  "name": "Прыжки на ящик",
+  "type": "legs",
+  "equipment": "box",
+  "tags": ["plyometrics", "power", "legs", "cardio"],
+  "primaryMuscles": ["quadriceps", "glutes", "calves"],
+  "secondaryMuscles": ["core", "hamstrings"],
+  "riskLevel": "medium",
+  "level": "intermediate",
+  "formTips": ["Мягкое приземление", "Колени не заваливать", "Высота по силам"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 подходов по 3–6 повторений",
+    "intensityOptimal": "максимальная взрывная мощность",
+    "tempo": "взрывной",
+    "rest": 90,
+    "progressionRule": "Увеличивай высоту ящика или добавляй вес"
+  }
+},
+{
+  "id": "battle-ropes",
+  "name": "Боевые скакалки",
+  "type": "cardio",
+  "equipment": "battle-ropes",
+  "tags": ["cardio", "full-body", "HIIT", "grip"],
+  "primaryMuscles": ["shoulders", "forearms", "cardiovascular system"],
+  "secondaryMuscles": ["core", "quadriceps"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Полуприсед", "Движение из плеч", "Не сутулься"],
+  "scientificBasis": {
+    "volumeOptimal": "4–6 раундов по 30 сек",
+    "intensityOptimal": "HIIT",
+    "tempo": "-",
+    "rest": 30,
+    "progressionRule": "Увеличивай время или используй тяжёлые канаты"
+  }
+},
+{
+  "id": "rower",
+  "name": "Гребной тренажёр",
+  "type": "cardio",
+  "equipment": "machine",
+  "tags": ["cardio", "back", "full-body", "endurance"],
+  "primaryMuscles": ["lats", "quadriceps", "cardiovascular system"],
+  "secondaryMuscles": ["glutes", "hamstrings", "core"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Толчок ногами → наклон → тяга", "Спина прямая", "Плавный цикл"],
+  "scientificBasis": {
+    "volumeOptimal": "20–30 минут или 500–2000 м",
+    "intensityOptimal": "60–85% ЧСС",
+    "tempo": "-",
+    "rest": 0,
+    "progressionRule": "Увеличивай дистанцию или снижай время на 500 м"
+  }
+},
+{
+  "id": "ski-erg",
+  "name": "Лыжный тренажёр",
+  "type": "cardio",
+  "equipment": "machine",
+  "tags": ["cardio", "full-body", "endurance", "shoulders"],
+  "primaryMuscles": ["shoulders", "quadriceps", "cardiovascular system"],
+  "secondaryMuscles": ["core", "triceps", "back"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Работа руками и ногами синхронно", "Не сутулься", "Используй импульс"],
+  "scientificBasis": {
+    "volumeOptimal": "10–20 минут или 1–3 км",
+    "intensityOptimal": "70–90% ЧСС",
+    "tempo": "-",
+    "rest": 0,
+    "progressionRule": "Увеличивай мощность (ватты) или дистанцию"
+  }
+},
+{
+  "id": "wrist-curl",
+  "name": "Сгибание запястий со штангой",
+  "type": "arms",
+  "equipment": "barbell",
+  "tags": ["arms", "forearms", "grip"],
+  "primaryMuscles": ["forearms (flexors)"],
+  "secondaryMuscles": ["brachioradialis"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Предплечья на бедре", "Только запястья двигаются", "Полная амплитуда"],
+  "scientificBasis": {
+    "volumeOptimal": "6–12 подходов/неделю",
+    "intensityOptimal": "лёгкие веса, высокие повторения",
+    "tempo": "2-1-2",
+    "rest": 45,
+    "progressionRule": "Увеличивай повторения до 20+, потом вес"
+  }
+},
+{
+  "id": "reverse-wrist-curl",
+  "name": "Разгибание запястий",
+  "type": "arms",
+  "equipment": "barbell",
+  "tags": ["arms", "forearms", "extensors"],
+  "primaryMuscles": ["forearms (extensors)"],
+  "secondaryMuscles": ["brachioradialis"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Ладони вниз", "Запястья ниже кистей", "Контроль на спуске"],
+  "scientificBasis": {
+    "volumeOptimal": "6–10 подходов/неделю",
+    "intensityOptimal": "лёгкие веса",
+    "tempo": "2-1-2",
+    "rest": 45,
+    "progressionRule": "Увеличивай повторения"
+  }
+},
+{
+  "id": "towel-pull-up",
+  "name": "Подтягивания с полотенцем",
+  "type": "back",
+  "equipment": "bodyweight",
+  "tags": ["pull", "back", "grip", "advanced"],
+  "primaryMuscles": ["lats", "biceps", "forearms"],
+  "secondaryMuscles": ["core", "rhomboids"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Полотенце перекинуто через перекладину", "Хват широкий", "Контроль без раскачки"],
+  "scientificBasis": {
+    "volumeOptimal": "3–6 повторений/подход",
+    "intensityOptimal": "RIR 2–3",
+    "tempo": "2-1-2",
+    "rest": 120,
+    "progressionRule": "Используй толстое полотенце или две ручки"
+  }
+},
+{
+  "id": "trx-rows",
+  "name": "Тяга в TRX",
+  "type": "back",
+  "equipment": "suspension-trainer",
+  "tags": ["pull", "back", "core", "bodyweight"],
+  "primaryMuscles": ["lats", "rhomboids", "biceps"],
+  "secondaryMuscles": ["core", "shoulders"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Тело прямое", "Лопатки сводим", "Грудь к рукам"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 10–15 повторений",
+    "intensityOptimal": "RIR 1–2",
+    "tempo": "2-1-1",
+    "rest": 60,
+    "progressionRule": "Снижай угол тела к полу"
+  }
+},
+{
+  "id": "trx-atomic-pushup",
+  "name": "Атомные отжимания в TRX",
+  "type": "core",
+  "equipment": "suspension-trainer",
+  "tags": ["push", "core", "advanced", "full-body"],
+  "primaryMuscles": ["pectorals", "rectus abdominis", "hip flexors"],
+  "secondaryMuscles": ["shoulders", "triceps"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Отжимание + подтягивание колен к груди", "Тело не провисает", "Контроль"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 8–12 повторений",
+    "intensityOptimal": "до усталости",
+    "tempo": "2-1-2",
+    "rest": 90,
+    "progressionRule": "Увеличивай скорость или амплитуду"
+  }
+},
+{
+  "id": "bosu-squat",
+  "name": "Приседания на BOSU",
+  "type": "legs",
+  "equipment": "bosu",
+  "tags": ["legs", "balance", "stability", "rehab"],
+  "primaryMuscles": ["quadriceps", "glutes"],
+  "secondaryMuscles": ["ankles", "core", "calves"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["BOSU куполом вверх", "Медленный присед", "Не теряй баланс"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 12–15 повторений",
+    "intensityOptimal": "без веса или лёгкие гантели",
+    "tempo": "3-1-2",
+    "rest": 60,
+    "progressionRule": "Добавляй вес или переворачивай BOSU"
+  }
+},
+{
+  "id": "stir-the-pot",
+  "name": "Размешивание кастрюли (на фитболе)",
+  "type": "core",
+  "equipment": "stability-ball",
+  "tags": ["core", "stability", "advanced", "anti-rotation"],
+  "primaryMuscles": ["transverse abdominis", "obliques"],
+  "secondaryMuscles": ["shoulders", "hip flexors"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Планка на фитболе (предплечья)", "Рисуй круги локтями", "Таз неподвижен"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 круга по 30 сек (по и против часовой)",
+    "intensityOptimal": "контроль, не скорость",
+    "tempo": "медленно",
+    "rest": 60,
+    "progressionRule": "Увеличивай диаметр круга"
+  }
+},
+{
+  "id": "external-rotation-band",
+  "name": "Внешняя ротация с резинкой",
+  "type": "shoulders",
+  "equipment": "resistance-band",
+  "tags": ["shoulders", "rotator-cuff", "rehab", "prehab"],
+  "primaryMuscles": ["infraspinatus", "teres minor"],
+  "secondaryMuscles": ["rear delts"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Локти прижаты к бокам", "Поворот только предплечья", "Маленькая амплитуда"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 подхода по 15–20 повторений",
+    "intensityOptimal": "очень лёгкая резинка",
+    "tempo": "2-1-2",
+    "rest": 30,
+    "progressionRule": "Увеличивай медленно, фокус на качестве"
+  }
+},
+{
+  "id": "diaphragmatic-breathing",
+  "name": "Диафрагмальное дыхание",
+  "type": "recovery",
+  "equipment": "bodyweight",
+  "tags": ["recovery", "mobility", "parasympathetic", "mindfulness"],
+  "primaryMuscles": ["diaphragm", "transverse abdominis"],
+  "secondaryMuscles": ["pelvic floor"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Лёжа, рука на животе", "Вдох — живот поднимается", "Выдох — медленно через рот"],
+  "scientificBasis": {
+    "volumeOptimal": "5–10 минут",
+    "intensityOptimal": "расслабление",
+    "tempo": "4-2-6 (вдох-пауза-выдох)",
+    "rest": 0,
+    "progressionRule": "Увеличивай длительность выдоха"
+  }
+},
+{
+  "id": "sissy-squat",
+  "name": "Сисси-приседания",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["legs", "quadriceps", "isolation", "advanced"],
+  "primaryMuscles": ["quadriceps (especially rectus femoris)"],
+  "secondaryMuscles": ["hip flexors"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Держись за опору", "Колени вперёд, таз назад", "Пятки от пола", "Контроль на спуске"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 10–15 повторений",
+    "intensityOptimal": "до жжения",
+    "tempo": "3-1-2",
+    "rest": 60,
+    "progressionRule": "Добавляй вес на грудь или замедляй темп"
+  }
+},
+{
+  "id": "nordic-hamstring-curl",
+  "name": "Нордик-сгибание (для бицепса бедра)",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["legs", "hamstrings", "eccentric", "injury-prevention"],
+  "primaryMuscles": ["hamstrings"],
+  "secondaryMuscles": ["glutes", "lower back"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Стопы закреплены", "Медленное опускание", "Подъём руками при необходимости"],
+  "scientificBasis": {
+    "volumeOptimal": "2–4 подхода по 3–6 повторений",
+    "intensityOptimal": "максимальный эксцентрический контроль",
+    "tempo": "5-0-1",
+    "rest": 120,
+    "progressionRule": "Увеличивай время опускания или уменьшай помощь рук"
+  }
+},
+{
+  "id": "turkish-get-up",
+  "name": "Турецкий подъём",
+  "type": "full-body",
+  "equipment": "kettlebell",
+  "tags": ["functional", "mobility", "core", "shoulders", "advanced"],
+  "primaryMuscles": ["shoulders", "core", "glutes"],
+  "secondaryMuscles": ["quadriceps", "hamstrings", "obliques"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Глаз на гирю", "Жёсткий корпус", "Контроль каждого этапа", "Медленно"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 повторений/сторона",
+    "intensityOptimal": "умеренный вес (1/3–1/2 от жима)",
+    "tempo": "медленный, контролируемый",
+    "rest": 120,
+    "progressionRule": "Освой технику без веса → лёгкая гиря → увеличивай вес"
+  }
+},
+{
+  "id": "ring-muscle-up",
+  "name": "Мускул-ап на кольцах",
+  "type": "back",
+  "equipment": "gymnastic-rings",
+  "tags": ["gymnastics", "pull", "push", "expert", "bodyweight"],
+  "primaryMuscles": ["lats", "pectorals", "triceps", "biceps"],
+  "secondaryMuscles": ["core", "rotator cuff"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Кольца близко к телу", "Плавный переход", "Стабильность в верхней точке"],
+  "scientificBasis": {
+    "volumeOptimal": "2–5 повторений/тренировку",
+    "intensityOptimal": "RIR 2–3",
+    "tempo": "1-0-2",
+    "rest": 180,
+    "progressionRule": "Тренируй false grip и переход от кольцевых подтягиваний"
+  }
+},
+{
+  "id": "ring-push-up",
+  "name": "Отжимания на кольцах",
+  "type": "chest",
+  "equipment": "gymnastic-rings",
+  "tags": ["push", "chest", "shoulders", "stability", "intermediate"],
+  "primaryMuscles": ["pectorals", "deltoids", "triceps"],
+  "secondaryMuscles": ["core", "serratus anterior"],
+  "riskLevel": "medium",
+  "level": "intermediate",
+  "formTips": ["Кольца на уровне груди", "Тело прямое", "Глубокая амплитуда", "Контроль"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 8–15 повторений",
+    "intensityOptimal": "RIR 1–2",
+    "tempo": "2-1-1",
+    "rest": 90,
+    "progressionRule": "Снижай высоту колец или добавляй наклон"
+  }
+},
+{
+  "id": "landmine-press",
+  "name": "Жим из лендмайна",
+  "type": "shoulders",
+  "equipment": "barbell",
+  "tags": ["push", "shoulders", "core", "unilateral", "joint-friendly"],
+  "primaryMuscles": ["deltoids", "triceps"],
+  "secondaryMuscles": ["core", "obliques", "serratus anterior"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Одной рукой", "Дуга движения", "Контроль в нижней точке", "Таз не вращается"],
+  "scientificBasis": {
+    "volumeOptimal": "8–12 подходов/неделю",
+    "intensityOptimal": "70–80% 1ПМ",
+    "tempo": "2-1-1",
+    "rest": 90,
+    "progressionRule": "Добавляй +2.5 кг при успехе в 3×8"
+  }
+},
+{
+  "id": "pallof-press",
+  "name": "Жим Паллофа",
+  "type": "core",
+  "equipment": "cable",
+  "tags": ["core", "anti-rotation", "stability", "rehab"],
+  "primaryMuscles": ["obliques", "transverse abdominis"],
+  "secondaryMuscles": ["shoulders", "glutes"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Туловище неподвижно", "Руки вытянуты", "Сопротивление в сторону"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–15 сек удержания/сторона",
+    "intensityOptimal": "лёгкое сопротивление",
+    "tempo": "изометрия",
+    "rest": 45,
+    "progressionRule": "Увеличивай вес или время удержания"
+  }
+},
+{
+  "id": "suitcase-carry",
+  "name": "Перенос чемодана",
+  "type": "full-body",
+  "equipment": "dumbbells",
+  "tags": ["grip", "core", "anti-lateral-flexion", "functional"],
+  "primaryMuscles": ["quadriceps", "glutes", "obliques"],
+  "secondaryMuscles": ["traps", "forearms", "erector spinae"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Груз в одной руке", "Туловище вертикально", "Не наклоняйся в сторону"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 прохода по 30–40 м/сторона",
+    "intensityOptimal": "тяжёлый вес",
+    "tempo": "-",
+    "rest": 90,
+    "progressionRule": "Увеличивай вес или дистанцию"
+  }
+},
+{
+  "id": "copenhagen-plank",
+  "name": "Копенгагенская планка",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["adductors", "core", "injury-prevention", "advanced"],
+  "primaryMuscles": ["adductors", "obliques"],
+  "secondaryMuscles": ["quadriceps", "glutes"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Опора на локоть и ногу на скамье", "Тело прямое", "Не проваливай бедро"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 подхода по 20–40 сек/сторона",
+    "intensityOptimal": "до усталости",
+    "tempo": "-",
+    "rest": 60,
+    "progressionRule": "Увеличивай время или поднимай нижнюю ногу"
+  }
+},
+{
+  "id": "neck-bridge",
+  "name": "Мост на шее",
+  "type": "neck",
+  "equipment": "bodyweight",
+  "tags": ["neck", "wrestling", "strength", "caution"],
+  "primaryMuscles": ["neck extensors", "traps"],
+  "secondaryMuscles": ["spinal erectors"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Только при хорошей подготовке", "Медленно", "Голова не скользит", "Подушка под голову"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 подхода по 15–30 сек",
+    "intensityOptimal": "лёгкое напряжение",
+    "tempo": "-",
+    "rest": 120,
+    "progressionRule": "Увеличивай время только при отсутствии боли"
+  }
+},
+{
+  "id": "90-90-breathing",
+  "name": "Дыхание в позе 90/90",
+  "type": "recovery",
+  "equipment": "bodyweight",
+  "tags": ["recovery", "mobility", "diaphragm", "pelvis"],
+  "primaryMuscles": ["diaphragm", "pelvic floor", "transverse abdominis"],
+  "secondaryMuscles": ["hip flexors", "hamstrings"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Спина на полу, бёдра и колени под 90°", "Пятки на возвышении", "Дышать животом"],
+  "scientificBasis": {
+    "volumeOptimal": "5–10 минут",
+    "intensityOptimal": "расслабление",
+    "tempo": "4-2-6",
+    "rest": 0,
+    "progressionRule": "Добавляй лёгкое сопротивление на живот"
+  }
+},
+{
+  "id": "kneeling-landmine-rotation",
+  "name": "Вращение из лендмайна на коленях",
+  "type": "core",
+  "equipment": "barbell",
+  "tags": ["core", "rotation", "power", "anti-rotation"],
+  "primaryMuscles": ["obliques", "transverse abdominis"],
+  "secondaryMuscles": ["shoulders", "glutes"],
+  "riskLevel": "medium",
+  "level": "intermediate",
+  "formTips": ["Колени на полу", "Вращение из корпуса, не из рук", "Контроль возврата"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 8–10 повторений/сторона",
+    "intensityOptimal": "лёгкий вес, фокус на контроле",
+    "tempo": "2-1-2",
+    "rest": 60,
+    "progressionRule": "Увеличивай вес или переходи в стойку"
+  }
+},
+{
+  "id": "arch-hold",
+  "name": "Удержание в прогибе (Superman hold)",
+  "type": "back",
+  "equipment": "bodyweight",
+  "tags": ["posterior-chain", "spine", "rehab", "gymnastics"],
+  "primaryMuscles": ["erector spinae", "glutes", "hamstrings"],
+  "secondaryMuscles": ["traps", "calves"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Грудь и бёдра от пола", "Руки и ноги вытянуты", "Не переразгибай поясницу"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 20–40 сек",
+    "intensityOptimal": "до усталости",
+    "tempo": "-",
+    "rest": 45,
+    "progressionRule": "Увеличивай время или добавляй пульсации"
+  }
+},
+{
+  "id": "hollow-hold",
+  "name": "Удержание в вогнутой позе",
+  "type": "core",
+  "equipment": "bodyweight",
+  "tags": ["core", "gymnastics", "stability", "advanced"],
+  "primaryMuscles": ["rectus abdominis", "hip flexors"],
+  "secondaryMuscles": ["quadriceps", "shoulders"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Поясница прижата", "Руки и ноги над полом", "Тело в форме банана"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 20–45 сек",
+    "intensityOptimal": "до дрожи",
+    "tempo": "-",
+    "rest": 60,
+    "progressionRule": "Увеличивай время или добавляй rocking"
+  }
+},
+{
+  "id": "farmer-walk-overhead",
+  "name": "Фермерская прогулка с грузом над головой",
+  "type": "full-body",
+  "equipment": "dumbbells",
+  "tags": ["shoulders", "core", "stability", "expert"],
+  "primaryMuscles": ["deltoids", "traps", "core"],
+  "secondaryMuscles": ["quadriceps", "glutes", "forearms"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Гантели над головой", "Локти заблокированы", "Ходьба прямо"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 прохода по 20–30 м",
+    "intensityOptimal": "лёгкий вес, фокус на стабильности",
+    "tempo": "-",
+    "rest": 120,
+    "progressionRule": "Увеличивай вес или дистанцию"
+  }
+},
+{
+  "id": "single-arm-kettlebell-snatch",
+  "name": "Рывок гири одной рукой",
+  "type": "full-body",
+  "equipment": "kettlebell",
+  "tags": ["olympic", "power", "cardio", "advanced"],
+  "primaryMuscles": ["glutes", "shoulders", "hamstrings"],
+  "secondaryMuscles": ["core", "traps", "cardiovascular system"],
+  "riskLevel": "high",
+  "level": "advanced",
+  "formTips": ["Плавный переход через 'дверной проём'", "Фиксация вверху", "Дыхание синхронно"],
+  "scientificBasis": {
+    "volumeOptimal": "5–10 раундов по 5–10 повторений/рука",
+    "intensityOptimal": "70–80% от макс. гири",
+    "tempo": "взрывной",
+    "rest": 60,
+    "progressionRule": "Освой clean → jerk → snatch"
+  }
+},
+{
+  "id": "toe-curls",
+  "name": "Сгибание пальцев ног",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["feet", "arch", "mobility", "rehab"],
+  "primaryMuscles": ["intrinsic foot muscles"],
+  "secondaryMuscles": ["calves", "tibialis anterior"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Сидя или стоя", "Собирай полотенце пальцами ног", "Медленно"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 15–20 повторений",
+    "intensityOptimal": "лёгкое напряжение",
+    "tempo": "2-1-2",
+    "rest": 30,
+    "progressionRule": "Используй резинку или поднимай мелкие предметы"
+  }
+},
+{
+  "id": "dead-hang",
+  "name": "Вис на перекладине",
+  "type": "recovery",
+  "equipment": "pull-up-bar",
+  "tags": ["recovery", "shoulders", "spine", "decompression"],
+  "primaryMuscles": ["latissimus dorsi", "shoulder capsule"],
+  "secondaryMuscles": ["spinal erectors", "forearms"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Расслабь плечи", "Не сутулься", "Дыши глубоко", "Мягкие колени"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 висов по 20–45 сек",
+    "intensityOptimal": "полное расслабление",
+    "tempo": "-",
+    "rest": 60,
+    "progressionRule": "Увеличивай время или добавляй лёгкое раскачивание"
+  }
+},
+{
+  "id": "cat-cow",
+  "name": "Кошка-корова",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "spine", "warm-up", "yoga"],
+  "primaryMuscles": ["spinal erectors", "abdominals"],
+  "secondaryMuscles": ["neck flexors", "glutes"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["На четвереньках", "Чередуй прогиб и округление", "Синхронизируй с дыханием"],
+  "scientificBasis": {
+    "volumeOptimal": "10–15 повторений",
+    "intensityOptimal": "лёгкое движение",
+    "tempo": "медленно",
+    "rest": 0,
+    "progressionRule": "Добавляй вращения или боковые движения"
+  }
+},
+{
+  "id": "scapular-pull-up",
+  "name": "Лопаточные подтягивания",
+  "type": "back",
+  "equipment": "pull-up-bar",
+  "tags": ["pull", "scapular", "rehab", "prehab"],
+  "primaryMuscles": ["rhomboids", "lower traps"],
+  "secondaryMuscles": ["lats", "serratus anterior"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Руки прямые", "Только движение лопаток", "Грудь вверх, плечи вниз"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–15 повторений",
+    "intensityOptimal": "контроль, не скорость",
+    "tempo": "2-1-2",
+    "rest": 45,
+    "progressionRule": "Увеличивай амплитуду или добавляй паузу внизу"
+  }
+},
+{
+  "id": "wall-angel",
+  "name": "Ангелы у стены",
+  "type": "shoulders",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "posture", "thoracic", "rehab"],
+  "primaryMuscles": ["lower traps", "serratus anterior"],
+  "secondaryMuscles": ["rhomboids", "rotator cuff"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Спина, голова, ягодицы у стены", "Руки скользят вверх-вниз", "Локти и запястья касаются стены"],
+  "scientificBasis": {
+    "volumeOptimal": "2–3 подхода по 10–12 повторений",
+    "intensityOptimal": "лёгкое напряжение",
+    "tempo": "2-1-2",
+    "rest": 30,
+    "progressionRule": "Выполняй с резинкой или в положении лёжа"
+  }
+},
+{
+  "id": "bear-crawl",
+  "name": "Медвежья ходьба",
+  "type": "full-body",
+  "equipment": "bodyweight",
+  "tags": ["functional", "core", "coordination", "animal-flow"],
+  "primaryMuscles": ["shoulders", "core", "quadriceps"],
+  "secondaryMuscles": ["glutes", "hip flexors", "triceps"],
+  "riskLevel": "medium",
+  "level": "intermediate",
+  "formTips": ["Бёдра выше колен", "Спина параллельна полу", "Диагональное движение"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 проходов по 10–20 м",
+    "intensityOptimal": "контроль и координация",
+    "tempo": "медленно → быстро",
+    "rest": 60,
+    "progressionRule": "Увеличивай дистанцию или добавляй направления"
+  }
+},
+{
+  "id": "crab-walk",
+  "name": "Ходьба крабом",
+  "type": "full-body",
+  "equipment": "bodyweight",
+  "tags": ["glutes", "shoulders", "mobility", "animal-flow"],
+  "primaryMuscles": ["glutes", "shoulders", "hamstrings"],
+  "secondaryMuscles": ["core", "quadriceps"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Ягодицы от пола", "Пальцы ног и рук вперёд", "Грудь вверх"],
+  "scientificBasis": {
+    "volumeOptimal": "3 прохода по 10–15 м",
+    "intensityOptimal": "до лёгкого жжения",
+    "tempo": "контролируемо",
+    "rest": 45,
+    "progressionRule": "Увеличивай скорость или добавляй паузу"
+  }
+},
+{
+  "id": "prone-cobra",
+  "name": "Кобра лёжа",
+  "type": "back",
+  "equipment": "bodyweight",
+  "tags": ["posture", "thoracic", "rehab", "kyphosis"],
+  "primaryMuscles": ["middle traps", "rhomboids", "spinal erectors"],
+  "secondaryMuscles": ["glutes", "external rotators"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Лёжа на животе", "Подними грудь, лопатки своди", "Большие пальцы вверх"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 15–30 сек",
+    "intensityOptimal": "лёгкое напряжение",
+    "tempo": "-",
+    "rest": 45,
+    "progressionRule": "Увеличивай время или добавляй пульсации"
+  }
+},
+{
+  "id": "90-90-hip-switch",
+  "name": "Переключение бёдер в 90/90",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "hips", "rotation", "dynamic"],
+  "primaryMuscles": ["hip internal/external rotators"],
+  "secondaryMuscles": ["obliques", "adductors"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Оба бедра под 90°", "Одна нога вперёд, другая назад", "Плавный переход"],
+  "scientificBasis": {
+    "volumeOptimal": "2 подхода по 8–10 переключений/сторона",
+    "intensityOptimal": "лёгкое растяжение",
+    "tempo": "медленно",
+    "rest": 30,
+    "progressionRule": "Добавляй паузу или резинку выше колен"
+  }
+},
+{
+  "id": "banded-good-morning",
+  "name": "Гуд морнинг с резинкой",
+  "type": "legs",
+  "equipment": "resistance-band",
+  "tags": ["hamstrings", "glutes", "posterior-chain", "warm-up"],
+  "primaryMuscles": ["hamstrings", "glutes"],
+  "secondaryMuscles": ["lower back", "calves"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Резинка на шее и стопах", "Шарнир в бедре", "Спина прямая"],
+  "scientificBasis": {
+    "volumeOptimal": "2 подхода по 12–15 повторений",
+    "intensityOptimal": "лёгкая резинка",
+    "tempo": "2-1-2",
+    "rest": 45,
+    "progressionRule": "Используй более жёсткую резинку"
+  }
+},
+{
+  "id": "seated-leg-curl-band",
+  "name": "Сгибание ног сидя с резинкой",
+  "type": "legs",
+  "equipment": "resistance-band",
+  "tags": ["hamstrings", "isolation", "home"],
+  "primaryMuscles": ["hamstrings"],
+  "secondaryMuscles": ["calves"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Резинка за стопой и опорой", "Медленное сгибание", "Полная амплитуда"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 15–20 повторений",
+    "intensityOptimal": "умеренное сопротивление",
+    "tempo": "2-1-2",
+    "rest": 60,
+    "progressionRule": "Увеличивай сопротивление резинки"
+  }
+},
+{
+  "id": "vacuum-exercise",
+  "name": "Вакуум живота",
+  "type": "core",
+  "equipment": "bodyweight",
+  "tags": ["core", "transverse", "breathing", "waist"],
+  "primaryMuscles": ["transverse abdominis"],
+  "secondaryMuscles": ["pelvic floor", "diaphragm"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Выдохни весь воздух", "Втяни пупок к позвоночнику", "Удерживай"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 удержаний по 15–30 сек",
+    "intensityOptimal": "максимальное втягивание",
+    "tempo": "-",
+    "rest": 30,
+    "progressionRule": "Увеличивай время или выполняй стоя/на четвереньках"
+  }
+},
+{
+  "id": "chin-tuck",
+  "name": "Подбородочный тук",
+  "type": "neck",
+  "equipment": "bodyweight",
+  "tags": ["neck", "posture", "forward-head", "rehab"],
+  "primaryMuscles": ["deep neck flexors"],
+  "secondaryMuscles": ["upper traps"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Сядь прямо", "Задвигай подбородок назад", "Глаза вперёд"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–15 повторений",
+    "intensityOptimal": "лёгкое напряжение",
+    "tempo": "3-2-3",
+    "rest": 30,
+    "progressionRule": "Добавляй изометрическую паузу или резинку"
+  }
+},
+{
+  "id": "single-leg-glute-bridge",
+  "name": "Ягодичный мостик на одной ноге",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["glutes", "hamstrings", "unilateral", "rehab"],
+  "primaryMuscles": ["glutes", "hamstrings"],
+  "secondaryMuscles": ["core", "quadriceps"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Одна нога согнута, другая вытянута", "Таз ровно", "Сжимай ягодицы вверху"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–15 повторений/нога",
+    "intensityOptimal": "до усталости",
+    "tempo": "2-1-1",
+    "rest": 60,
+    "progressionRule": "Добавляй вес на таз"
+  }
+},
+{
+  "id": "l-sit",
+  "name": "L-сид (на брусьях или полу)",
+  "type": "core",
+  "equipment": "parallel-bars",
+  "tags": ["core", "gymnastics", "hip-flexors", "expert"],
+  "primaryMuscles": ["hip flexors", "rectus abdominis", "quadriceps"],
+  "secondaryMuscles": ["shoulders", "triceps"],
+  "riskLevel": "medium",
+  "level": "expert",
+  "formTips": ["Ноги прямые, параллельны полу", "Плечи над кистями", "Таз вперёд"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 удержаний по 10–30 сек",
+    "intensityOptimal": "до отказа",
+    "tempo": "-",
+    "rest": 90,
+    "progressionRule": "Начни с tuck L-sit → straight legs"
+  }
+},
+{
+  "id": "front-lever",
+  "name": "Фронтальный упор",
+  "type": "back",
+  "equipment": "pull-up-bar",
+  "tags": ["gymnastics", "pull", "core", "expert"],
+  "primaryMuscles": ["lats", "pectorals", "core"],
+  "secondaryMuscles": ["biceps", "rhomboids"],
+  "riskLevel": "high",
+  "level": "expert",
+  "formTips": ["Тело прямое, параллельно полу", "Лопатки опущены", "Глаза вниз"],
+  "scientificBasis": {
+    "volumeOptimal": "3–5 удержаний по 5–15 сек",
+    "intensityOptimal": "максимальное напряжение",
+    "tempo": "-",
+    "rest": 150,
+    "progressionRule": "Тренируй tuck front lever → advanced tuck → full"
+  }
+},
+{
+  "id": "windmill-kettlebell",
+  "name": "Ветряная мельница с гирей",
+  "type": "core",
+  "equipment": "kettlebell",
+  "tags": ["core", "mobility", "shoulders", "advanced"],
+  "primaryMuscles": ["obliques", "shoulders", "hamstrings"],
+  "secondaryMuscles": ["glutes", "thoracic spine"],
+  "riskLevel": "medium",
+  "level": "advanced",
+  "formTips": ["Гиря над головой", "Свободная рука к стопе", "Глаз на гирю", "Бедро назад"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 5–8 повторений/сторона",
+    "intensityOptimal": "лёгкая гиря (8–12 кг)",
+    "tempo": "медленно, контролируемо",
+    "rest": 90,
+    "progressionRule": "Освой без веса → лёгкая гиря → увеличивай глубину"
+  }
+},
+{
+  "id": "sandbag-shoulder",
+  "name": "Заброс мешка на плечо",
+  "type": "full-body",
+  "equipment": "sandbag",
+  "tags": ["functional", "power", "grip", "unilateral"],
+  "primaryMuscles": ["quadriceps", "glutes", "shoulders"],
+  "secondaryMuscles": ["core", "traps", "forearms"],
+  "riskLevel": "medium",
+  "level": "intermediate",
+  "formTips": ["Импульс из ног", "Мешок по дуге", "Контроль на плече", "Смена сторон"],
+  "scientificBasis": {
+    "volumeOptimal": "4–6 повторений/сторона",
+    "intensityOptimal": "умеренный вес",
+    "tempo": "взрывной подъём, медленный спуск",
+    "rest": 90,
+    "progressionRule": "Увеличивай вес мешка или количество повторений"
+  }
+},
+{
+  "id": "quadruped-rock-back",
+  "name": "Качание назад на четвереньках",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "hips", "spine", "warm-up"],
+  "primaryMuscles": ["hip flexors", "lumbar spine"],
+  "secondaryMuscles": ["glutes", "shoulders"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["На четвереньках", "Ягодицы к пяткам", "Руки вытянуты", "Грудь к полу"],
+  "scientificBasis": {
+    "volumeOptimal": "10–15 повторений",
+    "intensityOptimal": "лёгкое растяжение",
+    "tempo": "медленно",
+    "rest": 0,
+    "progressionRule": "Добавляй боковые качания или паузу внизу"
+  }
+},
+{
+  "id": "side-lying-clam",
+  "name": "Мидия (в положении лёжа на боку)",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["glutes", "rehab", "adductors", "prehab"],
+  "primaryMuscles": ["gluteus medius"],
+  "secondaryMuscles": ["tensor fasciae latae"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Колени согнуты, стопы вместе", "Таз неподвижен", "Поднимай верхнее колено"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 15–20 повторений/сторона",
+    "intensityOptimal": "лёгкое напряжение",
+    "tempo": "2-1-2",
+    "rest": 45,
+    "progressionRule": "Добавляй резинку выше колен"
+  }
+},
+{
+  "id": "standing-paloff-press",
+  "name": "Жим Паллофа стоя",
+  "type": "core",
+  "equipment": "cable",
+  "tags": ["core", "anti-rotation", "functional", "standing"],
+  "primaryMuscles": ["obliques", "transverse abdominis"],
+  "secondaryMuscles": ["glutes", "shoulders"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Ноги на ширине плеч", "Руки вытянуты", "Сопротивление в сторону", "Таз не вращается"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–12 повторений/сторона",
+    "intensityOptimal": "умеренное сопротивление",
+    "tempo": "2-1-2",
+    "rest": 60,
+    "progressionRule": "Увеличивай вес или добавляй шаг вперёд"
+  }
+},
+{
+  "id": "seated-spinal-twist",
+  "name": "Поворот позвоночника сидя",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "thoracic", "yoga", "recovery"],
+  "primaryMuscles": ["obliques", "thoracic erectors"],
+  "secondaryMuscles": ["hip rotators"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Спина прямая", "Одна нога согнута", "Локоть за колено", "Поворот из грудного отдела"],
+  "scientificBasis": {
+    "volumeOptimal": "2 подхода по 30 сек/сторона",
+    "intensityOptimal": "лёгкое растяжение",
+    "tempo": "медленно",
+    "rest": 30,
+    "progressionRule": "Увеличивай глубину поворота"
+  }
+},
+{
+  "id": "heel-elevated-goblet-squat",
+  "name": "Присед гоблет с поднятыми пятками",
+  "type": "legs",
+  "equipment": "dumbbells",
+  "tags": ["legs", "quadriceps", "mobility", "advanced"],
+  "primaryMuscles": ["quadriceps", "glutes"],
+  "secondaryMuscles": ["core", "upper back"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Пятки на возвышении (5–10 см)", "Гантель у груди", "Глубокий присед", "Колени вперёд"],
+  "scientificBasis": {
+    "volumeOptimal": "3–4 подхода по 10–15 повторений",
+    "intensityOptimal": "умеренные веса",
+    "tempo": "3-1-1",
+    "rest": 90,
+    "progressionRule": "Увеличивай вес или глубину"
+  }
+},
+{
+  "id": "t-spine-rotation-on-floor",
+  "name": "Вращение грудного отдела лёжа",
+  "type": "mobility",
+  "equipment": "bodyweight",
+  "tags": ["mobility", "thoracic", "warm-up", "rehab"],
+  "primaryMuscles": ["thoracic rotators", "lats"],
+  "secondaryMuscles": ["obliques", "glutes"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Лёжа на боку, колени согнуты", "Руки вытянуты", "Верхняя рука вращается назад", "Бёдра неподвижны"],
+  "scientificBasis": {
+    "volumeOptimal": "2 подхода по 8–10 повторений/сторона",
+    "intensityOptimal": "лёгкое движение",
+    "tempo": "медленно",
+    "rest": 30,
+    "progressionRule": "Добавляй паузу в конечной точке"
+  }
+},
+{
+  "id": "single-arm-farmers-carry",
+  "name": "Фермерская прогулка одной рукой",
+  "type": "full-body",
+  "equipment": "dumbbells",
+  "tags": ["grip", "core", "anti-lateral-flexion", "functional"],
+  "primaryMuscles": ["quadriceps", "obliques", "traps"],
+  "secondaryMuscles": ["forearms", "glutes"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Груз в одной руке", "Туловище вертикально", "Не наклоняйся", "Ходьба прямо"],
+  "scientificBasis": {
+    "volumeOptimal": "3 прохода по 30–40 м/сторона",
+    "intensityOptimal": "тяжёлый вес",
+    "tempo": "-",
+    "rest": 90,
+    "progressionRule": "Увеличивай вес или дистанцию"
+  }
+},
+{
+  "id": "bird-dog-with-resistance-band",
+  "name": "Птица-собака с резинкой",
+  "type": "core",
+  "equipment": "resistance-band",
+  "tags": ["core", "stability", "glutes", "advanced"],
+  "primaryMuscles": ["transverse abdominis", "glutes"],
+  "secondaryMuscles": ["shoulders", "hamstrings"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Резинка на стопе и руке", "Спина неподвижна", "Медленное движение"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 8–10 повторений/сторона",
+    "intensityOptimal": "лёгкая резинка",
+    "tempo": "3-1-3",
+    "rest": 60,
+    "progressionRule": "Используй более жёсткую резинку"
+  }
+},
+{
+  "id": "dead-bug-with-band",
+  "name": "Мёртвый жук с резинкой",
+  "type": "core",
+  "equipment": "resistance-band",
+  "tags": ["core", "anti-extension", "rehab", "advanced"],
+  "primaryMuscles": ["transverse abdominis", "rectus abdominis"],
+  "secondaryMuscles": ["hip flexors"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Резинка на стопе и фиксации", "Поясница прижата", "Медленные движения"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 8–12 повторений/сторона",
+    "intensityOptimal": "лёгкое сопротивление",
+    "tempo": "3-1-3",
+    "rest": 60,
+    "progressionRule": "Увеличивай сопротивление"
+  }
+},
+{
+  "id": "wall-sit-with-heels-elevated",
+  "name": "Стена с поднятыми пятками",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["legs", "quadriceps", "calves", "isometric"],
+  "primaryMuscles": ["quadriceps", "calves"],
+  "secondaryMuscles": ["glutes", "core"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Пятки на возвышении", "Колени под 90°", "Спина прижата к стене"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 30–60 сек",
+    "intensityOptimal": "до жжения",
+    "tempo": "-",
+    "rest": 60,
+    "progressionRule": "Увеличивай время или добавляй вес"
+  }
+},
+{
+  "id": "supine-bridge-march",
+  "name": "Маршировка в ягодичном мостике",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["glutes", "core", "rehab", "activation"],
+  "primaryMuscles": ["glutes", "hamstrings"],
+  "secondaryMuscles": ["core", "hip flexors"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Таз вверху", "Поочерёдно поднимай колени", "Таз не проваливается"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–12 шагов/нога",
+    "intensityOptimal": "контроль",
+    "tempo": "медленно",
+    "rest": 45,
+    "progressionRule": "Добавляй вес на таз"
+  }
+},
+{
+  "id": "standing-calf-raise-on-step",
+  "name": "Подъёмы на носки на ступеньке",
+  "type": "legs",
+  "equipment": "bodyweight",
+  "tags": ["calves", "isolation", "stretch"],
+  "primaryMuscles": ["calves"],
+  "secondaryMuscles": ["ankle stabilizers"],
+  "riskLevel": "low",
+  "level": "beginner",
+  "formTips": ["Пятки ниже уровня ступеньки", "Полная амплитуда", "Медленное опускание"],
+  "scientificBasis": {
+    "volumeOptimal": "4 подхода по 15–25 повторений",
+    "intensityOptimal": "с весом или без",
+    "tempo": "2-1-3",
+    "rest": 45,
+    "progressionRule": "Добавляй вес или увеличивай повторения"
+  }
+},
+{
+  "id": "plank-with-shoulder-tap",
+  "name": "Планка с касанием плеча",
+  "type": "core",
+  "equipment": "bodyweight",
+  "tags": ["core", "anti-rotation", "shoulders", "stability"],
+  "primaryMuscles": ["transverse abdominis", "obliques"],
+  "secondaryMuscles": ["shoulders", "glutes"],
+  "riskLevel": "low",
+  "level": "intermediate",
+  "formTips": ["Тело прямое", "Не раскачивайся", "Касайся противоположного плеча"],
+  "scientificBasis": {
+    "volumeOptimal": "3 подхода по 10–15 касаний/сторона",
+    "intensityOptimal": "до усталости",
+    "tempo": "медленно",
+    "rest": 60,
+    "progressionRule": "Увеличивай скорость или добавляй вес на спину"
+  }
+}
 ]
