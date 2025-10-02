@@ -1,5 +1,4 @@
 [
-  
   {
     "id": "chicken-breast",
     "name": "Куриная грудка (варёная)",
@@ -8,7 +7,8 @@
     "fats": 3.6,
     "carbs": 0,
     "category": "meat",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "lean", "poultry"]
   },
   {
     "id": "beef-steak",
@@ -18,7 +18,8 @@
     "fats": 15,
     "carbs": 0,
     "category": "meat",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "red-meat"]
   },
   {
     "id": "pork-chops",
@@ -28,7 +29,8 @@
     "fats": 14,
     "carbs": 0,
     "category": "meat",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "red-meat"]
   },
   {
     "id": "turkey-breast",
@@ -38,10 +40,32 @@
     "fats": 8,
     "carbs": 0,
     "category": "meat",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "lean", "poultry"]
+  },
+  {
+    "id": "eggs",
+    "name": "Яйца куриные (варёные)",
+    "calories": 155,
+    "protein": 13,
+    "fats": 11,
+    "carbs": 1.1,
+    "category": "dairy",
+    "portion": 100,
+    "tags": ["protein", "fat", "breakfast"]
+  },
+  {
+    "id": "tofu",
+    "name": "Тофу (твердый)",
+    "calories": 144,
+    "protein": 17,
+    "fats": 8.7,
+    "carbs": 2.9,
+    "category": "plant-protein",
+    "portion": 100,
+    "tags": ["protein", "vegan", "soy"]
   },
 
-  
   {
     "id": "salmon",
     "name": "Лосось (запечённый)",
@@ -50,7 +74,8 @@
     "fats": 13,
     "carbs": 0,
     "category": "fish",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "fats", "omega3"]
   },
   {
     "id": "tuna",
@@ -60,7 +85,8 @@
     "fats": 0.8,
     "carbs": 0,
     "category": "fish",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "lean", "omega3"]
   },
   {
     "id": "shrimp",
@@ -70,7 +96,8 @@
     "fats": 0.3,
     "carbs": 0,
     "category": "seafood",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "lean"]
   },
   {
     "id": "cod",
@@ -80,10 +107,10 @@
     "fats": 0.7,
     "carbs": 0,
     "category": "fish",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "lean"]
   },
 
-  
   {
     "id": "broccoli",
     "name": "Брокколи (варёная)",
@@ -92,7 +119,8 @@
     "fats": 0.4,
     "carbs": 7,
     "category": "vegetables",
-    "portion": 100
+    "portion": 100,
+    "tags": ["veggies", "fiber", "micronutrients"]
   },
   {
     "id": "spinach",
@@ -102,7 +130,8 @@
     "fats": 0.4,
     "carbs": 3.6,
     "category": "vegetables",
-    "portion": 100
+    "portion": 100,
+    "tags": ["veggies", "iron", "micronutrients"]
   },
   {
     "id": "carrots",
@@ -112,7 +141,8 @@
     "fats": 0.2,
     "carbs": 9.6,
     "category": "vegetables",
-    "portion": 100
+    "portion": 100,
+    "tags": ["veggies", "beta-carotene"]
   },
   {
     "id": "bell-pepper",
@@ -122,10 +152,21 @@
     "fats": 0.3,
     "carbs": 6,
     "category": "vegetables",
-    "portion": 100
+    "portion": 100,
+    "tags": ["veggies", "vitamin-c"]
+  },
+  {
+    "id": "zucchini",
+    "name": "Кабачок (тушёный)",
+    "calories": 19,
+    "protein": 1.2,
+    "fats": 0.3,
+    "carbs": 3.1,
+    "category": "vegetables",
+    "portion": 100,
+    "tags": ["veggies", "low-carb"]
   },
 
-  
   {
     "id": "banana",
     "name": "Банан",
@@ -134,7 +175,8 @@
     "fats": 0.3,
     "carbs": 23,
     "category": "fruit",
-    "portion": 100
+    "portion": 100,
+    "tags": ["carbs", "potassium", "fruit"]
   },
   {
     "id": "apple",
@@ -144,7 +186,8 @@
     "fats": 0.2,
     "carbs": 14,
     "category": "fruit",
-    "portion": 100
+    "portion": 100,
+    "tags": ["carbs", "fiber", "fruit"]
   },
   {
     "id": "orange",
@@ -154,7 +197,8 @@
     "fats": 0.1,
     "carbs": 12,
     "category": "fruit",
-    "portion": 100
+    "portion": 100,
+    "tags": ["carbs", "vitamin-c", "fruit"]
   },
   {
     "id": "berries",
@@ -164,10 +208,10 @@
     "fats": 0.3,
     "carbs": 14,
     "category": "fruit",
-    "portion": 100
+    "portion": 100,
+    "tags": ["carbs", "antioxidants", "fruit"]
   },
 
-  
   {
     "id": "rice-white",
     "name": "Рис белый (варёный)",
@@ -176,7 +220,8 @@
     "fats": 0.3,
     "carbs": 28,
     "category": "grains",
-    "portion": 100
+    "portion": 100,
+    "tags": ["carbs", "grains"]
   },
   {
     "id": "quinoa",
@@ -186,7 +231,8 @@
     "fats": 1.9,
     "carbs": 21,
     "category": "grains",
-    "portion": 100
+    "portion": 100,
+    "tags": ["carbs", "protein", "grains", "complete-protein"]
   },
   {
     "id": "oatmeal",
@@ -196,7 +242,8 @@
     "fats": 1.4,
     "carbs": 12,
     "category": "grains",
-    "portion": 100
+    "portion": 100,
+    "tags": ["carbs", "fiber", "breakfast", "grains"]
   },
   {
     "id": "whole-wheat-bread",
@@ -206,10 +253,21 @@
     "fats": 1.1,
     "carbs": 12,
     "category": "grains",
-    "portion": 30
+    "portion": 30,
+    "tags": ["carbs", "fiber", "grains"]
+  },
+  {
+    "id": "sweet-potato",
+    "name": "Батат (запечённый)",
+    "calories": 90,
+    "protein": 2,
+    "fats": 0.2,
+    "carbs": 21,
+    "category": "vegetables",
+    "portion": 100,
+    "tags": ["carbs", "vitamin-a", "complex-carbs"]
   },
 
-  
   {
     "id": "greek-yogurt",
     "name": "Греческий йогурт 0%",
@@ -218,7 +276,8 @@
     "fats": 0.4,
     "carbs": 3.6,
     "category": "dairy",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "dairy", "probiotics"]
   },
   {
     "id": "cottage-cheese",
@@ -228,7 +287,8 @@
     "fats": 2,
     "carbs": 3,
     "category": "dairy",
-    "portion": 100
+    "portion": 100,
+    "tags": ["protein", "dairy", "casein"]
   },
   {
     "id": "milk",
@@ -238,7 +298,8 @@
     "fats": 2.5,
     "carbs": 4.7,
     "category": "dairy",
-    "portion": 100
+    "portion": 100,
+    "tags": ["dairy", "calcium"]
   },
   {
     "id": "cheese",
@@ -248,10 +309,10 @@
     "fats": 33,
     "carbs": 1.3,
     "category": "dairy",
-    "portion": 30
+    "portion": 30,
+    "tags": ["fats", "dairy", "calcium"]
   },
 
-  
   {
     "id": "almonds",
     "name": "Миндаль",
@@ -260,7 +321,8 @@
     "fats": 50,
     "carbs": 22,
     "category": "nuts",
-    "portion": 30
+    "portion": 30,
+    "tags": ["fats", "protein", "nuts", "vitamin-e"]
   },
   {
     "id": "walnuts",
@@ -270,7 +332,8 @@
     "fats": 65,
     "carbs": 14,
     "category": "nuts",
-    "portion": 30
+    "portion": 30,
+    "tags": ["fats", "omega3", "nuts"]
   },
   {
     "id": "chia-seeds",
@@ -280,7 +343,8 @@
     "fats": 31,
     "carbs": 42,
     "category": "seeds",
-    "portion": 30
+    "portion": 30,
+    "tags": ["fats", "fiber", "omega3", "seeds"]
   },
   {
     "id": "peanut-butter",
@@ -290,10 +354,21 @@
     "fats": 50,
     "carbs": 20,
     "category": "nuts",
-    "portion": 30
+    "portion": 30,
+    "tags": ["fats", "protein", "nuts"]
+  },
+  {
+    "id": "avocado",
+    "name": "Авокадо",
+    "calories": 160,
+    "protein": 2,
+    "fats": 15,
+    "carbs": 9,
+    "category": "fruit",
+    "portion": 100,
+    "tags": ["fats", "healthy-fats", "fruit"]
   },
 
-  
   {
     "id": "olive-oil",
     "name": "Оливковое масло",
@@ -302,7 +377,8 @@
     "fats": 100,
     "carbs": 0,
     "category": "oils",
-    "portion": 15
+    "portion": 15,
+    "tags": ["fats", "healthy-fats", "oil"]
   },
   {
     "id": "soy-sauce",
@@ -312,7 +388,8 @@
     "fats": 0.1,
     "carbs": 4.9,
     "category": "sauces",
-    "portion": 30
+    "portion": 30,
+    "tags": ["sauce", "sodium"]
   },
   {
     "id": "tomato-sauce",
@@ -322,7 +399,8 @@
     "fats": 0.2,
     "carbs": 5.2,
     "category": "sauces",
-    "portion": 100
+    "portion": 100,
+    "tags": ["sauce", "veggies", "low-calorie"]
   },
   {
     "id": "mustard",
@@ -332,10 +410,10 @@
     "fats": 3.3,
     "carbs": 5.8,
     "category": "sauces",
-    "portion": 20
+    "portion": 20,
+    "tags": ["sauce", "low-calorie"]
   },
 
-  
   {
     "id": "breakfast-scramble",
     "name": "Яичница с овощами и авокадо",
@@ -344,7 +422,8 @@
     "fats": 22,
     "carbs": 12,
     "category": "meal-breakfast",
-    "portion": 300
+    "portion": 300,
+    "tags": ["meal", "breakfast", "protein", "fats", "veggies"]
   },
   {
     "id": "oatmeal-berry",
@@ -354,7 +433,8 @@
     "fats": 10,
     "carbs": 55,
     "category": "meal-breakfast",
-    "portion": 350
+    "portion": 350,
+    "tags": ["meal", "breakfast", "carbs", "fruit", "nuts"]
   },
   {
     "id": "greek-yogurt-bowl",
@@ -364,10 +444,10 @@
     "fats": 8,
     "carbs": 35,
     "category": "meal-breakfast",
-    "portion": 300
+    "portion": 300,
+    "tags": ["meal", "breakfast", "protein", "fruit", "seeds"]
   },
 
-  
   {
     "id": "chicken-rice-bowl",
     "name": "Боул с курицей, рисом и овощами",
@@ -376,7 +456,8 @@
     "fats": 12,
     "carbs": 50,
     "category": "meal-lunch",
-    "portion": 400
+    "portion": 400,
+    "tags": ["meal", "lunch", "protein", "carbs", "veggies"]
   },
   {
     "id": "salmon-quinoa-salad",
@@ -386,7 +467,8 @@
     "fats": 28,
     "carbs": 40,
     "category": "meal-lunch",
-    "portion": 350
+    "portion": 350,
+    "tags": ["meal", "lunch", "protein", "fats", "carbs", "omega3"]
   },
   {
     "id": "beef-stir-fry",
@@ -396,10 +478,10 @@
     "fats": 18,
     "carbs": 25,
     "category": "meal-lunch",
-    "portion": 350
+    "portion": 350,
+    "tags": ["meal", "lunch", "protein", "veggies"]
   },
 
- 
   {
     "id": "baked-cod-veggies",
     "name": "Запечённая треска с овощами",
@@ -408,7 +490,8 @@
     "fats": 8,
     "carbs": 15,
     "category": "meal-dinner",
-    "portion": 350
+    "portion": 350,
+    "tags": ["meal", "dinner", "protein", "lean", "veggies"]
   },
   {
     "id": "turkey-stuffed-peppers",
@@ -418,7 +501,8 @@
     "fats": 10,
     "carbs": 30,
     "category": "meal-dinner",
-    "portion": 300
+    "portion": 300,
+    "tags": ["meal", "dinner", "protein", "carbs", "veggies"]
   },
   {
     "id": "shrimp-pasta",
@@ -428,10 +512,10 @@
     "fats": 12,
     "carbs": 60,
     "category": "meal-dinner",
-    "portion": 400
+    "portion": 400,
+    "tags": ["meal", "dinner", "protein", "carbs"]
   },
 
-  
   {
     "id": "protein-shake",
     "name": "Белковый коктейль с бананом",
@@ -440,7 +524,8 @@
     "fats": 3,
     "carbs": 30,
     "category": "snack",
-    "portion": 300
+    "portion": 300,
+    "tags": ["snack", "protein", "carbs"]
   },
   {
     "id": "fruit-nut-mix",
@@ -450,7 +535,8 @@
     "fats": 25,
     "carbs": 40,
     "category": "snack",
-    "portion": 50
+    "portion": 50,
+    "tags": ["snack", "fats", "carbs", "nuts", "fruit"]
   },
   {
     "id": "veggie-hummus",
@@ -460,6 +546,1843 @@
     "fats": 10,
     "carbs": 15,
     "category": "snack",
-    "portion": 200
-  }
+    "portion": 200,
+    "tags": ["snack", "veggies", "fats", "plant-protein"]
+  },
+  {
+  "id": "mango",
+  "name": "Манго (свежее)",
+  "calories": 60,
+  "protein": 0.8,
+  "fats": 0.4,
+  "carbs": 15,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "vitamin-c", "fruit", "antioxidants"]
+},
+{
+  "id": "grapes",
+  "name": "Виноград (свежий)",
+  "calories": 69,
+  "protein": 0.7,
+  "fats": 0.2,
+  "carbs": 18,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "fruit", "antioxidants"]
+},
+{
+  "id": "radish",
+  "name": "Редька (чёрная, сырая)",
+  "calories": 36,
+  "protein": 2.0,
+  "fats": 0.1,
+  "carbs": 7.0,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "fiber", "detox", "low-calorie"]
+},
+{
+  "id": "tomato",
+  "name": "Помидор (свежий)",
+  "calories": 18,
+  "protein": 0.9,
+  "fats": 0.2,
+  "carbs": 3.9,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "lycopene", "low-calorie", "micronutrients"]
+},
+{
+  "id": "cucumber",
+  "name": "Огурец (свежий)",
+  "calories": 15,
+  "protein": 0.7,
+  "fats": 0.1,
+  "carbs": 3.6,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "hydration", "low-calorie", "fiber"]
+},
+{
+  "id": "beef-mince-lean",
+  "name": "Говядина (фарш, постный, 5% жира)",
+  "calories": 150,
+  "protein": 26,
+  "fats": 5,
+  "carbs": 0,
+  "category": "meat",
+  "portion": 100,
+  "tags": ["protein", "red-meat", "lean"]
+},
+{
+  "id": "pork-loin",
+  "name": "Свинина (вырезка)",
+  "calories": 190,
+  "protein": 27,
+  "fats": 8,
+  "carbs": 0,
+  "category": "meat",
+  "portion": 100,
+  "tags": ["protein", "red-meat", "leaner-pork"]
+},
+{
+  "id": "turkey-mince",
+  "name": "Индейка (фарш)",
+  "calories": 170,
+  "protein": 24,
+  "fats": 9,
+  "carbs": 0,
+  "category": "meat",
+  "portion": 100,
+  "tags": ["protein", "lean", "poultry"]
+},
+{
+  "id": "milk-1",
+  "name": "Молоко 1%",
+  "calories": 42,
+  "protein": 3.4,
+  "fats": 1.0,
+  "carbs": 4.8,
+  "category": "dairy",
+  "portion": 100,
+  "tags": ["dairy", "calcium", "low-fat"]
+},
+{
+  "id": "kefir",
+  "name": "Кефир 1%",
+  "calories": 40,
+  "protein": 3.0,
+  "fats": 1.0,
+  "carbs": 4.0,
+  "category": "dairy",
+  "portion": 100,
+  "tags": ["dairy", "probiotics", "calcium", "gut-health"]
+},
+{
+  "id": "lentils",
+  "name": "Чечевица (варёная)",
+  "calories": 116,
+  "protein": 9.0,
+  "fats": 0.4,
+  "carbs": 20,
+  "category": "legumes",
+  "portion": 100,
+  "tags": ["plant-protein", "fiber", "complex-carbs", "vegan"]
+},
+{
+  "id": "chickpeas",
+  "name": "Нут (варёный)",
+  "calories": 164,
+  "protein": 8.9,
+  "fats": 2.6,
+  "carbs": 27,
+  "category": "legumes",
+  "portion": 100,
+  "tags": ["plant-protein", "fiber", "complex-carbs", "vegan"]
+},
+{
+  "id": "hummus",
+  "name": "Хумус (домашний)",
+  "calories": 177,
+  "protein": 8,
+  "fats": 10,
+  "carbs": 15,
+  "category": "dips",
+  "portion": 100,
+  "tags": ["plant-protein", "fats", "fiber", "seeds"]
+},
+{
+  "id": "cabbage",
+  "name": "Капуста белокочанная (сырая)",
+  "calories": 25,
+  "protein": 1.3,
+  "fats": 0.1,
+  "carbs": 6.0,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "fiber", "vitamin-c", "low-calorie"]
+},
+{
+  "id": "beetroot",
+  "name": "Свёкла (варёная)",
+  "calories": 44,
+  "protein": 1.7,
+  "fats": 0.2,
+  "carbs": 10,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "nitrates", "detox", "micronutrients"]
+},
+{
+  "id": "smoothie-green",
+  "name": "Зелёный смузи с шпинатом, бананом и овсянкой",
+  "calories": 260,
+  "protein": 8,
+  "fats": 4,
+  "carbs": 48,
+  "category": "meal-breakfast",
+  "portion": 350,
+  "tags": ["meal", "breakfast", "carbs", "veggies", "fruit", "fiber"]
+},
+{
+  "id": "cottage-cheese-fruit",
+  "name": "Творог с ягодами и льняным семенем",
+  "calories": 220,
+  "protein": 22,
+  "fats": 7,
+  "carbs": 18,
+  "category": "meal-breakfast",
+  "portion": 250,
+  "tags": ["meal", "breakfast", "protein", "fruit", "seeds", "dairy"]
+},
+{
+  "id": "lentil-soup",
+  "name": "Суп из чечевицы с овощами",
+  "calories": 240,
+  "protein": 14,
+  "fats": 6,
+  "carbs": 32,
+  "category": "meal-lunch",
+  "portion": 400,
+  "tags": ["meal", "lunch", "plant-protein", "fiber", "veggies", "soup"]
+},
+{
+  "id": "chicken-avocado-wrap",
+  "name": "Ролл с курицей, авокадо и салатом в цельнозерновой лаваш",
+  "calories": 380,
+  "protein": 28,
+  "fats": 16,
+  "carbs": 32,
+  "category": "meal-lunch",
+  "portion": 300,
+  "tags": ["meal", "lunch", "protein", "healthy-fats", "carbs", "wrap"]
+},
+{
+  "id": "baked-turkey-zucchini",
+  "name": "Запечённая индейка с кабачками и помидорами",
+  "calories": 290,
+  "protein": 32,
+  "fats": 12,
+  "carbs": 12,
+  "category": "meal-dinner",
+  "portion": 350,
+  "tags": ["meal", "dinner", "protein", "lean", "veggies", "low-carb"]
+},
+{
+  "id": "stuffed-avocado",
+  "name": "Авокадо, фаршированное тунцом и овощами",
+  "calories": 310,
+  "protein": 22,
+  "fats": 20,
+  "carbs": 10,
+  "category": "meal-dinner",
+  "portion": 250,
+  "tags": ["meal", "dinner", "protein", "healthy-fats", "omega3", "low-carb"]
+},
+{
+  "id": "cottage-cheese-cucumber",
+  "name": "Творог с огурцом и зеленью",
+  "calories": 140,
+  "protein": 16,
+  "fats": 5,
+  "carbs": 6,
+  "category": "snack",
+  "portion": 150,
+  "tags": ["snack", "protein", "dairy", "veggies", "low-carb"]
+},
+{
+  "id": "apple-peanut-butter",
+  "name": "Яблоко с арахисовой пастой",
+  "calories": 220,
+  "protein": 6,
+  "fats": 12,
+  "carbs": 25,
+  "category": "snack",
+  "portion": 120,
+  "tags": ["snack", "carbs", "fats", "fruit", "nuts"]
+},
+{
+  "id": "kefir-berry",
+  "name": "Кефир с ягодами и семенами чиа",
+  "calories": 160,
+  "protein": 8,
+  "fats": 5,
+  "carbs": 20,
+  "category": "snack",
+  "portion": 250,
+  "tags": ["snack", "dairy", "probiotics", "fruit", "seeds"]
+},
+{
+  "id": "pumpkin",
+  "name": "Тыква (запечённая)",
+  "calories": 30,
+  "protein": 1.0,
+  "fats": 0.1,
+  "carbs": 7.5,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "vitamin-a", "low-calorie", "fiber"]
+},
+{
+  "id": "eggplant",
+  "name": "Баклажан (тушёный без масла)",
+  "calories": 25,
+  "protein": 1.0,
+  "fats": 0.2,
+  "carbs": 6.0,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "fiber", "low-calorie", "antioxidants"]
+},
+{
+  "id": "celery",
+  "name": "Сельдерей (стебли, свежий)",
+  "calories": 16,
+  "protein": 0.7,
+  "fats": 0.2,
+  "carbs": 3.0,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "hydration", "low-calorie", "detox"]
+},
+{
+  "id": "kiwi",
+  "name": "Киви",
+  "calories": 61,
+  "protein": 1.1,
+  "fats": 0.5,
+  "carbs": 15,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "vitamin-c", "fiber", "fruit"]
+},
+{
+  "id": "pear",
+  "name": "Груша",
+  "calories": 57,
+  "protein": 0.4,
+  "fats": 0.1,
+  "carbs": 15,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "fiber", "fruit", "micronutrients"]
+},
+{
+  "id": "canned-salmon",
+  "name": "Лосось (консервированный в собственном соку)",
+  "calories": 180,
+  "protein": 22,
+  "fats": 10,
+  "carbs": 0,
+  "category": "fish",
+  "portion": 100,
+  "tags": ["protein", "omega3", "calcium", "convenient"]
+},
+{
+  "id": "mackerel",
+  "name": "Скумбрия (запечённая)",
+  "calories": 205,
+  "protein": 19,
+  "fats": 14,
+  "carbs": 0,
+  "category": "fish",
+  "portion": 100,
+  "tags": ["protein", "omega3", "fats", "fish"]
+},
+{
+  "id": "brown-rice",
+  "name": "Рис коричневый (варёный)",
+  "calories": 112,
+  "protein": 2.6,
+  "fats": 0.9,
+  "carbs": 23,
+  "category": "grains",
+  "portion": 100,
+  "tags": ["carbs", "fiber", "complex-carbs", "grains"]
+},
+{
+  "id": "buckwheat",
+  "name": "Гречка (варёная на воде)",
+  "calories": 92,
+  "protein": 3.4,
+  "fats": 1.5,
+  "carbs": 19,
+  "category": "grains",
+  "portion": 100,
+  "tags": ["carbs", "plant-protein", "grains", "gluten-free"]
+},
+{
+  "id": "rye-bread",
+  "name": "Хлеб ржаной (1 ломтик)",
+  "calories": 65,
+  "protein": 2.8,
+  "fats": 0.8,
+  "carbs": 13,
+  "category": "grains",
+  "portion": 30,
+  "tags": ["carbs", "fiber", "grains", "low-gi"]
+},
+{
+  "id": "flaxseeds",
+  "name": "Семена льна (молотые)",
+  "calories": 534,
+  "protein": 18,
+  "fats": 42,
+  "carbs": 29,
+  "category": "seeds",
+  "portion": 30,
+  "tags": ["fats", "omega3", "fiber", "seeds", "gut-health"]
+},
+{
+  "id": "sunflower-seeds",
+  "name": "Семечки подсолнуха (не жареные)",
+  "calories": 584,
+  "protein": 21,
+  "fats": 51,
+  "carbs": 20,
+  "category": "seeds",
+  "portion": 30,
+  "tags": ["fats", "vitamin-e", "seeds", "snack"]
+},
+{
+  "id": "tempeh",
+  "name": "Темпе (ферментированный соевый продукт)",
+  "calories": 193,
+  "protein": 20,
+  "fats": 11,
+  "carbs": 8,
+  "category": "plant-protein",
+  "portion": 100,
+  "tags": ["protein", "vegan", "soy", "probiotics"]
+},
+{
+  "id": "edamame",
+  "name": "Эдамаме (варёные соевые бобы)",
+  "calories": 121,
+  "protein": 11,
+  "fats": 5,
+  "carbs": 10,
+  "category": "legumes",
+  "portion": 100,
+  "tags": ["plant-protein", "fiber", "vegan", "snack"]
+},
+{
+  "id": "coconut-milk-light",
+  "name": "Кокосовое молоко (лёгкое, для готовки)",
+  "calories": 169,
+  "protein": 1.7,
+  "fats": 17,
+  "carbs": 3.3,
+  "category": "dairy-alternative",
+  "portion": 100,
+  "tags": ["fats", "dairy-free", "cooking", "healthy-fats"]
+},
+{
+  "id": "buckwheat-berry-bowl",
+  "name": "Гречневая каша с ягодами и миндалём",
+  "calories": 320,
+  "protein": 10,
+  "fats": 12,
+  "carbs": 45,
+  "category": "meal-breakfast",
+  "portion": 300,
+  "tags": ["meal", "breakfast", "carbs", "fruit", "nuts", "gluten-free"]
+},
+{
+  "id": "avocado-eggs-toast",
+  "name": "Тост из цельнозернового хлеба с авокадо и яйцом пашот",
+  "calories": 340,
+  "protein": 16,
+  "fats": 20,
+  "carbs": 25,
+  "category": "meal-breakfast",
+  "portion": 200,
+  "tags": ["meal", "breakfast", "protein", "healthy-fats", "carbs"]
+},
+{
+  "id": "mackerel-veggie-plate",
+  "name": "Скумбрия с тушёными овощами и гречкой",
+  "calories": 480,
+  "protein": 28,
+  "fats": 26,
+  "carbs": 32,
+  "category": "meal-lunch",
+  "portion": 400,
+  "tags": ["meal", "lunch", "protein", "omega3", "carbs", "veggies"]
+},
+{
+  "id": "chickpea-salad",
+  "name": "Салат из нута, помидоров, огурцов и петрушки с лимоном",
+  "calories": 260,
+  "protein": 12,
+  "fats": 8,
+  "carbs": 35,
+  "category": "meal-lunch",
+  "portion": 350,
+  "tags": ["meal", "lunch", "plant-protein", "veggies", "vegan", "fiber"]
+},
+{
+  "id": "zucchini-noodles-shrimp",
+  "name": "Цуккини-спагетти с креветками и томатным соусом",
+  "calories": 270,
+  "protein": 28,
+  "fats": 10,
+  "carbs": 18,
+  "category": "meal-dinner",
+  "portion": 350,
+  "tags": ["meal", "dinner", "protein", "low-carb", "veggies", "seafood"]
+},
+{
+  "id": "stuffed-eggplant",
+  "name": "Фаршированные баклажаны индейкой и овощами",
+  "calories": 310,
+  "protein": 26,
+  "fats": 14,
+  "carbs": 20,
+  "category": "meal-dinner",
+  "portion": 350,
+  "tags": ["meal", "dinner", "protein", "veggies", "poultry"]
+},
+{
+  "id": "edamame-salt",
+  "name": "Эдамаме с морской солью",
+  "calories": 130,
+  "protein": 12,
+  "fats": 6,
+  "carbs": 10,
+  "category": "snack",
+  "portion": 100,
+  "tags": ["snack", "plant-protein", "vegan", "fiber"]
+},
+{
+  "id": "cucumber-hummus-sticks",
+  "name": "Палочки из огурца и моркови с хумусом",
+  "calories": 150,
+  "protein": 5,
+  "fats": 9,
+  "carbs": 12,
+  "category": "snack",
+  "portion": 180,
+  "tags": ["snack", "veggies", "fats", "plant-protein", "low-calorie"]
+},
+{
+  "id": "greek-yogurt-flax",
+  "name": "Греческий йогурт с молотым льном и киви",
+  "calories": 190,
+  "protein": 18,
+  "fats": 6,
+  "carbs": 18,
+  "category": "snack",
+  "portion": 200,
+  "tags": ["snack", "protein", "dairy", "fruit", "seeds", "omega3"]
+},
+{
+  "id": "ryazhenka",
+  "name": "Ряженка 2.5%",
+  "calories": 68,
+  "protein": 3.0,
+  "fats": 2.5,
+  "carbs": 6.0,
+  "category": "dairy",
+  "portion": 100,
+  "tags": ["dairy", "probiotics", "calcium", "fermented"]
+},
+{
+  "id": "yogurt-natural",
+  "name": "Натуральный йогурт 3.2%",
+  "calories": 61,
+  "protein": 3.5,
+  "fats": 3.2,
+  "carbs": 4.0,
+  "category": "dairy",
+  "portion": 100,
+  "tags": ["dairy", "probiotics", "calcium"]
+},
+{
+  "id": "almond-milk-unsweetened",
+  "name": "Миндальное молоко (без сахара)",
+  "calories": 13,
+  "protein": 0.4,
+  "fats": 1.1,
+  "carbs": 0.3,
+  "category": "dairy-alternative",
+  "portion": 100,
+  "tags": ["dairy-free", "vegan", "low-calorie", "calcium-fortified"]
+},
+{
+  "id": "pomegranate",
+  "name": "Гранат (зерна)",
+  "calories": 83,
+  "protein": 1.7,
+  "fats": 1.2,
+  "carbs": 18.7,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "antioxidants", "fruit", "vitamin-c"]
+},
+{
+  "id": "watermelon",
+  "name": "Арбуз",
+  "calories": 30,
+  "protein": 0.6,
+  "fats": 0.2,
+  "carbs": 7.6,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "hydration", "fruit", "low-calorie"]
+},
+{
+  "id": "figs-dried",
+  "name": "Инжир (сушёный)",
+  "calories": 249,
+  "protein": 3.3,
+  "fats": 0.9,
+  "carbs": 63.9,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "fiber", "fruit", "natural-sweetener"]
+},
+{
+  "id": "parsley",
+  "name": "Петрушка (свежая)",
+  "calories": 36,
+  "protein": 2.9,
+  "fats": 0.8,
+  "carbs": 6.3,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "micronutrients", "vitamin-k", "herbs"]
+},
+{
+  "id": "dill",
+  "name": "Укроп (свежий)",
+  "calories": 43,
+  "protein": 3.5,
+  "fats": 1.1,
+  "carbs": 7.0,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "herbs", "antioxidants", "micronutrients"]
+},
+{
+  "id": "arugula",
+  "name": "Руккола",
+  "calories": 25,
+  "protein": 2.6,
+  "fats": 0.7,
+  "carbs": 3.7,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "peppery", "micronutrients", "salad"]
+},
+{
+  "id": "mussels",
+  "name": "Мидии (отварные)",
+  "calories": 110,
+  "protein": 22,
+  "fats": 2.0,
+  "carbs": 3.0,
+  "category": "seafood",
+  "portion": 100,
+  "tags": ["protein", "lean", "seafood", "iron", "b12"]
+},
+{
+  "id": "pollock",
+  "name": "Минтай (запечённый)",
+  "calories": 82,
+  "protein": 17,
+  "fats": 1.0,
+  "carbs": 0,
+  "category": "fish",
+  "portion": 100,
+  "tags": ["protein", "lean", "fish", "low-calorie"]
+},
+{
+  "id": "barley",
+  "name": "Ячневая крупа (варёная)",
+  "calories": 123,
+  "protein": 3.5,
+  "fats": 1.2,
+  "carbs": 26,
+  "category": "grains",
+  "portion": 100,
+  "tags": ["carbs", "fiber", "grains", "complex-carbs"]
+},
+{
+  "id": "bulgur",
+  "name": "Булгур (варёный)",
+  "calories": 83,
+  "protein": 3.1,
+  "fats": 0.2,
+  "carbs": 18,
+  "category": "grains",
+  "portion": 100,
+  "tags": ["carbs", "fiber", "grains", "quick-cook"]
+},
+{
+  "id": "black-beans",
+  "name": "Чёрная фасоль (варёная)",
+  "calories": 132,
+  "protein": 8.9,
+  "fats": 0.5,
+  "carbs": 24,
+  "category": "legumes",
+  "portion": 100,
+  "tags": ["plant-protein", "fiber", "vegan", "antioxidants"]
+},
+{
+  "id": "coconut-flakes-unsweetened",
+  "name": "Кокосовая стружка (несладкая)",
+  "calories": 650,
+  "protein": 6.0,
+  "fats": 65,
+  "carbs": 20,
+  "category": "nuts",
+  "portion": 30,
+  "tags": ["fats", "healthy-fats", "fiber", "snack"]
+},
+{
+  "id": "cacao-powder-raw",
+  "name": "Какао-порошок (натуральный, без сахара)",
+  "calories": 228,
+  "protein": 20,
+  "fats": 14,
+  "carbs": 58,
+  "category": "other",
+  "portion": 100,
+  "tags": ["antioxidants", "mood-boost", "baking", "minerals"]
+},
+{
+  "id": "dark-chocolate-85",
+  "name": "Тёмный шоколад (85% какао)",
+  "calories": 590,
+  "protein": 7.8,
+  "fats": 48,
+  "carbs": 30,
+  "category": "sweets",
+  "portion": 20,
+  "tags": ["fats", "antioxidants", "treat", "magnesium"]
+},
+{
+  "id": "chia-pudding-berry",
+  "name": "Пудинг из семян чиа с миндальным молоком и ягодами",
+  "calories": 280,
+  "protein": 9,
+  "fats": 16,
+  "carbs": 28,
+  "category": "meal-breakfast",
+  "portion": 250,
+  "tags": ["meal", "breakfast", "vegan", "omega3", "fruit", "seeds"]
+},
+{
+  "id": "cottage-cheese-pancakes",
+  "name": "Ленивые вареники из творога с ягодами",
+  "calories": 260,
+  "protein": 24,
+  "fats": 8,
+  "carbs": 22,
+  "category": "meal-breakfast",
+  "portion": 200,
+  "tags": ["meal", "breakfast", "protein", "dairy", "fruit", "low-sugar"]
+},
+{
+  "id": "black-bean-bowl",
+  "name": "Боул с чёрной фасолью, кукурузой, авокадо и сальсой",
+  "calories": 380,
+  "protein": 14,
+  "fats": 18,
+  "carbs": 42,
+  "category": "meal-lunch",
+  "portion": 350,
+  "tags": ["meal", "lunch", "plant-protein", "fiber", "vegan", "mexican"]
+},
+{
+  "id": "buckwheat-mushroom-stew",
+  "name": "Гречка с тушёными грибами и луком",
+  "calories": 290,
+  "protein": 10,
+  "fats": 12,
+  "carbs": 35,
+  "category": "meal-lunch",
+  "portion": 300,
+  "tags": ["meal", "lunch", "grains", "veggies", "umami", "vegetarian"]
+},
+{
+  "id": "baked-mackerel-herbs",
+  "name": "Запечённая скумбрия с лимоном и зеленью",
+  "calories": 320,
+  "protein": 25,
+  "fats": 22,
+  "carbs": 3,
+  "category": "meal-dinner",
+  "portion": 250,
+  "tags": ["meal", "dinner", "protein", "omega3", "low-carb", "fish"]
+},
+{
+  "id": "stuffed-cabbage-lean",
+  "name": "Голубцы с постной говядиной и гречкой",
+  "calories": 310,
+  "protein": 22,
+  "fats": 10,
+  "carbs": 30,
+  "category": "meal-dinner",
+  "portion": 350,
+  "tags": ["meal", "dinner", "protein", "carbs", "veggies", "traditional"]
+},
+{
+  "id": "banana-cacao-bites",
+  "name": "Энергетические шарики из банана, овсянки и какао",
+  "calories": 180,
+  "protein": 5,
+  "fats": 8,
+  "carbs": 25,
+  "category": "snack",
+  "portion": 40,
+  "tags": ["snack", "carbs", "treat", "no-added-sugar", "fiber"]
+},
+{
+  "id": "dark-chocolate-almonds",
+  "name": "Горсть миндаля с кусочком тёмного шоколада",
+  "calories": 220,
+  "protein": 6,
+  "fats": 18,
+  "carbs": 12,
+  "category": "snack",
+  "portion": 35,
+  "tags": ["snack", "fats", "antioxidants", "mood-boost", "nuts"]
+},
+{
+  "id": "kefir-cucumber-dill",
+  "name": "Охлаждённый кефир с огурцом и укропом (типа окрошки без хлеба)",
+  "calories": 90,
+  "protein": 5,
+  "fats": 3,
+  "carbs": 10,
+  "category": "snack",
+  "portion": 250,
+  "tags": ["snack", "dairy", "probiotics", "veggies", "refreshing"]
+},
+{
+  "id": "seitan",
+  "name": "Сейтан (пшеничный белок)",
+  "calories": 120,
+  "protein": 25,
+  "fats": 0.8,
+  "carbs": 4,
+  "category": "plant-protein",
+  "portion": 100,
+  "tags": ["protein", "vegan", "meat-alternative", "gluten"]
+},
+{
+  "id": "lupini-beans",
+  "name": "Люпин (солёные бобы, как закуска)",
+  "calories": 115,
+  "protein": 16,
+  "fats": 3,
+  "carbs": 9,
+  "category": "legumes",
+  "portion": 100,
+  "tags": ["plant-protein", "fiber", "snack", "mediterranean"]
+},
+{
+  "id": "nutritional-yeast",
+  "name": "Пивные дрожжи (в хлопьях)",
+  "calories": 325,
+  "protein": 45,
+  "fats": 5,
+  "carbs": 40,
+  "category": "other",
+  "portion": 100,
+  "tags": ["protein", "b12-fortified", "vegan", "cheesy-flavor"]
+},
+{
+  "id": "kohlrabi",
+  "name": "Кольраби (сырая)",
+  "calories": 27,
+  "protein": 1.7,
+  "fats": 0.1,
+  "carbs": 6.2,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "fiber", "vitamin-c", "crunchy"]
+},
+{
+  "id": "fennel",
+  "name": "Фенхель (свежий, луковица)",
+  "calories": 31,
+  "protein": 1.2,
+  "fats": 0.2,
+  "carbs": 7.3,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "digestive", "licorice-flavor", "low-calorie"]
+},
+{
+  "id": "leek",
+  "name": "Порей (тушёный)",
+  "calories": 32,
+  "protein": 1.5,
+  "fats": 0.3,
+  "carbs": 7.3,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "micronutrients", "soup-base", "mild-onion"]
+},
+{
+  "id": "tahini",
+  "name": "Тахини (паста из кунжута)",
+  "calories": 595,
+  "protein": 17,
+  "fats": 54,
+  "carbs": 21,
+  "category": "seeds",
+  "portion": 30,
+  "tags": ["fats", "calcium", "seeds", "middle-eastern"]
+},
+{
+  "id": "miso-paste",
+  "name": "Мисо (ферментированная соевая паста)",
+  "calories": 198,
+  "protein": 12,
+  "fats": 6,
+  "carbs": 25,
+  "category": "fermented",
+  "portion": 100,
+  "tags": ["fermented", "umami", "probiotics", "soup-base"]
+},
+{
+  "id": "nori",
+  "name": "Нори (сушеные водоросли)",
+  "calories": 35,
+  "protein": 5.8,
+  "fats": 0.3,
+  "carbs": 6.5,
+  "category": "seafood",
+  "portion": 10,
+  "tags": ["iodine", "micronutrients", "sushi", "low-calorie"]
+},
+{
+  "id": "spirulina",
+  "name": "Спирулина (порошок)",
+  "calories": 290,
+  "protein": 57,
+  "fats": 8,
+  "carbs": 24,
+  "category": "supplements",
+  "portion": 100,
+  "tags": ["protein", "iron", "vegan", "detox", "algae"]
+},
+{
+  "id": "matcha",
+  "name": "Матча (порошок зелёного чая)",
+  "calories": 3,
+  "protein": 0.3,
+  "fats": 0.03,
+  "carbs": 0.5,
+  "category": "beverages",
+  "portion": 1,
+  "tags": ["antioxidants", "caffeine", "calm-energy", "ceremonial"]
+},
+{
+  "id": "dates",
+  "name": "Финики (свежие, без косточек)",
+  "calories": 282,
+  "protein": 2.5,
+  "fats": 0.4,
+  "carbs": 75,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["natural-sweetener", "fiber", "potassium", "energy-boost"]
+},
+{
+  "id": "erythritol",
+  "name": "Эритрит (натуральный сахарозаменитель)",
+  "calories": 0.2,
+  "protein": 0,
+  "fats": 0,
+  "carbs": 0,
+  "category": "sweeteners",
+  "portion": 100,
+  "tags": ["zero-calorie", "low-gi", "baking", "tooth-friendly"]
+},
+{
+  "id": "matcha-oat-bowl",
+  "name": "Овсянка с матча, бананом и кокосовой стружкой",
+  "calories": 310,
+  "protein": 9,
+  "fats": 10,
+  "carbs": 50,
+  "category": "meal-breakfast",
+  "portion": 300,
+  "tags": ["meal", "breakfast", "carbs", "antioxidants", "vegan-option"]
+},
+{
+  "id": "savory-tofu-scramble",
+  "name": "Тофу-яичница с шпинатом, перцем и куркумой",
+  "calories": 220,
+  "protein": 18,
+  "fats": 12,
+  "carbs": 8,
+  "category": "meal-breakfast",
+  "portion": 250,
+  "tags": ["meal", "breakfast", "vegan", "protein", "anti-inflammatory"]
+},
+{
+  "id": "miso-soup-tofu-seaweed",
+  "name": "Мисо-суп с тофу, водорослями и зеленью",
+  "calories": 140,
+  "protein": 10,
+  "fats": 6,
+  "carbs": 12,
+  "category": "meal-lunch",
+  "portion": 300,
+  "tags": ["meal", "lunch", "fermented", "vegan", "gut-health", "light"]
+},
+{
+  "id": "seitan-stir-fry",
+  "name": "Сейтан с брокколи, морковью и соевым соусом",
+  "calories": 320,
+  "protein": 28,
+  "fats": 12,
+  "carbs": 28,
+  "category": "meal-lunch",
+  "portion": 350,
+  "tags": ["meal", "lunch", "vegan", "protein", "veggies", "asian"]
+},
+{
+  "id": "stuffed-bell-peppers-lentils",
+  "name": "Перцы, фаршированные чечевицей, рисом и томатами",
+  "calories": 290,
+  "protein": 14,
+  "fats": 8,
+  "carbs": 42,
+  "category": "meal-dinner",
+  "portion": 350,
+  "tags": ["meal", "dinner", "plant-protein", "fiber", "vegan", "comfort-food"]
+},
+{
+  "id": "baked-cod-miso-glaze",
+  "name": "Треска, запечённая с мисо-глазурью и кольраби",
+  "calories": 260,
+  "protein": 32,
+  "fats": 10,
+  "carbs": 12,
+  "category": "meal-dinner",
+  "portion": 300,
+  "tags": ["meal", "dinner", "protein", "fermented", "low-carb", "gourmet"]
+},
+{
+  "id": "chocolate-avocado-mousse",
+  "name": "Мусс из авокадо, какао и фиников",
+  "calories": 240,
+  "protein": 4,
+  "fats": 18,
+  "carbs": 22,
+  "category": "snack",
+  "portion": 120,
+  "tags": ["snack", "dessert", "vegan", "no-added-sugar", "healthy-fats"]
+},
+{
+  "id": "baked-apples-cinnamon",
+  "name": "Запечённые яблоки с корицей и грецкими орехами",
+  "calories": 190,
+  "protein": 3,
+  "fats": 10,
+  "carbs": 24,
+  "category": "snack",
+  "portion": 200,
+  "tags": ["snack", "dessert", "fruit", "nuts", "warm", "comfort"]
+},
+{
+  "id": "protein-banana-ice",
+  "name": "Замороженный банановый «айс» с протеином и какао",
+  "calories": 210,
+  "protein": 20,
+  "fats": 4,
+  "carbs": 28,
+  "category": "snack",
+  "portion": 150,
+  "tags": ["snack", "dessert", "post-workout", "high-protein", "no-dairy-option"]
+},
+{
+  "id": "green-smoothie-basic",
+  "name": "Зелёный смузи (шпинат, банан, огурец, лимон)",
+  "calories": 120,
+  "protein": 3,
+  "fats": 1,
+  "carbs": 28,
+  "category": "beverages",
+  "portion": 300,
+  "tags": ["drink", "detox", "hydration", "vitamins", "breakfast"]
+},
+{
+  "id": "golden-milk",
+  "name": "Золотое молоко (куркума, имбирь, молоко, перец)",
+  "calories": 85,
+  "protein": 3,
+  "fats": 5,
+  "carbs": 7,
+  "category": "beverages",
+  "portion": 200,
+  "tags": ["drink", "anti-inflammatory", "immunity", "evening", "dairy-or-plant"]
+},
+{
+  "id": "kombucha",
+  "name": "Комбуча (ферментированный чай, без сахара)",
+  "calories": 15,
+  "protein": 0,
+  "fats": 0,
+  "carbs": 3.5,
+  "category": "beverages",
+  "portion": 100,
+  "tags": ["drink", "probiotics", "gut-health", "fermented", "low-sugar"]
+},
+{
+  "id": "water-lemon-mint",
+  "name": "Вода с лимоном и мятой",
+  "calories": 2,
+  "protein": 0,
+  "fats": 0,
+  "carbs": 0.5,
+  "category": "beverages",
+  "portion": 300,
+  "tags": ["drink", "hydration", "detox", "zero-calorie", "refreshing"]
+},
+{
+  "id": "cherries",
+  "name": "Вишня (свежая, без косточек)",
+  "calories": 50,
+  "protein": 1.0,
+  "fats": 0.3,
+  "carbs": 12,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "antioxidants", "melatonin", "summer", "fruit"]
+},
+{
+  "id": "peach",
+  "name": "Персик",
+  "calories": 39,
+  "protein": 0.9,
+  "fats": 0.3,
+  "carbs": 9.5,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["carbs", "vitamin-c", "hydration", "summer", "fruit"]
+},
+{
+  "id": "zucchini-raw",
+  "name": "Кабачок (сырой, для салатов)",
+  "calories": 17,
+  "protein": 1.2,
+  "fats": 0.3,
+  "carbs": 3.1,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "low-calorie", "summer", "raw", "fiber"]
+},
+{
+  "id": "corn-on-cob",
+  "name": "Кукуруза в початке (варёная)",
+  "calories": 96,
+  "protein": 3.4,
+  "fats": 1.5,
+  "carbs": 21,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["carbs", "fiber", "summer", "complex-carbs", "veggies"]
+},
+{
+  "id": "basil",
+  "name": "Базилик (свежий)",
+  "calories": 23,
+  "protein": 3.2,
+  "fats": 0.6,
+  "carbs": 2.7,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["herbs", "antioxidants", "aromatic", "pesto", "summer"]
+},
+{
+  "id": "pre-workout-banana-oats",
+  "name": "Овсянка с бананом и мёдом (до тренировки)",
+  "calories": 290,
+  "protein": 8,
+  "fats": 4,
+  "carbs": 58,
+  "category": "meal-preworkout",
+  "portion": 250,
+  "tags": ["meal", "pre-workout", "carbs", "energy", "quick-digesting"]
+},
+{
+  "id": "post-workout-chicken-rice",
+  "name": "Курица с белым рисом и брокколи (после тренировки)",
+  "calories": 420,
+  "protein": 38,
+  "fats": 10,
+  "carbs": 45,
+  "category": "meal-postworkout",
+  "portion": 400,
+  "tags": ["meal", "post-workout", "protein", "carbs", "recovery", "balanced"]
+},
+{
+  "id": "cottage-cheese-casein",
+  "name": "Творог с льняным семенем (на ночь, медленный белок)",
+  "calories": 180,
+  "protein": 20,
+  "fats": 7,
+  "carbs": 6,
+  "category": "snack",
+  "portion": 150,
+  "tags": ["snack", "night", "casein", "muscle-recovery", "protein"]
+},
+{
+  "id": "vegetable-broth",
+  "name": "Овощной бульон (сельдерей, морковь, лук, петрушка)",
+  "calories": 15,
+  "protein": 0.8,
+  "fats": 0.2,
+  "carbs": 3,
+  "category": "meal-lunch",
+  "portion": 250,
+  "tags": ["meal", "soup", "detox", "low-calorie", "vegan", "hydration"]
+},
+{
+  "id": "lentil-dal",
+  "name": "Даль из красной чечевицы с куркумой и кокосовым молоком",
+  "calories": 240,
+  "protein": 14,
+  "fats": 10,
+  "carbs": 26,
+  "category": "meal-lunch",
+  "portion": 300,
+  "tags": ["meal", "lunch", "plant-protein", "vegan", "indian", "comfort"]
+},
+{
+  "id": "okroshka-kefir",
+  "name": "Окрошка на кефире с огурцом, редисом и яйцом",
+  "calories": 160,
+  "protein": 10,
+  "fats": 6,
+  "carbs": 18,
+  "category": "meal-lunch",
+  "portion": 400,
+  "tags": ["meal", "lunch", "summer", "probiotics", "refreshing", "traditional"]
+},
+{
+  "id": "ginger-root",
+  "name": "Имбирь (свежий, тёртый)",
+  "calories": 80,
+  "protein": 1.8,
+  "fats": 0.8,
+  "carbs": 17.8,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["anti-inflammatory", "immunity", "digestion", "spice", "warming"]
+},
+{
+  "id": "turmeric-root",
+  "name": "Куркума (свежий корень)",
+  "calories": 35,
+  "protein": 0.7,
+  "fats": 0.3,
+  "carbs": 7.8,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["anti-inflammatory", "curcumin", "liver-support", "golden-milk"]
+},
+{
+  "id": "acerola-powder",
+  "name": "Порошок ацеролы (натуральный витамин С)",
+  "calories": 290,
+  "protein": 5,
+  "fats": 2,
+  "carbs": 70,
+  "category": "supplements",
+  "portion": 100,
+  "tags": ["vitamin-c", "immunity", "antioxidants", "natural-supplement"]
+},
+{
+  "id": "cucumber-avocado-salad",
+  "name": "Салат из огурца, авокадо и рукколы с лимоном",
+  "calories": 190,
+  "protein": 3,
+  "fats": 16,
+  "carbs": 10,
+  "category": "meal-dinner",
+  "portion": 250,
+  "tags": ["meal", "dinner", "low-carb", "healthy-fats", "summer", "quick"]
+},
+{
+  "id": "grilled-eggplant-tomato",
+  "name": "Баклажаны и помидоры на гриле с базиликом",
+  "calories": 110,
+  "protein": 2,
+  "fats": 7,
+  "carbs": 12,
+  "category": "meal-dinner",
+  "portion": 300,
+  "tags": ["meal", "dinner", "veggies", "mediterranean", "vegan", "summer"]
+},
+{
+  "id": "ryazhenka-berries",
+  "name": "Ряженка с черникой и семенами чиа",
+  "calories": 170,
+  "protein": 8,
+  "fats": 6,
+  "carbs": 22,
+  "category": "snack",
+  "portion": 250,
+  "tags": ["snack", "dairy", "probiotics", "fruit", "antioxidants", "evening"]
+},
+{
+  "id": "pp-burger",
+  "name": "ПП-бургер: котлета из индейки, салат, авокадо, без булочки",
+  "calories": 380,
+  "protein": 32,
+  "fats": 22,
+  "carbs": 12,
+  "category": "meal-lunch",
+  "portion": 300,
+  "tags": ["meal", "lunch", "protein", "fast-food-alternative", "low-carb"]
+},
+{
+  "id": "zucchini-pizza",
+  "name": "Пицца на основе цуккини с томатным соусом и моцареллой",
+  "calories": 260,
+  "protein": 18,
+  "fats": 16,
+  "carbs": 14,
+  "category": "meal-dinner",
+  "portion": 250,
+  "tags": ["meal", "dinner", "low-carb", "pizza-alternative", "vegetables"]
+},
+{
+  "id": "sushi-avocado-cucumber",
+  "name": "ПП-роллы: нори, авокадо, огурец, морковь (без риса)",
+  "calories": 180,
+  "protein": 5,
+  "fats": 14,
+  "carbs": 12,
+  "category": "meal-lunch",
+  "portion": 200,
+  "tags": ["meal", "lunch", "sushi-alternative", "low-carb", "veggies", "healthy-fats"]
+},
+{
+  "id": "cauliflower-wings",
+  "name": "«Крылышки» из цветной капусты в остром соусе",
+  "calories": 190,
+  "protein": 8,
+  "fats": 12,
+  "carbs": 16,
+  "category": "snack",
+  "portion": 200,
+  "tags": ["snack", "vegan", "comfort-food", "spicy", "crispy"]
+},
+{
+  "id": "tuna-avocado-toast",
+  "name": "Тост с тунцом, авокадо и лимоном",
+  "calories": 320,
+  "protein": 24,
+  "fats": 18,
+  "carbs": 20,
+  "category": "meal-lunch",
+  "portion": 200,
+  "tags": ["meal", "quick", "protein", "healthy-fats", "omega3", "under-15-min"]
+},
+{
+  "id": "cottage-cheese-cucumber-dill",
+  "name": "Творог с огурцом, укропом и оливковым маслом",
+  "calories": 160,
+  "protein": 18,
+  "fats": 8,
+  "carbs": 6,
+  "category": "snack",
+  "portion": 180,
+  "tags": ["snack", "quick", "protein", "dairy", "refreshing", "under-5-min"]
+},
+{
+  "id": "scrambled-eggs-spinach",
+  "name": "Яичница со шпинатом и помидорами",
+  "calories": 210,
+  "protein": 16,
+  "fats": 14,
+  "carbs": 6,
+  "category": "meal-breakfast",
+  "portion": 200,
+  "tags": ["meal", "breakfast", "quick", "protein", "veggies", "under-10-min"]
+},
+{
+  "id": "greek-yogurt-nuts-berries",
+  "name": "Греческий йогурт с ягодами и грецкими орехами",
+  "calories": 240,
+  "protein": 20,
+  "fats": 12,
+  "carbs": 18,
+  "category": "snack",
+  "portion": 200,
+  "tags": ["snack", "quick", "protein", "antioxidants", "omega3", "under-3-min"]
+},
+{
+  "id": "multicooker-beef-stew",
+  "name": "Говядина с овощами в мультиварке (тушёная)",
+  "calories": 340,
+  "protein": 30,
+  "fats": 16,
+  "carbs": 20,
+  "category": "meal-dinner",
+  "portion": 400,
+  "tags": ["meal", "dinner", "multicooker", "comfort-food", "one-pot", "set-and-forget"]
+},
+{
+  "id": "airfryer-chicken-wings",
+  "name": "Куриные крылышки в аэрогриле с паприкой",
+  "calories": 280,
+  "protein": 32,
+  "fats": 14,
+  "carbs": 4,
+  "category": "meal-dinner",
+  "portion": 250,
+  "tags": ["meal", "dinner", "airfryer", "crispy", "protein", "low-carb"]
+},
+{
+  "id": "multicooker-oatmeal-apple",
+  "name": "Овсянка с яблоком и корицей в мультиварке (на ночь)",
+  "calories": 220,
+  "protein": 7,
+  "fats": 6,
+  "carbs": 38,
+  "category": "meal-breakfast",
+  "portion": 300,
+  "tags": ["meal", "breakfast", "multicooker", "overnight", "fiber", "warm"]
+},
+{
+  "id": "chia-flax-porridge",
+  "name": "Порридж из овсянки, семян чиа и льна с грушей",
+  "calories": 290,
+  "protein": 10,
+  "fats": 14,
+  "carbs": 35,
+  "category": "meal-breakfast",
+  "portion": 300,
+  "tags": ["meal", "breakfast", "fiber", "omega3", "gut-health", "high-fiber"]
+},
+{
+  "id": "black-bean-salad-fiber",
+  "name": "Салат из чёрной фасоли, кукурузы, болгарского перца и лайма",
+  "calories": 270,
+  "protein": 12,
+  "fats": 8,
+  "carbs": 40,
+  "category": "meal-lunch",
+  "portion": 350,
+  "tags": ["meal", "lunch", "fiber", "plant-protein", "vegan", "high-fiber"]
+},
+{
+  "id": "buckwheat-kale-stew",
+  "name": "Тушёная гречка с капустой кале и морковью",
+  "calories": 260,
+  "protein": 9,
+  "fats": 10,
+  "carbs": 36,
+  "category": "meal-dinner",
+  "portion": 350,
+  "tags": ["meal", "dinner", "fiber", "iron", "detox", "high-fiber"]
+},
+{
+  "id": "protein-energy-balls",
+  "name": "Батончики из фиников, овсянки, какао и миндаля (без выпечки)",
+  "calories": 190,
+  "protein": 6,
+  "fats": 10,
+  "carbs": 24,
+  "category": "snack",
+  "portion": 40,
+  "tags": ["snack", "on-the-go", "no-bake", "natural-sweetener", "fiber", "energy"]
+},
+{
+  "id": "roasted-chickpeas",
+  "name": "Запечённый нут с паприкой и чесноком",
+  "calories": 160,
+  "protein": 8,
+  "fats": 5,
+  "carbs": 22,
+  "category": "snack",
+  "portion": 50,
+  "tags": ["snack", "crunchy", "plant-protein", "fiber", "office", "vegan"]
+},
+{
+  "id": "cheese-cucumber-rolls",
+  "name": "Рулетики из твёрдого сыра и огурца",
+  "calories": 140,
+  "protein": 10,
+  "fats": 10,
+  "carbs": 3,
+  "category": "snack",
+  "portion": 80,
+  "tags": ["snack", "low-carb", "dairy", "quick", "office", "keto-friendly"]
+},
+{
+  "id": "apple-almond-butter-packs",
+  "name": "Порционные дольки яблока с миндальной пастой",
+  "calories": 200,
+  "protein": 5,
+  "fats": 12,
+  "carbs": 22,
+  "category": "snack",
+  "portion": 120,
+  "tags": ["snack", "on-the-go", "fruit", "healthy-fats", "kids-friendly"]
+},
+{
+  "id": "menu-weight-loss-1600",
+  "name": "ПП-меню на день: похудение (1600 ккал)",
+  "calories": 1600,
+  "protein": 110,
+  "fats": 55,
+  "carbs": 160,
+  "category": "meal-plan",
+  "portion": "full-day",
+  "tags": ["meal-plan", "weight-loss", "balanced", "high-protein"],
+  "meals": [
+    "oatmeal-berry",
+    "greek-yogurt-bowl",
+    "chicken-rice-bowl",
+    "cucumber-hummus-sticks",
+    "baked-cod-veggies"
+  ]
+},
+{
+  "id": "menu-maintenance-2000",
+  "name": "ПП-меню на день: поддержание (2000 ккал)",
+  "calories": 2000,
+  "protein": 130,
+  "fats": 70,
+  "carbs": 200,
+  "category": "meal-plan",
+  "portion": "full-day",
+  "tags": ["meal-plan", "maintenance", "balanced", "active-lifestyle"],
+  "meals": [
+    "avocado-eggs-toast",
+    "protein-shake",
+    "salmon-quinoa-salad",
+    "fruit-nut-mix",
+    "turkey-stuffed-peppers"
+  ]
+},
+{
+  "id": "menu-muscle-gain-2500",
+  "name": "ПП-меню на день: набор массы (2500 ккал)",
+  "calories": 2500,
+  "protein": 160,
+  "fats": 90,
+  "carbs": 260,
+  "category": "meal-plan",
+  "portion": "full-day",
+  "tags": ["meal-plan", "muscle-gain", "high-protein", "fitness"],
+  "meals": [
+    "buckwheat-berry-bowl",
+    "post-workout-chicken-rice",
+    "beef-stir-fry",
+    "banana-cacao-bites",
+    "shrimp-pasta"
+  ]
+},
+{
+  "id": "summer-menu-2025",
+  "name": "Летнее ПП-меню: лёгкое и освежающее",
+  "calories": 1800,
+  "protein": 100,
+  "fats": 65,
+  "carbs": 190,
+  "category": "meal-plan",
+  "portion": "full-day",
+  "tags": ["meal-plan", "summer", "hydration", "seasonal", "light"],
+  "meals": [
+    "smoothie-green",
+    "watermelon-mint-cooler", 
+    "okroshka-kefir",
+    "cucumber-avocado-salad",
+    "grilled-eggplant-tomato",
+    "cherries"
+  ]
+},
+{
+  "id": "watermelon-mint-cooler",
+  "name": "Арбузный кулер с мятой и лаймом (без сахара)",
+  "calories": 40,
+  "protein": 0.5,
+  "fats": 0.1,
+  "carbs": 10,
+  "category": "beverages",
+  "portion": 300,
+  "tags": ["drink", "summer", "hydration", "gluten-free", "dairy-free", "vegan"]
+},
+{
+  "id": "coconut-yogurt",
+  "name": "Кокосовый йогурт (без лактозы)",
+  "calories": 180,
+  "protein": 2,
+  "fats": 15,
+  "carbs": 8,
+  "category": "dairy-alternative",
+  "portion": 100,
+  "tags": ["dairy-free", "vegan", "probiotics", "gluten-free"]
+},
+{
+  "id": "quinoa-summer-bowl",
+  "name": "Летний боул: киноа, манго, авокадо, руккола, лайм",
+  "calories": 340,
+  "protein": 10,
+  "fats": 18,
+  "carbs": 38,
+  "category": "meal-lunch",
+  "portion": 350,
+  "tags": ["meal", "lunch", "gluten-free", "dairy-free", "vegan", "summer"]
+},
+{
+  "id": "coconut-yogurt-berry",
+  "name": "Кокосовый йогурт с черникой и семенами льна",
+  "calories": 220,
+  "protein": 4,
+  "fats": 16,
+  "carbs": 18,
+  "category": "snack",
+  "portion": 200,
+  "tags": ["snack", "dairy-free", "gluten-free", "vegan", "probiotics"]
+},
+{
+  "id": "overnight-oats-chia",
+  "name": "Овсянка овернайт: овсянка, миндальное молоко, чиа, киви",
+  "calories": 270,
+  "protein": 9,
+  "fats": 12,
+  "carbs": 35,
+  "category": "meal-breakfast",
+  "portion": 300,
+  "tags": ["meal", "breakfast", "overnight", "meal-prep", "fiber", "no-cook"]
+},
+{
+  "id": "salad-in-a-jar-greek",
+  "name": "Салат в банке: греческий стиль (огурец, помидор, оливки, тофу)",
+  "calories": 290,
+  "protein": 16,
+  "fats": 18,
+  "carbs": 18,
+  "category": "meal-lunch",
+  "portion": 400,
+  "tags": ["meal", "lunch", "meal-prep", "jar-salad", "portable", "vegan-option"]
+},
+{
+  "id": "protein-jar-dessert",
+  "name": "Десерт в банке: творог, ягоды, тёмный шоколад, лён",
+  "calories": 240,
+  "protein": 22,
+  "fats": 10,
+  "carbs": 18,
+  "category": "snack",
+  "portion": 250,
+  "tags": ["snack", "dessert", "high-protein", "meal-prep", "jar"]
+},
+{
+  "id": "sweet-potato-boiled",
+  "name": "Батат (отварной)",
+  "calories": 86,
+  "protein": 1.6,
+  "fats": 0.1,
+  "carbs": 20,
+  "category": "vegetables",
+  "portion": 100,
+  "gi": 44,
+  "tags": ["carbs", "low-gi", "vitamin-a", "complex-carbs", "gut-friendly"]
+},
+{
+  "id": "pasta-whole-wheat",
+  "name": "Паста из твёрдых сортов пшеницы (варёная)",
+  "calories": 124,
+  "protein": 4.5,
+  "fats": 0.8,
+  "carbs": 25,
+  "category": "grains",
+  "portion": 100,
+  "gi": 45,
+  "tags": ["carbs", "low-gi", "fiber", "grains", "complex-carbs"]
+},
+{
+  "id": "watermelon-fresh",
+  "name": "Арбуз (свежий)",
+  "calories": 30,
+  "protein": 0.6,
+  "fats": 0.2,
+  "carbs": 7.6,
+  "category": "fruit",
+  "portion": 100,
+  "gi": 72,
+  "tags": ["carbs", "high-gi", "hydration", "summer", "fruit"]
+},
+{
+  "id": "rice-apple-compote",
+  "name": "Рисовая каша с яблочным пюре (без сахара)",
+  "calories": 140,
+  "protein": 2.5,
+  "fats": 1,
+  "carbs": 30,
+  "category": "meal-dinner",
+  "portion": 250,
+  "tags": ["meal", "gut-healing", "easy-digest", "post-antibiotics", "low-fiber"]
+},
+{
+  "id": "steamed-cod-carrot",
+  "name": "Паровая треска с морковным пюре",
+  "calories": 190,
+  "protein": 28,
+  "fats": 6,
+  "carbs": 12,
+  "category": "meal-dinner",
+  "portion": 300,
+  "tags": ["meal", "gut-friendly", "steamed", "low-residue", "gentle"]
+},
+{
+  "id": "kefir-banana-smoothie",
+  "name": "Смузи из кефира и банана (без добавок)",
+  "calories": 160,
+  "protein": 8,
+  "fats": 4,
+  "carbs": 24,
+  "category": "snack",
+  "portion": 250,
+  "tags": ["snack", "probiotics", "gut-health", "soothing", "dairy"]
+},
+{
+  "id": "carrot-zucchini-soup",
+  "name": "Суп из моркови и кабачка (без лука и чеснока)",
+  "calories": 60,
+  "protein": 2,
+  "fats": 2,
+  "carbs": 10,
+  "category": "meal-lunch",
+  "portion": 300,
+  "tags": ["meal", "low-fodmap", "soup", "gut-friendly", "no-onion", "no-garlic"]
+},
+{
+  "id": "oats-lactose-free",
+  "name": "Овсянка на воде с клубникой и орехами",
+  "calories": 280,
+  "protein": 9,
+  "fats": 12,
+  "carbs": 38,
+  "category": "meal-breakfast",
+  "portion": 300,
+  "tags": ["meal", "breakfast", "low-fodmap", "gluten-free-oats", "fruit"]
+},
+{
+  "id": "egg-rice-bowl-lowfodmap",
+  "name": "Боул: яйцо, рис, шпинат, огурец, кунжут",
+  "calories": 320,
+  "protein": 18,
+  "fats": 14,
+  "carbs": 32,
+  "category": "meal-lunch",
+  "portion": 350,
+  "tags": ["meal", "lunch", "low-fodmap", "balanced", "easy-digest"]
+},
+{
+  "id": "turmeric-chicken-bowl",
+  "name": "Курица с куркумой, брокколи и киноа",
+  "calories": 390,
+  "protein": 34,
+  "fats": 14,
+  "carbs": 32,
+  "category": "meal-lunch",
+  "portion": 400,
+  "tags": ["meal", "anti-inflammatory", "turmeric", "omega3", "immune-support"]
+},
+{
+  "id": "berry-spinach-smoothie",
+  "name": "Смузи: шпинат, черника, лён, миндальное молоко",
+  "calories": 180,
+  "protein": 6,
+  "fats": 10,
+  "carbs": 20,
+  "category": "beverages",
+  "portion": 350,
+  "tags": ["drink", "antioxidants", "omega3", "detox", "vegan"]
+},
+{
+  "id": "frozen-broccoli",
+  "name": "Брокколи (замороженная, без добавок)",
+  "calories": 34,
+  "protein": 2.8,
+  "fats": 0.4,
+  "carbs": 6.6,
+  "category": "vegetables",
+  "portion": 100,
+  "tags": ["veggies", "frozen", "fiber", "micronutrients", "convenient"]
+},
+{
+  "id": "frozen-berries-mix",
+  "name": "Ягоды замороженные (черника, малина, клубника)",
+  "calories": 52,
+  "protein": 0.7,
+  "fats": 0.3,
+  "carbs": 12,
+  "category": "fruit",
+  "portion": 100,
+  "tags": ["fruit", "frozen", "antioxidants", "no-sugar", "smoothie-ready"]
+},
+{
+  "id": "frozen-edamame",
+  "name": "Эдамаме (замороженные, в стручках)",
+  "calories": 122,
+  "protein": 11,
+  "fats": 5,
+  "carbs": 10,
+  "category": "legumes",
+  "portion": 100,
+  "tags": ["plant-protein", "frozen", "vegan", "snack", "fiber"]
+},
+{
+  "id": "greek-chicken-salad",
+  "name": "Греческий салат с курицей, огурцом, маслинами, фетой",
+  "calories": 360,
+  "protein": 28,
+  "fats": 22,
+  "carbs": 12,
+  "category": "meal-lunch",
+  "portion": 350,
+  "tags": ["meal", "lunch", "mediterranean", "healthy-fats", "protein"]
+},
+{
+  "id": "japanese-miso-tofu",
+  "name": "Японский суп: мисо, тофу, водоросли, зелёный лук",
+  "calories": 130,
+  "protein": 9,
+  "fats": 6,
+  "carbs": 10,
+  "category": "meal-lunch",
+  "portion": 300,
+  "tags": ["meal", "lunch", "japanese", "fermented", "vegan", "umami"]
+},
+{
+  "id": "mexican-black-bean-bowl",
+  "name": "Мексиканский боул: чёрная фасоль, кукуруза, авокадо, сальса",
+  "calories": 370,
+  "protein": 14,
+  "fats": 18,
+  "carbs": 42,
+  "category": "meal-dinner",
+  "portion": 400,
+  "tags": ["meal", "dinner", "mexican", "plant-protein", "fiber", "vegan"]
+},
+{
+  "id": "thai-coconut-curry",
+  "name": "Тайский кокосовый карри с курицей и овощами",
+  "calories": 410,
+  "protein": 30,
+  "fats": 24,
+  "carbs": 20,
+  "category": "meal-dinner",
+  "portion": 400,
+  "tags": ["meal", "dinner", "thai", "coconut-milk", "spicy", "flavorful"]
+}
 ]
