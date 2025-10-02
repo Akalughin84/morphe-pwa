@@ -1,191 +1,281 @@
-<!-- /pages/workouts.html -->
-<!-- v4.1.0 — Исправлены дубли, добавлена конкретика, единый стиль -->
-
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Тренировки — Morphe</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#f97316">
 
-  <!-- Стили -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-shared.css">
-
+  <link rel="stylesheet" href="/styles-header.css">
   <style>
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 10px;
-      background: #000;
-      color: #fff;
-      padding: 8px;
-      text-decoration: none;
-      z-index: 1000;
-      transition: top 0.3s;
-      border: 2px solid transparent;
-    }
-    .skip-link:focus {
-      top: 10px;
-      outline: 2px solid #fff;
-    }
-
-    /* Спиннер */
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid transparent;
-      border-top-color: currentColor;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-left: 8px;
-      vertical-align: middle;
-    }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Пустое состояние */
-    .empty-state {
+    .page-header {
       text-align: center;
-      padding: 32px;
-      color: #666;
+      margin-bottom: 2rem;
+    }
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 0;
+    }
+    .today-card {
+      background: linear-gradient(135deg, var(--accent), #ea580c);
+      color: white;
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 2rem;
+      box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .today-card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    .today-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+      position: relative;
+    }
+    .today-focus {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .start-btn {
+      background: white;
+      color: var(--accent);
+      font-weight: 700;
+      padding: 16px;
+      font-size: 1.2rem;
+      border-radius: 16px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
 
-    /* Приоритеты рекомендаций */
-    .priority-high { border-left: 4px solid #e74c3c; }
-    .priority-medium { border-left: 4px solid #f39c12; }
-    .priority-low { border-left: 4px solid #2ecc71; }
+    .section-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 2rem 0 1.2rem 0;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .section-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+    }
 
-    /* Уведомления */
-    .error-text { color: #e74c3c; font-weight: 500; }
-    .success-text { color: #2ecc71; font-weight: 500; }
-    .info-text { color: #3498db; font-weight: 500; }
-
-    /* Единый стиль для карточек рекомендаций и баланса */
-    .recommendation-card {
-      border-left: 4px solid #3498db;
+    .program-overview {
+      display: flex;
+      justify-content: space-between;
       background: var(--bg-surface-alt);
       padding: 16px;
-      border-radius: 8px;
-      margin: 16px 0;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .overview-item {
+      text-align: center;
+    }
+    .overview-value {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--accent);
     }
 
-    .recommendation-card.priority-high {
-      border-left-color: #e74c3c;
+    .recommendation-card {
+      background: var(--bg-surface);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--accent);
+      box-shadow: 0 2px 8px var(--shadow);
     }
-
-    .recommendation-card.priority-medium {
-      border-left-color: #f39c12;
-    }
-
-    .recommendation-card.priority-low {
-      border-left-color: #2ecc71;
-    }
+    .recommendation-card.priority-critical { border-left-color: var(--danger); }
+    .recommendation-card.priority-high { border-left-color: var(--warning); }
+    .recommendation-card.priority-medium { border-left-color: var(--accent); }
+    .recommendation-card.priority-low { border-left-color: var(--success); }
 
     .rec-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
     }
-
-    .pill {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 50px;
-      background: var(--accent);
-      color: white;
-      font-size: 0.8rem;
-    }
-
-    /* Программа тренировок */
-    .program-schedule {
-      background: var(--bg-surface);
-      border-radius: 8px;
-      padding: 16px;
-      margin: 16px 0;
-    }
-
-    .schedule-day {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .schedule-day:last-child {
-      border-bottom: none;
-    }
-
-    .day-title {
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
-
-    .day-focus {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-    }
-
-    .exercise-list {
-      list-style: none;
-      padding: 0;
+    .rec-title {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-primary);
       margin: 0;
     }
+    .rec-type {
+      background: var(--bg-surface-alt);
+      padding: 4px 10px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
 
-    .exercise-item {
-      padding: 4px 0;
-      font-size: 0.9rem;
+    .muscle-icons {
+      margin-top: 8px;
+      font-size: 1.2rem;
+      opacity: 0.8;
+    }
+
+    .forecast-card {
+      background: var(--bg-surface);
+      border-radius: 18px;
+      padding: 20px;
+      margin-top: 1.5rem;
+      box-shadow: 0 2px 8px var(--shadow);
+    }
+    .forecast-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .forecast-title {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .trend-indicator {
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+    }
+    .trend-up { background: #ecfdf5; color: #065f46; }
+    .trend-down { background: #fef2f2; color: #991b1b; }
+    .trend-stable { background: #fffbeb; color: #92400e; }
+
+    .forecast-bar {
+      height: 12px;
+      background: var(--border);
+      border-radius: 6px;
+      margin: 16px 0;
+      overflow: hidden;
+    }
+    .forecast-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #ea580c);
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+
+    .regenerate-btn {
+      width: 100%;
+      margin-top: 1.5rem;
+      padding: 14px;
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    #programSelection {
+      margin-bottom: 2rem;
+    }
+    #programSelection .recommendation-card {
+      border-left: none;
+      border: 1px solid var(--border);
+    }
+
+    @media (max-width: 768px) {
+      .page-title { font-size: 1.5rem; }
+      .today-card { padding: 20px; }
+      .start-btn { padding: 14px; font-size: 1.1rem; }
+      .program-overview { flex-direction: column; gap: 12px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Заглушка шапки -->
   <div id="header-placeholder"></div>
 
   <main id="main-content" tabindex="-1">
     <div class="container">
-      <h1>💪 Тренировки</h1>
-
-      <!-- Адаптивная программа -->
-      <section class="card" id="currentPlanSection" style="display: none;" aria-labelledby="currentPlanHeading">
-        <h2 id="currentPlanHeading">🎯 Ваша текущая программа</h2>
-        <p><strong id="planName">—</strong></p>
-        <p id="planRecommendation">—</p>
-        <div id="planSchedule" class="program-schedule"></div>
-        <button id="regeneratePlan" class="btn-outline btn-small" aria-label="Обновить тренировочную программу">Обновить программу</button>
-      </section>
-      <p id="planStatus" aria-live="polite">Загрузка программы...</p>
-
-      <!-- Рекомендации по упражнениям -->
-      <section class="card" id="recommendationsSection" style="display: none;" aria-labelledby="recommendationsHeading">
-        <h2 id="recommendationsHeading">🧠 Вам рекомендуют</h2>
-        <div id="recommendationsList"></div>
-        <p><small>Рекомендации основаны на вашей цели, уровне и истории.</small></p>
-      </section>
-      <p id="recStatus" aria-live="polite">Генерация рекомендаций...</p>
-
-      <!-- Программы -->
-      <p id="workoutStatus" aria-live="polite">Загрузка программ...</p>
-      <div id="programsContainer" style="display: none;"></div>
-      <div id="noPrograms" style="display: none;">
-        <p>❌ Не удалось загрузить программы. Проверьте интернет или попробуйте позже.</p>
+      <div class="page-header">
+        <h1 class="page-title">🏋️ Тренировки</h1>
+        <p id="workoutStatus" class="info-text" aria-live="polite">Подготовка тренировки...</p>
       </div>
+
+      <section id="programSelection" class="card" style="display: none;">
+        <h2>🎯 Выберите готовую программу</h2>
+        <div id="programOptions"></div>
+      </section>
+
+      <section id="todaySection" class="today-card" style="display: none;">
+        <h2 class="today-title" id="todayTitle">—</h2>
+        <p class="today-focus" id="todayFocus">Фокус: —</p>
+        <button id="startWorkoutBtn" class="start-btn">
+          ▶️ Начать тренировку
+        </button>
+      </section>
+
+      <div class="program-overview" id="programOverview" style="display: none;">
+        <div class="overview-item">
+          <div>Программа</div>
+          <div class="overview-value" id="overviewName">—</div>
+        </div>
+        <div class="overview-item">
+          <div>Неделя</div>
+          <div class="overview-value">1</div>
+        </div>
+        <div class="overview-item">
+          <div>День</div>
+          <div class="overview-value" id="overviewDay">1/3</div>
+        </div>
+      </div>
+
+      <section id="forecastSection" class="forecast-card" style="display: none;">
+        <div class="forecast-header">
+          <h3 class="forecast-title">📈 Прогноз силы: Приседания</h3>
+          <span class="trend-indicator trend-up" id="trendIndicator">↑ Рост</span>
+        </div>
+        <p><strong>Текущий 1ПМ:</strong> <span id="current1RM">—</span> кг</p>
+        <p><strong>Через 4 недели:</strong> <span id="predicted1RM">—</span> кг</p>
+        <div class="forecast-bar">
+          <div class="forecast-fill" id="forecastFill" style="width: 0%;"></div>
+        </div>
+        <p id="forecastAdvice" class="section-subtitle"></p>
+      </section>
+
+      <h2 class="section-title">🧠 Персональные рекомендации</h2>
+      <div id="recommendationsList"></div>
+
+      <button id="regeneratePlan" class="btn-primary regenerate-btn" style="display: none;">
+        💥 Создать новую программу
+      </button>
     </div>
   </main>
 
-  <!-- Заглушка подвала -->
   <div id="footer-placeholder"></div>
 
-  <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -194,357 +284,217 @@
     }
   </script>
 
-  <!-- Логика страницы -->
   <script type="module">
     import { HeaderController } from '/core/HeaderController.js';
     import { ThemeManager } from '/core/themeManager.js';
-    import { WorkoutTracker } from '/modules/workoutTracker.js';
     import { UserService } from '/services/userService.js';
+    import { DataService } from '/services/dataService.js'; // ✅ ИМПОРТИРОВАН
+
+    const MUSCLE_EMOJI = {
+      chest: '💪', back: '🦾', legs: '🦵', arms: '💪',
+      shoulders: '🤸', abs: '🔥', fullbody: '🏋️', cardio: '❤️'
+    };
 
     document.addEventListener('DOMContentLoaded', async () => {
       try {
-        // === 1. Загрузка UI ===
         await HeaderController.loadHeader();
         new ThemeManager();
 
-        // === 2. Элементы DOM ===
         const workoutStatus = document.getElementById('workoutStatus');
-        const programsContainer = document.getElementById('programsContainer');
-        const noPrograms = document.getElementById('noPrograms');
-
-        const planStatus = document.getElementById('planStatus');
-        const currentPlanSection = document.getElementById('currentPlanSection');
+        const todaySection = document.getElementById('todaySection');
+        const programOverview = document.getElementById('programOverview');
+        const forecastSection = document.getElementById('forecastSection');
+        const recommendationsList = document.getElementById('recommendationsList');
         const regenerateBtn = document.getElementById('regeneratePlan');
 
-        const recStatus = document.getElementById('recStatus');
-        const recommendationsSection = document.getElementById('recommendationsSection');
-        const recommendationsList = document.getElementById('recommendationsList');
-
-        // === 3. Проверка профиля ===
         if (!UserService.isProfileComplete()) {
-          workoutStatus.textContent = "❌ Чтобы видеть программы, заполните профиль.";
+          workoutStatus.textContent = "❌ Заполните профиль, чтобы начать тренировки.";
           workoutStatus.className = "error-text";
           return;
         }
 
-        const profileData = UserService.getRawData();
-        console.log('✅ Профиль загружен:', profileData);
-
-        // === 4. Загрузка программ ===
-        let programs = [];
-        try {
-          const { WorkoutPlanner } = await import('../core/workoutPlanner.js');
-          const planner = new WorkoutPlanner();
-          await planner.init();
-
-          // ✅ Генерируем ТОЛЬКО ОДНУ программу — убираем дублирование
-          const program = await planner.generateWeeklyProgram();
-          programs = [{
-            id: program.id,
-            name: program.name,
-            level: program.level,
-            daysPerWeek: program.daysPerWeek,
-            description: `Уникальная программа с ротацией упражнений и техник. Сгенерирована ${new Date().toLocaleDateString('ru-RU')}.`,
-            goal: program.goal
-          }];
-
-        } catch (err) {
-          console.error('❌ Не удалось сгенерировать программы:', err);
-          noPrograms.style.display = 'block';
-          return;
-        }
-
-        const userGoal = profileData.goal;
-        const userLevel = profileData.level;
-
-        const filtered = programs.filter(p => 
-          p.goal === userGoal && 
-          p.level === userLevel
+        // === ЗАГРУЗКА ГОТОВЫХ ПРОГРАММ ===
+        const profile = UserService.getRawData();
+        const allPrograms = await DataService.getPrograms();
+        const matchingPrograms = allPrograms.filter(p =>
+          p.goal === profile.goal &&
+          (p.level === 'all' || p.level === profile.level) &&
+          p.workoutLocation === profile.workoutLocation
         );
 
-        if (filtered.length === 0) {
-          programsContainer.innerHTML = `
-            <p class="empty-state">
-              Под вашу цель <strong>${userGoal}</strong> и уровень <strong>${userLevel}</strong> пока нет программ.
-              Попробуйте изменить цель в профиле.
-            </p>
-          `;
-        } else {
-          programsContainer.innerHTML = filtered.map(program => `
-            <div class="card workout-card">
-              <h3>${program.name}</h3>
-              <p><strong>Уровень:</strong> ${program.level}</p>
-              <p><strong>Дней в неделю:</strong> ${program.daysPerWeek}</p>
-              <p>${program.description}</p>
-              <button 
-                class="btn-primary btn-small start-workout-btn"
-                data-name="${program.name}"
-                data-id="${program.id}"
-                aria-label="Начать тренировку: ${program.name}">
-                Начать тренировку
+        if (matchingPrograms.length > 0) {
+          const optionsHtml = matchingPrograms.map(p => `
+            <div class="recommendation-card">
+              <h3>${p.name}</h3>
+              <p>${p.description}</p>
+              <small>${p.durationWeeks} недель • ${p.daysPerWeek} дн./нед</small>
+              <button class="btn-primary btn-small" data-program-id="${p.id}">
+                Выбрать
               </button>
             </div>
           `).join('');
+          document.getElementById('programOptions').innerHTML = optionsHtml;
+          document.getElementById('programSelection').style.display = 'block';
         }
 
-        programsContainer.style.display = 'block';
-        workoutStatus.style.display = 'none';
-
-        // === 5. Функция отображения адаптивной программы ===
-        const renderCurrentPlan = (plan) => {
-          document.getElementById('planName').textContent = plan.name || 'Без названия';
-          document.getElementById('planRecommendation').textContent = 
-            `Рекомендация: ${
-              {
-                increase: 'увеличить нагрузку',
-                maintain: 'сохранять темп',
-                reduce: 'снизить нагрузку'
-              }[plan.recommendation] || 'поддерживать текущий уровень'
-            }`;
-
-          // ✅ Конкретика вместо "День 1, День 2"
-          const scheduleHtml = plan.schedule.map(s => `
-            <div class="schedule-day">
-              <div class="day-title">${s.session.name}</div>
-              <div class="day-focus">Фокус: ${s.focus}</div>
-              <ul class="exercise-list">
-                ${s.session.exercises.map(ex => `
-                  <li class="exercise-item">${ex.name} — ${ex.sets}×${ex.reps} (${ex.technique})</li>
-                `).join('')}
-              </ul>
-            </div>
-          `).join('');
-
-          document.getElementById('planSchedule').innerHTML = scheduleHtml;
-
-          planStatus.style.display = 'none';
-          currentPlanSection.style.display = 'block';
-        };
-
-        // === Объявляем plan здесь, чтобы она была доступна позже ===
+        // === ЗАГРУЗКА ТЕКУЩЕЙ ПРОГРАММЫ ===
         let plan = null;
-
-        // === Загрузка/генерация адаптивной программы ===
         try {
-          const { WorkoutPlanner } = await import('../core/workoutPlanner.js');
+          const { WorkoutPlanner } = await import('/core/workoutPlanner.js');
           const planner = new WorkoutPlanner();
-          
           await planner.init();
 
           plan = planner.getCurrent();
-
           if (!plan) {
-            planStatus.textContent = "Генерация первой программы...";
             plan = await planner.generate();
           }
 
-          renderCurrentPlan(plan);
+          const today = new Date().toISOString().split('T')[0];
+          const todaySession = plan.schedule.find(s => s.date === today) || plan.schedule[0];
+          const session = todaySession?.session;
 
-          // === Проверка на плато ===
-          if (planner.isPlateaued()) {
-            const recommendationEl = document.getElementById('planRecommendation');
-
-            recommendationEl.insertAdjacentHTML('beforeend', `
-              <br><strong style="color: #e74c3c;">⚠️ Обнаружено плато.</strong>
-              <button id="breakPlateauBtn" class="btn-warning btn-small" style="margin-top: 0.5rem;">
-                💥 Сменить программу
-              </button>
-            `);
-
-            document.getElementById('breakPlateauBtn').addEventListener('click', async () => {
-              if (confirm("Вы уверены, что хотите сменить программу? Это поможет выйти из застоя.")) {
-                try {
-                  const newPlan = await planner.regenerate();
-                  renderCurrentPlan(newPlan);
-                } catch (err) {
-                  console.error('Ошибка при смене программы:', err);
-                  alert('Не удалось сгенерировать новую программу.');
-                }
-              }
-            });
+          if (session) {
+            document.getElementById('todayTitle').textContent = session.name;
+            document.getElementById('todayFocus').textContent = `Фокус: ${session.focus}`;
+            document.getElementById('startWorkoutBtn').dataset.id = session.id;
+            document.getElementById('startWorkoutBtn').dataset.name = session.name;
+            todaySection.style.display = 'block';
+          } else {
+            console.warn('⚠️ Сессия не найдена в программе');
           }
 
-          regenerateBtn?.addEventListener('click', async () => {
-            if (regenerateBtn.disabled) return;
+          document.getElementById('overviewName').textContent = plan.name || '—';
+          document.getElementById('overviewDay').textContent = `${plan.schedule.findIndex(s => s.date === today) + 1}/${plan.schedule.length}`;
+          programOverview.style.display = 'flex';
 
+          regenerateBtn.style.display = 'block';
+          regenerateBtn.addEventListener('click', async () => {
             regenerateBtn.disabled = true;
-            regenerateBtn.innerHTML = 'Генерация... <span class="spinner"></span>';
-
+            regenerateBtn.innerHTML = 'Генерация...';
             try {
               const newPlan = await planner.regenerate();
-              renderCurrentPlan(newPlan);
-
-              const plateauBtn = document.getElementById('breakPlateauBtn');
-              if (plateauBtn) {
-                const parent = plateauBtn.closest('strong')?.parentElement;
-                if (parent) parent.remove();
-              }
-
+              window.location.reload();
             } catch (err) {
-              console.error('Ошибка при обновлении программы:', err);
-              planStatus.textContent = `Ошибка: ${err.message}`;
-              planStatus.className = "error-text";
-              planStatus.style.display = 'block';
-            } finally {
+              alert(`Ошибка: ${err.message}`);
               regenerateBtn.disabled = false;
-              regenerateBtn.textContent = "Обновить программу";
+              regenerateBtn.textContent = '💥 Создать новую программу';
             }
           });
 
         } catch (err) {
-          console.error('❌ Ошибка при загрузке программы:', err);
-          planStatus.textContent = `Ошибка: ${err.message}`;
-          planStatus.className = "error-text";
+          console.error('Ошибка программы:', err);
+          workoutStatus.textContent = `❌ ${err.message}`;
+          workoutStatus.className = 'error-text';
         }
 
-        // === 6. Рекомендации по упражнениям ===
+        // === Прогноз силы ===
         try {
-          const { ExerciseRecommender } = await import('../core/exerciseRecommender.js');
-          const recommender = new ExerciseRecommender();
-          const recommendations = await recommender.getRecommendations();
+          const { StrengthProgress } = await import('/core/strengthProgress.js');
+          const engine = new StrengthProgress();
+          const history = engine.getExerciseHistory('squat-barbell');
+          if (history?.length >= 3) {
+            const forecast = engine.predictFutureOneRM(history, 4);
+            if (forecast) {
+              document.getElementById('current1RM').textContent = Math.round(forecast.current);
+              document.getElementById('predicted1RM').textContent = Math.round(forecast.predicted);
+              
+              const max = Math.max(forecast.current, forecast.predicted) * 1.2;
+              const width = (forecast.predicted / max) * 100;
+              document.getElementById('forecastFill').style.width = `${width}%`;
 
-          if (recommendations.length === 0) {
-            recStatus.textContent = "Нет активных рекомендаций.";
-            recStatus.style.display = 'block';
-            return;
-          }
-
-          // ✅ Единый стиль с "Баланс тренировки"
-          recommendationsList.innerHTML = recommendations
-            .filter(r => r.exercise)
-            .map(r => `
-              <div class="recommendation-card priority-${r.priority || 'medium'}">
-                <div class="rec-header">
-                  <strong>${r.exercise.name}</strong>
-                  <span class="pill">${r.exercise.type}</span>
-                </div>
-                <p><em>${r.reason}</em></p>
-                <p><small>🎯 ${r.exercise.primaryMuscles.slice(0, 2).join(', ')}</small></p>
-                ${r.exercise.formTips ? 
-                  `<details><summary>Советы по технике</summary>
-                    <ul>${r.exercise.formTips.map(t => `<li>${t}</li>`).join('')}</ul>
-                  </details>` : ''
-                }
-              </div>
-            `).join('');
-
-          recStatus.style.display = 'none';
-          recommendationsSection.style.display = 'block';
-
-          // === Прогноз силы ===
-          try {
-            const { StrengthProgress } = await import('../core/strengthProgress.js');
-            const progressEngine = new StrengthProgress();
-            const squatHistory = progressEngine.getExerciseHistory('squat-barbell') || [];
-
-            if (squatHistory.length >= 3) {
-              const forecast = progressEngine.predictFutureOneRM(squatHistory, 4);
-
-              if (forecast) {
-                const forecastHTML = `
-                  <section class="card" style="margin-top: 2rem; border-left: 4px solid var(--accent);">
-                    <h3>📈 Прогноз силы: Приседания</h3>
-                    <p><strong>Текущий 1ПМ:</strong> ${Math.round(forecast.current)} кг</p>
-                    <p><strong>Через 4 недели:</strong> ${Math.round(forecast.predicted)} кг</p>
-                    <p><strong>Тренд:</strong> 
-                      <span style="color: ${
-                        forecast.trend === 'рост' ? '#2ecc71' :
-                        forecast.trend === 'спад' ? '#e74c3c' : '#f39c12'
-                      }; font-weight: 600;">
-                        ${forecast.trend === 'рост' ? '↑ Рост' : 
-                        forecast.trend === 'спад' ? '↓ Спад' : '→ Стабильность'}
-                      </span>
-                    </p>
-                    ${
-                      forecast.predicted > forecast.current + 5
-                        ? '<p><small>Отличный темп! Продолжайте в том же духе.</small></p>'
-                        : forecast.predicted < forecast.current
-                          ? '<p><small>Обратите внимание на восстановление и питание.</small></p>'
-                          : ''
-                    }
-                  </section>
-                `;
-                recommendationsSection.insertAdjacentHTML('afterend', forecastHTML);
+              const trendEl = document.getElementById('trendIndicator');
+              if (forecast.trend === 'рост') {
+                trendEl.textContent = '↑ Рост';
+                trendEl.className = 'trend-indicator trend-up';
+              } else if (forecast.trend === 'спад') {
+                trendEl.textContent = '↓ Спад';
+                trendEl.className = 'trend-indicator trend-down';
+              } else {
+                trendEl.textContent = '→ Стабильность';
+                trendEl.className = 'trend-indicator trend-stable';
               }
+
+              const advice = forecast.predicted > forecast.current + 5 
+                ? 'Отличный темп! Продолжайте в том же духе.' 
+                : forecast.predicted < forecast.current 
+                  ? 'Обратите внимание на восстановление и питание.' 
+                  : 'Прогресс стабилен. Сохраняйте темп!';
+              document.getElementById('forecastAdvice').textContent = advice;
+
+              forecastSection.style.display = 'block';
             }
-
-          } catch (err) {
-            console.warn('⚠️ Не удалось показать прогноз силы:', err.message);
           }
-
-          // === Анализ баланса тренировки ===
-          try {
-            const { WorkoutBalancer } = await import('../core/workoutBalancer.js');
-            const balancer = new WorkoutBalancer();
-            await balancer.init();
-
-            // Используем реальные упражнения из плана
-            const exercisesToAnalyze = plan?.schedule?.[0]?.session?.exercises || [
-              { id: 'bench-press', type: 'chest' },
-              { id: 'pull-ups', type: 'back' },
-              { id: 'squat-barbell', type: 'legs' }
-            ];
-
-            const analysis = balancer.classifyWorkout(exercisesToAnalyze);
-            const advice = balancer.getBalanceAdvice(analysis);
-
-            const priorityColor = 
-              advice.priority === 'high' ? '#e74c3c' :
-              advice.priority === 'medium' ? '#f39c12' : '#2ecc71';
-
-            const balanceHTML = `
-              <section class="recommendation-card" style="border-left-color: ${priorityColor}; margin-top: 2rem;">
-                <h3>⚖️ Баланс тренировки</h3>
-                <p><strong>Тип:</strong> ${analysis.type}</p>
-                <p><strong>Соотношение:</strong> Push ${analysis.ratio.push}%, Pull ${analysis.ratio.pull}%, Legs ${analysis.ratio.legs}%</p>
-                <p><strong>Рекомендация:</strong></p>
-                <p style="color: ${priorityColor};"><strong>${advice.advice}</strong></p>
-              </section>
-            `;
-
-            recommendationsSection.insertAdjacentHTML('afterend', balanceHTML);
-
-          } catch (err) {
-            console.warn('⚠️ Не удалось выполнить анализ баланса:', err.message);
-          }
-
-        } catch (err) {
-          recStatus.textContent = `❌ Ошибка: ${err.message}`;
-          recStatus.className = "error-text";
-          console.error(err);
+        } catch (e) {
+          console.warn('Прогноз недоступен:', e.message);
         }
 
-        // === 7. Кнопки "Начать тренировку" ===
-        document.querySelectorAll('.start-workout-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const name = encodeURIComponent(btn.dataset.name);
-            const id = btn.dataset.id;
-            window.location.href = `/pages/workout-session.html?id=${id}&name=${name}`;
+        // === Рекомендации ===
+        try {
+          const { ExerciseRecommender } = await import('/core/exerciseRecommender.js');
+          const recommender = new ExerciseRecommender();
+          const recs = await recommender.getRecommendations();
 
-            btn.textContent = "✅ Выполнено!";
-            btn.disabled = true;
-            btn.classList.remove('btn-primary');
-            btn.classList.add('btn-success');
+          if (recs.length > 0) {
+            recommendationsList.innerHTML = recs
+              .filter(r => r.exercise)
+              .map(r => {
+                const muscles = r.exercise.primaryMuscles || [];
+                const icons = muscles.slice(0, 2).map(m => MUSCLE_EMOJI[m] || '⚡').join(' ');
 
-            const mainContent = document.getElementById('main-content');
-            mainContent.setAttribute('tabindex', '-1');
-            mainContent.focus();
+                let priorityClass = 'priority-medium';
+                if (r.priority === 'critical') priorityClass = 'priority-critical';
+                else if (r.priority === 'high') priorityClass = 'priority-high';
+                else if (r.priority === 'low') priorityClass = 'priority-low';
 
-            setTimeout(() => {
-              window.location.href = '/index.html';
-            }, 1500);
-          });
-        });
+                return `
+                  <div class="recommendation-card ${priorityClass}">
+                    <div class="rec-header">
+                      <h3 class="rec-title">${r.exercise.name}</h3>
+                      <span class="rec-type">${r.exercise.type}</span>
+                    </div>
+                    <p>${r.reason}</p>
+                    <div class="muscle-icons">${icons}</div>
+                  </div>
+                `;
+              }).join('');
+          } else {
+            recommendationsList.innerHTML = '<p class="info-text">Нет активных рекомендаций. Отличная работа! 🙌</p>';
+          }
+        } catch (err) {
+          console.error('Ошибка рекомендаций:', err);
+          recommendationsList.innerHTML = '<p class="error-text">Не удалось загрузить рекомендации.</p>';
+        }
 
       } catch (err) {
-        console.error('❌ Ошибка на странице тренировок:', err);
-        const workoutStatus = document.getElementById('workoutStatus');
-        if (workoutStatus) {
-          workoutStatus.textContent = "❌ Произошла ошибка при загрузке. Попробуйте обновить страницу.";
-          workoutStatus.className = "error-text";
-          workoutStatus.style.display = 'block';
-        }
+        console.error('Критическая ошибка:', err);
+        document.getElementById('workoutStatus').textContent = "❌ Не удалось загрузить тренировки.";
+        document.getElementById('workoutStatus').className = "error-text";
       }
+    });
+
+    // === ОБРАБОТЧИКИ КЛИКОВ ===
+    document.addEventListener('click', async (e) => {
+      if (e.target.classList.contains('start-workout-btn') || e.target.id === 'startWorkoutBtn') {
+        const btn = e.target;
+        const id = btn.dataset.id;
+        const name = encodeURIComponent(btn.dataset.name);
+        window.location.href = `/pages/workout-session.html?id=${id}&name=${name}`;
+      }
+
+      if (e.target.matches('[data-program-id]')) {
+        const programId = e.target.dataset.programId;
+        const { WorkoutPlanner } = await import('/core/workoutPlanner.js');
+        const planner = new WorkoutPlanner();
+        await planner.init();
+        await planner.usePredefinedProgram(programId);
+        window.location.reload();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      import('/core/HeaderController.js')
+        .then(m => m.HeaderController.loadFooter())
+        .catch(console.error);
     });
   </script>
 </body>
