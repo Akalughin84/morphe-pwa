@@ -1,46 +1,27 @@
-<!-- /pages/backup.html -->
-<!-- v1.5.0 — Страница резервного копирования -->
-
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Резервная копия — Morphe</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#f97316">
 
   <!-- Стили -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-shared.css">
-
-  <!-- Skip-link -->
-  <style>
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 10px;
-      background: #000;
-      color: #fff;
-      padding: 8px;
-      text-decoration: none;
-      z-index: 1000;
-      transition: top 0.3s;
-    }
-    .skip-link:focus { top: 10px; }
-  </style>
+  <link rel="stylesheet" href="/styles-header.css">
 </head>
 <body>
-
-  
 
   <!-- Заглушка шапки -->
   <div id="header-placeholder"></div>
 
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <div class="container">
       <h1>📤 Резервная копия</h1>
       <p>Ваши данные — ваша собственность. Вы можете скачать их или восстановить из файла.</p>
@@ -56,15 +37,18 @@
           <li>Лог питания</li>
           <li>Настройки</li>
         </ul>
-        <button id="downloadBackup" class="btn-primary">Скачать JSON-файл →</button>
+        <button id="downloadBackup" type="button" class="btn-primary">Скачать JSON-файл →</button>
       </section>
 
       <section class="card">
         <h2>📥 Восстановить из резервной копии</h2>
         <p>Выберите файл резервной копии, чтобы восстановить данные.</p>
-        <input type="file" id="restoreFile" accept=".json" style="margin: 1rem 0;">
-        <button id="restoreBackup" class="btn-outline">Загрузить и восстановить</button>
-        <p><small>⚠️ Внимание: это перезапишет текущие данные.</small></p>
+        <div class="form-group">
+          <label for="restoreFile">Файл резервной копии (.json)</label>
+          <input type="file" id="restoreFile" accept=".json" class="form-control">
+        </div>
+        <button id="restoreBackup" type="button" class="btn-outline">Загрузить и восстановить</button>
+        <p class="text-tertiary"><small>⚠️ Внимание: это перезапишет текущие данные.</small></p>
       </section>
 
       <div id="backupFeedback" aria-live="polite"></div>
@@ -83,7 +67,6 @@
     }
   </script>
 
-  <!-- Логика страницы -->
   <script type="module">
     import { HeaderController } from '/core/HeaderController.js';
     import { ThemeManager } from '/core/themeManager.js';
@@ -95,7 +78,6 @@
 
       const feedback = document.getElementById('backupFeedback');
 
-      // === Ключи для резервного копирования ===
       const KEYS_TO_BACKUP = [
         'morphe-user-profile',
         'morphe-workout-history',
@@ -112,14 +94,17 @@
         'morphe-theme'
       ];
 
-      // === Скачать резервную копию ===
       document.getElementById('downloadBackup').addEventListener('click', () => {
         const backupData = {};
         
         KEYS_TO_BACKUP.forEach(key => {
           const value = localStorage.getItem(key);
           if (value !== null) {
-            backupData[key] = JSON.parse(value);
+            try {
+              backupData[key] = JSON.parse(value);
+            } catch (e) {
+              console.warn(`⚠️ Не удалось распарсить ${key}:`, e);
+            }
           }
         });
 
@@ -144,7 +129,6 @@
         setTimeout(() => feedback.innerHTML = '', 3000);
       });
 
-      // === Восстановить из файла ===
       document.getElementById('restoreBackup').addEventListener('click', async () => {
         const fileInput = document.getElementById('restoreFile');
         if (!fileInput.files.length) {
@@ -157,7 +141,6 @@
           const content = await file.text();
           const data = JSON.parse(content);
 
-          // Подтверждение
           const confirmRestore = confirm(
             `Вы уверены, что хотите восстановить данные?\n\n` +
             `Будут перезаписаны все текущие данные.\n` +
@@ -166,7 +149,6 @@
 
           if (!confirmRestore) return;
 
-          // Восстановление
           Object.keys(data).forEach(key => {
             if (key === 'meta') return;
             if (KEYS_TO_BACKUP.includes(key)) {
@@ -184,6 +166,55 @@
         }
       });
     });
+
+    // Подвал
+    document.addEventListener('DOMContentLoaded', () => {
+      import('/core/HeaderController.js')
+        .then(m => m.HeaderController.loadFooter())
+        .catch(err => console.error('❌ Ошибка загрузки подвала:', err));
+    });
   </script>
+
+  <style>
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 10px;
+      background: #000;
+      color: #fff;
+      padding: 8px;
+      text-decoration: none;
+      z-index: 1000;
+      transition: top 0.3s;
+    }
+    .skip-link:focus {
+      top: 10px;
+      outline: 2px solid #fff;
+    }
+
+    .form-group {
+      margin: 1rem 0;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--bg-input);
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .text-tertiary {
+      color: var(--text-tertiary);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 16px;
+      }
+    }
+  </style>
 </body>
 </html>
