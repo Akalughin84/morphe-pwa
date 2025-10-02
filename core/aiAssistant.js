@@ -1,9 +1,5 @@
 // /core/aiAssistant.js
-// v0.4.0 — Локальный AI-ассистент (без сервера)
-
-import { UserService } from '/services/userService.js';
-import { WorkoutTracker } from '/modules/workoutTracker.js';
-import { ProgressTracker } from '/modules/progressTracker.js';
+// v0.4.1 — Локальный AI-ассистент с улучшенной надёжностью
 
 /**
  * MorpheAI — ваш цифровой советник
@@ -12,52 +8,113 @@ import { ProgressTracker } from '/modules/progressTracker.js';
  */
 export class AIAssistant {
   constructor() {
-    this.profile = null;
-    this.workouts = new WorkoutTracker();
-    this.progress = new ProgressTracker();
+    this._profile = null;
+    this._workouts = null;
+    this._progress = null;
+    this._nutrition = null;
+    this._lastAdvice = null;
+    this._adviceTimestamp = 0;
+    this._cacheTTL = 2000; // 2 секунды
+  }
+
+  // === Ленивые геттеры ===
+
+  get workouts() {
+    if (!this._workouts) {
+      const { WorkoutTracker } = require('/modules/workoutTracker.js');
+      this._workouts = new WorkoutTracker();
+    }
+    return this._workouts;
+  }
+
+  get progress() {
+    if (!this._progress) {
+      const { ProgressTracker } = require('/modules/progressTracker.js');
+      this._progress = new ProgressTracker();
+    }
+    return this._progress;
+  }
+
+  get nutrition() {
+    if (!this._nutrition) {
+      try {
+        const { NutritionTracker } = require('/modules/nutritionTracker.js');
+        this._nutrition = new NutritionTracker();
+      } catch (e) {
+        // NutritionTracker необязателен
+        this._nutrition = null;
+      }
+    }
+    return this._nutrition;
+  }
+
+  get profile() {
+    return this._profile;
   }
 
   /**
    * Загружает все данные пользователя
    */
   async loadUserData() {
-    const user = UserService.getProfile();
-    if (!user) return null;
-
-    this.profile = user.data;
-    return this.profile;
+    try {
+      const { UserService } = await import('/services/userService.js');
+      const user = UserService.getProfile();
+      this._profile = user ? user.data : null;
+    } catch (error) {
+      console.warn('[AIAssistant] Не удалось загрузить профиль:', error);
+      this._profile = null;
+    }
+    return this._profile;
   }
 
   /**
-   * Генерирует совет на основе анализа
+   * Генерирует персонализированный совет
    */
   async generateAdvice() {
-    const profile = await this.loadUserData();
-    if (!profile) {
-      return this._genericGuestAdvice();
+    const now = Date.now();
+    if (this._lastAdvice && now - this._adviceTimestamp < this._cacheTTL) {
+      return this._lastAdvice;
     }
 
-    const advicePool = [];
+    const profile = await this.loadUserData();
+    let advice;
 
-    // 1. Анализ активности
+    if (!profile) {
+      advice = this._genericGuestAdvice();
+    } else {
+      const advicePool = this._buildAdvicePool(profile);
+      advice = advicePool.length > 0
+        ? this._pickRandom(advicePool)
+        : this._neutralObservation();
+    }
+
+    this._lastAdvice = advice;
+    this._adviceTimestamp = now;
+    return advice;
+  }
+
+  _buildAdvicePool(profile) {
+    const pool = [];
+
+    // 1. Активность
     const weeklyWorkouts = this.workouts.getWeeklyCount();
     if (weeklyWorkouts === 0) {
-      advicePool.push(this._suggestStartTraining());
+      pool.push(this._suggestStartTraining());
     } else if (weeklyWorkouts < 2) {
-      advicePool.push(this._encourageConsistency());
+      pool.push(this._encourageConsistency());
     }
 
-    // 2. Прогресс по весу
-    const recentProgress = this.progress.getSince(14); // за 2 недели
+    // 2. Вес (за последние 14 дней)
+    const recentProgress = this.progress.getSince(14);
     if (recentProgress.length >= 2) {
       const first = recentProgress[recentProgress.length - 1];
       const last = recentProgress[0];
       const weightChange = last.weight - first.weight;
 
       if (profile.goal === 'lose' && weightChange > 0) {
-        advicePool.push(this._adviseOnWeightGain());
+        pool.push(this._adviseOnWeightGain());
       } else if (profile.goal === 'gain' && weightChange < 0.5) {
-        advicePool.push(this._adviseOnMassGain());
+        pool.push(this._adviseOnMassGain());
       }
     }
 
@@ -66,22 +123,21 @@ export class AIAssistant {
     if (lastWorkout) {
       const daysSince = (Date.now() - lastWorkout.timestamp) / (1000 * 60 * 60 * 24);
       if (daysSince > 3 && profile.goal !== 'maintain') {
-        advicePool.push(this._remindToTrain());
+        pool.push(this._remindToTrain());
       }
     }
 
     // 4. Целевой совет
-    advicePool.push(this._goalSpecificTip());
+    pool.push(this._goalSpecificTip(profile.goal));
 
-    // Возвращаем случайный совет из пула (чтобы не повторялся)
-    return advicePool.length > 0
-      ? this._pickRandom(advicePool)
-      : this._neutralObservation();
+    return pool;
   }
 
   _pickRandom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
   }
+
+  // === Советы ===
 
   _genericGuestAdvice() {
     return {
@@ -137,7 +193,7 @@ export class AIAssistant {
     };
   }
 
-  _goalSpecificTip() {
+  _goalSpecificTip(goal) {
     const tips = {
       lose: {
         type: 'tip',
@@ -158,7 +214,7 @@ export class AIAssistant {
         emoji: '🕊'
       }
     };
-    return tips[this.profile.goal] || tips.maintain;
+    return tips[goal] || tips.maintain;
   }
 
   _neutralObservation() {
