@@ -1,7 +1,6 @@
 /* /styles-home.css */
-/* v2.1.0 — Стили только для index.html */
+/* v2.3.0 — Лаконичная, сфокусированная главная */
 
-/* Герой */
 .hero {
   padding: 4rem 0;
   background: linear-gradient(135deg, var(--bg-primary), var(--bg-surface));
@@ -11,7 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3rem;
+  gap: 2.5rem;
   text-align: center;
 }
 
@@ -34,16 +33,7 @@
   font-size: 1.2rem;
   margin-bottom: 2rem;
   color: var(--text-secondary);
-}
-
-.hero-subtitle strong {
-  color: var(--accent);
-}
-
-.cta-button {
-  font-size: 1.1rem;
-  padding: 1rem 2rem;
-  margin-bottom: 1.5rem;
+  line-height: 1.5;
 }
 
 .user-summary {
@@ -53,6 +43,7 @@
   border: 1px solid var(--border);
   font-size: 0.95rem;
   color: var(--text-secondary);
+  margin-top: 1rem;
 }
 
 .stat-row {
@@ -61,11 +52,6 @@
   margin-bottom: 0.5rem;
 }
 
-.stat-row:last-child {
-  margin-bottom: 0;
-}
-
-/* Почему Morphe? */
 .why-section {
   padding: 4rem 0;
   background: var(--bg-surface);
@@ -77,10 +63,11 @@
 
 .section-intro {
   text-align: center;
-  max-width: 700px;
-  margin: 0 auto 2rem;
+  max-width: 650px;
+  margin: 0 auto 2.5rem;
   font-size: 1.1rem;
   color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 .why-grid {
@@ -110,21 +97,10 @@
 }
 
 .why-card .icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.why-card h3 {
+  font-size: 2.2rem;
   margin-bottom: 0.75rem;
-  color: var(--text-primary);
 }
 
-.why-card p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-}
-
-/* Автор */
 .author-section {
   padding: 4rem 0;
   background: var(--bg-surface-alt);
@@ -155,11 +131,10 @@
   color: var(--accent);
 }
 
-/* Финальный CTA */
 .final-cta {
   padding: 4rem 0;
   text-align: center;
-  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  background: linear-gradient(135deg, var(--accent), #ea580c);
   color: white;
 }
 
@@ -169,23 +144,23 @@
 }
 
 .final-cta p {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.95);
   max-width: 600px;
   margin: 0 auto 1.5rem;
+  line-height: 1.6;
 }
 
-.final-cta .cta-button {
+.final-cta .btn-primary {
   background: white;
   color: var(--accent);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.final-cta .cta-button:hover {
-  background: #f8fafc;
+.final-cta .btn-primary:hover {
+  background: #fafafa;
   transform: translateY(-2px);
 }
 
-/* Аналитика */
 .dashboard-section {
   padding: 3rem 0;
 }
@@ -204,21 +179,6 @@
   line-height: 1.7;
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1rem;
-  }
-
-  .container {
-    padding: 0 1rem;
-  }
-}
-/* Контейнер для SVG */
 .hero-svg-container {
   position: relative;
   width: 100%;
@@ -226,7 +186,7 @@
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
   border-radius: 20px;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--accent), #7c3aed);
+  background: linear-gradient(135deg, var(--accent), #ea580c);
   padding: 1rem;
 }
 
@@ -238,31 +198,19 @@
   transition: transform 0.4s ease;
 }
 
-/* Анимация при наведении */
 .hero-svg-container:hover img {
   transform: scale(1.03);
 }
 
-/* Градиентная маска (опционально) */
-Theme Mana.hero-svg-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(
-    ellipse at top right,
-    transparent 0%,
-    rgba(139, 92, 246, 0.1) 50%,
-    rgba(124, 62, 237, 0.2) 100%
-  );
-  pointer-events: none;
-  border-radius: 20px;
-}
-
-/* Адаптивность */
 @media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
   .hero-svg-container {
     max-width: 300px;
     padding: 0.5rem;
@@ -276,8 +224,12 @@ Theme Mana.hero-svg-container::after {
     order: 2;
   }
 
-  .hero-image {
+  .hero-svg-container {
     order: 1;
     margin-bottom: 2rem;
+  }
+
+  .final-cta {
+    padding-bottom: 4rem;
   }
 }
