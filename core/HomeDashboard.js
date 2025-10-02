@@ -1,24 +1,17 @@
 // /core/HomeDashboard.js
+// v1.1.0 — Исправлены дубли, добавлены недостающие вызовы, улучшена интеграция
 
 import { UserService } from '/services/userService.js';
 import { StorageManager } from '/utils/storage.js';
 
-/**
- * HomeDashboard — управляет главной страницей
- * Показывает: имя, вес, цель, прогресс, совет
- */
 export class HomeDashboard {
   constructor() {
     this.profile = null;
     this.nutritionPlan = null;
   }
 
-  /**
-   * Инициализация: загрузка данных, обновление UI
-   */
   async init() {
     try {
-      // Получаем данные
       this.profile = await this.loadProfile();
       this.nutritionPlan = UserService.getNutritionPlan();
 
@@ -27,33 +20,25 @@ export class HomeDashboard {
         return;
       }
 
-      // Обновляем интерфейс
+      // Обновляем UI — без дублей
       this.updateGreeting();
-      await this.updateWeightAndGoal();
       this.updateWeightAndGoal();
+      await this.updateWeightDisplay(); // ← теперь вызывается
       this.updateLastWorkout();
       this.updateReadiness();
       this.updateCTA();
-
+      this.updateAISuggestion(); // ← теперь вызывается
     } catch (err) {
       console.error('❌ Ошибка HomeDashboard:', err);
       this.showError("Не удалось загрузить данные.");
     }
   }
 
-  /**
-   * Загружает профиль через UserService
-   */
   loadProfile() {
-    return new Promise((resolve) => {
-      const profile = UserService.getProfile();
-      resolve(profile ? profile.data : null);
-    });
+    const profile = UserService.getProfile();
+    return Promise.resolve(profile ? profile.data : null);
   }
 
-  /**
-   * Приветствие
-   */
   updateGreeting() {
     const el = document.getElementById('user-greeting');
     if (el && this.profile) {
@@ -61,12 +46,9 @@ export class HomeDashboard {
     }
   }
 
-  /**
-   * Вес и цель
-   */
   updateWeightAndGoal() {
     const el = document.getElementById('current-stats');
-    if (!el) return;
+    if (!el || !this.profile) return;
 
     const goalLabels = {
       lose: 'Сбросить вес',
@@ -85,57 +67,77 @@ export class HomeDashboard {
     `;
   }
 
-  /**
-   * Последняя тренировка (из localStorage)
-   */
-  updateLastWorkout() {
-    const el = document.getElementById('last-workout');
-    if (!el) return;
-
-    const last = StorageManager.getItem('morphe-last-workout');
-    if (last) {
-      const date = new Date(last.timestamp);
-      const day = date.toLocaleDateString('ru-RU', { day: '2-digit', month: 'short' });
-      el.innerHTML = `<strong>${day}</strong>: ${last.workoutName}`;
-    } else {
-      el.textContent = '—';
-    }
-  }
-
-    /**
-   * Отображение последнего веса
-   */
   async updateWeightDisplay() {
     const el = document.getElementById('current-stats');
     if (!el || !this.profile) return;
 
-    const tracker = new (await import('../modules/progressTracker.js')).ProgressTracker();
-    const last = tracker.getLast();
+    try {
+      const { ProgressTracker } = await import('/modules/progressTracker.js');
+      const tracker = new ProgressTracker();
+      const last = tracker.getLast();
 
-    if (last) {
-      el.querySelector('.stat-row:first-child strong').textContent = `⚖️ ${last.weight} кг`;
+      if (last) {
+        const weightEl = el.querySelector('.stat-row:first-child strong');
+        if (weightEl) {
+          weightEl.textContent = `⚖️ ${last.weight} кг`;
+        }
+      }
+    } catch (err) {
+      console.warn('Не удалось обновить вес из трекера:', err);
     }
-    // Если нет — остаётся вес из профиля
   }
 
-  /**
-   * Уровень готовности (заглушка AI-анализа)
-   */
-  updateReadiness() {
+  async updateLastWorkout() {
+    const el = document.getElementById('last-workout');
+    if (!el) return;
+
+    try {
+      const { WorkoutTracker } = await import('/modules/workoutTracker.js');
+      const tracker = new WorkoutTracker();
+      const last = tracker.getLast();
+
+      if (last) {
+        const date = new Date(last.timestamp);
+        const day = date.toLocaleDateString('ru-RU', { day: '2-digit', month: 'short' });
+        el.innerHTML = `<strong>${day}</strong>: ${last.programName || last.workoutName}`;
+      } else {
+        el.textContent = '—';
+      }
+    } catch (err) {
+      console.warn('Не удалось загрузить последнюю тренировку:', err);
+      el.textContent = '—';
+    }
+  }
+
+  async updateReadiness() {
     const el = document.getElementById('readiness-score');
     if (!el) return;
 
-    // Имитация анализа: на основе активности, цели, дня недели
-    const today = new Date().getDay(); // 0 — вс, 6 — сб
-    const isHighLoadDay = [1, 3, 5].includes(today); // Пн, Ср, Пт — силовые
-    const readiness = isHighLoadDay ? 7 : 9;
+    try {
+      const { AdaptiveEngine } = await import('/modules/adaptiveEngine.js');
+      const engine = new AdaptiveEngine();
+      await engine.loadProfile();
 
-    el.innerHTML = `
-      <div class="score-badge" data-readiness="${readiness}">
-        ${this.getReadinessEmoji(readiness)} Уровень: ${readiness}/10
-      </div>
-      <small>${this.getReadinessAdvice(readiness)}</small>
-    `;
+      const score = engine.getReadinessScore();
+      el.innerHTML = `
+        <div class="score-badge" data-readiness="${score}">
+          ${this.getReadinessEmoji(score)} Уровень: ${score}/10
+        </div>
+        <small>${this.getReadinessAdvice(score)}</small>
+      `;
+    } catch (err) {
+      console.warn('Не удалось рассчитать готовность:', err);
+      // Fallback на имитацию
+      const today = new Date().getDay();
+      const isHighLoadDay = [1, 3, 5].includes(today);
+      const score = isHighLoadDay ? 7 : 9;
+      el.innerHTML = `
+        <div class="score-badge" data-readiness="${score}">
+          ${this.getReadinessEmoji(score)} Уровень: ${score}/10
+        </div>
+        <small>${this.getReadinessAdvice(score)}</small>
+      `;
+    }
   }
 
   getReadinessEmoji(score) {
@@ -150,9 +152,6 @@ export class HomeDashboard {
     return 'Низкая готовность. Лучше восстановление или лёгкая тренировка.';
   }
 
-  /**
-   * CTA: изменяем кнопку в зависимости от времени суток
-   */
   updateCTA() {
     const cta = document.querySelector('.cta-button');
     if (!cta) return;
@@ -171,28 +170,13 @@ export class HomeDashboard {
     cta.textContent = text;
   }
 
-  /**
-   * Если профиль не заполнен
-   */
-  showGuestView() {
-    const el = document.getElementById('user-greeting');
-    if (el) el.textContent = 'Пользователь';
-
-    const stats = document.getElementById('current-stats');
-    if (stats) {
-      stats.innerHTML = `<p><a href="/pages/profile.html" class="link-primary">Заполните профиль</a>, чтобы увидеть свои данные.</p>`;
-    }
-  }
-
-    /**
-   * Показывает краткий совет ИИ на главной
-   */
   async updateAISuggestion() {
     const el = document.getElementById('ai-suggestion');
     if (!el) return;
 
     try {
-      const ai = new (await import('../core/aiAssistant.js')).AIAssistant();
+      const { AIAssistant } = await import('/core/aiAssistant.js');
+      const ai = new AIAssistant();
       const advice = await ai.generateAdvice();
 
       el.innerHTML = `
@@ -203,13 +187,21 @@ export class HomeDashboard {
         </div>
       `;
     } catch (err) {
+      console.warn('Совет ИИ недоступен:', err);
       el.innerHTML = '<small>Советы временно недоступны.</small>';
     }
   }
 
-  /**
-   * Показ ошибки
-   */
+  showGuestView() {
+    const el = document.getElementById('user-greeting');
+    if (el) el.textContent = 'Пользователь';
+
+    const stats = document.getElementById('current-stats');
+    if (stats) {
+      stats.innerHTML = `<p><a href="/pages/profile.html" class="link-primary">Заполните профиль</a>, чтобы увидеть свои данные.</p>`;
+    }
+  }
+
   showError(message) {
     const el = document.getElementById('dashboardStatus') || document.body;
     el.innerHTML = `<p class="error-text">${message}</p>`;
