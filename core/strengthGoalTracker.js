@@ -1,47 +1,69 @@
 // /core/strengthGoalTracker.js
-// v1.2.0 — Трекер целей по силе
+// v1.2.2 — Исправлен импорт DateUtils, полностью самодостаточный
 
 import { StorageManager } from '/utils/storage.js';
-import { DateUtils } from '/utils/dateUtils.js';
 
 /**
- * StrengthGoalTracker — управляет целями пользователя:
- * - Максимальный вес (1ПМ)
- * - Количество повторений
- * - Прогресс по времени
+ * Вспомогательные функции даты (встроенные, без внешних зависимостей)
  */
+function getToday() {
+  return new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+}
+
+function diffInDays(dateStr1, dateStr2) {
+  const d1 = new Date(dateStr1);
+  const d2 = new Date(dateStr2);
+  const diffTime = Math.abs(d2 - d1);
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
+
 export class StrengthGoalTracker {
   constructor() {
     this.storageKey = 'morphe-strength-goals';
     this.goals = this.load();
   }
 
+  _generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+  }
+
   load() {
-    return StorageManager.getItem(this.storageKey) || [];
+    const raw = StorageManager.getItem(this.storageKey) || [];
+    return raw.map(goal => ({
+      ...goal,
+      id: goal.id || this._generateId()
+    }));
   }
 
   save() {
     StorageManager.setItem(this.storageKey, this.goals);
   }
 
-  /**
-   * Добавить новую цель
-   * @param {Object} goal { exerciseId, targetValue, unit, startDate, notes }
-   */
   add(goal) {
+    if (!goal.exerciseId || !goal.exerciseName) {
+      throw new Error("exerciseId и exerciseName обязательны");
+    }
+    if (typeof goal.targetValue !== 'number' || goal.targetValue <= 0) {
+      throw new Error("targetValue должен быть положительным числом");
+    }
+    if (!['kg', 'reps', 'time'].includes(goal.unit)) {
+      console.warn(`Неизвестная единица измерения: ${goal.unit}. Ожидается: kg, reps, time.`);
+    }
+
     const record = {
-      id: Date.now(),
-      exerciseId: goal.exerciseId,
-      exerciseName: goal.exerciseName,
-      currentValue: goal.currentValue || 0,
+      id: this._generateId(),
+      exerciseId: String(goal.exerciseId),
+      exerciseName: String(goal.exerciseName),
+      currentValue: typeof goal.currentValue === 'number' ? goal.currentValue : 0,
       targetValue: goal.targetValue,
-      unit: goal.unit, // "kg", "reps", "time"
-      startDate: goal.startDate || DateUtils.today(),
+      unit: goal.unit || 'kg',
+      startDate: goal.startDate || getToday(),
       targetDate: goal.targetDate || null,
-      status: 'active', // active, completed, failed, paused
+      status: 'active',
       history: [],
-      notes: goal.notes || '',
-      createdAt: new Date().toISOString()
+      notes: String(goal.notes || ''),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     this.goals.push(record);
@@ -49,20 +71,34 @@ export class StrengthGoalTracker {
     return record;
   }
 
-  /**
-   * Обновить текущее значение
-   */
-  updateProgress(goalId, newValue, date = DateUtils.today()) {
-    const goal = this.goals.find(g => g.id === goalId);
-    if (!goal || newValue < goal.currentValue) {
-      throw new Error("Новое значение должно быть больше предыдущего");
+  updateProgress(goalId, newValue, date = getToday()) {
+    const goal = this.findById(goalId);
+    if (!goal) {
+      throw new Error("Цель не найдена");
+    }
+    if (typeof newValue !== 'number' || newValue < 0) {
+      throw new Error("Новое значение должно быть неотрицательным числом");
+    }
+
+    if (goal.unit === 'time') {
+      if (newValue > goal.currentValue) {
+        throw new Error("Для целей типа 'time' новое значение должно быть меньше или равно текущему");
+      }
+    } else {
+      if (newValue < goal.currentValue) {
+        throw new Error("Новое значение должно быть больше или равно текущему");
+      }
     }
 
     goal.currentValue = newValue;
-    goal.history.push({ date, value: newValue });
+    goal.history.push({ date: String(date), value: newValue });
+    goal.updatedAt = new Date().toISOString();
 
-    // Проверка на достижение
-    if (newValue >= goal.targetValue && goal.status === 'active') {
+    const isCompleted = goal.unit === 'time'
+      ? newValue <= goal.targetValue
+      : newValue >= goal.targetValue;
+
+    if (isCompleted && goal.status === 'active') {
       goal.status = 'completed';
       goal.completedAt = new Date().toISOString();
     }
@@ -71,92 +107,103 @@ export class StrengthGoalTracker {
     return goal;
   }
 
-  /**
-   * Получить все цели
-   */
   getAll() {
     return [...this.goals];
   }
 
-  /**
-   * Активные цели
-   */
   getActive() {
     return this.goals.filter(g => g.status === 'active');
   }
 
-  /**
-   * Завершённые
-   */
   getCompleted() {
     return this.goals.filter(g => g.status === 'completed');
   }
 
-  /**
-   * Прогресс в процентах
-   */
   getProgressPercent(goal) {
-    if (goal.unit === 'time' && goal.targetValue > 0) {
-      // Для времени: чем меньше, тем лучше
-      return Math.min(100, (1 - goal.currentValue / goal.targetValue) * 100);
+    if (goal.unit === 'time') {
+      if (goal.targetValue <= 0) return 0;
+      const ratio = goal.currentValue / goal.targetValue;
+      return Math.max(0, Math.min(100, (1 - ratio) * 100));
     }
+    if (goal.targetValue <= 0) return 0;
     return Math.min(100, (goal.currentValue / goal.targetValue) * 100);
   }
 
-  /**
-   * Оценка темпа прогресса
-   */
   getProgressRate(goal) {
     if (goal.history.length < 2) return 'slow';
 
     const first = goal.history[0];
     const last = goal.history[goal.history.length - 1];
-    const days = DateUtils.diffInDays(first.date, last.date);
-    const progressPerDay = (last.value - first.value) / days;
+    const days = diffInDays(first.date, last.date);
+    if (days <= 0) return 'slow';
+
+    let progressPerDay;
+    if (goal.unit === 'time') {
+      progressPerDay = (first.value - last.value) / days;
+    } else {
+      progressPerDay = (last.value - first.value) / days;
+    }
 
     if (progressPerDay <= 0) return 'stalled';
     if (progressPerDay * 7 > 2) return 'fast';
     return 'steady';
   }
 
-  /**
-   * Прогноз завершения
-   */
   getCompletionForecast(goal) {
-    const progressPerDay = this._getDailyProgress(goal);
-    if (progressPerDay <= 0) return null;
+    if (goal.history.length < 2) return null;
 
-    const remaining = goal.targetValue - goal.currentValue;
-    const days = Math.ceil(remaining / progressPerDay);
+    const first = goal.history[0];
+    const last = goal.history[goal.history.length - 1];
+    const days = diffInDays(first.date, last.date);
+    if (days <= 0) return null;
+
+    let progressPerDay, remaining;
+    if (goal.unit === 'time') {
+      progressPerDay = (first.value - last.value) / days;
+      if (progressPerDay <= 0) return null;
+      remaining = goal.currentValue - goal.targetValue;
+    } else {
+      progressPerDay = (last.value - first.value) / days;
+      if (progressPerDay <= 0) return null;
+      remaining = goal.targetValue - goal.currentValue;
+    }
+
+    if (remaining <= 0) return null;
+
+    const daysLeft = Math.ceil(remaining / progressPerDay);
+    if (daysLeft <= 0) return null;
 
     const forecastDate = new Date();
-    forecastDate.setDate(forecastDate.getDate() + days);
+    forecastDate.setDate(forecastDate.getDate() + daysLeft);
 
     return {
-      days,
+      days: daysLeft,
       date: forecastDate.toISOString().split('T')[0],
       met: false
     };
   }
 
-  _getDailyProgress(goal) {
-    if (goal.history.length < 2) return 0;
-    const first = goal.history[0];
-    const last = goal.history[goal.history.length - 1];
-    const days = DateUtils.diffInDays(first.date, last.date);
-    return days > 0 ? (last.value - first.value) / days : 0;
-  }
-
-  /**
-   * Получить цель по ID
-   */
   findById(id) {
     return this.goals.find(g => g.id === id);
   }
 
-  /**
-   * Очистка (для тестов)
-   */
+  remove(goalId) {
+    const index = this.goals.findIndex(g => g.id === goalId);
+    if (index === -1) return false;
+    this.goals.splice(index, 1);
+    this.save();
+    return true;
+  }
+
+  pause(goalId) {
+    const goal = this.findById(goalId);
+    if (!goal || goal.status !== 'active') return false;
+    goal.status = 'paused';
+    goal.updatedAt = new Date().toISOString();
+    this.save();
+    return true;
+  }
+
   clear() {
     this.goals = [];
     StorageManager.removeItem(this.storageKey);
