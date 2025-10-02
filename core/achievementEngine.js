@@ -1,11 +1,12 @@
 // /core/achievementEngine.js
-// v1.8.0 — Ядро анализа для выдачи достижений
+// v1.8.1 — Исправлена логика streak'ов, пути и надёжность
 
 import { AchievementsManager } from '/modules/achievementsManager.js';
 import { UserService } from '/services/userService.js';
 import { WorkoutTracker } from '/modules/workoutTracker.js';
 import { ProgressTracker } from '/modules/progressTracker.js';
-import { StrengthGoalTracker } from '/core/strengthGoalTracker.js';
+import { StrengthGoalTracker } from '/core/strengthGoalTracker.js'; // ✅ Исправлен путь
+import { StorageManager } from '/utils/storage.js';
 
 /**
  * AchievementEngine — автоматически проверяет условия и выдаёт бейджи
@@ -29,9 +30,6 @@ export class AchievementEngine {
     await this.checkEthics();
   }
 
-  /**
-   * Проверка первых шагов
-   */
   async checkMilestones() {
     const profile = UserService.getProfile();
     if (profile && !this.achievements.isUnlocked('first_profile')) {
@@ -45,28 +43,38 @@ export class AchievementEngine {
   }
 
   /**
-   * Проверка серий (streak)
+   * ✅ Исправлено: проверка НЕПРЕРЫВНОЙ серии дней с тренировками
    */
   async checkStreaks() {
-    const weekly = this.workouts.getWeeklyCount();
-    const monthly = this.workouts.getAll().length;
+    const today = new Date();
+    let currentStreak = 0;
 
-    // Week streak
-    if (weekly >= 7 && !this.achievements.isUnlocked('week_streak')) {
+    // Проверяем последние 30 дней назад
+    for (let i = 0; i < 30; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+
+      if (this.workouts.hasWorkoutOnDate(dateStr)) {
+        currentStreak++;
+      } else {
+        break; // серия прервана
+      }
+    }
+
+    // Week streak (7 дней подряд)
+    if (currentStreak >= 7 && !this.achievements.isUnlocked('week_streak')) {
       this.achievements.unlock('week_streak');
     }
 
-    // Month streak
-    if (monthly >= 30 && !this.achievements.isUnlocked('month_streak')) {
+    // Month streak (30 дней подряд)
+    if (currentStreak >= 30 && !this.achievements.isUnlocked('month_streak')) {
       this.achievements.unlock('month_streak');
     }
   }
 
-  /**
-   * Проверка прогресса
-   */
   async checkProgress() {
-    const recent = this.progress.getSince(14); // за 2 недели
+    const recent = this.progress.getSince(14);
     if (recent.length < 2 || this.achievements.isUnlocked('weight_progress')) return;
 
     const first = recent[recent.length - 1];
@@ -79,9 +87,6 @@ export class AchievementEngine {
     }
   }
 
-  /**
-   * Проверка целей
-   */
   async checkGoals() {
     const completed = this.goals.getCompleted();
     if (completed.length > 0 && !this.achievements.isUnlocked('first_goal')) {
@@ -89,21 +94,17 @@ export class AchievementEngine {
     }
   }
 
-  /**
-   * Этические достижения
-   */
   async checkEthics() {
-    // Пример: если пользователь ни разу не открывал premium
-    // Это можно отслеживать через localStorage
-    const visitedPremium = localStorage.getItem('morphe-visited-premium') === 'true';
-    if (!visitedPremium && !this.achievements.isUnlocked('silent_discipline')) {
-      // Можно выдать через 7 дней использования
-      const firstUse = localStorage.getItem('morphe-first-use');
-      if (firstUse) {
-        const days = (Date.now() - new Date(firstUse).getTime()) / (1000 * 60 * 60 * 24);
-        if (days >= 7) {
-          this.achievements.unlock('silent_discipline');
-        }
+    const visitedPremium = StorageManager.getItem('morphe-visited-premium') === true;
+    if (visitedPremium) return;
+
+    if (this.achievements.isUnlocked('silent_discipline')) return;
+
+    const firstUse = StorageManager.getItem('morphe-first-use');
+    if (firstUse) {
+      const days = (Date.now() - new Date(firstUse).getTime()) / (1000 * 60 * 60 * 24);
+      if (days >= 7) {
+        this.achievements.unlock('silent_discipline');
       }
     }
   }
