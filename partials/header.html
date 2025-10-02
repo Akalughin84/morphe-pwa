@@ -1,19 +1,20 @@
 <!-- /partials/header.html -->
-<!-- v2.1.0 — Стилизованная шапка -->
+<!-- v2.3.0 — Шапка в стиле осознанного роста (оранжевый акцент) -->
 
-<nav class="page-nav">
+<nav class="page-nav" aria-label="Основная навигация">
   <div class="container">
     <div class="nav-wrapper">
       <!-- Логотип -->
-      <a href="/" class="nav-logo">
+      <a href="/" class="nav-logo" aria-label="Morphe — на главную">
         <strong>Morphe</strong>
       </a>
 
       <!-- Мобильное меню -->
       <button 
         id="menuToggle" 
-        aria-label="Открыть меню" 
+        aria-label="Открыть или закрыть меню навигации" 
         aria-expanded="false"
+        aria-controls="mainNav"
         class="menu-toggle"
       >
         <span></span>
@@ -22,16 +23,15 @@
       </button>
 
       <!-- Основное меню -->
-      <ul id="mainNav" class="nav-menu">
+      <ul id="mainNav" class="nav-menu" aria-label="Меню сайта">
         <li><a href="/pages/profile.html" class="nav-link">👤 Профиль</a></li>
-        <li><a href="/pages/workouts.html" class="nav-link">💪 Тренировки</a></li>
-        <li><a href="/pages/nutrition.html" class="nav-link">🍽 Питание</a></li>
+        <li><a href="/pages/workouts.html" class="nav-link">🏋️ Тренировки</a></li>
+        <li><a href="/pages/nutrition.html" class="nav-link">🥗 Питание</a></li>
         <li><a href="/pages/progress.html" class="nav-link">📈 Прогресс</a></li>
-        <li><a href="/pages/supplements.html" class="nav-link">💊 Витамины</a></li>
-        <li><a href="/pages/premium.html" class="nav-link">💎 Pro</a></li>
+        <li><a href="/pages/supplements.html" class="nav-link">💊 Добавки</a></li>
+        <li><a href="/pages/premium.html" class="nav-link">⭐ Pro</a></li>
         <li><a href="/pages/backup.html" class="nav-link">💾 Резерв</a></li>
-        <li><a href="/pages/achievements.html" class="footer-link">🏆 Достижения</a></li>
-
+        <li><a href="/pages/achievements.html" class="nav-link">🏆 Достижения</a></li>
       </ul>
     </div>
   </div>
