@@ -1,129 +1,26 @@
-<!-- /pages/supplements.html -->
-<!-- v3.0.1 — Исправлено: добавлен await для getDailySchedule -->
-
 <!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
   <title>Витамины и добавки — Morphe</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#f97316">
+
+  <!-- Module Preload -->
+  <link rel="modulepreload" href="/modules/supplementAdvisor.js">
 
   <!-- Стили -->
   <link rel="stylesheet" href="/styles.css">
   <link rel="stylesheet" href="/styles-shared.css">
-
-  <style>
-    /* Вкладки */
-    .tabs {
-      display: flex;
-      gap: 1px;
-      margin: 24px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .tab {
-      padding: 12px 24px;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      font-weight: 600;
-      border-radius: 8px 8px 0 0;
-    }
-    .tab.active {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
-    /* Карточка добавки */
-    .supplement-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    .supplement-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 16px;
-    }
-
-    .supplement-header h3 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    /* Пиллы */
-    .pill {
-      padding: 4px 12px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-    .pill-good { background: #2ecc71; color: white; }
-    .pill-ok { background: #f39c12; color: white; }
-    .pill-bad { background: #e74c3c; color: white; }
-
-    /* Схема приёма */
-    .timing-section {
-      background: var(--bg-surface-alt);
-      border-radius: 12px;
-      padding: 16px;
-      margin: 16px 0;
-      border-left: 4px solid var(--accent);
-    }
-
-    /* Форма */
-    .form-section {
-      background: var(--bg-surface);
-      border-radius: 16px;
-      padding: 24px;
-      margin: 24px 0;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-    }
-
-    /* План приёма */
-    .schedule-section {
-      background: var(--bg-surface-alt);
-      border-radius: 16px;
-      padding: 24px;
-      margin: 24px 0;
-      border-left: 4px solid var(--accent);
-    }
-
-    .schedule-time {
-      font-weight: 600;
-      color: var(--accent);
-      margin: 16px 0 8px 0;
-    }
-
-    /* Статусы */
-    .error-text { color: #e74c3c; font-weight: 600; }
-    .success-text { color: #2ecc71; font-weight: 600; }
-    .info-text { color: #3498db; font-weight: 600; }
-  </style>
+  <link rel="stylesheet" href="/styles-header.css">
 </head>
 <body>
 
-  <!-- Заглушка шапки -->
   <div id="header-placeholder"></div>
 
   <main id="main-content" tabindex="-1">
@@ -131,63 +28,23 @@
       <h1>💊 Витамины и добавки</h1>
       <p>Научно обоснованные рекомендации — персонально для вас. Без маркетинга, только польза.</p>
 
-      <!-- Опросник симптомов -->
-      <section class="form-section">
-        <h2>🔍 Расскажите о себе</h2>
-        <p>Ответьте на вопросы — мы подберём добавки, которые решат именно ваши проблемы.</p>
-        <form id="symptomForm">
-          <div class="form-group">
-            <label><input type="checkbox" name="fatigue"> Часто чувствуете усталость, даже после сна?</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" name="jointPain"> Болят суставы или связки?</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" name="muscleCramps"> Бывают мышечные судороги?</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" name="poorSleep"> Плохо спите, часто просыпаетесь?</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" name="lowMood"> Повышенная тревожность или низкое настроение?</label>
-          </div>
-          <div class="form-group">
-            <label><input type="checkbox" name="digestiveIssues"> Проблемы с пищеварением?</label>
-          </div>
-          <button type="submit" class="btn-primary">Подобрать добавки</button>
-        </form>
-      </section>
-
       <!-- План приёма -->
-      <section class="schedule-section" id="scheduleSection" style="display: none;">
+      <section class="card" id="scheduleSection" style="display: none; border-left: 4px solid var(--accent);">
         <h2>📅 Ваш план приёма на день</h2>
         <div id="scheduleContent"></div>
       </section>
 
-      <!-- Вкладки -->
-      <div class="tab-container">
-        <div class="tab-buttons" role="tablist">
-          <button class="tab-btn active" role="tab" aria-selected="true">Персональные рекомендации</button>
-          <button class="tab-btn" role="tab" aria-selected="false">Для восстановления</button>
-          <button class="tab-btn" role="tab" aria-selected="false">Для энергии</button>
-          <button class="tab-btn" role="tab" aria-selected="false">Антистресс</button>
-          <button class="tab-btn" role="tab" aria-selected="false">Для сна</button>
-        </div>
-      </div>
-
-      <!-- Персональные рекомендации -->
-      <section class="card" id="recommendationsSection">
-        <h2>🎯 Вам подойдут</h2>
-        <p id="recStatus">Загрузка рекомендаций...</p>
+      <!-- Рекомендации -->
+      <section class="card">
+        <h2>🎯 Персональные рекомендации</h2>
+        <p id="recStatus">Загрузка...</p>
         <div id="recommendationsList"></div>
-        <p id="noRecMessage" style="display: none;">
-          Чтобы получить персональные рекомендации — <a href="/pages/profile.html">заполните профиль</a>.
+        <p id="noRecMessage" style="display:none; color:var(--error);">
+          <a href="/pages/profile.html">Заполните профиль</a>, чтобы получить персональные рекомендации.
         </p>
       </section>
     </div>
   </main>
-
-  <!-- Заглушка подвала -->
   <div id="footer-placeholder"></div>
 
   <!-- Service Worker -->
@@ -199,15 +56,14 @@
     }
   </script>
 
-  <!-- Логика страницы -->
   <script type="module">
     import { HeaderController } from '/core/HeaderController.js';
     import { ThemeManager } from '/core/themeManager.js';
     import { SupplementAdvisor } from '/modules/supplementAdvisor.js';
-    import { UserService } from '/services/userService.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
       await HeaderController.loadHeader();
+      await HeaderController.loadFooter();
       new ThemeManager();
 
       const recStatus = document.getElementById('recStatus');
@@ -215,151 +71,172 @@
       const noRecMessage = document.getElementById('noRecMessage');
       const scheduleSection = document.getElementById('scheduleSection');
       const scheduleContent = document.getElementById('scheduleContent');
-      const symptomForm = document.getElementById('symptomForm');
 
-      try {
-        // === Инициализация ===
-        const advisor = new SupplementAdvisor();
-        await advisor.loadSupplements();
+      let currentRecommendations = [];
 
-        // === Обработчик опросника ===
-        symptomForm.addEventListener('submit', (e) => {
-          e.preventDefault();
-          const formData = new FormData(symptomForm);
+      // Принятые добавки
+      function getAcceptedSupplements() {
+        const saved = localStorage.getItem('morphe-accepted-supplements');
+        return saved ? new Set(JSON.parse(saved)) : new Set();
+      }
 
-          // Сохраняем симптомы в localStorage
-          const symptoms = {
-            fatigue: formData.has('fatigue'),
-            jointPain: formData.has('jointPain'),
-            muscleCramps: formData.has('muscleCramps'),
-            poorSleep: formData.has('poorSleep'),
-            lowMood: formData.has('lowMood'),
-            digestiveIssues: formData.has('digestiveIssues')
-          };
+      function setAcceptedSupplement(supplementId, accepted) {
+        const acceptedSet = getAcceptedSupplements();
+        if (accepted) {
+          acceptedSet.add(supplementId);
+        } else {
+          acceptedSet.delete(supplementId);
+        }
+        localStorage.setItem('morphe-accepted-supplements', JSON.stringify([...acceptedSet]));
+      }
 
-          Object.keys(symptoms).forEach(key => {
-            localStorage.setItem(`morphe-symptom-${key}`, symptoms[key]);
+      // Рендер добавок
+      function renderSupplements(supplements, container) {
+        if (!Array.isArray(supplements) || supplements.length === 0) {
+          container.innerHTML = '<p>Нет подходящих добавок.</p>';
+          return;
+        }
+
+        const acceptedSet = getAcceptedSupplements();
+        container.innerHTML = supplements.map(s => {
+          const benefits = Array.isArray(s.benefits) ? s.benefits.join(', ') : '—';
+          const description = s.description || 'Информация отсутствует';
+          const dosage = s.dosage || '—';
+          const timing = s.timingText || '—';
+          const form = s.form || '—';
+          const sources = Array.isArray(s.sources) ? s.sources[0] : '';
+
+          let pillClass = 'pill-bad';
+          let evidenceText = 'N/A';
+          if (s.evidenceLevel === 'A') {
+            pillClass = 'pill-good';
+            evidenceText = 'Strong';
+          } else if (s.evidenceLevel === 'B') {
+            pillClass = 'pill-ok';
+            evidenceText = 'Moderate';
+          } else if (s.evidenceLevel === 'C') {
+            pillClass = 'pill-bad';
+            evidenceText = 'Limited';
+          }
+
+          const isAccepted = acceptedSet.has(s.id);
+          const acceptBtnText = isAccepted ? '✅ Принято' : 'Принять';
+
+          return `
+            <div class="card supplement-card">
+              <div class="supplement-header">
+                <h3>${s.name}</h3>
+                <span class="pill ${pillClass}">${evidenceText}</span>
+              </div>
+              <p><strong>Польза:</strong> ${benefits}</p>
+              <p><strong>Дозировка:</strong> ${dosage}</p>
+              <p><strong>Когда принимать:</strong> ${timing}</p>
+              <p><strong>Форма:</strong> ${form}</p>
+              <p><small>${description}</small></p>
+              ${sources ? `<p><strong>Источник:</strong> <a href="${sources}" target="_blank" rel="noopener">Исследование</a></p>` : ''}
+              <button type="button" class="btn-outline btn-small accept-btn" data-id="${s.id}">
+                ${acceptBtnText}
+              </button>
+            </div>
+          `;
+        }).join('');
+
+        container.querySelectorAll('.accept-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            const isNowAccepted = !getAcceptedSupplements().has(id);
+            setAcceptedSupplement(id, isNowAccepted);
+            btn.textContent = isNowAccepted ? '✅ Принято' : 'Принять';
+            btn.classList.toggle('btn-primary', isNowAccepted);
+            btn.classList.toggle('btn-outline', !isNowAccepted);
           });
-
-          // Перезагружаем рекомендации
-          location.reload();
         });
+      }
 
-        // === Персональные рекомендации ===
-        let recommendations = [];
+      // Обновление рекомендаций и плана
+      async function updateRecommendations() {
+        recStatus.textContent = 'Подбор добавок...';
+        recStatus.style.display = 'block';
 
         try {
-          recommendations = await advisor.getPersonalizedRecommendations();
-        } catch (err) {
-          console.warn('⚠️ Персонализация недоступна:', err.message);
-          recommendations = advisor._getGeneralScienceBased();
-          noRecMessage.style.display = 'block';
-        }
+          const advisor = new SupplementAdvisor();
+          const recommendations = await advisor.getPersonalizedRecommendations();
+          currentRecommendations = recommendations;
+          renderSupplements(recommendations, recommendationsList);
 
-        // Рендеринг рекомендаций
-        renderSupplements(recommendations, recommendationsList);
-
-        // === План приёма — ✅ ИСПРАВЛЕНО: добавлен await ===
-        if (recommendations.length > 0) {
-          scheduleSection.style.display = 'block';
-          const schedule = await advisor.getDailySchedule(); // ← await
-
-          let scheduleHtml = '';
-          if (schedule.morning.length > 0) {
-            scheduleHtml += `<div class="schedule-time">🌅 Утро</div>`;
-            scheduleHtml += schedule.morning.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
-          }
-          if (schedule.preWorkout.length > 0) {
-            scheduleHtml += `<div class="schedule-time">💪 До тренировки</div>`;
-            scheduleHtml += schedule.preWorkout.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
-          }
-          if (schedule.postWorkout.length > 0) {
-            scheduleHtml += `<div class="schedule-time">🚿 После тренировки</div>`;
-            scheduleHtml += schedule.postWorkout.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
-          }
-          if (schedule.evening.length > 0) {
-            scheduleHtml += `<div class="schedule-time">🌙 Вечер</div>`;
-            scheduleHtml += schedule.evening.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
-          }
-
-          scheduleContent.innerHTML = scheduleHtml;
-        }
-
-        recStatus.style.display = 'none';
-
-        // === Обработчики вкладок ===
-        const tabs = document.querySelectorAll('.tab');
-        tabs.forEach(tab => {
-          tab.addEventListener('click', async () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            const category = tab.dataset.tab;
-            let supplementsToShow = [];
-
-            if (category === 'personalized') {
-              supplementsToShow = recommendations;
-            } else {
-              supplementsToShow = advisor.getByCategory(category);
+          if (recommendations.length > 0) {
+            scheduleSection.style.display = 'block';
+            const schedule = await advisor.getDailySchedule();
+            let html = '';
+            if (schedule.morning?.length) {
+              html += `<div class="schedule-time">🌅 Утро</div>` + schedule.morning.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
             }
+            if (schedule.preWorkout?.length) {
+              html += `<div class="schedule-time">💪 До тренировки</div>` + schedule.preWorkout.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
+            }
+            if (schedule.postWorkout?.length) {
+              html += `<div class="schedule-time">🚿 После тренировки</div>` + schedule.postWorkout.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
+            }
+            if (schedule.evening?.length) {
+              html += `<div class="schedule-time">🌙 Вечер</div>` + schedule.evening.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
+            }
+            scheduleContent.innerHTML = html || '<p>Нет добавок на сегодня.</p>';
+          } else {
+            scheduleSection.style.display = 'none';
+          }
 
-            renderSupplements(supplementsToShow, recommendationsList);
-          });
-        });
+          recStatus.style.display = 'none';
+          noRecMessage.style.display = 'none';
 
-      } catch (err) {
-        recStatus.textContent = `❌ Ошибка: ${err.message}`;
-        recStatus.className = 'error-text';
-        console.error(err);
+        } catch (err) {
+          recStatus.textContent = `❌ Ошибка: ${err.message}`;
+          recStatus.className = 'error-text';
+          noRecMessage.style.display = 'block';
+          scheduleSection.style.display = 'none';
+          console.error(err);
+        }
       }
-    });
 
-    // === Функция рендеринга добавок ===
-    function renderSupplements(supplements, container) {
-      if (supplements.length === 0) {
-        container.innerHTML = '<p>Нет подходящих добавок. Попробуйте изменить симптомы или цель в профиле.</p>';
-        return;
-      }
-
-      container.innerHTML = supplements.map(s => {
-        if (!s) return '';
-
-        const benefits = Array.isArray(s.benefits) ? s.benefits.join(', ') : 'Нет данных';
-        const description = s.description || 'Информация отсутствует';
-        const dosage = s.dosage || '—';
-        const timing = s.timing || '—';
-        const form = s.form || '—';
-        const sources = Array.isArray(s.sources) ? s.sources[0] : '';
-
-        return `
-          <div class="supplement-card">
-            <div class="supplement-header">
-              <h3>${s.name || 'Неизвестная добавка'}</h3>
-              <span class="pill ${
-                s.evidence?.toLowerCase() === 'strong' ? 'pill-good' : 
-                s.evidence?.toLowerCase() === 'moderate' ? 'pill-ok' : 
-                'pill-bad'
-              }">
-                ${s.evidence || 'N/A'}
-              </span>
-            </div>
-            <p><strong>Польза:</strong> ${benefits}</p>
-            <p><strong>Дозировка:</strong> ${dosage}</p>
-            <p><strong>Когда принимать:</strong> ${timing}</p>
-            <p><strong>Форма:</strong> ${form}</p>
-            <p><small>${description}</small></p>
-            ${sources ? `<p><strong>Источник:</strong> <a href="${sources}" target="_blank">Исследование</a></p>` : ''}
-          </div>
-        `;
-      }).join('');
-    }
-
-    // === Загрузка подвала ===
-    document.addEventListener('DOMContentLoaded', async () => {
-      await import('/core/HeaderController.js')
-        .then(m => m.HeaderController.loadFooter())
-        .catch(err => console.error('❌ Ошибка загрузки подвала:', err));
+      // Инициализация при загрузке
+      updateRecommendations();
     });
   </script>
+
+  <style>
+    .supplement-card {
+      margin-bottom: 24px;
+      position: relative;
+    }
+    .supplement-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 16px;
+    }
+    .supplement-header h3 {
+      margin: 0;
+      font-size: 1.2rem;
+      color: var(--text-primary);
+    }
+    .schedule-time {
+      font-weight: 600;
+      color: var(--accent);
+      margin: 16px 0 8px 0;
+      font-size: 1.1rem;
+    }
+    .text-center {
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .supplement-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .supplement-header .pill {
+        margin-top: 8px;
+      }
+    }
+  </style>
 </body>
 </html>
