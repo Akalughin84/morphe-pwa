@@ -4,9 +4,12 @@
     "name": "Начальный силовой",
     "level": "beginner",
     "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
     "durationWeeks": 8,
     "daysPerWeek": 3,
     "description": "Базовая программа для новичков. Акцент на технику и прогрессию весов.",
+    "tags": ["push", "pull", "legs"],
     "weeklySchedule": [
       "Сила: ноги + спина",
       "Отдых",
@@ -17,11 +20,11 @@
       "Отдых"
     ],
     "exercises": [
-      { "name": "Приседания со штангой", "sets": "3x8", "rest": "90 сек" },
-      { "name": "Становая тяга", "sets": "3x6", "rest": "120 сек" },
-      { "name": "Жим лёжа", "sets": "3x8", "rest": "90 сек" },
-      { "name": "Подтягивания", "sets": "3x6", "rest": "60 сек" },
-      { "name": "Пресс: скручивания", "sets": "3x15", "rest": "30 сек" }
+      { "id": "squat-barbell", "name": "Приседания со штангой", "sets": 3, "reps": "8", "rest": 90 },
+      { "id": "deadlift", "name": "Становая тяга", "sets": 3, "reps": "6", "rest": 120 },
+      { "id": "bench-press", "name": "Жим лёжа", "sets": 3, "reps": "8", "rest": 90 },
+      { "id": "pull-ups", "name": "Подтягивания", "sets": 3, "reps": "6", "rest": 60 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "30 сек", "rest": 30 }
     ]
   },
   {
@@ -29,9 +32,12 @@
     "name": "Гипертрофия (средний)",
     "level": "intermediate",
     "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
     "durationWeeks": 12,
     "daysPerWeek": 5,
     "description": "Объёмная программа для роста мышц. Разделение по группам мышц.",
+    "tags": ["push", "pull", "legs", "arms", "shoulders"],
     "weeklySchedule": [
       "Грудь + трицепс",
       "Спина + бицепс",
@@ -42,9 +48,9 @@
       "Отдых"
     ],
     "exercises": [
-      { "name": "Жим лёжа", "sets": "4x10", "rest": "90 сек" },
-      { "name": "Французский жим", "sets": "3x12", "rest": "60 сек" },
-      { "name": "Подтягивания узким хватом", "sets": "4x8", "rest": "75 сек" }
+      { "id": "bench-press", "name": "Жим лёжа", "sets": 4, "reps": "10", "rest": 90 },
+      { "id": "curl-barbell", "name": "Французский жим", "sets": 3, "reps": "12", "rest": 60 },
+      { "id": "pull-ups", "name": "Подтягивания узким хватом", "sets": 4, "reps": "8", "rest": 75 }
     ]
   },
   {
@@ -52,9 +58,12 @@
     "name": "Поддержание формы",
     "level": "all",
     "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
     "durationWeeks": 0,
     "daysPerWeek": 3,
     "description": "Лёгкая программа для поддержания тонуса без перетренированности.",
+    "tags": ["bodyweight", "core", "mobility"],
     "weeklySchedule": [
       "Полный корпус",
       "Отдых",
@@ -65,9 +74,2399 @@
       "Отдых"
     ],
     "exercises": [
-      { "name": "Приседания с собственным весом", "sets": "3x15", "rest": "60 сек" },
-      { "name": "Отжимания", "sets": "3x12", "rest": "60 сек" },
-      { "name": "Планка", "sets": "3x30 сек", "rest": "30 сек" }
+      { "id": "squat-bodyweight", "name": "Приседания с собственным весом", "sets": 3, "reps": "15", "rest": 60 },
+      { "id": "push-ups", "name": "Отжимания", "sets": 3, "reps": "12", "rest": 60 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "30 сек", "rest": 30 }
     ]
-  }
+  },
+  {
+    "id": "fat-loss-cardio",
+    "name": "Сжигание жира",
+    "level": "beginner",
+    "goal": "lose",
+    "workoutType": "cardio",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Комбинация кардио и силы для эффективного жиросжигания.",
+    "tags": ["cardio", "full-body", "core"],
+    "weeklySchedule": [
+      "HIIT + кор",
+      "Отдых",
+      "Фулбоди",
+      "Отдых",
+      "Кардио",
+      "Лёгкая активность",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "burpees", "name": "Бёрпи", "sets": 4, "reps": "30 сек", "rest": 30 },
+      { "id": "mountain-climbers", "name": "Альпинисты", "sets": 3, "reps": "45 сек", "rest": 30 },
+      { "id": "jumping-jacks", "name": "Прыжки с хлопком", "sets": 3, "reps": "60 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "advanced-strength",
+    "name": "Продвинутый силовой",
+    "level": "advanced",
+    "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
+    "durationWeeks": 10,
+    "daysPerWeek": 5,
+    "description": "Интенсивная программа для опытных атлетов. Фокус на 1ПМ и прогрессии.",
+    "tags": ["push", "pull", "legs", "posterior-chain"],
+    "weeklySchedule": [
+      "Ноги (тяжёлые)",
+      "Верх (тяговый)",
+      "Отдых",
+      "Грудь/плечи (тяжёлые)",
+      "Ноги (объём)",
+      "Верх (жимовой)",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-barbell", "name": "Приседания", "sets": 5, "reps": "5", "rest": 180 },
+      { "id": "deadlift", "name": "Становая тяга", "sets": 3, "reps": "3", "rest": 180 },
+      { "id": "overhead-press", "name": "Жим стоя", "sets": 4, "reps": "6", "rest": 120 }
+    ]
+  },
+  {
+    "id": "home-fullbody",
+    "name": "Домашний фулбоди",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "description": "Эффективные упражнения без оборудования. Идеально для дома.",
+    "tags": ["bodyweight", "push", "pull", "legs", "core"],
+    "weeklySchedule": [
+      "Фулбоди",
+      "Отдых",
+      "Фулбоди",
+      "Отдых",
+      "Фулбоди",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "push-ups", "name": "Отжимания", "sets": 4, "reps": "10–15", "rest": 60 },
+      { "id": "inverted-rows", "name": "Горизонтальные подтягивания", "sets": 3, "reps": "8–12", "rest": 60 },
+      { "id": "lunges", "name": "Выпады", "sets": 3, "reps": "12", "rest": 60 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "45 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "fat-loss-4w-hiit",
+    "name": "Жиросжигание за 4 недели (HIIT + Сила)",
+    "level": "beginner",
+    "goal": "lose",
+    "workoutType": "cardio",
+    "workoutLocation": "home",
+    "durationWeeks": 4,
+    "daysPerWeek": 5,
+    "description": "Интенсивная программа для сжигания жира без оборудования. Акцент на кардио и фулбоди.",
+    "weeklySchedule": [
+      "Понедельник: Фулбоди HIIT",
+      "Вторник: Отдых",
+      "Среда: Ноги + Кор",
+      "Четверг: Отдых",
+      "Пятница: Верх + Кардио",
+      "Суббота: Активный отдых (ходьба, йога)",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "burpees", "sets": 4, "reps": "40 сек", "rest": 20 },
+      { "id": "mountain-climbers", "sets": 3, "reps": "45 сек", "rest": 15 },
+      { "id": "jumping-jacks", "sets": 3, "reps": "60 сек", "rest": 30 },
+      { "id": "push-ups", "sets": 3, "reps": "максимум", "rest": 60 },
+      { "id": "plank", "sets": 3, "reps": "45 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "hypertrophy-8w-gym",
+    "name": "Гипертрофия за 8 недель (зал)",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 8,
+    "daysPerWeek": 5,
+    "description": "Классическая программа для роста мышц. Разделение по группам мышц.",
+    "weeklySchedule": [
+      "Понедельник: Грудь + Трицепс",
+      "Вторник: Спина + Бицепс",
+      "Среда: Отдых",
+      "Четверг: Ноги + Кор",
+      "Пятница: Плечи + Кор",
+      "Суббота: Кардио (лёгкое)",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "bench-press", "sets": 4, "reps": "8–10", "rest": 90 },
+      { "id": "dumbbell-press", "sets": 3, "reps": "10–12", "rest": 75 },
+      { "id": "triceps-pushdown", "sets": 3, "reps": "12–15", "rest": 60 },
+      { "id": "pull-ups", "sets": 4, "reps": "максимум", "rest": 90 },
+      { "id": "cable-rows", "sets": 4, "reps": "10", "rest": 75 },
+      { "id": "curl-barbell", "sets": 3, "reps": "10", "rest": 60 },
+      { "id": "squat-barbell", "sets": 4, "reps": "6–8", "rest": 120 },
+      { "id": "romanian-deadlift", "sets": 3, "reps": "10", "rest": 90 },
+      { "id": "leg-press", "sets": 3, "reps": "12", "rest": 75 },
+      { "id": "overhead-press", "sets": 4, "reps": "8", "rest": 90 },
+      { "id": "lateral-raises", "sets": 3, "reps": "15", "rest": 60 },
+      { "id": "face-pulls", "sets": 3, "reps": "15", "rest": 60 },
+      { "id": "plank", "sets": 3, "reps": "60 сек", "rest": 30 },
+      { "id": "russian-twist", "sets": 3, "reps": "20", "rest": 45 }
+    ]
+  },
+  {
+    "id": "strength-12w-advanced",
+    "name": "Сила за 12 недель (продвинутый)",
+    "level": "advanced",
+    "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
+    "durationWeeks": 12,
+    "daysPerWeek": 4,
+    "description": "Программа для увеличения 1ПМ в базовых упражнениях.",
+    "weeklySchedule": [
+      "Понедельник: Ноги (тяжёлые)",
+      "Вторник: Отдых",
+      "Среда: Верх (тяговый)",
+      "Четверг: Отдых",
+      "Пятница: Грудь/Плечи (тяжёлые)",
+      "Суббота: Отдых",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-barbell", "sets": 5, "reps": "5", "rest": 180 },
+      { "id": "deadlift", "sets": 3, "reps": "3", "rest": 180 },
+      { "id": "bench-press", "sets": 5, "reps": "5", "rest": 150 },
+      { "id": "overhead-press", "sets": 5, "reps": "5", "rest": 120 },
+      { "id": "pull-ups-weighted", "sets": 4, "reps": "6", "rest": 120 }
+    ]
+  },
+  {
+    "id": "home-toning-6w",
+    "name": "Тонус тела за 6 недель (дома)",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Поддержание формы без оборудования. Акцент на кор и функциональную силу.",
+    "weeklySchedule": [
+      "Понедельник: Ноги + Кор",
+      "Вторник: Отдых",
+      "Среда: Верх + Кор",
+      "Четверг: Отдых",
+      "Пятница: Фулбоди",
+      "Суббота: Отдых",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-bodyweight", "sets": 4, "reps": "15", "rest": 45 },
+      { "id": "lunges", "sets": 3, "reps": "12", "rest": 45 },
+      { "id": "push-ups", "sets": 4, "reps": "максимум", "rest": 60 },
+      { "id": "inverted-rows", "sets": 3, "reps": "10", "rest": 60 },
+      { "id": "plank", "sets": 3, "reps": "45 сек", "rest": 30 },
+      { "id": "russian-twist", "sets": 3, "reps": "20", "rest": 30 },
+      { "id": "burpees", "sets": 3, "reps": "30 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "strength-beginner",
+    "name": "Начальный силовой",
+    "level": "beginner",
+    "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
+    "durationWeeks": 8,
+    "daysPerWeek": 3,
+    "description": "Базовая программа для новичков. Акцент на технику и прогрессию весов.",
+    "tags": ["push", "pull", "legs"],
+    "weeklySchedule": [
+      "Сила: ноги + спина",
+      "Отдых",
+      "Сила: грудь + плечи + трицепс",
+      "Отдых",
+      "Полный корпус + кор",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-barbell", "name": "Приседания со штангой", "sets": 3, "reps": "8", "rest": 90 },
+      { "id": "deadlift", "name": "Становая тяга", "sets": 3, "reps": "6", "rest": 120 },
+      { "id": "bench-press", "name": "Жим лёжа", "sets": 3, "reps": "8", "rest": 90 },
+      { "id": "pull-ups", "name": "Подтягивания", "sets": 3, "reps": "6", "rest": 60 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "30 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "hypertrophy-intermediate",
+    "name": "Гипертрофия (средний)",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 12,
+    "daysPerWeek": 5,
+    "description": "Объёмная программа для роста мышц. Разделение по группам мышц.",
+    "tags": ["push", "pull", "legs", "arms", "shoulders"],
+    "weeklySchedule": [
+      "Грудь + трицепс",
+      "Спина + бицепс",
+      "Ноги",
+      "Отдых",
+      "Плечи + кор",
+      "Кардио + кор",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "bench-press", "name": "Жим лёжа", "sets": 4, "reps": "10", "rest": 90 },
+      { "id": "curl-barbell", "name": "Французский жим", "sets": 3, "reps": "12", "rest": 60 },
+      { "id": "pull-ups", "name": "Подтягивания узким хватом", "sets": 4, "reps": "8", "rest": 75 }
+    ]
+  },
+  {
+    "id": "maintenance-light",
+    "name": "Поддержание формы",
+    "level": "all",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 0,
+    "daysPerWeek": 3,
+    "description": "Лёгкая программа для поддержания тонуса без перетренированности.",
+    "tags": ["bodyweight", "core", "mobility"],
+    "weeklySchedule": [
+      "Полный корпус",
+      "Отдых",
+      "Кор + кардио",
+      "Отдых",
+      "Полный корпус",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-bodyweight", "name": "Приседания с собственным весом", "sets": 3, "reps": "15", "rest": 60 },
+      { "id": "push-ups", "name": "Отжимания", "sets": 3, "reps": "12", "rest": 60 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "30 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "fat-loss-cardio",
+    "name": "Сжигание жира",
+    "level": "beginner",
+    "goal": "lose",
+    "workoutType": "cardio",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Комбинация кардио и силы для эффективного жиросжигания.",
+    "tags": ["cardio", "full-body", "core"],
+    "weeklySchedule": [
+      "HIIT + кор",
+      "Отдых",
+      "Фулбоди",
+      "Отдых",
+      "Кардио",
+      "Лёгкая активность",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "burpees", "name": "Бёрпи", "sets": 4, "reps": "30 сек", "rest": 30 },
+      { "id": "mountain-climbers", "name": "Альпинисты", "sets": 3, "reps": "45 сек", "rest": 30 },
+      { "id": "jumping-jacks", "name": "Прыжки с хлопком", "sets": 3, "reps": "60 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "advanced-strength",
+    "name": "Продвинутый силовой",
+    "level": "advanced",
+    "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
+    "durationWeeks": 10,
+    "daysPerWeek": 5,
+    "description": "Интенсивная программа для опытных атлетов. Фокус на 1ПМ и прогрессии.",
+    "tags": ["push", "pull", "legs", "posterior-chain"],
+    "weeklySchedule": [
+      "Ноги (тяжёлые)",
+      "Верх (тяговый)",
+      "Отдых",
+      "Грудь/плечи (тяжёлые)",
+      "Ноги (объём)",
+      "Верх (жимовой)",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-barbell", "name": "Приседания", "sets": 5, "reps": "5", "rest": 180 },
+      { "id": "deadlift", "name": "Становая тяга", "sets": 3, "reps": "3", "rest": 180 },
+      { "id": "overhead-press", "name": "Жим стоя", "sets": 4, "reps": "6", "rest": 120 }
+    ]
+  },
+  {
+    "id": "home-fullbody",
+    "name": "Домашний фулбоди",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "description": "Эффективные упражнения без оборудования. Идеально для дома.",
+    "tags": ["bodyweight", "push", "pull", "legs", "core"],
+    "weeklySchedule": [
+      "Фулбоди",
+      "Отдых",
+      "Фулбоди",
+      "Отдых",
+      "Фулбоди",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "push-ups", "name": "Отжимания", "sets": 4, "reps": "10–15", "rest": 60 },
+      { "id": "inverted-rows", "name": "Горизонтальные подтягивания", "sets": 3, "reps": "8–12", "rest": 60 },
+      { "id": "lunges", "name": "Выпады", "sets": 3, "reps": "12", "rest": 60 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "45 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "fat-loss-4w-hiit",
+    "name": "Жиросжигание за 4 недели (HIIT + Сила)",
+    "level": "beginner",
+    "goal": "lose",
+    "workoutType": "cardio",
+    "workoutLocation": "home",
+    "durationWeeks": 4,
+    "daysPerWeek": 5,
+    "description": "Интенсивная программа для сжигания жира без оборудования. Акцент на кардио и фулбоди.",
+    "weeklySchedule": [
+      "Понедельник: Фулбоди HIIT",
+      "Вторник: Отдых",
+      "Среда: Ноги + Кор",
+      "Четверг: Отдых",
+      "Пятница: Верх + Кардио",
+      "Суббота: Активный отдых (ходьба, йога)",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "burpees", "sets": 4, "reps": "40 сек", "rest": 20 },
+      { "id": "mountain-climbers", "sets": 3, "reps": "45 сек", "rest": 15 },
+      { "id": "jumping-jacks", "sets": 3, "reps": "60 сек", "rest": 30 },
+      { "id": "push-ups", "sets": 3, "reps": "максимум", "rest": 60 },
+      { "id": "plank", "sets": 3, "reps": "45 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "hypertrophy-8w-gym",
+    "name": "Гипертрофия за 8 недель (зал)",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 8,
+    "daysPerWeek": 5,
+    "description": "Классическая программа для роста мышц. Разделение по группам мышц.",
+    "weeklySchedule": [
+      "Понедельник: Грудь + Трицепс",
+      "Вторник: Спина + Бицепс",
+      "Среда: Отдых",
+      "Четверг: Ноги + Кор",
+      "Пятница: Плечи + Кор",
+      "Суббота: Кардио (лёгкое)",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "bench-press", "sets": 4, "reps": "8–10", "rest": 90 },
+      { "id": "dumbbell-press", "sets": 3, "reps": "10–12", "rest": 75 },
+      { "id": "triceps-pushdown", "sets": 3, "reps": "12–15", "rest": 60 },
+      { "id": "pull-ups", "sets": 4, "reps": "максимум", "rest": 90 },
+      { "id": "cable-rows", "sets": 4, "reps": "10", "rest": 75 },
+      { "id": "curl-barbell", "sets": 3, "reps": "10", "rest": 60 },
+      { "id": "squat-barbell", "sets": 4, "reps": "6–8", "rest": 120 },
+      { "id": "romanian-deadlift", "sets": 3, "reps": "10", "rest": 90 },
+      { "id": "leg-press", "sets": 3, "reps": "12", "rest": 75 },
+      { "id": "overhead-press", "sets": 4, "reps": "8", "rest": 90 },
+      { "id": "lateral-raises", "sets": 3, "reps": "15", "rest": 60 },
+      { "id": "face-pulls", "sets": 3, "reps": "15", "rest": 60 },
+      { "id": "plank", "sets": 3, "reps": "60 сек", "rest": 30 },
+      { "id": "russian-twist", "sets": 3, "reps": "20", "rest": 45 }
+    ]
+  },
+  {
+    "id": "strength-12w-advanced",
+    "name": "Сила за 12 недель (продвинутый)",
+    "level": "advanced",
+    "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
+    "durationWeeks": 12,
+    "daysPerWeek": 4,
+    "description": "Программа для увеличения 1ПМ в базовых упражнениях.",
+    "weeklySchedule": [
+      "Понедельник: Ноги (тяжёлые)",
+      "Вторник: Отдых",
+      "Среда: Верх (тяговый)",
+      "Четверг: Отдых",
+      "Пятница: Грудь/Плечи (тяжёлые)",
+      "Суббота: Отдых",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-barbell", "sets": 5, "reps": "5", "rest": 180 },
+      { "id": "deadlift", "sets": 3, "reps": "3", "rest": 180 },
+      { "id": "bench-press", "sets": 5, "reps": "5", "rest": 150 },
+      { "id": "overhead-press", "sets": 5, "reps": "5", "rest": 120 },
+      { "id": "pull-ups-weighted", "sets": 4, "reps": "6", "rest": 120 }
+    ]
+  },
+  {
+    "id": "home-toning-6w",
+    "name": "Тонус тела за 6 недель (дома)",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Поддержание формы без оборудования. Акцент на кор и функциональную силу.",
+    "weeklySchedule": [
+      "Понедельник: Ноги + Кор",
+      "Вторник: Отдых",
+      "Среда: Верх + Кор",
+      "Четверг: Отдых",
+      "Пятница: Фулбоди",
+      "Суббота: Отдых",
+      "Воскресенье: Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-bodyweight", "sets": 4, "reps": "15", "rest": 45 },
+      { "id": "lunges", "sets": 3, "reps": "12", "rest": 45 },
+      { "id": "push-ups", "sets": 4, "reps": "максимум", "rest": 60 },
+      { "id": "inverted-rows", "sets": 3, "reps": "10", "rest": 60 },
+      { "id": "plank", "sets": 3, "reps": "45 сек", "rest": 30 },
+      { "id": "russian-twist", "sets": 3, "reps": "20", "rest": 30 },
+      { "id": "burpees", "sets": 3, "reps": "30 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "senior-mobility-8w",
+    "name": "Мобильность и сила после 50",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 8,
+    "daysPerWeek": 3,
+    "description": "Безопасная программа для улучшения подвижности, баланса и общей силы у пожилых.",
+    "tags": ["mobility", "balance", "low-impact", "core"],
+    "weeklySchedule": [
+      "Мобильность + баланс",
+      "Отдых",
+      "Лёгкая сила + кор",
+      "Отдых",
+      "Ходьба + стретчинг",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "chair-squats", "name": "Приседания к стулу", "sets": 2, "reps": "10", "rest": 60 },
+      { "id": "wall-push-ups", "name": "Отжимания от стены", "sets": 2, "reps": "12", "rest": 60 },
+      { "id": "heel-to-toe-walk", "name": "Ходьба по прямой линии", "sets": 2, "reps": "30 сек", "rest": 30 },
+      { "id": "seated-torso-twist", "name": "Повороты корпуса сидя", "sets": 2, "reps": "15", "rest": 30 },
+      { "id": "standing-calf-raises", "name": "Подъёмы на носки", "sets": 2, "reps": "15", "rest": 45 }
+    ]
+  },
+  {
+    "id": "glute-toning-women-6w",
+    "name": "Тонус ягодиц и ног (для женщин)",
+    "level": "beginner",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Акцент на ягодичные мышцы и ноги. Без оборудования, с прогрессией по неделям.",
+    "tags": ["glutes", "legs", "bodyweight", "core"],
+    "weeklySchedule": [
+      "Ягодицы + Кор",
+      "Отдых",
+      "Ноги + Кардио",
+      "Отдых",
+      "Фулбоди",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "glute-bridge", "name": "Ягодичный мостик", "sets": 4, "reps": "20", "rest": 45 },
+      { "id": "donkey-kicks", "name": "Махи назад", "sets": 3, "reps": "15", "rest": 30 },
+      { "id": "fire-hydrants", "name": "Махи в сторону", "sets": 3, "reps": "15", "rest": 30 },
+      { "id": "squat-pulse", "name": "Пульс в приседе", "sets": 3, "reps": "30 сек", "rest": 45 },
+      { "id": "side-plank", "name": "Боковая планка", "sets": 2, "reps": "30 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "marathon-prep-12w",
+    "name": "Подготовка к марафону (12 недель)",
+    "level": "intermediate",
+    "goal": "endurance",
+    "workoutType": "cardio",
+    "workoutLocation": "outdoor",
+    "durationWeeks": 12,
+    "daysPerWeek": 5,
+    "description": "Программа беговой подготовки к полумарафону/марафону с постепенным наращиванием дистанции.",
+    "tags": ["running", "endurance", "cardio", "recovery"],
+    "weeklySchedule": [
+      "Лёгкий бег (5 км)",
+      "Отдых или йога",
+      "Интервалы (8 км)",
+      "Отдых",
+      "Длинный бег (10–25 км)",
+      "Кросс-тренинг (велосипед/плавание)",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "easy-run", "name": "Лёгкий бег", "sets": 1, "reps": "5–8 км", "rest": 0 },
+      { "id": "interval-run", "name": "Интервальный бег", "sets": 1, "reps": "8 км (вкл. 4×400 м спринт)", "rest": 0 },
+      { "id": "long-run", "name": "Длинный бег", "sets": 1, "reps": "10–25 км", "rest": 0 },
+      { "id": "foam-rolling", "name": "Роллинг мышц", "sets": 1, "reps": "15 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "functional-strength-crossfit-8w",
+    "name": "Функциональная сила (CrossFit-стиль)",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 8,
+    "daysPerWeek": 4,
+    "description": "Комбинация силы, выносливости и функциональных движений. Подходит для CrossFit-залов.",
+    "tags": ["functional", "metcon", "olympic-lifts", "core"],
+    "weeklySchedule": [
+      "Сила: присед + жим",
+      "MetCon: комплекс",
+      "Отдых",
+      "Сила: становая + подтягивания",
+      "MetCon: кардио + вес",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "front-squat", "name": "Фронтальные приседания", "sets": 5, "reps": "5", "rest": 120 },
+      { "id": "kettlebell-swings", "name": "Махи гирей", "sets": 4, "reps": "20", "rest": 60 },
+      { "id": "box-jumps", "name": "Прыжки на короб", "sets": 4, "reps": "10", "rest": 45 },
+      { "id": "clean-and-jerk", "name": "Толчок", "sets": 5, "reps": "3", "rest": 150 },
+      { "id": "toes-to-bar", "name": "Подъёмы ног к перекладине", "sets": 4, "reps": "12", "rest": 60 }
+    ]
+  },
+  {
+    "id": "flexibility-yoga-6w",
+    "name": "Гибкость и восстановление (йога/стретчинг)",
+    "level": "all",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 5,
+    "description": "Программа для улучшения гибкости, осанки и снижения стресса через йогу и стретчинг.",
+    "tags": ["yoga", "mobility", "recovery", "mindfulness"],
+    "weeklySchedule": [
+      "Йога: сила и баланс",
+      "Стретчинг всего тела",
+      "Йога: глубокая растяжка",
+      "Отдых",
+      "Йога: восстановление",
+      "Стретчинг + дыхание",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "sun-salutation", "name": "Приветствие солнцу", "sets": 3, "reps": "1 круг", "rest": 0 },
+      { "id": "pigeon-pose", "name": "Поза голубя", "sets": 2, "reps": "по 1 мин на сторону", "rest": 0 },
+      { "id": "forward-fold", "name": "Наклон вперёд", "sets": 2, "reps": "1 мин", "rest": 0 },
+      { "id": "child-pose", "name": "Поза ребёнка", "sets": 1, "reps": "2 мин", "rest": 0 },
+      { "id": "cat-cow", "name": "Кошка-корова", "sets": 2, "reps": "10 повторов", "rest": 0 }
+    ]
+  },
+  {
+    "id": "minimalist-strength-2d",
+    "name": "Минималистичная сила (2 дня в неделю)",
+    "level": "beginner",
+    "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
+    "durationWeeks": 10,
+    "daysPerWeek": 2,
+    "description": "Эффективная силовая программа всего за 2 тренировки в неделю. Идеально для занятых.",
+    "tags": ["full-body", "strength", "efficient"],
+    "weeklySchedule": [
+      "Фулбоди (тяжёлые)",
+      "Отдых",
+      "Отдых",
+      "Фулбоди (объём)",
+      "Отдых",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-barbell", "name": "Приседания", "sets": 4, "reps": "6", "rest": 120 },
+      { "id": "bench-press", "name": "Жим лёжа", "sets": 4, "reps": "6", "rest": 120 },
+      { "id": "bent-over-row", "name": "Тяга в наклоне", "sets": 4, "reps": "8", "rest": 90 },
+      { "id": "overhead-press", "name": "Жим стоя", "sets": 3, "reps": "8", "rest": 90 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "45 сек", "rest": 30 }
+    ]
+  },
+    {
+    "id": "military-prep-8w",
+    "name": "Подготовка к службе (армия/МЧС)",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 8,
+    "daysPerWeek": 6,
+    "description": "Интенсивная программа для развития выносливости, силы и функциональной подготовки. Без оборудования.",
+    "tags": ["endurance", "bodyweight", "core", "cardio", "military"],
+    "weeklySchedule": [
+      "Сила + бег",
+      "Фулбоди HIIT",
+      "Отдых",
+      "Бег + кор",
+      "Функциональная сила",
+      "Марш-бросок (ходьба/бег с рюкзаком)",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "push-ups", "name": "Отжимания", "sets": 5, "reps": "максимум", "rest": 60 },
+      { "id": "pull-ups", "name": "Подтягивания", "sets": 5, "reps": "максимум", "rest": 90 },
+      { "id": "sprint-100m", "name": "Спринт 100 м", "sets": 6, "reps": "6 раз", "rest": 90 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "60 сек", "rest": 30 },
+      { "id": "burpees", "name": "Бёрпи", "sets": 4, "reps": "45 сек", "rest": 15 }
+    ]
+  },
+  {
+    "id": "back-rehab-6w",
+    "name": "Реабилитация спины (после травм)",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Безопасные упражнения для укрепления глубоких мышц спины и кора. Одобрено физиотерапевтами.",
+    "tags": ["rehab", "core", "low-back", "mobility", "posture"],
+    "weeklySchedule": [
+      "Мягкая мобилизация + кор",
+      "Отдых",
+      "Укрепление поясницы",
+      "Отдых",
+      "Растяжка + осанка",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "bird-dog", "name": "Птица-собака", "sets": 3, "reps": "10 на сторону", "rest": 30 },
+      { "id": "dead-bug", "name": "Мёртвый жук", "sets": 3, "reps": "12", "rest": 30 },
+      { "id": "cat-cow", "name": "Кошка-корова", "sets": 2, "reps": "15", "rest": 0 },
+      { "id": "glute-bridge", "name": "Ягодичный мостик", "sets": 3, "reps": "15", "rest": 45 },
+      { "id": "child-pose", "name": "Поза ребёнка", "sets": 1, "reps": "2 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "teen-fitness-8w",
+    "name": "Фитнес для подростков (14–17 лет)",
+    "level": "beginner",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 8,
+    "daysPerWeek": 3,
+    "description": "Безопасная программа для развития общей физической подготовки у подростков. Без тяжёлых весов.",
+    "tags": ["teen", "bodyweight", "agility", "core", "fun"],
+    "weeklySchedule": [
+      "Фулбоди + ловкость",
+      "Отдых",
+      "Кор + кардио",
+      "Отдых",
+      "Фулбоди + прыжки",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "jumping-jacks", "name": "Прыжки с хлопком", "sets": 3, "reps": "45 сек", "rest": 30 },
+      { "id": "push-ups", "name": "Отжимания", "sets": 3, "reps": "максимум", "rest": 60 },
+      { "id": "lunges", "name": "Выпады", "sets": 3, "reps": "10 на ногу", "rest": 45 },
+      { "id": "high-knees", "name": "Бег с высоким подниманием колен", "sets": 3, "reps": "30 сек", "rest": 30 },
+      { "id": "plank", "name": "Планка", "sets": 3, "reps": "30–45 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "cutting-8w-gym",
+    "name": "Сушка за 8 недель (зал)",
+    "level": "intermediate",
+    "goal": "lose",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 8,
+    "daysPerWeek": 5,
+    "description": "Программа для сохранения мышечной массы при снижении жира. Акцент на силу + умеренное кардио.",
+    "tags": ["cutting", "strength", "hypertrophy", "fat-loss", "metabolism"],
+    "weeklySchedule": [
+      "Грудь + трицепс (средний вес, высокие повторы)",
+      "Спина + бицепс",
+      "Кардио + кор",
+      "Ноги (объём)",
+      "Плечи + HIIT",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "bench-press", "name": "Жим лёжа", "sets": 4, "reps": "12–15", "rest": 60 },
+      { "id": "incline-dumbbell-press", "name": "Жим гантелей под углом", "sets": 3, "reps": "15", "rest": 60 },
+      { "id": "lat-pulldown", "name": "Тяга верхнего блока", "sets": 4, "reps": "12", "rest": 60 },
+      { "id": "leg-press", "name": "Жим ногами", "sets": 4, "reps": "15–20", "rest": 75 },
+      { "id": "battle-ropes", "name": "Боевые скакалки", "sets": 4, "reps": "30 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "power-yoga-6w",
+    "name": "Силовая йога (Power Yoga)",
+    "level": "intermediate",
+    "goal": "maintain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Динамичная йога, сочетающая силу, баланс и гибкость. Улучшает осанку и выносливость.",
+    "tags": ["yoga", "strength", "flexibility", "mindfulness", "core"],
+    "weeklySchedule": [
+      "Power Yoga: сила",
+      "Отдых",
+      "Power Yoga: баланс",
+      "Отдых",
+      "Power Yoga: выносливость",
+      "Стретчинг",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "chaturanga", "name": "Чатуранга", "sets": 3, "reps": "10", "rest": 30 },
+      { "id": "warrior-ii", "name": "Воин II", "sets": 2, "reps": "по 45 сек на сторону", "rest": 15 },
+      { "id": "crow-pose", "name": "Поза вороны", "sets": 3, "reps": "по 20 сек", "rest": 30 },
+      { "id": "boat-pose", "name": "Поза лодки", "sets": 3, "reps": "30 сек", "rest": 30 },
+      { "id": "downward-dog", "name": "Собака мордой вниз", "sets": 2, "reps": "1 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "absolute-beginner-4w",
+    "name": "Нулевой уровень: первые шаги",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "description": "Для тех, кто никогда не тренировался. Минимум нагрузки, максимум мотивации и привычки.",
+    "tags": ["absolute-beginner", "habit", "bodyweight", "low-impact", "mindset"],
+    "weeklySchedule": [
+      "Лёгкий фулбоди",
+      "Отдых",
+      "Ходьба + кор",
+      "Отдых",
+      "Лёгкий фулбоди",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "wall-sits", "name": "Стена (присед у стены)", "sets": 2, "reps": "20 сек", "rest": 60 },
+      { "id": "knee-push-ups", "name": "Отжимания с колен", "sets": 2, "reps": "5–8", "rest": 60 },
+      { "id": "standing-march", "name": "Маршировка на месте", "sets": 2, "reps": "1 мин", "rest": 30 },
+      { "id": "seated-leg-extensions", "name": "Разгибания ног сидя", "sets": 2, "reps": "12", "rest": 45 },
+      { "id": "deep-breathing", "name": "Дыхательная гимнастика", "sets": 1, "reps": "5 мин", "rest": 0 }
+    ]
+  },
+    {
+    "id": "office-worker-6w",
+    "name": "Фитнес для офисных работников",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 5,
+    "description": "Борьба с последствиями сидячего образа жизни: шея, спина, таз, отёки. Упражнения можно делать даже в перерыве.",
+    "tags": ["posture", "mobility", "neck", "desk", "circulation"],
+    "weeklySchedule": [
+      "Мобилизация шеи + спины",
+      "Активация ягодиц + ног",
+      "Растяжка груди + плеч",
+      "Кор + дыхание",
+      "Полный цикл (15 мин)",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "chin-tucks", "name": "Подбородочные отведения", "sets": 3, "reps": "15", "rest": 20 },
+      { "id": "thoracic-rotations", "name": "Вращения грудным отделом", "sets": 2, "reps": "10 на сторону", "rest": 30 },
+      { "id": "seated-glute-squeeze", "name": "Сжатие ягодиц сидя", "sets": 3, "reps": "20 сек", "rest": 30 },
+      { "id": "ankle-pumps", "name": "Помпы стопами", "sets": 2, "reps": "30 сек", "rest": 0 },
+      { "id": "doorway-chest-stretch", "name": "Растяжка груди в дверном проёме", "sets": 2, "reps": "30 сек", "rest": 15 }
+    ]
+  },
+  {
+    "id": "pregnancy-safe-12w",
+    "name": "Беременность: безопасная активность (1–2 триместр)",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 12,
+    "daysPerWeek": 3,
+    "description": "Лёгкие упражнения для поддержания тонуса, улучшения кровообращения и подготовки тела к родам. Без прыжков и давления на живот.",
+    "tags": ["pregnancy", "prenatal", "core-safe", "pelvic-floor", "low-impact"],
+    "weeklySchedule": [
+      "Нижняя часть тела + тазовое дно",
+      "Отдых",
+      "Верх + дыхание",
+      "Отдых",
+      "Мягкая йога для беременных",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "prenatal-squats", "name": "Приседания с опорой", "sets": 3, "reps": "12", "rest": 45 },
+      { "id": "cat-cow-pregnancy", "name": "Кошка-корова (беременным)", "sets": 2, "reps": "15", "rest": 0 },
+      { "id": "kegel-exercises", "name": "Упражнения Кегеля", "sets": 3, "reps": "10 сжатий", "rest": 30 },
+      { "id": "wall-push-ups", "name": "Отжимания от стены", "sets": 2, "reps": "10", "rest": 60 },
+      { "id": "side-lying-leg-lifts", "name": "Махи ногой лёжа на боку", "sets": 2, "reps": "12 на ногу", "rest": 30 }
+    ]
+  },
+  {
+    "id": "postpartum-recovery-8w",
+    "name": "Послеродовое восстановление (6+ недель)",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 8,
+    "daysPerWeek": 4,
+    "description": "Восстановление кора, тазового дна и общего тонуса после родов. Только с разрешения врача.",
+    "tags": ["postpartum", "core", "pelvic-floor", "diastasis", "gentle"],
+    "weeklySchedule": [
+      "Дыхание + тазовое дно",
+      "Отдых",
+      "Лёгкий кор",
+      "Отдых",
+      "Ходьба + растяжка",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "diaphragmatic-breathing", "name": "Диафрагмальное дыхание", "sets": 3, "reps": "5 мин", "rest": 0 },
+      { "id": "heel-slides", "name": "Скольжения пяток", "sets": 2, "reps": "12", "rest": 30 },
+      { "id": "modified-dead-bug", "name": "Мёртвый жук (лёгкий)", "sets": 2, "reps": "8", "rest": 45 },
+      { "id": "pelvic-tilts", "name": "Наклоны таза", "sets": 3, "reps": "15", "rest": 30 },
+      { "id": "glute-bridge-pelvic", "name": "Ягодичный мостик с фокусом на таз", "sets": 3, "reps": "12", "rest": 45 }
+    ]
+  },
+  {
+    "id": "park-workout-6w",
+    "name": "Парковый фитнес (уличные тренажёры)",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "outdoor",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Используйте уличные тренажёры и перекладины! Программа для развития силы и выносливости на свежем воздухе.",
+    "tags": ["outdoor", "calisthenics", "pull-up-bar", "bodyweight", "free"],
+    "weeklySchedule": [
+      "Тяга + кор (уличные тренажёры)",
+      "Отдых",
+      "Жим + ноги (перекладина + скамья)",
+      "Отдых",
+      "Фулбоди на перекладине",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "pull-ups-park", "name": "Подтягивания на уличной перекладине", "sets": 4, "reps": "максимум", "rest": 90 },
+      { "id": "dip-bench", "name": "Отжимания на брусьях (скамья)", "sets": 4, "reps": "10–15", "rest": 75 },
+      { "id": "step-ups-bench", "name": "Шаги на скамью", "sets": 3, "reps": "12 на ногу", "rest": 45 },
+      { "id": "hanging-leg-raise", "name": "Подъёмы ног в висе", "sets": 3, "reps": "10", "rest": 60 },
+      { "id": "jumping-over-bench", "name": "Прыжки через скамью", "sets": 3, "reps": "20 сек", "rest": 30 }
+    ]
+  },
+  {
+    "id": "climber-endurance-8w",
+    "name": "Силовая выносливость для скалолазов",
+    "level": "advanced",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 8,
+    "daysPerWeek": 4,
+    "description": "Фокус на хват, кор, плечевой пояс и выносливость пальцев. Для альпинистов и булдерингистов.",
+    "tags": ["climbing", "grip", "core", "shoulders", "endurance"],
+    "weeklySchedule": [
+      "Хват + кор",
+      "Отдых",
+      "Плечи + спина (тяговые)",
+      "Отдых",
+      "Фингерборд + кардио",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "fingerboard-hangs", "name": "Висы на фингерборде", "sets": 5, "reps": "10 сек", "rest": 120 },
+      { "id": "front-lever-progressions", "name": "Прогрессии к фронт-леверу", "sets": 4, "reps": "максимум", "rest": 90 },
+      { "id": "towel-pull-ups", "name": "Подтягивания с полотенцем", "sets": 4, "reps": "6", "rest": 90 },
+      { "id": "hollow-body-hold", "name": "Холлов-холд", "sets": 3, "reps": "20–30 сек", "rest": 45 },
+      { "id": "farmers-carry", "name": "Фермерская прогулка", "sets": 4, "reps": "40 м", "rest": 60 }
+    ]
+  },
+  {
+    "id": "night-wind-down-4w",
+    "name": "Ночные тренировки: расслабление перед сном",
+    "level": "all",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 4,
+    "daysPerWeek": 5,
+    "description": "Лёгкая активность за 1 час до сна: снимает стресс, улучшает сон, не возбуждает ЦНС.",
+    "tags": ["sleep", "relaxation", "evening", "yoga", "mindfulness"],
+    "weeklySchedule": [
+      "Растяжка + дыхание",
+      "Йога для сна",
+      "Мягкий кор",
+      "Стретчинг ног",
+      "Полный релакс-цикл",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "legs-up-wall", "name": "Ноги вверх по стене", "sets": 1, "reps": "5 мин", "rest": 0 },
+      { "id": "supine-twist", "name": "Поворот лёжа", "sets": 2, "reps": "по 1 мин на сторону", "rest": 0 },
+      { "id": "child-pose-breathing", "name": "Поза ребёнка с дыханием", "sets": 1, "reps": "3 мин", "rest": 0 },
+      { "id": "neck-release", "name": "Расслабление шеи", "sets": 2, "reps": "10 кругов", "rest": 15 },
+      { "id": "progressive-muscle-relaxation", "name": "Последовательное расслабление мышц", "sets": 1, "reps": "10 мин", "rest": 0 }
+    ]
+  },
+    {
+    "id": "stress-relief-mindful-6w",
+    "name": "Снятие стресса через движение",
+    "level": "all",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 5,
+    "description": "Комбинация лёгкой физической активности, дыхания и осознанности для снижения тревожности и улучшения сна.",
+    "tags": ["mindfulness", "stress", "breathwork", "low-intensity", "mental-health"],
+    "weeklySchedule": [
+      "Движение + дыхание",
+      "Тайцзи-стиль (медленные движения)",
+      "Отдых",
+      "Йога для нервной системы",
+      "Прогулка + осознанность",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "box-breathing", "name": "Квадратное дыхание", "sets": 3, "reps": "4 сек вдох – 4 сек задержка – 4 сек выдох – 4 сек пауза", "rest": 0 },
+      { "id": "qigong-arm-sweeps", "name": "Медленные взмахи руками (цигун)", "sets": 2, "reps": "5 мин", "rest": 0 },
+      { "id": "grounding-walk", "name": "Осознанная ходьба босиком", "sets": 1, "reps": "10 мин", "rest": 0 },
+      { "id": "body-scan-relaxation", "name": "Сканирование тела", "sets": 1, "reps": "10 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "adaptive-fitness-wheelchair-8w",
+    "name": "Адаптивный фитнес (инвалидность / коляска)",
+    "level": "beginner",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "home",
+    "durationWeeks": 8,
+    "daysPerWeek": 4,
+    "description": "Безопасная и эффективная программа для людей с нарушениями опорно-двигательного аппарата. Акцент на верх тела, кор и кровообращение.",
+    "tags": ["adaptive", "wheelchair", "inclusive", "upper-body", "circulation"],
+    "weeklySchedule": [
+      "Верх + кор (сидя)",
+      "Отдых",
+      "Кардио с сопротивлением",
+      "Отдых",
+      "Мобилизация + растяжка",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "seated-resistance-band-rows", "name": "Тяга резинки сидя", "sets": 3, "reps": "12", "rest": 60 },
+      { "id": "seated-shoulder-press", "name": "Жим гантелей сидя", "sets": 3, "reps": "10", "rest": 60 },
+      { "id": "wheelchair-pull-ups", "name": "Подтягивания на перекладине (с поддержкой)", "sets": 3, "reps": "максимум", "rest": 90 },
+      { "id": "seated-torso-rotations", "name": "Повороты корпуса сидя", "sets": 3, "reps": "15 на сторону", "rest": 30 },
+      { "id": "arm-cycling", "name": "Ручной велотренажёр или имитация", "sets": 1, "reps": "10 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "combat-fitness-10w",
+    "name": "Боевая подготовка (MMA / рукопашный бой)",
+    "level": "advanced",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 10,
+    "daysPerWeek": 6,
+    "description": "Физическая подготовка бойца: взрывная сила, выносливость, реакция, работа корпуса.",
+    "tags": ["combat", "mma", "explosive", "core", "agility"],
+    "weeklySchedule": [
+      "Сила + взрыв",
+      "Спарринг / тени",
+      "Кардио + кор",
+      "Техника + ловкость",
+      "Сила ног + хват",
+      "Круговая тренировка",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "medicine-ball-slams", "name": "Броски медбола", "sets": 4, "reps": "15", "rest": 45 },
+      { "id": "sled-push", "name": "Толкание саней", "sets": 5, "reps": "20 м", "rest": 60 },
+      { "id": "sprawl-to-push-up", "name": "Спролл → отжимание", "sets": 4, "reps": "10", "rest": 30 },
+      { "id": "ladder-drills", "name": "Лестница ловкости", "sets": 5, "reps": "разные паттерны", "rest": 30 },
+      { "id": "hanging-grip-hold", "name": "Вис на перекладине", "sets": 4, "reps": "30–45 сек", "rest": 60 }
+    ]
+  },
+  {
+    "id": "cold-weather-fitness-8w",
+    "name": "Фитнес в холодное время года",
+    "level": "intermediate",
+    "goal": "maintain",
+    "workoutType": "balanced",
+    "workoutLocation": "outdoor",
+    "durationWeeks": 8,
+    "daysPerWeek": 4,
+    "description": "Тренировки на морозе: укрепление иммунитета, терморегуляция, безопасность в зимних условиях.",
+    "tags": ["winter", "outdoor", "cold-exposure", "endurance", "resilience"],
+    "weeklySchedule": [
+      "Бег в мороз (лёгкий)",
+      "Отдых",
+      "Функциональная сила на улице",
+      "Отдых",
+      "Ходьба в гору / снегу",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "winter-brisk-walk", "name": "Быстрая ходьба в мороз", "sets": 1, "reps": "45 мин", "rest": 0 },
+      { "id": "snow-lunges", "name": "Выпады по снегу", "sets": 3, "reps": "12 на ногу", "rest": 45 },
+      { "id": "cold-plank", "name": "Планка на улице (в перчатках)", "sets": 3, "reps": "30 сек", "rest": 30 },
+      { "id": "ice-breathing", "name": "Дыхание на холоде (по Вим Хоффу, упрощённо)", "sets": 2, "reps": "30 циклов", "rest": 60 }
+    ]
+  },
+  {
+    "id": "dance-fitness-6w",
+    "name": "Танцевальный фитнес (для всех)",
+    "level": "beginner",
+    "goal": "lose",
+    "workoutType": "cardio",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 4,
+    "description": "Весёлая кардио-программа через танцы: улучшает настроение, координацию и сжигает калории.",
+    "tags": ["dance", "fun", "cardio", "coordination", "joy"],
+    "weeklySchedule": [
+      "Латина (сальса/реггетон)",
+      "Отдых",
+      "Хип-хоп база",
+      "Отдых",
+      "Свободный стиль + кор",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "basic-step-latin", "name": "Базовый шаг (латина)", "sets": 4, "reps": "3 мин", "rest": 60 },
+      { "id": "body-rolls", "name": "Волны корпусом", "sets": 3, "reps": "2 мин", "rest": 30 },
+      { "id": "grapevine-step", "name": "Виноградная лоза", "sets": 3, "reps": "1 мин", "rest": 30 },
+      { "id": "freestyle-dance", "name": "Свободный танец под музыку", "sets": 1, "reps": "10 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "travel-fitness-4w",
+    "name": "Фитнес в путешествиях",
+    "level": "all",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 4,
+    "daysPerWeek": 5,
+    "description": "Мини-тренировки в отеле, аэропорту или на природе. Без оборудования, 15–20 минут.",
+    "tags": ["travel", "minimal", "hotel", "on-the-go", "bodyweight"],
+    "weeklySchedule": [
+      "Утро в отеле: энергия",
+      "Вечер: расслабление",
+      "Аэропорт: активация",
+      "Природа: фулбоди",
+      "Отдых или лёгкая прогулка",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "hotel-room-squats", "name": "Приседания у кровати", "sets": 3, "reps": "20", "rest": 30 },
+      { "id": "towel-resistance-rows", "name": "Тяга с полотенцем", "sets": 3, "reps": "12", "rest": 45 },
+      { "id": "luggage-carry-walk", "name": "Ходьба с чемоданом (фермерская)", "sets": 3, "reps": "2 мин", "rest": 60 },
+      { "id": "standing-desk-stretches", "name": "Растяжка в аэропорту", "sets": 1, "reps": "5 мин", "rest": 0 },
+      { "id": "5-min-hotel-plank-circuit", "name": "Круг: планка, отжимания, выпады", "sets": 2, "reps": "5 мин", "rest": 60 }
+    ]
+  },
+    {
+    "id": "aesthetic-bodybuilding-12w",
+    "name": "Эстетика тела: симметрия и пропорции",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "gym",
+    "durationWeeks": 12,
+    "daysPerWeek": 6,
+    "description": "Фокус на гармоничное развитие мышц: V-образная спина, узкая талия, округлые дельты. Подходит для фитнес-моделей и любителей эстетики.",
+    "tags": ["aesthetic", "symmetry", "pose", "hypertrophy", "mind-muscle"],
+    "weeklySchedule": [
+      "Грудь + кор (акцент на форму)",
+      "Спина (ширина + толщина)",
+      "Ноги (квадрицепс + ягодицы)",
+      "Плечи (все пучки)",
+      "Руки (бицепс/трицепс изоляция)",
+      "Позирование + коррекция слабых зон",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "incline-dumbbell-flyes", "name": "Разводка гантелей под углом", "sets": 4, "reps": "12–15", "rest": 60 },
+      { "id": "wide-grip-lat-pulldown", "name": "Тяга широким хватом", "sets": 4, "reps": "10–12", "rest": 75 },
+      { "id": "cable-lateral-raises", "name": "Махи в стороны в кроссовере", "sets": 4, "reps": "15–20", "rest": 45 },
+      { "id": "vacuum-exercise", "name": "Упражнение 'вакуум'", "sets": 3, "reps": "20 сек", "rest": 30 },
+      { "id": "arnold-press", "name": "Жим Арнольда", "sets": 4, "reps": "10", "rest": 75 }
+    ]
+  },
+  {
+    "id": "longevity-fitness-50plus-10w",
+    "name": "Фитнес для долголетия (50+)",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 10,
+    "daysPerWeek": 4,
+    "description": "Программа для сохранения подвижности, мышечной массы и когнитивной функции после 50 лет. Научно обосновано.",
+    "tags": ["longevity", "50plus", "sarcopenia", "balance", "brain-health"],
+    "weeklySchedule": [
+      "Сила + равновесие",
+      "Отдых",
+      "Мобильность + дыхание",
+      "Отдых",
+      "Функциональные движения",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "sit-to-stand", "name": "Встать-сесть без рук", "sets": 3, "reps": "10", "rest": 60 },
+      { "id": "single-leg-stand", "name": "Стояние на одной ноге", "sets": 3, "reps": "30 сек на ногу", "rest": 30 },
+      { "id": "resistance-band-walks", "name": "Ходьба с резинкой выше колен", "sets": 2, "reps": "20 шагов", "rest": 45 },
+      { "id": "tai-chi-arm-flow", "name": "Плавные движения руками (тайцзи)", "sets": 1, "reps": "5 мин", "rest": 0 },
+      { "id": "cognitive-step-tap", "name": "Шаги с подсчётом (стимуляция мозга)", "sets": 2, "reps": "2 мин", "rest": 30 }
+    ]
+  },
+  {
+    "id": "survival-fitness-8w",
+    "name": "Фитнес для выживания",
+    "level": "advanced",
+    "goal": "gain",
+    "workoutType": "balanced",
+    "workoutLocation": "outdoor",
+    "durationWeeks": 8,
+    "daysPerWeek": 5,
+    "description": "Подготовка к экстремальным условиям: перенос груза, лазание, ориентирование, стрессоустойчивость.",
+    "tags": ["survival", "rucking", "carrying", "endurance", "mental-toughness"],
+    "weeklySchedule": [
+      "Рюкзак + ходьба по пересечёнке",
+      "Отдых",
+      "Лазание + сила хвата",
+      "Отдых",
+      "Фулбоди в лесу",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "ruck-march", "name": "Марш с рюкзаком (10–20 кг)", "sets": 1, "reps": "5–10 км", "rest": 0 },
+      { "id": "tree-climbing-drills", "name": "Лазание по дереву / канату", "sets": 4, "reps": "максимум", "rest": 120 },
+      { "id": "water-carry", "name": "Перенос вёдер с водой", "sets": 3, "reps": "100 м", "rest": 90 },
+      { "id": "firewood-chop-sim", "name": "Имитация рубки дров (медбол/гиря)", "sets": 4, "reps": "20", "rest": 60 },
+      { "id": "cold-water-exposure", "name": "Контрастный душ / купание", "sets": 1, "reps": "3–5 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "post-illness-recovery-6w",
+    "name": "Восстановление после болезни (пост-COVID, грипп)",
+    "level": "beginner",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 6,
+    "daysPerWeek": 3,
+    "description": "Осторожное возвращение к активности после длительной болезни. Акцент на дыхание, лимфодренаж и лёгкую подвижность.",
+    "tags": ["recovery", "post-viral", "breathwork", "lymphatic", "gentle"],
+    "weeklySchedule": [
+      "Дыхание + лёгкая мобилизация",
+      "Отдых",
+      "Ходьба + растяжка",
+      "Отдых",
+      "Лимфодренажные движения",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "diaphragmatic-breathing-recovery", "name": "Диафрагмальное дыхание лёжа", "sets": 3, "reps": "5 мин", "rest": 0 },
+      { "id": "ankle-arm-circles", "name": "Вращения стопами и кистями", "sets": 2, "reps": "1 мин", "rest": 15 },
+      { "id": "bed-marching", "name": "Маршировка лёжа", "sets": 2, "reps": "2 мин", "rest": 30 },
+      { "id": "lymphatic-dry-brushing", "name": "Сухое расчёсывание (лимфа)", "sets": 1, "reps": "5 мин", "rest": 0 },
+      { "id": "window-walking", "name": "Ходьба у окна (5–10 мин)", "sets": 1, "reps": "1 раз", "rest": 0 }
+    ]
+  },
+  {
+    "id": "body-positivity-fitness-8w",
+    "name": "Фитнес без диет: тело в радость",
+    "level": "all",
+    "goal": "maintain",
+    "workoutType": "light",
+    "workoutLocation": "home",
+    "durationWeeks": 8,
+    "daysPerWeek": 4,
+    "description": "Программа без фокуса на весе или внешности. Цель — энергия, сила, удовольствие от движения.",
+    "tags": ["body-positive", "joy", "non-diet", "intuitive", "self-love"],
+    "weeklySchedule": [
+      "Танец + растяжка",
+      "Отдых",
+      "Игровая сила (с мячом, прыжки)",
+      "Отдых",
+      "Йога принятия",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "freedom-dance", "name": "Свободный танец под любимую музыку", "sets": 1, "reps": "10 мин", "rest": 0 },
+      { "id": "playful-jumping", "name": "Прыжки 'как в детстве'", "sets": 3, "reps": "30 сек", "rest": 45 },
+      { "id": "mirror-affirmation-stretch", "name": "Растяжка с позитивными фразами перед зеркалом", "sets": 1, "reps": "5 мин", "rest": 0 },
+      { "id": "gratitude-walk", "name": "Прогулка с благодарностью", "sets": 1, "reps": "15 мин", "rest": 0 }
+    ]
+  },
+  {
+    "id": "minimal-equipment-gym-4w",
+    "name": "Зал с минимумом: только штанга и скамья",
+    "level": "intermediate",
+    "goal": "gain",
+    "workoutType": "strength",
+    "workoutLocation": "gym",
+    "durationWeeks": 4,
+    "daysPerWeek": 3,
+    "description": "Максимальный результат с минимальным инвентарём: штанга, скамья, пол. Идеально для маленьких залов или путешествий.",
+    "tags": ["minimalist", "barbell", "efficient", "power", "simple"],
+    "weeklySchedule": [
+      "День А: Присед + Жим",
+      "Отдых",
+      "День Б: Становая + Подтягивания",
+      "Отдых",
+      "День А: Присед + Жим (тяжелее)",
+      "Отдых",
+      "Отдых"
+    ],
+    "exercises": [
+      { "id": "squat-barbell", "name": "Приседания со штангой", "sets": 5, "reps": "5", "rest": 180 },
+      { "id": "bench-press", "name": "Жим лёжа", "sets": 5, "reps": "5", "rest": 150 },
+      { "id": "deadlift", "name": "Становая тяга", "sets": 1, "reps": "5", "rest": 180 },
+      { "id": "pull-ups-weighted", "name": "Подтягивания с весом", "sets": 4, "reps": "6", "rest": 120 },
+      { "id": "plank-barbell", "name": "Планка с ногами на штанге", "sets": 3, "reps": "45 сек", "rest": 30 }
+    ]
+  },
+  {
+  "id": "ppl-strength-hypertrophy-8w",
+  "name": "PPL: Сила и масса (зал)",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 8,
+  "daysPerWeek": 6,
+  "description": "Классическая схема Push/Pull/Legs с акцентом на силу в начале недели и гипертрофию — в конце.",
+  "tags": ["push", "pull", "legs", "strength", "hypertrophy"],
+  "weeklySchedule": [
+    "Push (сила)",
+    "Pull (сила)",
+    "Legs (сила)",
+    "Push (объём)",
+    "Pull (объём)",
+    "Legs (объём)",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "bench-press", "name": "Жим лёжа", "sets": 5, "reps": "5", "rest": 150 },
+    { "id": "barbell-row", "name": "Тяга штанги в наклоне", "sets": 4, "reps": "6", "rest": 120 },
+    { "id": "squat-barbell", "name": "Приседания со штангой", "sets": 5, "reps": "5", "rest": 180 },
+    { "id": "dumbbell-shoulder-press", "name": "Жим гантелей от плеч", "sets": 4, "reps": "10", "rest": 90 },
+    { "id": "lat-pulldown", "name": "Тяга верхнего блока", "sets": 4, "reps": "12", "rest": 75 },
+    { "id": "leg-curl", "name": "Сгибание ног в тренажёре", "sets": 3, "reps": "15", "rest": 60 }
+  ]
+},
+{
+  "id": "functional-gym-kettlebell-6w",
+  "name": "Функциональный зал: гири и медбол",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Развитие взрывной силы, координации и выносливости с помощью гирь, медбола и свободных весов.",
+  "tags": ["functional", "kettlebell", "medball", "core", "power"],
+  "weeklySchedule": [
+    "Гири + кор",
+    "Медбол + кардио",
+    "Отдых",
+    "Сила + функциональные цепи",
+    "Отдых",
+    "MetCon",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "kettlebell-clean-press", "name": "Толчок гири", "sets": 4, "reps": "8", "rest": 90 },
+    { "id": "medicine-ball-wall-toss", "name": "Броски медбола в стену", "sets": 4, "reps": "15", "rest": 45 },
+    { "id": "turkish-get-up", "name": "Турецкий подъём", "sets": 3, "reps": "3 на сторону", "rest": 120 },
+    { "id": "battle-ropes-waves", "name": "Волны на канате", "sets": 3, "reps": "30 сек", "rest": 30 }
+  ]
+},
+{
+  "id": "powerlifting-competition-12w",
+  "name": "Пауэрлифтинг: подготовка к соревнованиям",
+  "level": "advanced",
+  "goal": "gain",
+  "workoutType": "strength",
+  "workoutLocation": "gym",
+  "durationWeeks": 12,
+  "daysPerWeek": 4,
+  "description": "Циклированная программа для наращивания 1ПМ в приседе, жиме и становой тяге с пиком на 12-й неделе.",
+  "tags": ["powerlifting", "competition", "strength", "peaking"],
+  "weeklySchedule": [
+    "Присед + вспомогательные",
+    "Жим + трицепс",
+    "Отдых",
+    "Становая + спина",
+    "Отдых",
+    "Лёгкий фулбоди (восстановление)",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "squat-barbell", "name": "Приседания", "sets": 6, "reps": "3", "rest": 180 },
+    { "id": "bench-press", "name": "Жим лёжа", "sets": 5, "reps": "3", "rest": 150 },
+    { "id": "deadlift", "name": "Становая тяга", "sets": 2, "reps": "2", "rest": 240 },
+    { "id": "pause-squat", "name": "Присед с паузой", "sets": 4, "reps": "5", "rest": 120 }
+  ]
+},
+{
+  "id": "army-strength-gym-8w",
+  "name": "Армейская сила (зал)",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Комбинация силы, выносливости и функциональной подготовки в стиле военных программ.",
+  "tags": ["military", "full-body", "strength", "endurance"],
+  "weeklySchedule": [
+    "Фулбоди: тяжёлые",
+    "Фулбоди: объём + кор",
+    "Отдых",
+    "Фулбоди: кардио + сила",
+    "Отдых",
+    "Фулбоди: круговая",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "trap-bar-deadlift", "name": "Становая с гекс-грифом", "sets": 4, "reps": "6", "rest": 150 },
+    { "id": "weighted-pull-ups", "name": "Подтягивания с весом", "sets": 4, "reps": "5", "rest": 120 },
+    { "id": "sandbag-shoulder", "name": "Заброс мешка на плечо", "sets": 3, "reps": "8 на сторону", "rest": 60 },
+    { "id": "sled-drag", "name": "Тяга саней назад", "sets": 4, "reps": "30 м", "rest": 90 }
+  ]
+},
+{
+  "id": "calisthenics-muscle-up-10w",
+  "name": "Калистеникс: путь к мускул-апу",
+  "level": "advanced",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 10,
+  "daysPerWeek": 4,
+  "description": "Программа для освоения мускул-апа через прогрессии: подтягивания, дипы, негативы, выходы на две.",
+  "tags": ["calisthenics", "muscle-up", "pull-up-bar", "street-workout"],
+  "weeklySchedule": [
+    "Тяга + выходы",
+    "Отдых",
+    "Жим + кор",
+    "Отдых",
+    "Фулбоди на перекладине",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "pull-ups-explosive", "name": "Взрывные подтягивания", "sets": 5, "reps": "5", "rest": 90 },
+    { "id": "dips-rings", "name": "Дипы на кольцах", "sets": 4, "reps": "8", "rest": 75 },
+    { "id": "muscle-up-negatives", "name": "Негативы мускул-апа", "sets": 4, "reps": "3", "rest": 120 },
+    { "id": "front-lever-hold", "name": "Удержание фронт-левера", "sets": 3, "reps": "10 сек", "rest": 90 }
+  ]
+},
+{
+  "id": "triathlon-outdoor-12w",
+  "name": "Триатлон: бег + сила на улице",
+  "level": "intermediate",
+  "goal": "endurance",
+  "workoutType": "balanced",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 12,
+  "daysPerWeek": 5,
+  "description": "Подготовка к триатлону: бег, функциональная сила на улице, прыжки, устойчивость к усталости.",
+  "tags": ["triathlon", "running", "outdoor", "endurance", "plyo"],
+  "weeklySchedule": [
+    "Бег + прыжки",
+    "Функциональная сила (улица)",
+    "Длинный бег",
+    "Отдых",
+    "Холмы + кор",
+    "Кросс (велосипед/плавание)",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "hill-sprints", "name": "Спринты в гору", "sets": 6, "reps": "20 сек", "rest": 90 },
+    { "id": "park-bench-step-ups", "name": "Шаги на лавку", "sets": 3, "reps": "15 на ногу", "rest": 45 },
+    { "id": "single-leg-hops", "name": "Прыжки на одной ноге", "sets": 3, "reps": "10", "rest": 60 },
+    { "id": "plank-on-grass", "name": "Планка на траве", "sets": 3, "reps": "45 сек", "rest": 30 }
+  ]
+},
+{
+  "id": "family-park-fitness-6w",
+  "name": "Парковый фитнес для всей семьи",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 6,
+  "daysPerWeek": 3,
+  "description": "Весёлые, безопасные упражнения на свежем воздухе для взрослых и детей. Без оборудования.",
+  "tags": ["family", "fun", "outdoor", "bodyweight", "inclusive"],
+  "weeklySchedule": [
+    "Игровой фулбоди",
+    "Отдых",
+    "Эстафеты + баланс",
+    "Отдых",
+    "Природный трейл + растяжка",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "partner-squats", "name": "Приседания в паре", "sets": 3, "reps": "12", "rest": 45 },
+    { "id": "tree-hug-stretch", "name": "Обними дерево (растяжка)", "sets": 2, "reps": "30 сек", "rest": 0 },
+    { "id": "relay-race-sprints", "name": "Эстафетные спринты", "sets": 4, "reps": "20 м", "rest": 60 },
+    { "id": "balance-on-log", "name": "Баланс на бревне", "sets": 2, "reps": "30 сек", "rest": 30 }
+  ]
+},
+{
+  "id": "home-strength-no-equipment-8w",
+  "name": "Домашняя сила: без инвентаря",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "strength",
+  "workoutLocation": "home",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Программа с прогрессией: от базовых упражнений к пистолетикам, арчер-отжиманиям и выходам.",
+  "tags": ["bodyweight", "progressive", "strength", "home"],
+  "weeklySchedule": [
+    "Ноги + кор",
+    "Верх + кор",
+    "Отдых",
+    "Фулбоди",
+    "Отдых",
+    "Кор + подвижность",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "pistol-squat-progressions", "name": "Пистолетик (прогрессия)", "sets": 3, "reps": "5 на ногу", "rest": 60 },
+    { "id": "archer-push-ups", "name": "Арчер-отжимания", "sets": 3, "reps": "6 на сторону", "rest": 60 },
+    { "id": "table-rows", "name": "Тяга под столом", "sets": 4, "reps": "10", "rest": 45 },
+    { "id": "side-plank-hip-dips", "name": "Боковая планка с опусканиями", "sets": 3, "reps": "12", "rest": 30 }
+  ]
+},
+{
+  "id": "yoga-strength-women-home-6w",
+  "name": "Йога и сила для женщин (дома)",
+  "level": "beginner",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "home",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Гармоничное сочетание силы, гибкости и женской энергетики. Акцент на таз, кор и осанку.",
+  "tags": ["women", "yoga", "glutes", "core", "hormonal-balance"],
+  "weeklySchedule": [
+    "Сила: ноги + ягодицы",
+    "Йога: таз и бёдра",
+    "Отдых",
+    "Фулбоди + дыхание",
+    "Отдых",
+    "Йога: расслабление",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "curtsy-lunges", "name": "Выпады кёртси", "sets": 3, "reps": "12 на ногу", "rest": 45 },
+    { "id": "reclined-butterfly", "name": "Бабочка лёжа", "sets": 1, "reps": "2 мин", "rest": 0 },
+    { "id": "bridge-pulses", "name": "Пульсация в мостике", "sets": 3, "reps": "20", "rest": 30 },
+    { "id": "cat-cow-flow", "name": "Поток кошка-корова", "sets": 2, "reps": "1 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "busy-people-15min-home-4w",
+  "name": "15 минут в день: фитнес для занятых",
+  "level": "all",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "home",
+  "durationWeeks": 4,
+  "daysPerWeek": 6,
+  "description": "Сверхкороткие, но эффективные тренировки для тех, у кого нет времени. Без снаряжения.",
+  "tags": ["busy", "quick", "efficient", "habit", "home"],
+  "weeklySchedule": [
+    "Энергия утром",
+    "Кор в обед",
+    "Расслабление вечером",
+    "Фулбоди",
+    "Мобильность",
+    "Йога-минутка",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "jumping-jacks-fast", "name": "Быстрые прыжки", "sets": 1, "reps": "45 сек", "rest": 15 },
+    { "id": "desk-push-ups", "name": "Отжимания от стола", "sets": 1, "reps": "максимум", "rest": 30 },
+    { "id": "standing-core-twists", "name": "Повороты стоя", "sets": 1, "reps": "30 сек", "rest": 0 },
+    { "id": "wall-sit-hold", "name": "Присед у стены", "sets": 1, "reps": "45 сек", "rest": 0 }
+  ]
+},
+{
+  "id": "women-back-glutes-gym-8w",
+  "name": "Женская сила: спина + ягодицы",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Программа для формирования сильной спины и округлых ягодиц. Без чрезмерного объёма в ногах.",
+  "tags": ["women", "glutes", "back", "posterior-chain", "aesthetic"],
+  "weeklySchedule": [
+    "Спина + кор",
+    "Ягодицы + задняя поверхность бедра",
+    "Отдых",
+    "Фулбоди (тяговые акценты)",
+    "Отдых",
+    "Активное восстановление",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "romanian-deadlift", "name": "Румынская становая", "sets": 4, "reps": "10", "rest": 90 },
+    { "id": "hip-thrust", "name": "Трасты", "sets": 4, "reps": "12", "rest": 75 },
+    { "id": "lat-pulldown-wide", "name": "Тяга верхнего блока широким хватом", "sets": 4, "reps": "12", "rest": 60 },
+    { "id": "seated-cable-row", "name": "Тяга кабеля сидя", "sets": 3, "reps": "15", "rest": 60 },
+    { "id": "face-pulls", "name": "Фейспуллы", "sets": 3, "reps": "20", "rest": 45 }
+  ]
+},
+{
+  "id": "strength-cut-6w-gym",
+  "name": "Силовая сушка (зал)",
+  "level": "advanced",
+  "goal": "lose",
+  "workoutType": "strength",
+  "workoutLocation": "gym",
+  "durationWeeks": 6,
+  "daysPerWeek": 5,
+  "description": "Сохранение силы и мышечной массы при дефиците калорий. Акцент на тяжёлые базовые упражнения + высокоинтенсивное кардио.",
+  "tags": ["cutting", "strength", "fat-loss", "metcon", "power"],
+  "weeklySchedule": [
+    "Ноги (тяжёлые)",
+    "Верх (тяговый)",
+    "HIIT + кор",
+    "Грудь/плечи (средний вес)",
+    "Фулбоди MetCon",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "squat-barbell", "name": "Приседания", "sets": 5, "reps": "5", "rest": 150 },
+    { "id": "weighted-pull-ups", "name": "Подтягивания с весом", "sets": 4, "reps": "6", "rest": 120 },
+    { "id": "battle-ropes-intervals", "name": "Боевые скакалки (20/10)", "sets": 6, "reps": "20 сек", "rest": 10 },
+    { "id": "overhead-press", "name": "Жим стоя", "sets": 4, "reps": "6", "rest": 120 }
+  ]
+},
+{
+  "id": "strongman-beginner-8w",
+  "name": "Strongman для начинающих",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Введение в дисциплины Strongman: переноска, толкание, тяга. Развитие функциональной силы и выносливости.",
+  "tags": ["strongman", "carries", "grip", "functional", "power"],
+  "weeklySchedule": [
+    "Тяга + переноска",
+    "Отдых",
+    "Жим + толкание саней",
+    "Отдых",
+    "Фулбоди цепи",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "farmers-walk", "name": "Фермерская прогулка", "sets": 4, "reps": "40 м", "rest": 90 },
+    { "id": "sled-push", "name": "Толкание саней", "sets": 5, "reps": "20 м", "rest": 60 },
+    { "id": "trap-bar-deadlift", "name": "Становая с гекс-грифом", "sets": 4, "reps": "6", "rest": 120 },
+    { "id": "log-press", "name": "Жим лога (или штанги)", "sets": 4, "reps": "5", "rest": 120 }
+  ]
+},
+{
+  "id": "shoulder-rehab-gym-6w",
+  "name": "Восстановление плеча (зал, с осторожностью)",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "gym",
+  "durationWeeks": 6,
+  "daysPerWeek": 3,
+  "description": "Безопасная программа после вывихов или тендинита. Акцент на стабилизацию, ротаторную манжету и постепенное возвращение к нагрузкам.",
+  "tags": ["rehab", "shoulder", "rotator-cuff", "mobility", "low-weight"],
+  "weeklySchedule": [
+    "Ноги + кор (без верха)",
+    "Отдых",
+    "Плечи: стабилизация + лёгкая тяга",
+    "Отдых",
+    "Фулбоди (нижняя часть + безопасный верх)",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "band-external-rotations", "name": "Внешние вращения с резинкой", "sets": 3, "reps": "15", "rest": 45 },
+    { "id": "scapular-pull-ups", "name": "Лопаточные подтягивания", "sets": 3, "reps": "10", "rest": 60 },
+    { "id": "face-pulls-light", "name": "Фейспуллы (лёгкие)", "sets": 3, "reps": "20", "rest": 45 },
+    { "id": "leg-press", "name": "Жим ногами", "sets": 3, "reps": "15", "rest": 60 }
+  ]
+},
+{
+  "id": "park-hiit-bench-bar-6w",
+  "name": "Уличный HIIT: лавка + перекладина",
+  "level": "intermediate",
+  "goal": "lose",
+  "workoutType": "cardio",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Интенсивные круговые тренировки в парке с использованием уличной мебели. Жиросжигание + функциональная сила.",
+  "tags": ["hiit", "park", "calisthenics", "fat-loss", "free"],
+  "weeklySchedule": [
+    "HIIT: перекладина + лавка",
+    "Отдых",
+    "Фулбоди на траве",
+    "Отдых",
+    "Спринты + кор",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "pull-ups-park", "name": "Подтягивания", "sets": 4, "reps": "максимум", "rest": 60 },
+    { "id": "dip-bench", "name": "Дипы на лавке", "sets": 4, "reps": "до отказа", "rest": 45 },
+    { "id": "step-ups-explosive", "name": "Взрывные шаги на лавку", "sets": 3, "reps": "10 на ногу", "rest": 30 },
+    { "id": "sprint-50m", "name": "Спринт 50 м", "sets": 5, "reps": "5 раз", "rest": 90 }
+  ]
+},
+{
+  "id": "couch-to-5k-outdoor-8w",
+  "name": "От дивана до 5 км (улица)",
+  "level": "beginner",
+  "goal": "endurance",
+  "workoutType": "cardio",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 8,
+  "daysPerWeek": 3,
+  "description": "Пошаговая программа для новичков: чередование ходьбы и бега → 5 км без остановки.",
+  "tags": ["running", "beginner", "5k", "cardio", "progressive"],
+  "weeklySchedule": [
+    "Интервалы: бег/ходьба",
+    "Отдых",
+    "Интервалы: бег/ходьба",
+    "Отдых",
+    "Лёгкий бег + ходьба",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "walk-run-interval", "name": "Ходьба/бег (1:2 мин)", "sets": 1, "reps": "20–30 мин", "rest": 0 },
+    { "id": "cool-down-walk", "name": "Заминка: ходьба", "sets": 1, "reps": "5 мин", "rest": 0 },
+    { "id": "dynamic-stretching-pre-run", "name": "Динамическая разминка", "sets": 1, "reps": "5 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "fitness-with-dog-6w",
+  "name": "Фитнес с собакой",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 6,
+  "daysPerWeek": 5,
+  "description": "Тренировки, которые вы делаете вместе с питомцем: бег, прыжки, команды, активность на свежем воздухе.",
+  "tags": ["dog", "fun", "outdoor", "active-pet", "bonding"],
+  "weeklySchedule": [
+    "Бег с собакой",
+    "Игровая сила (прыжки через палку и т.п.)",
+    "Отдых",
+    "Ходьба + упражнения на команду",
+    "Спринты с собакой",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "jog-with-dog", "name": "Лёгкий бег с поводком", "sets": 1, "reps": "20–30 мин", "rest": 0 },
+    { "id": "dog-agility-hurdles", "name": "Прыжки через палку/ветку", "sets": 3, "reps": "5 раз", "rest": 60 },
+    { "id": "sit-stay-plank", "name": "Планка, пока собака сидит", "sets": 3, "reps": "30 сек", "rest": 30 },
+    { "id": "fetch-sprints", "name": "Спринты за мячом вместе с собакой", "sets": 5, "reps": "15 сек", "rest": 45 }
+  ]
+},
+{
+  "id": "hormone-balance-yoga-home-8w",
+  "name": "Йога для гормонального баланса",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "home",
+  "durationWeeks": 8,
+  "daysPerWeek": 5,
+  "description": "Практики для поддержки эндокринной системы: щитовидка, надпочечники, менструальный цикл.",
+  "tags": ["women", "hormones", "yoga", "stress", "thyroid"],
+  "weeklySchedule": [
+    "Утро: активация щитовидки",
+    "Вечер: надпочечники + сон",
+    "Отдых",
+    "Цикличная практика (фолликулярная фаза)",
+    "Отдых",
+    "Расслабление + дыхание",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "shoulder-stand", "name": "Стойка на плечах (Сарвангасана)", "sets": 1, "reps": "1–2 мин", "rest": 0 },
+    { "id": "bridge-pose", "name": "Поза мостика", "sets": 2, "reps": "1 мин", "rest": 30 },
+    { "id": "alternate-nostril-breathing", "name": "Дыхание через одну ноздрю", "sets": 3, "reps": "5 циклов", "rest": 0 },
+    { "id": "reclined-butterfly", "name": "Бабочка лёжа", "sets": 1, "reps": "3 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "resistance-band-strength-6w",
+  "name": "Сила с резинками",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "home",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Полноценная силовая программа с эспандерами. Подходит для путешествий и малогабаритных квартир.",
+  "tags": ["bands", "strength", "portable", "home", "progressive"],
+  "weeklySchedule": [
+    "Ноги + кор",
+    "Отдых",
+    "Верх + кор",
+    "Отдых",
+    "Фулбоди",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "band-squats", "name": "Приседания с резинкой выше колен", "sets": 4, "reps": "15", "rest": 45 },
+    { "id": "band-rows", "name": "Тяга резинки к поясу", "sets": 4, "reps": "12", "rest": 60 },
+    { "id": "band-shoulder-press", "name": "Жим резинки вверх", "sets": 3, "reps": "12", "rest": 60 },
+    { "id": "band-glute-kickbacks", "name": "Махи назад с резинкой", "sets": 3, "reps": "20", "rest": 30 }
+  ]
+},
+{
+  "id": "5min-morning-energy-home",
+  "name": "5-минутная зарядка на энергию",
+  "level": "all",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "home",
+  "durationWeeks": 0,
+  "daysPerWeek": 7,
+  "description": "Сверхкороткая утренняя рутина для пробуждения тела, улучшения кровообращения и настроения.",
+  "tags": ["morning", "energy", "quick", "habit", "circulation"],
+  "weeklySchedule": [
+    "Зарядка",
+    "Зарядка",
+    "Зарядка",
+    "Зарядка",
+    "Зарядка",
+    "Зарядка",
+    "Зарядка"
+  ],
+  "exercises": [
+    { "id": "jumping-jacks-light", "name": "Лёгкие прыжки", "sets": 1, "reps": "30 сек", "rest": 0 },
+    { "id": "arm-circles", "name": "Вращения руками", "sets": 1, "reps": "30 сек", "rest": 0 },
+    { "id": "bodyweight-squats", "name": "Приседания", "sets": 1, "reps": "20", "rest": 0 },
+    { "id": "sun-breaths", "name": "Дыхание + потягивания", "sets": 1, "reps": "1 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "photo-shoot-prep-8w",
+  "name": "Фитнес-фотосессия: рельеф за 8 недель",
+  "level": "intermediate",
+  "goal": "lose",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 8,
+  "daysPerWeek": 6,
+  "description": "Акцент на позирование, прокачка 'фотогеничных' зон (дельты, спина, пресс), умеренная сушка.",
+  "tags": ["aesthetic", "photo", "pose", "definition", "glutes", "shoulders"],
+  "weeklySchedule": [
+    "Плечи + кор (фокус на дельты)",
+    "Спина (ширина + рельеф)",
+    "Ноги (ягодицы + квадрицепс)",
+    "Грудь + трицепс (для поз)",
+    "Фулбоди пампинг",
+    "Позирование + слабые зоны",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "cable-lateral-raises", "name": "Махи в кроссовере", "sets": 5, "reps": "20", "rest": 30 },
+    { "id": "wide-grip-pull-ups", "name": "Подтягивания широким хватом", "sets": 4, "reps": "10", "rest": 60 },
+    { "id": "hip-thrust", "name": "Трасты", "sets": 4, "reps": "15", "rest": 60 },
+    { "id": "vacuum-hold", "name": "Вакуум живота", "sets": 3, "reps": "30 сек", "rest": 30 },
+    { "id": "cable-crunch", "name": "Скручивания в кроссовере", "sets": 4, "reps": "20", "rest": 45 }
+  ]
+},
+{
+  "id": "cycling-strength-gym-8w",
+  "name": "Сила для велосипедистов",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Укрепление ног, кора и спины для повышения эффективности педалирования и предотвращения травм.",
+  "tags": ["cycling", "endurance", "legs", "core", "posture"],
+  "weeklySchedule": [
+    "Ноги (взрыв + сила)",
+    "Отдых",
+    "Спина + кор",
+    "Отдых",
+    "Фулбоди + вело-имитация",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "bulgarian-split-squat", "name": "Болгарские выпады", "sets": 4, "reps": "10 на ногу", "rest": 75 },
+    { "id": "deadlift-romanian", "name": "Румынская становая", "sets": 4, "reps": "12", "rest": 90 },
+    { "id": "pallof-press", "name": "Жим Паллофа", "sets": 3, "reps": "12 на сторону", "rest": 45 },
+    { "id": "stationary-bike-intervals", "name": "Велоинтервалы", "sets": 1, "reps": "20 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "hardgainer-mass-12w",
+  "name": "Масса для хардгейнеров",
+  "level": "beginner",
+  "goal": "gain",
+  "workoutType": "strength",
+  "workoutLocation": "gym",
+  "durationWeeks": 12,
+  "daysPerWeek": 3,
+  "description": "Программа для эктоморфов: минимум упражнений, максимум прогрессии и восстановления. Акцент на базовые движения.",
+  "tags": ["hardgainer", "mass", "simple", "recovery", "calorie-surplus"],
+  "weeklySchedule": [
+    "Фулбоди A",
+    "Отдых",
+    "Фулбоди B",
+    "Отдых",
+    "Фулбоди A",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "squat-barbell", "name": "Приседания", "sets": 5, "reps": "5", "rest": 180 },
+    { "id": "bench-press", "name": "Жим лёжа", "sets": 5, "reps": "5", "rest": 150 },
+    { "id": "bent-over-row", "name": "Тяга штанги", "sets": 4, "reps": "8", "rest": 120 },
+    { "id": "overhead-press", "name": "Жим стоя", "sets": 4, "reps": "6", "rest": 120 },
+    { "id": "chin-ups", "name": "Подтягивания обратным хватом", "sets": 3, "reps": "максимум", "rest": 90 }
+  ]
+},
+{
+  "id": "functional-flex-strength-6w",
+  "name": "Функциональная гибкость и сила",
+  "level": "intermediate",
+  "goal": "maintain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Сочетание силы и подвижности: упражнения с полным диапазоном, контроль, стабильность суставов.",
+  "tags": ["mobility", "strength", "ROM", "joint-health", "injury-prevention"],
+  "weeklySchedule": [
+    "Ноги: подвижность + сила",
+    "Отдых",
+    "Верх: подвижность плеч + спина",
+    "Отдых",
+    "Фулбоди: контроль движений",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "goblet-squat-deep", "name": "Гоблет-присед с паузой внизу", "sets": 4, "reps": "8", "rest": 90 },
+    { "id": "overhead-squat", "name": "Присед с грифом над головой", "sets": 3, "reps": "5", "rest": 120 },
+    { "id": "band-pull-aparts", "name": "Разведения с резинкой", "sets": 4, "reps": "20", "rest": 30 },
+    { "id": "scapular-push-ups", "name": "Лопаточные отжимания", "sets": 3, "reps": "12", "rest": 45 }
+  ]
+},
+{
+  "id": "trail-running-10w",
+  "name": "Трейл-раннинг: бег по природе",
+  "level": "intermediate",
+  "goal": "endurance",
+  "workoutType": "cardio",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 10,
+  "daysPerWeek": 4,
+  "description": "Подготовка к бегу по лесу, горам, тропам. Развитие баланса, ловкости и выносливости на неровной поверхности.",
+  "tags": ["trail", "running", "nature", "balance", "ankle-strength"],
+  "weeklySchedule": [
+    "Лёгкий трейл (5–8 км)",
+    "Отдых",
+    "Холмы + прыжки по камням",
+    "Отдых",
+    "Длинный трейл (10–15 км)",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "trail-run", "name": "Бег по тропе", "sets": 1, "reps": "5–15 км", "rest": 0 },
+    { "id": "hill-repeats", "name": "Повторы в гору", "sets": 6, "reps": "200 м", "rest": 90 },
+    { "id": "single-leg-balance-rock", "name": "Баланс на одной ноге на камне", "sets": 3, "reps": "30 сек", "rest": 30 },
+    { "id": "log-step-overs", "name": "Перешагивания через брёвна", "sets": 3, "reps": "20 шагов", "rest": 45 }
+  ]
+},
+{
+  "id": "park-yoga-mindfulness-6w",
+  "name": "Йога и медитация в парке",
+  "level": "all",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 6,
+  "daysPerWeek": 5,
+  "description": "Практика на свежем воздухе: связь с природой, дыхание, заземление, лёгкая растяжка.",
+  "tags": ["yoga", "mindfulness", "nature", "grounding", "stress-relief"],
+  "weeklySchedule": [
+    "Утро: солнечная йога",
+    "Вечер: лунная растяжка",
+    "Отдых",
+    "Дыхание под деревом",
+    "Отдых",
+    "Осознанная прогулка + позы",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "barefoot-tree-pose", "name": "Поза дерева босиком на траве", "sets": 2, "reps": "45 сек на ногу", "rest": 15 },
+    { "id": "grass-savasana", "name": "Шавасана на траве", "sets": 1, "reps": "5 мин", "rest": 0 },
+    { "id": "wind-breathing", "name": "Дыхание с фокусом на ветер", "sets": 3, "reps": "2 мин", "rest": 0 },
+    { "id": "sun-gazing-meditation", "name": "Медитация на рассвете", "sets": 1, "reps": "10 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "parent-child-outdoor-6w",
+  "name": "Фитнес с детьми: улица",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Активности для родителей и детей 3–10 лет: игры, эстафеты, лазание, развитие координации.",
+  "tags": ["family", "kids", "play", "coordination", "fun"],
+  "weeklySchedule": [
+    "Игровой фулбоди",
+    "Отдых",
+    "Полоса препятствий",
+    "Отдых",
+    "Природная йога для двоих",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "follow-the-leader-run", "name": "Бег 'следуй за лидером'", "sets": 3, "reps": "3 мин", "rest": 60 },
+    { "id": "piggyback-squats", "name": "Приседания с ребёнком на спине", "sets": 3, "reps": "8", "rest": 45 },
+    { "id": "animal-walks", "name": "Ходьба как животные", "sets": 3, "reps": "30 сек", "rest": 30 },
+    { "id": "tree-hug-balance", "name": "Баланс с обниманием дерева", "sets": 2, "reps": "20 сек", "rest": 20 }
+  ]
+},
+{
+  "id": "morning-productivity-ritual-4w",
+  "name": "Утро без прокрастинации: 10 минут",
+  "level": "all",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "home",
+  "durationWeeks": 4,
+  "daysPerWeek": 7,
+  "description": "Короткая, но мощная утренняя привычка: тело просыпается, мозг включается, день начинается с силы.",
+  "tags": ["morning", "habit", "productivity", "energy", "mindset"],
+  "weeklySchedule": [
+    "Рутина",
+    "Рутина",
+    "Рутина",
+    "Рутина",
+    "Рутина",
+    "Рутина",
+    "Рутина"
+  ],
+  "exercises": [
+    { "id": "sunlight-exposure", "name": "5 мин у окна без очков", "sets": 1, "reps": "5 мин", "rest": 0 },
+    { "id": "jumping-jacks-wake-up", "name": "Прыжки для пробуждения", "sets": 1, "reps": "60 сек", "rest": 0 },
+    { "id": "power-pose", "name": "Поза силы (Superman)", "sets": 1, "reps": "2 мин", "rest": 0 },
+    { "id": "gratitude-journaling", "name": "3 пункта благодарности", "sets": 1, "reps": "2 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "vegan-strength-home-8w",
+  "name": "Сила для веганов: восстановление и рост",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "home",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Программа с учётом особенностей веганского питания: больше объёма, меньше ЦНС-нагрузки, акцент на сон и восстановление.",
+  "tags": ["vegan", "recovery", "plant-based", "bodyweight", "sleep"],
+  "weeklySchedule": [
+    "Ноги + кор",
+    "Отдых",
+    "Верх + дыхание",
+    "Отдых",
+    "Фулбоди (лёгкий пампинг)",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "pistol-squat-progressions", "name": "Пистолетик (с опорой)", "sets": 3, "reps": "6 на ногу", "rest": 75 },
+    { "id": "archer-push-ups", "name": "Арчер-отжимания", "sets": 3, "reps": "8", "rest": 60 },
+    { "id": "table-rows", "name": "Тяга под столом", "sets": 4, "reps": "12", "rest": 45 },
+    { "id": "legs-up-wall", "name": "Ноги вверх по стене (восстановление)", "sets": 1, "reps": "5 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "menstrual-cycle-phase-1-4w",
+  "name": "Фитнес в менструацию: фаза 1",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "home",
+  "durationWeeks": 4,
+  "daysPerWeek": 3,
+  "description": "Нежные упражнения в первые дни цикла: улучшение кровообращения, снятие спазмов, поддержка энергии без перенапряжения.",
+  "tags": ["menstruation", "cycle-syncing", "gentle", "pelvic", "hormones"],
+  "weeklySchedule": [
+    "Мягкая мобилизация",
+    "Отдых",
+    "Лёгкий кор + дыхание",
+    "Отдых",
+    "Растяжка + тёплый душ",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "child-pose-with-pillow", "name": "Поза ребёнка с подушкой под животом", "sets": 1, "reps": "3 мин", "rest": 0 },
+    { "id": "cat-cow-slow", "name": "Медленная кошка-корова", "sets": 2, "reps": "10", "rest": 0 },
+    { "id": "seated-forward-fold", "name": "Наклон сидя", "sets": 2, "reps": "1 мин", "rest": 0 },
+    { "id": "diaphragmatic-breathing-warm", "name": "Тёплое диафрагмальное дыхание", "sets": 3, "reps": "5 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "dryland-swim-strength-8w",
+  "name": "Сухопутная сила для пловцов",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Развитие выносливости плеч, кора и дыхательной мускулатуры без воды. Идеально в межсезонье.",
+  "tags": ["swimming", "shoulders", "core", "breath-control", "posture"],
+  "weeklySchedule": [
+    "Плечи + кор (устойчивость)",
+    "Отдых",
+    "Спина + дыхание",
+    "Отдых",
+    "Фулбоди: имитация гребка",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "band-resisted-arm-pulls", "name": "Тяга резинки имитация кроля", "sets": 4, "reps": "20", "rest": 45 },
+    { "id": "scapular-push-ups", "name": "Лопаточные отжимания", "sets": 3, "reps": "15", "rest": 45 },
+    { "id": "dead-bug-with-breath-hold", "name": "Мёртвый жук с задержкой дыхания", "sets": 3, "reps": "10", "rest": 60 },
+    { "id": "farmer-carry-underwater-breath", "name": "Фермерская прогулка с дыханием 'под водой'", "sets": 3, "reps": "30 м", "rest": 90 }
+  ]
+},
+{
+  "id": "lunar-cycle-fitness-4w",
+  "name": "Фитнес по фазам Луны",
+  "level": "all",
+  "goal": "maintain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 4,
+  "daysPerWeek": 4,
+  "description": "Адаптация нагрузки под лунный цикл: активность в полнолуние, восстановление в новолуние.",
+  "tags": ["lunar", "cycle-syncing", "mindfulness", "hormonal", "ritual"],
+  "weeklySchedule": [
+    "Полнолуние: сила + кардио",
+    "Отдых",
+    "Убывающая Луна: функциональная сила",
+    "Отдых",
+    "Новолуние: йога + дыхание",
+    "Отдых",
+    "Растущая Луна: объём + пампинг"
+  ],
+  "exercises": [
+    { "id": "moon-phase-squats", "name": "Приседания (интенсивность по фазе)", "sets": 4, "reps": "6–20", "rest": 60 },
+    { "id": "lunar-breathwork", "name": "Дыхание по лунному ритму", "sets": 3, "reps": "5 мин", "rest": 0 },
+    { "id": "moon-gazing-cooldown", "name": "Заминка под Луну", "sets": 1, "reps": "10 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "night-stargazing-fitness-6w",
+  "name": "Ночной фитнес: под звёздами",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 6,
+  "daysPerWeek": 3,
+  "description": "Тренировки после заката: снижение кортизола, улучшение сна, связь с природой. Без фонариков — только луна!",
+  "tags": ["night", "circadian", "melatonin", "mindfulness", "astronomy"],
+  "weeklySchedule": [
+    "Лёгкий бег + наблюдение за звёздами",
+    "Отдых",
+    "Баланс на траве в темноте",
+    "Отдых",
+    "Тихая йога под Луну",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "barefoot-night-walk", "name": "Ходьба босиком ночью", "sets": 1, "reps": "15 мин", "rest": 0 },
+    { "id": "constellation-stretches", "name": "Растяжка 'под созвездия'", "sets": 3, "reps": "2 мин", "rest": 0 },
+    { "id": "moonlight-plank", "name": "Планка при лунном свете", "sets": 3, "reps": "30 сек", "rest": 30 }
+  ]
+},
+{
+  "id": "asthma-safe-outdoor-8w",
+  "name": "Безопасный фитнес при астме",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 8,
+  "daysPerWeek": 4,
+  "description": "Программа с контролем дыхания, избеганием триггеров и постепенным повышением выносливости.",
+  "tags": ["asthma", "breathwork", "low-intensity", "lung-health", "safe"],
+  "weeklySchedule": [
+    "Ходьба + дыхание по Бутейко",
+    "Отдых",
+    "Лёгкая сила + выдох",
+    "Отдых",
+    "Плавные движения в парке",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "buteyko-walking", "name": "Ходьба с дыханием по Бутейко", "sets": 1, "reps": "20 мин", "rest": 0 },
+    { "id": "exhale-focused-squats", "name": "Приседания с акцентом на выдох", "sets": 2, "reps": "10", "rest": 60 },
+    { "id": "pollen-check-stretch", "name": "Растяжка после проверки пыльцы", "sets": 2, "reps": "5 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "fitness-quest-30d",
+  "name": "Фитнес-квест: 30 дней приключений",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "balanced",
+  "workoutLocation": "home",
+  "durationWeeks": 0,
+  "daysPerWeek": 6,
+  "description": "Каждый день — новое 'задание': спасти королевство, собрать артефакты, победить дракона через упражнения.",
+  "tags": ["gamification", "fun", "habit", "story", "motivation"],
+  "weeklySchedule": [
+    "Миссия 1: Лес тренировок",
+    "Миссия 2: Пещера кора",
+    "Миссия 3: Горы силы",
+    "Миссия 4: Река выносливости",
+    "Миссия 5: Замок баланса",
+    "Босс-файт: Фулбоди",
+    "Отдых (восстановление в таверне)"
+  ],
+  "exercises": [
+    { "id": "dragon-slaying-burpees", "name": "Бёрпи против дракона", "sets": 3, "reps": "30 сек", "rest": 30 },
+    { "id": "castle-wall-push-ups", "name": "Отжимания у стены замка", "sets": 3, "reps": "максимум", "rest": 60 },
+    { "id": "treasure-hunt-lunges", "name": "Выпады в поисках сокровищ", "sets": 3, "reps": "10 на ногу", "rest": 45 },
+    { "id": "magic-plank", "name": "Планка с заклинанием", "sets": 3, "reps": "45 сек", "rest": 30 }
+  ]
+},
+{
+  "id": "fibromyalgia-gentle-home-8w",
+  "name": "Мягкий фитнес при фибромиалгии",
+  "level": "beginner",
+  "goal": "maintain",
+  "workoutType": "light",
+  "workoutLocation": "home",
+  "durationWeeks": 8,
+  "daysPerWeek": 3,
+  "description": "Осторожные движения для снижения боли и усталости. Без перегрузок, с акцентом на расслабление.",
+  "tags": ["fibromyalgia", "chronic-pain", "gentle", "pacing", "nervous-system"],
+  "weeklySchedule": [
+    "Мягкая мобилизация",
+    "Отдых",
+    "Дыхание + лёгкий кор",
+    "Отдых",
+    "Тёплая растяжка",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "bed-mobility-rolls", "name": "Перекаты в постели", "sets": 2, "reps": "5", "rest": 60 },
+    { "id": "warm-towel-stretch", "name": "Растяжка с тёплым полотенцем", "sets": 2, "reps": "3 мин", "rest": 0 },
+    { "id": "paced-breathing", "name": "Дыхание с таймером (2-4-2)", "sets": 3, "reps": "5 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "dance-conditioning-gym-6w",
+  "name": "Физподготовка для танцоров",
+  "level": "intermediate",
+  "goal": "gain",
+  "workoutType": "balanced",
+  "workoutLocation": "gym",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Сила ног, гибкость таза, контроль корпуса и выносливость для танцевальных пар.",
+  "tags": ["dance", "hips", "endurance", "posture", "partner"],
+  "weeklySchedule": [
+    "Ноги + тазовая подвижность",
+    "Отдых",
+    "Кор + осанка",
+    "Отдых",
+    "Фулбоди: взрыв + контроль",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "cossack-squats", "name": "Приседания косолапые", "sets": 3, "reps": "8 на сторону", "rest": 60 },
+    { "id": "resisted-hip-circles", "name": "Круги тазом с резинкой", "sets": 3, "reps": "15", "rest": 30 },
+    { "id": "single-leg-romanian-deadlift", "name": "Становая на одной ноге", "sets": 3, "reps": "10", "rest": 60 },
+    { "id": "partner-resisted-plank", "name": "Планка с партнёром", "sets": 3, "reps": "30 сек", "rest": 45 }
+  ]
+},
+{
+  "id": "beach-fitness-summer-6w",
+  "name": "Пляжный фитнес: лето",
+  "level": "intermediate",
+  "goal": "lose",
+  "workoutType": "balanced",
+  "workoutLocation": "outdoor",
+  "durationWeeks": 6,
+  "daysPerWeek": 4,
+  "description": "Тренировки на песке: повышенная нагрузка на ноги, естественное сопротивление, витамин D.",
+  "tags": ["beach", "summer", "sand", "vitamin-d", "fun"],
+  "weeklySchedule": [
+    "Бег по воде + прыжки",
+    "Отдых",
+    "Сила на песке",
+    "Отдых",
+    "Йога на закате",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "sand-sprints", "name": "Спринты по мокрому песку", "sets": 6, "reps": "30 м", "rest": 90 },
+    { "id": "beach-burpees", "name": "Бёрпи на песке", "sets": 4, "reps": "40 сек", "rest": 20 },
+    { "id": "ocean-plank", "name": "Планка под шум волн", "sets": 3, "reps": "45 сек", "rest": 30 },
+    { "id": "seaweed-stretch", "name": "Растяжка с водорослями (имитация)", "sets": 2, "reps": "5 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "adhd-friendly-home-6w",
+  "name": "Фитнес при СДВГ: коротко, ярко, эффективно",
+  "level": "all",
+  "goal": "maintain",
+  "workoutType": "balanced",
+  "workoutLocation": "home",
+  "durationWeeks": 6,
+  "daysPerWeek": 5,
+  "description": "Короткие (10–15 мин), разнообразные, с визуальными подсказками и немедленной обратной связью.",
+  "tags": ["adhd", "neurodivergent", "quick", "variety", "reward"],
+  "weeklySchedule": [
+    "Цветной круг: красный день (сила)",
+    "Синий день (спокойствие)",
+    "Жёлтый день (игра)",
+    "Зелёный день (природа дома)",
+    "Фиолетовый день (творчество + движение)",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "timer-challenge-push-ups", "name": "Отжимания на таймер (10 сек)", "sets": 5, "reps": "максимум", "rest": 50 },
+    { "id": "fidget-to-movement", "name": "Преврати фиджет в упражнение", "sets": 3, "reps": "1 мин", "rest": 30 },
+    { "id": "reward-dance", "name": "Танец-награда после круга", "sets": 1, "reps": "1 мин", "rest": 0 }
+  ]
+},
+{
+  "id": "postmenopause-strength-10w",
+  "name": "Сила после менопаузы",
+  "level": "beginner",
+  "goal": "gain",
+  "workoutType": "strength",
+  "workoutLocation": "home",
+  "durationWeeks": 10,
+  "daysPerWeek": 3,
+  "description": "Борьба с остеопорозом, саркопенией и приливами через силу, дыхание и стабильность.",
+  "tags": ["menopause", "bone-density", "hormones", "strength", "women-50plus"],
+  "weeklySchedule": [
+    "Сила костей (с весом)",
+    "Отдых",
+    "Кор + тазовое дно",
+    "Отдых",
+    "Баланс + координация",
+    "Отдых",
+    "Отдых"
+  ],
+  "exercises": [
+    { "id": "weighted-vest-walks", "name": "Ходьба с утяжелителем (рюкзак)", "sets": 1, "reps": "20 мин", "rest": 0 },
+    { "id": "heel-drops-for-bones", "name": "Скачки на пятках (для костей)", "sets": 3, "reps": "20", "rest": 60 },
+    { "id": "cooling-breath-for-hot-flashes", "name": "Дыхание 'Шитали' от приливов", "sets": 3, "reps": "2 мин", "rest": 0 },
+    { "id": "wall-sit-with-weights", "name": "Стена с гантелями", "sets": 3, "reps": "30 сек", "rest": 60 }
+  ]
+}
 ]
