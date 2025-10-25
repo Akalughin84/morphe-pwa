@@ -10,9 +10,27 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#f97316">
 
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/styles-shared.css">
-  <link rel="stylesheet" href="/styles-header.css">
+  <!-- База -->
+  <link rel="stylesheet" href="/styles/base/reset.css">
+  <link rel="stylesheet" href="/styles/base/theme.css">
+  <link rel="stylesheet" href="/styles/base/typography.css">
+  <link rel="stylesheet" href="/styles/base/utilities.css">
+
+  <!-- Компоненты -->
+  <link rel="stylesheet" href="/styles/components/buttons.css">
+  <link rel="stylesheet" href="/styles/components/cards.css">
+  <link rel="stylesheet" href="/styles/components/forms.css">
+  <link rel="stylesheet" href="/styles/components/tabs.css">
+  <link rel="stylesheet" href="/styles/components/mobile-menu.css">
+
+  <!-- Макет -->
+  <link rel="stylesheet" href="/styles/layout/header.css">
+  <link rel="stylesheet" href="/styles/layout/footer.css">
+  <link rel="stylesheet" href="/styles/layout/scroll-top.css">
+
+  <!-- Страница -->
+  <link rel="stylesheet" href="/styles/pages/progress.css">
+
 </head>
 <body>
 
@@ -93,22 +111,22 @@
         
         <div class="calendar-controls">
           <button id="prevMonth">&larr; Пред.</button>
-          <span id="currentMonthTitle">Июнь 2024</span>
+          <span id="currentMonthTitle">Октябрь 2025</span>
           <button id="nextMonth">След. &rarr;</button>
         </div>
         
         <div class="legend">
           <div class="legend-item">
             <div class="legend-color body-color"></div>
-            <span>🟢 Замер тела</span>
+            <span>📏 Замер тела</span>
           </div>
           <div class="legend-item">
             <div class="legend-color nutrition-color"></div>
-            <span>🟡 Питание</span>
+            <span>🥗 Питание</span>
           </div>
           <div class="legend-item">
             <div class="legend-color workout-color"></div>
-            <span>🔵 Тренировка</span>
+            <span>🏋️ Тренировка</span>
           </div>
           <div class="legend-item">
             <div class="legend-color supplement-color"></div>
@@ -129,7 +147,7 @@
   </main>
 
   <!-- Модальное окно -->
-  <div id="dayModal" class="modal" style="display: none;">
+  <div id="dayModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
       <h2 id="modalDateTitle">Детали за —</h2>
@@ -176,6 +194,7 @@
   import { UserService } from '/services/userService.js';
 
   document.addEventListener('DOMContentLoaded', async () => {
+    await HeaderController.loadHeader();
     try {
       await HeaderController.loadHeader();
       await HeaderController.loadFooter();
@@ -193,12 +212,17 @@
       const modal = document.getElementById('dayModal');
       const closeBtn = document.querySelector('.close');
 
-      closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-      });
+      function closeModal() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      }
+
+      closeBtn.addEventListener('click', closeModal);
 
       window.addEventListener('click', (e) => {
-        if (e.target === modal) modal.style.display = 'none';
+        if (e.target === modal) closeModal();
       });
 
       async function showDayModal(dateStr) {
@@ -206,10 +230,14 @@
         const details = await calendar.getDayDetails(dateStr);
         
         const title = document.getElementById('modalDateTitle');
-        const date = new Date(dateStr).toLocaleDateString('ru-RU', {
-          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-        });
-        title.textContent = `Детали за ${date}`;
+        const date = new Date(dateStr);
+        const day = date.getDate();
+        const monthNames = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня',
+          'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        const weekday = date.toLocaleDateString('ru-RU', { weekday: 'long' });
+        title.textContent = `📅 ${day} ${month} ${year} • ${weekday}`;
         
         // Замеры тела
         const bodySection = document.getElementById('modalBodySection');
@@ -249,13 +277,49 @@
         const workoutItems = document.getElementById('modalWorkoutItems');
         if (details.workouts.length > 0) {
           workoutSection.style.display = 'block';
+
+          const { DataService } = await import('/services/dataService.js');
+          const exercisesData = await DataService.getExercises();
+          const exerciseMap = Object.fromEntries(exercisesData.map(e => [e.id, e]));
+
           workoutItems.innerHTML = details.workouts.map(w => {
             const exercisesList = w.exercises && w.exercises.length > 0
-              ? `<ul>${w.exercises.map(ex => 
-                  `<li>${ex.name || 'Упражнение'}: ${ex.sets?.length || 0} подходов</li>`
-                ).join('')}</ul>`
+              ? `<ul>${w.exercises.map(ex => {
+                  const fullEx = exerciseMap[ex.id] || { name: ex.name || 'Упражнение' };
+
+                  // === УЛУЧШЕННАЯ ЛОГИКА ОТОБРАЖЕНИЯ СЕТОВ И ПОВТОРОВ ===
+                  const sets = ex.sets != null && ex.sets !== '' ? parseInt(ex.sets) : null;
+                  const reps = ex.reps != null && ex.reps !== '' ? ex.reps : null;
+                  const weight = ex.weight != null ? `${ex.weight} кг` : '—';
+
+                  let repDisplay = weight;
+                  if (sets !== null && reps !== null) {
+                    repDisplay = `${sets} × ${reps} (${weight})`;
+                  } else if (sets !== null) {
+                    repDisplay = `${sets} подходов (${weight})`;
+                  } else if (reps !== null) {
+                    repDisplay = `${reps} повторов (${weight})`;
+                  }
+
+                  let repClass = '';
+                  if (sets >= 4) {
+                    repClass = 'good-rep';
+                  } else if (sets >= 2) {
+                    repClass = 'medium-rep';
+                  } else {
+                    repClass = 'low-rep';
+                  }
+
+                  return `<li class="${repClass}">
+                            <strong>${fullEx.name}</strong>: ${repDisplay}
+                          </li>`;
+                }).join('')}</ul>`
               : '<p>Нет упражнений</p>';
-            return `<div class="workout-item"><strong>${w.name || 'Тренировка'}</strong>${exercisesList}</div>`;
+
+            return `<div class="workout-item">
+                      <h4>💪 ${w.name || 'Тренировка'}</h4>
+                      ${exercisesList}
+                    </div>`;
           }).join('');
         } else {
           workoutSection.style.display = 'none';
@@ -266,14 +330,32 @@
         const supplementItems = document.getElementById('modalSupplementItems');
         if (details.supplements && details.supplements.length > 0) {
           supplementSection.style.display = 'block';
-          supplementItems.innerHTML = details.supplements.map(s => `
-            <p>💊 ${s.name || 'Добавка'}${s.dose ? ` — ${s.dose}` : ''}</p>
+          const supplements = await (await fetch('/data/supplements.json')).json();
+          const supplementMap = Object.fromEntries(supplements.map(s => [s.id, s]));
+
+          supplementItems.innerHTML = details.supplements.map(entry => `
+            <p>💊 ${supplementMap[entry.supplementId]?.name || 'Добавка'}</p>
           `).join('');
         } else {
           supplementSection.style.display = 'none';
         }
-        
+
+        // Если вообще ничего нет
+        const hasAnyData = 
+          details.body.length > 0 || 
+          details.nutrition.length > 0 || 
+          details.workouts.length > 0 || 
+          (details.supplements && details.supplements.length > 0);
+
+        if (!hasAnyData) {
+          document.getElementById('modalBodySection').style.display = 'block';
+          document.getElementById('modalBodyItems').innerHTML = '<p>Нет данных за этот день.</p>';
+        }
+
         modal.style.display = 'block';
+        requestAnimationFrame(() => {
+          modal.classList.add('show');
+        });
       }
 
       // === КАЛЕНДАРЬ НА МЕСЯЦ ===
@@ -333,20 +415,42 @@
         }
       }
 
-      // === ИНТЕЛЛЕКТУАЛЬНЫЙ АНАЛИЗ ===
+      // === ИНТЕЛЛЕКТУАЛЬНЫЙ АНАЛИЗ С БИОКОНТЕКСТОМ ===
       try {
+        const profile = UserService.getProfile()?.data || {};
         const ai = new AIAssistant();
         const aiAdvice = await ai.generateAdvice();
+        
+        let bioContextHtml = '';
+        
+        if (profile.smoking && profile.smoking !== 'no') {
+          bioContextHtml += '<p>🚭 Курение снижает выносливость и усвоение витаминов.</p>';
+        }
+        if (profile.alcohol && profile.alcohol !== 'none') {
+          bioContextHtml += '<p>🍷 Алкоголь замедляет восстановление мышц.</p>';
+        }
+        if (profile.hemoglobin !== null && profile.hemoglobin < 120) {
+          bioContextHtml += '<p>🩸 Низкий гемоглобин → больше отдыха и железосодержащих продуктов.</p>';
+        }
+        if (profile.vitaminD !== null && profile.vitaminD < 20) {
+          bioContextHtml += '<p>☀️ Низкий витамин D → чаще бывайте на солнце.</p>';
+        }
+        const chronic = profile.chronicConditions || [];
+        if (chronic.includes('heart') || chronic.includes('hypertension')) {
+          bioContextHtml += '<p>❤️ При проблемах с сердцем избегайте пиковых нагрузок.</p>';
+        }
+        
         aiInsightText.innerHTML = `
           ${aiAdvice.emoji ? aiAdvice.emoji + ' ' : ''}<strong>${aiAdvice.title}</strong><br>
           ${aiAdvice.message}
+          ${bioContextHtml ? `<div class="bio-context">${bioContextHtml}</div>` : ''}
         `;
         aiInsightSection.style.display = 'block';
       } catch (err) {
         console.warn('⚠️ Не удалось загрузить анализ:', err);
       }
 
-      // === ПРОГНОЗ И ТРЕНДЫ ===
+      // === ПРОГНОЗ И ТРЕНДЫ С УЧЁТОМ БИОКОНТЕКСТА ===
       try {
         const profile = UserService.getProfile()?.data;
         const analytics = new AnalyticsEngine(profile);
@@ -362,13 +466,21 @@
           const weeks = Math.max(1, (new Date(last.date) - new Date(first.date)) / (7 * 24 * 60 * 60 * 1000));
           const changePerWeek = (last.weight - first.weight) / weeks;
           
-          if (Math.abs(changePerWeek) > 0.1) {
+          let forecastText = '';
+          const chronic = profile.chronicConditions || [];
+          if (chronic.includes('heart') || chronic.includes('hypertension')) {
+            forecastText = '❤️ Прогресс стабилен. Сохраняйте умеренный темп.';
+          } else if (profile.smoking === 'regular' || profile.alcohol === 'frequent') {
+            forecastText = '⚠️ Восстановление замедлено. Прогресс может быть медленнее.';
+          } else if (Math.abs(changePerWeek) > 0.1) {
             const diff = Math.abs(profile.targetWeight - last.weight);
             const weeksToGoal = diff / Math.abs(changePerWeek);
-            weightForecastEl.textContent = `Цель за ~${Math.ceil(weeksToGoal)} недель`;
+            forecastText = `Цель за ~${Math.ceil(weeksToGoal)} недель`;
           } else {
-            weightForecastEl.textContent = 'Стабильность';
+            forecastText = 'Стабильность';
           }
+          
+          weightForecastEl.textContent = forecastText;
         } else {
           weightForecastEl.textContent = 'Нужно больше данных';
         }
@@ -400,7 +512,7 @@
 
         try {
           const tracker = new ProgressTracker();
-          tracker.add({
+          const record = tracker.add({
             weight: weight,
             chest: formData.get('chest') ? parseFloat(formData.get('chest')) : null,
             waist: formData.get('waist') ? parseFloat(formData.get('waist')) : null,
@@ -413,9 +525,7 @@
 
           feedback.innerHTML = '<p class="success-text">✅ Прогресс сохранён!</p>';
           form.reset();
-
           renderCalendarForMonth(currentMonth);
-
           setTimeout(() => { feedback.innerHTML = ''; }, 2000);
         } catch (err) {
           feedback.innerHTML = `<p class="error-text">❌ Ошибка: ${err.message}</p>`;
@@ -434,226 +544,5 @@
     }
   });
 </script>
-
-<style>
-  /* === МОДАЛЬНОЕ ОКНО === */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-  }
-
-  .modal-content {
-    background-color: #fff;
-    margin: 5% auto;
-    padding: 20px;
-    border-radius: 16px;
-    width: 90%;
-    max-width: 600px;
-    max-height: 80vh;
-    overflow-y: auto;
-  }
-
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  .close:hover { color: #000; }
-
-  /* === УПРАВЛЕНИЕ КАЛЕНДАРЁМ === */
-  .calendar-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-  }
-  .calendar-controls button {
-    background: var(--bg-surface);
-    border: 1px solid var(--border);
-    padding: 6px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-
-  /* === НОВЫЕ СТИЛИ === */
-  .stats-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin: 16px 0;
-  }
-
-  .stat-card h3 {
-    font-size: 1rem;
-    margin-bottom: 8px;
-    color: var(--text-primary);
-  }
-
-  .stat-card p {
-    font-size: 0.95rem;
-    line-height: 1.5;
-  }
-
-  /* === СУЩЕСТВУЮЩИЕ СТИЛИ === */
-  .minimalist-card {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    border-radius: 16px;
-    padding: 20px;
-  }
-
-  .orange-title {
-    color: #f97316;
-    font-weight: 800;
-    font-size: 1.5rem;
-  }
-
-  .form-grid-2x4 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-
-  @media (min-width: 768px) {
-    .form-grid-2x4 {
-      grid-template-columns: repeat(4, 1fr);
-    }
-  }
-
-  .input-icon {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: #fafafa;
-    border-radius: 12px;
-    padding: 8px 12px;
-    transition: background 0.3s ease;
-  }
-
-  .input-icon:hover {
-    background: #f4f4f5;
-  }
-
-  .input-icon span {
-    font-size: 1.1rem;
-    opacity: 0.8;
-  }
-
-  .form-control-compact {
-    background: transparent;
-    border: none;
-    color: #111827;
-    font-size: 0.95rem;
-    width: 100%;
-    padding: 4px 0;
-    outline: none;
-  }
-
-  .form-control-compact::placeholder {
-    color: #6b7280;
-    opacity: 0.7;
-  }
-
-  .full-width {
-    grid-column: 1 / -1;
-  }
-
-  .btn-orange {
-    width: 100%;
-    padding: 12px;
-    background: #f97316;
-    color: white;
-    border: none;
-    border-radius: 14px;
-    font-weight: 600;
-    font-size: 1.05rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .btn-orange:hover {
-    background: #ea580c;
-    transform: translateY(-2px);
-  }
-
-  /* Календарь */
-  .progress-calendar { margin: 32px 0; }
-  .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 16px 0; }
-  .calendar-day { 
-    aspect-ratio: 1; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 0.8rem; 
-    border-radius: 8px; 
-    background: var(--bg-surface); 
-    position: relative; 
-    cursor: pointer; 
-    transition: transform 0.2s, box-shadow 0.2s; 
-    border: 1px solid var(--border); 
-  }
-  .calendar-day.empty { 
-    background: transparent; 
-    border: none; 
-    cursor: default; 
-  }
-  .calendar-day:hover:not(.empty) { 
-    transform: scale(1.05); 
-    box-shadow: 0 4px 8px var(--shadow); 
-  }
-  .calendar-day.has-body { background: var(--success); color: white; }
-  .calendar-day.has-nutrition { background: var(--warning); color: white; }
-  .calendar-day.has-workout { background: var(--accent); color: white; }
-  .calendar-day.has-supplement { background: #8b5cf6; color: white; }
-  .calendar-day.has-multiple { background: var(--text-tertiary); color: white; }
-  .calendar-day.today { border: 2px solid var(--accent); }
-  .calendar-header { 
-    display: grid; 
-    grid-template-columns: repeat(7, 1fr); 
-    text-align: center; 
-    font-weight: bold; 
-    font-size: 0.8rem; 
-    margin-bottom: 8px; 
-    color: var(--text-secondary); 
-  }
-  .legend { 
-    display: flex; 
-    gap: 16px; 
-    margin: 16px 0; 
-    flex-wrap: wrap; 
-  }
-  .legend-item { 
-    display: flex; 
-    align-items: center; 
-    gap: 6px; 
-    font-size: 0.9rem; 
-  }
-  .legend-color { 
-    width: 16px; 
-    height: 16px; 
-    border-radius: 4px; 
-  }
-  .body-color { background: var(--success); }
-  .nutrition-color { background: var(--warning); }
-  .workout-color { background: var(--accent); }
-  .supplement-color { background: #8b5cf6; }
-  .multiple-color { background: var(--text-tertiary); }
-
-  @media (max-width: 768px) {
-    .calendar-grid { gap: 2px; }
-    .calendar-day { font-size: 0.75rem; min-height: 36px; }
-    .legend { flex-direction: column; gap: 8px; }
-  }
-</style>
 </body>
 </html>
