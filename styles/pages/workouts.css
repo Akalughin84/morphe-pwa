@@ -1,0 +1,305 @@
+/* === ЗАГОЛОВОК СТРАНИЦЫ === */
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* === КАРТОЧКА "СЕГОДНЯ" === */
+.today-card {
+  background: linear-gradient(135deg, var(--accent), #ea580c);
+  color: white;
+  border-radius: 24px;
+  padding: 28px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.today-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.today-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  position: relative;
+}
+
+.today-focus {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.start-btn {
+  background: white;
+  color: var(--accent);
+  font-weight: 700;
+  padding: 16px;
+  font-size: 1.2rem;
+  border-radius: 16px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* === ОБЗОР ПРОГРАММЫ === */
+.program-overview {
+  display: flex;
+  justify-content: space-between;
+  background: var(--bg-surface-alt);
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.overview-item {
+  text-align: center;
+}
+
+.overview-value {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+/* === РЕКОМЕНДАЦИИ === */
+.recommendation-card {
+  background: var(--bg-surface);
+  border-radius: 18px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border-left: 4px solid var(--accent);
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.recommendation-card.priority-critical {
+  border-left-color: var(--danger);
+}
+
+.recommendation-card.priority-high {
+  border-left-color: var(--warning);
+}
+
+.recommendation-card.priority-medium {
+  border-left-color: var(--accent);
+}
+
+.recommendation-card.priority-low {
+  border-left-color: var(--success);
+}
+
+.rec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.rec-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.rec-type {
+  background: var(--bg-surface-alt);
+  padding: 4px 10px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.muscle-icons {
+  margin-top: 8px;
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+/* === ПРОГНОЗ СИЛЫ === */
+.forecast-card {
+  background: var(--bg-surface);
+  border-radius: 18px;
+  padding: 20px;
+  margin-top: 1.5rem;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.forecast-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.forecast-title {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.trend-indicator {
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+}
+
+.trend-up {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.trend-down {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.trend-stable {
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.forecast-bar {
+  height: 12px;
+  background: var(--border);
+  border-radius: 6px;
+  margin: 16px 0;
+  overflow: hidden;
+}
+
+.forecast-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #ea580c);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+/* === КНОПКИ === */
+.regenerate-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 14px;
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+/* === СЕКЦИИ === */
+.section-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 2rem 0 1.2rem 0;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+/* === СВОРАЧИВАЕМЫЙ БЛОК ВЫБОРА ПРОГРАММЫ === */
+  .program-selector {
+    margin-top: 1.5rem;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+  }
+
+  .program-selector summary {
+    font-weight: 600;
+    padding: 16px;
+    cursor: pointer;
+    list-style: none;
+    color: var(--text-primary);
+  }
+
+  .program-selector summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .program-selector[open] summary {
+    border-bottom: 1px solid var(--border);
+  }
+  
+  .ai-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .ai-actions .btn-sm {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+  }
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .today-card {
+    padding: 20px;
+  }
+
+  .start-btn {
+    padding: 14px;
+    font-size: 1.1rem;
+  }
+
+  .program-overview {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rec-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+.week-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .week-controls button {
+      padding: 6px 12px;
+      font-size: 0.9rem;
+    }
