@@ -1,0 +1,254 @@
+/* === СКИП-ЛИНК === */
+/* Обеспечивает доступность: позволяет клавиатурным пользователям сразу перейти к контенту */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 10px;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 10px;
+  outline: 2px solid #fff;
+}
+
+/* === ОСНОВНАЯ СЕТКА ДОСТИЖЕНИЙ === */
+/* Адаптивная сетка: 1 колонка на мобильных, 2 — на планшетах и десктопах */
+#achievementsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  #achievementsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* === КАТЕГОРИИ ДОСТИЖЕНИЙ === */
+/* Каждая группа (Streaks, Goals и т.д.) оформлена как секция */
+.achievements-category {
+  margin-bottom: 2rem;
+}
+
+.achievements-category h2 {
+  font-size: 1.25rem;
+  margin: 1.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+/* === КАРТОЧКА ДОСТИЖЕНИЯ === */
+.achievement-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid transparent;
+}
+
+/* Разблокированное достижение: акцентная рамка и лёгкий подъём */
+.achievement-card.unlocked {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Заблокированное: приглушённое и в ч/б */
+.achievement-card.locked {
+  opacity: 0.85;
+  filter: grayscale(20%);
+}
+
+/* === ЗАГОЛОВОК КАРТОЧКИ (иконка + уровень) === */
+.achievement-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 2.25rem;
+}
+
+.achievement-icon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+/* Бейдж уровня для streak’ов */
+.achievement-level {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+}
+
+.level-bronze { background: #cd7f32; }   /* Бронза */
+.level-silver { background: #c0c0c0; }   /* Серебро */
+.level-gold { background: #ffd700; color: #000; } /* Золото */
+
+/* === ТЕКСТ === */
+.achievement-card h3 {
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.achievement-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  flex: 1;
+}
+
+/* Заблокированный текст — приглушённый */
+.achievement-card.locked h3,
+.achievement-card.locked p {
+  color: var(--text-disabled);
+}
+
+/* === ПРОГРЕСС-БАР === */
+/* Использует нативный <progress> с кастомным стилем под вашу тему */
+.achievement-card progress {
+  width: 100%;
+  height: 6px;
+  border: none;
+  border-radius: 3px;
+  background: var(--border);
+  margin: 0.5rem 0;
+}
+
+.achievement-card progress::-webkit-progress-bar {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+.achievement-card progress::-webkit-progress-value {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+.achievement-card progress::-moz-progress-bar {
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* === СЕКРЕТНЫЕ ДОСТИЖЕНИЯ === */
+/* Заблокированные секреты слегка размыты для интриги */
+.achievement-card.secret.locked .achievement-icon {
+  filter: blur(2px);
+}
+.page-subtitle {
+  font-size: 1.125rem; /* 18px */
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+.next-step-card {
+  background: var(--surface-highlight); /* чуть выделен */
+  border-left: 4px solid var(--accent-soft);
+  padding: 1.25rem;
+}
+
+.next-step-card h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+
+.next-step-card ul {
+  padding-left: 1.25rem;
+  margin: 0.75rem 0 0;
+  color: var(--text-primary);
+}
+
+.next-step-card li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+/* Сворачиваемые категории */
+.achievements-category {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.achievements-category > summary {
+  list-style: none; /* убирает стандартную стрелку */
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Стрелка вручную (красивая) */
+.achievements-category > summary::after {
+  content: '▼';
+  font-size: 0.8em;
+  color: var(--text-secondary);
+  transition: transform 0.2s;
+}
+
+.achievements-category[open] > summary::after {
+  transform: rotate(180deg);
+}
+
+/* Убираем стандартное поведение */
+.achievements-category > summary:focus {
+  outline: none;
+  background: var(--surface-hover);
+}
+
+/* Сетка внутри — только когда открыто */
+.achievements-category > .achievements-grid {
+  padding: 0 1.25rem 1.25rem;
+}
+.achievement-card.secret .achievement-icon {
+  opacity: 0.7;
+  filter: grayscale(100%);
+}
+
+.achievement-card.secret.locked h3,
+.achievement-card.secret.locked p {
+  color: var(--text-secondary);
+  font-style: italic;
+}
+/* Анимация для новых достижений */
+.achievement-card.new-unlock {
+  animation: achievementUnlock 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@keyframes achievementUnlock {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
