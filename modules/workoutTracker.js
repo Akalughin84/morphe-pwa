@@ -72,6 +72,8 @@ export class WorkoutTracker {
       programName: String(sessionData.programName),
       rpe: sessionData.rpe != null ? Number(sessionData.rpe) : null,
       doms: sessionData.doms != null ? String(sessionData.doms) : null,
+      completed: sessionData.completed !== false,
+      skippedExercises: sessionData.skippedExercises || [],
       exercises: Array.isArray(sessionData.exercises) ? sessionData.exercises : [],
       durationMinutes: typeof sessionData.durationMinutes === 'number'
         ? sessionData.durationMinutes
