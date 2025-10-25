@@ -1,0 +1,384 @@
+/* === МОДАЛЬНОЕ ОКНО === */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal.show {
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: var(--bg-primary);
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  color: var(--text-primary);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+  transform: scale(1);
+}
+
+.close {
+  color: var(--text-tertiary);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--text-primary);
+}
+
+/* === УПРАВЛЕНИЕ КАЛЕНДАРЁМ === */
+.calendar-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.calendar-controls button {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.calendar-controls button:hover {
+  background: var(--bg-surface-alt);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* === СТАТИСТИКА === */
+.stats-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.stat-card h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.stat-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* === КАРТОЧКА ФОРМЫ === */
+.minimalist-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.orange-title {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+/* === КНОПКА СОХРАНЕНИЯ === */
+.btn-orange {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+}
+
+.btn-orange:hover {
+  background: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.4);
+}
+
+/* === КАЛЕНДАРЬ ПРОГРЕССА === */
+.progress-calendar {
+  margin: 32px 0;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin: 16px 0;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  background: var(--bg-surface);
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.calendar-day.empty {
+  background: transparent;
+  border: none;
+  cursor: default;
+}
+
+.calendar-day:hover:not(.empty) {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px var(--shadow);
+}
+
+.calendar-day.has-body {
+  background: var(--success);
+  color: white;
+}
+
+.calendar-day.has-nutrition {
+  background: var(--warning);
+  color: white;
+}
+
+.calendar-day.has-workout {
+  background: var(--accent);
+  color: white;
+}
+
+.calendar-day.has-supplement {
+  background: #8b5cf6; /* purple-500 */
+  color: white;
+}
+
+.calendar-day.has-multiple {
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+  color: white;
+  border: none;
+}
+
+.calendar-day.today {
+  border: 2px solid var(--accent);
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.body-color {
+  background: var(--success);
+}
+
+.nutrition-color {
+  background: var(--warning);
+}
+
+.workout-color {
+  background: var(--accent);
+}
+
+.supplement-color {
+  background: #8b5cf6;
+}
+
+.multiple-color {
+  background: linear-gradient(135deg, var(--accent), #8b5cf6);
+}
+
+/* === ЦВЕТОВЫЕ ТЕГИ ДЛЯ ПОДХОДОВ === */
+.good-rep {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.medium-rep {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.low-rep {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+/* === УЛУЧШЕНИЕ ЧИТАЕМОСТИ === */
+.modal-content h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+#modalBodyItems p,
+#modalNutritionItems p,
+#modalWorkoutItems p,
+#modalSupplementItems p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.workout-item {
+  margin-bottom: 1rem;
+}
+
+.workout-item h4 {
+  margin: 8px 0 4px 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+}
+
+.workout-item strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+#modalBodyItems small {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-style: italic;
+  word-break: break-word;
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 768px) {
+  .calendar-grid {
+    gap: 2px;
+  }
+
+  .calendar-day {
+    font-size: 0.75rem;
+    min-height: 36px;
+  }
+
+  .legend {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .stats-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 16px;
+    font-size: 0.875rem;
+  }
+  .calendar-day {
+    font-size: 0.7rem;
+    min-height: 32px;
+  }
+}
+
+.bio-context {
+  background: #f0f9ff;
+  border-left: 3px solid #3b82f6;
+  padding: 12px;
+  border-radius: 0 8px 8px 0;
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.bio-context p {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+.form-grid-2x4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .form-grid-2x4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.input-icon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 8px 12px;
+  transition: background 0.3s ease;
+}
+
+.input-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.input-icon span {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
