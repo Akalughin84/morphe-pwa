@@ -1,5 +1,5 @@
 // /modules/progressCalendar.js
-// v2.2.0 — Полная поддержка добавок, улучшенная надёжность
+// v2.3.0 — Добавлено кэширование, улучшена надёжность
 
 export class ProgressCalendar {
   constructor() {
@@ -7,6 +7,7 @@ export class ProgressCalendar {
     this._body = null;
     this._workouts = null;
     this._supplements = null;
+    this._detailsCache = new Map(); // ← кэш для getDayDetails
   }
 
   async getNutrition() {
@@ -35,8 +36,15 @@ export class ProgressCalendar {
 
   async getSupplements() {
     if (!this._supplements) {
-      const { SupplementTracker } = await import('/modules/supplementTracker.js');
-      this._supplements = new SupplementTracker();
+      try {
+        const { SupplementTracker } = await import('/modules/supplementTracker.js');
+        this._supplements = new SupplementTracker();
+      } catch (e) {
+        console.error('❌ Не удалось загрузить SupplementTracker:', e);
+        this._supplements = {
+          getEntriesByDate: () => []
+        };
+      }
     }
     return this._supplements;
   }
@@ -117,6 +125,10 @@ export class ProgressCalendar {
   }
 
   async getDayDetails(dateStr) {
+    if (this._detailsCache.has(dateStr)) {
+      return this._detailsCache.get(dateStr);
+    }
+
     const [body, nutrition, workouts, supplements] = await Promise.all([
       this.getBody(),
       this.getNutrition(),
@@ -129,21 +141,18 @@ export class ProgressCalendar {
     let workoutEntries = [];
     let supplementEntries = [];
 
-    // Замеры тела
     if (typeof body.getEntriesByDate === 'function') {
       bodyEntries = body.getEntriesByDate(dateStr);
     } else if (Array.isArray(body.entries)) {
       bodyEntries = body.entries.filter(entry => entry.date === dateStr);
     }
 
-    // Питание
     if (typeof nutrition.getEntriesByDate === 'function') {
       nutritionEntries = nutrition.getEntriesByDate(dateStr);
     } else if (Array.isArray(nutrition.entries)) {
       nutritionEntries = nutrition.entries.filter(entry => entry.date === dateStr);
     }
 
-    // Тренировки
     if (typeof workouts.getWorkoutsByDate === 'function') {
       workoutEntries = workouts.getWorkoutsByDate(dateStr);
     } else if (typeof workouts.getAll === 'function') {
@@ -155,19 +164,26 @@ export class ProgressCalendar {
       workoutEntries = workouts.data.filter(w => w.date === dateStr);
     }
 
-    // Добавки
     if (typeof supplements.getEntriesByDate === 'function') {
       supplementEntries = supplements.getEntriesByDate(dateStr);
     } else if (Array.isArray(supplements.entries)) {
       supplementEntries = supplements.entries.filter(entry => entry.date === dateStr);
     }
 
-    return {
+    const result = {
       date: dateStr,
       body: bodyEntries,
       nutrition: nutritionEntries,
       workouts: workoutEntries,
       supplements: supplementEntries
     };
+
+    this._detailsCache.set(dateStr, result);
+    return result;
+  }
+
+  // Опционально: вызывать после сохранения данных
+  invalidateCache(dateStr) {
+    this._detailsCache.delete(dateStr);
   }
 }
