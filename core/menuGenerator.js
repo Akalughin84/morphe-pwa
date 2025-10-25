@@ -1,17 +1,22 @@
 // /core/menuGenerator.js
-// v0.6.1 — Надёжный генератор меню с защитой от ошибок
+// v0.9.0 — Адаптивные калории + микро-советы + альтернативы
 
 import { UserService } from '/services/userService.js';
 
-/**
- * MenuGenerator — создаёт сбалансированное меню на день
- * Подбирает завтрак, обед, ужин под целевые калории и БЖУ
- */
 export class MenuGenerator {
   constructor() {
     this.foods = [];
     this.profile = null;
     this.targetMacros = null;
+    this.currentSeason = this._getCurrentSeason();
+  }
+
+  _getCurrentSeason() {
+    const month = new Date().getMonth();
+    if ([11, 0, 1].includes(month)) return 'winter';
+    if ([2, 3, 4].includes(month)) return 'spring';
+    if ([5, 6, 7].includes(month)) return 'summer';
+    return 'autumn';
   }
 
   async loadFoods() {
@@ -32,14 +37,12 @@ export class MenuGenerator {
 
     this.profile = user.data;
 
-    // ✅ Исправлен путь: предполагаем, что NutritionEngine в /core/
     let engine;
     try {
       const { NutritionEngine } = await import('/core/nutritionEngine.js');
       engine = new NutritionEngine(user);
     } catch (e) {
       console.warn('NutritionEngine не найден, используем fallback');
-      // Fallback: расчёт на основе профиля
       const weight = this.profile.weight || 70;
       const goal = this.profile.goal || 'maintain';
       let calories = 2000;
@@ -59,11 +62,25 @@ export class MenuGenerator {
     return this.targetMacros;
   }
 
-  findFood(options) {
-    const { category, targetCalories, maxDeviation = 100 } = options;
+  _isPreferred(food) {
+    if (!this.profile) return true;
+    if (this.profile.dislikes?.some(d => food.name.toLowerCase().includes(d.toLowerCase()))) {
+      return false;
+    }
+    if (this.profile.cuisinePreference && food.cuisine && food.cuisine !== this.profile.cuisinePreference) {
+      return false;
+    }
+    return true;
+  }
 
-    // ✅ Используем теги вместо поиска в названии (предполагаем, что в foods.json есть поле `tags`)
+  findFood(options, excludeIds = []) {
+    const { category, targetCalories } = options;
+
     const candidates = this.foods.filter(food => {
+      if (excludeIds.includes(food.id)) return false;
+      if (!this._isPreferred(food)) return false;
+      if (food.season && !food.season.includes(this.currentSeason)) return false;
+
       if (!food.tags) return false;
       if (category === 'protein' && food.tags.includes('protein')) return true;
       if (category === 'carbs' && food.tags.includes('carbs')) return true;
@@ -74,11 +91,20 @@ export class MenuGenerator {
     });
 
     if (candidates.length === 0) {
-      // Fallback: любой продукт
+      if (category !== 'mixed') {
+        const mixedFallback = this.foods.filter(food =>
+          !excludeIds.includes(food.id) &&
+          this._isPreferred(food) &&
+          (!food.season || food.season.includes(this.currentSeason)) &&
+          food.tags?.includes('mixed')
+        );
+        if (mixedFallback.length > 0) {
+          return mixedFallback.sort((a, b) => Math.abs((a.calories || 0) - targetCalories) - Math.abs((b.calories || 0) - targetCalories))[0];
+        }
+      }
       return this.foods[0] || { name: 'Неизвестный продукт', calories: 100, protein: 0, fats: 0, carbs: 0 };
     }
 
-    // Сортируем по близости к целевым калориям
     return candidates.sort((a, b) => {
       const diffA = Math.abs((a.calories || 0) - targetCalories);
       const diffB = Math.abs((b.calories || 0) - targetCalories);
@@ -86,46 +112,77 @@ export class MenuGenerator {
     })[0];
   }
 
+  findFoodAlternatives(options, excludeIds = [], count = 3) {
+    const { category, targetCalories } = options;
+
+    const candidates = this.foods.filter(food => {
+      if (excludeIds.includes(food.id)) return false;
+      if (!this._isPreferred(food)) return false;
+      if (food.season && !food.season.includes(this.currentSeason)) return false;
+
+      if (!food.tags) return false;
+      if (category === 'protein' && food.tags.includes('protein')) return true;
+      if (category === 'carbs' && food.tags.includes('carbs')) return true;
+      if (category === 'fats' && food.tags.includes('fats')) return true;
+      if (category === 'veggies' && food.tags.includes('veggies')) return true;
+      if (category === 'mixed') return true;
+      return false;
+    });
+
+    const sorted = candidates.sort((a, b) => {
+      const diffA = Math.abs((a.calories || 0) - targetCalories);
+      const diffB = Math.abs((b.calories || 0) - targetCalories);
+      return diffA - diffB;
+    });
+
+    return sorted.slice(0, count).map(food => ({
+      ...food,
+      grams: this.calculateGrams(food, targetCalories)
+    }));
+  }
+
   calculateGrams(food, targetCalories) {
     const caloriesPer100g = food.calories || 100;
     if (caloriesPer100g <= 0) return 100;
-    return Math.max(10, Math.round((targetCalories / caloriesPer100g) * 100));
+    let grams = Math.round((targetCalories / caloriesPer100g) * 100);
+    if (food.portionMin !== undefined) grams = Math.max(food.portionMin, grams);
+    if (food.portionMax !== undefined) grams = Math.min(food.portionMax, grams);
+    return Math.max(1, grams);
   }
 
-  generateBreakfast() {
-    const calories = (this.targetMacros.calories || 2000) * 0.3;
-    const main = this.findFood({ category: 'protein', targetCalories: calories * 0.7 });
-    const side = this.findFood({ category: 'carbs', targetCalories: calories * 0.3 });
+  // Обновлённые методы с поддержкой целевых калорий
+  generateBreakfast(excludeIds = [], targetCalories = 600) {
+    const main = this.findFood({ category: 'protein', targetCalories: targetCalories * 0.6 }, excludeIds);
+    const side = this.findFood({ category: 'carbs', targetCalories: targetCalories * 0.4 }, excludeIds);
 
-    const mainGrams = this.calculateGrams(main, calories * 0.7);
-    const sideGrams = this.calculateGrams(side, calories * 0.3);
+    const mainGrams = this.calculateGrams(main, targetCalories * 0.6);
+    const sideGrams = this.calculateGrams(side, targetCalories * 0.4);
 
     return {
       meal: "Завтрак",
       items: [
-        { ...main, grams: mainGrams },
-        { ...side, grams: sideGrams }
+        { ...main, grams: mainGrams, tip: main.tip },
+        { ...side, grams: sideGrams, tip: side.tip }
       ],
       totalCalories: (main.calories || 0) * (mainGrams / 100) + (side.calories || 0) * (sideGrams / 100)
     };
   }
 
-  generateLunch() {
-    const calories = (this.targetMacros.calories || 2000) * 0.4;
-    const main = this.findFood({ category: 'protein', targetCalories: calories * 0.5 });
-    const carb = this.findFood({ category: 'carbs', targetCalories: calories * 0.3 });
-    const veg = this.findFood({ category: 'veggies', targetCalories: calories * 0.2 });
+  generateLunch(excludeIds = [], targetCalories = 800) {
+    const main = this.findFood({ category: 'protein', targetCalories: targetCalories * 0.5 }, excludeIds);
+    const carb = this.findFood({ category: 'carbs', targetCalories: targetCalories * 0.3 }, excludeIds);
+    const veg = this.findFood({ category: 'veggies', targetCalories: targetCalories * 0.2 }, excludeIds);
 
-    const mainGrams = this.calculateGrams(main, calories * 0.5);
-    const carbGrams = this.calculateGrams(carb, calories * 0.3);
-    const vegGrams = this.calculateGrams(veg, calories * 0.2);
+    const mainGrams = this.calculateGrams(main, targetCalories * 0.5);
+    const carbGrams = this.calculateGrams(carb, targetCalories * 0.3);
+    const vegGrams = this.calculateGrams(veg, targetCalories * 0.2);
 
     return {
       meal: "Обед",
       items: [
-        { ...main, grams: mainGrams },
-        { ...carb, grams: carbGrams },
-        { ...veg, grams: vegGrams }
+        { ...main, grams: mainGrams, tip: main.tip },
+        { ...carb, grams: carbGrams, tip: carb.tip },
+        { ...veg, grams: vegGrams, tip: veg.tip }
       ],
       totalCalories: [
         (main.calories || 0) * (mainGrams / 100),
@@ -135,22 +192,20 @@ export class MenuGenerator {
     };
   }
 
-  generateDinner() {
-    const calories = (this.targetMacros.calories || 2000) * 0.3;
-    const main = this.findFood({ category: 'protein', targetCalories: calories * 0.6 });
-    const side = this.findFood({ category: 'carbs', targetCalories: calories * 0.2 });
-    const fat = this.findFood({ category: 'fats', targetCalories: calories * 0.2 });
+  generateDinner(excludeIds = [], targetCalories = 600) {
+    const main = this.findFood({ category: 'protein', targetCalories: targetCalories * 0.5 }, excludeIds);
+    const side = this.findFood({ category: 'carbs', targetCalories: targetCalories * 0.2 }, excludeIds);
+    const fat = this.findFood({ category: 'fats', targetCalories: targetCalories * 0.3 }, excludeIds);
 
-    const mainGrams = this.calculateGrams(main, calories * 0.6);
-    const sideGrams = this.calculateGrams(side, calories * 0.2);
-    const fatGrams = this.calculateGrams(fat, calories * 0.2);
+    const mainGrams = this.calculateGrams(main, targetCalories * 0.5);
+    const sideGrams = this.calculateGrams(side, targetCalories * 0.2);
+    const fatGrams = this.calculateGrams(fat, targetCalories * 0.3);
 
     return {
-      meal: "Ужин",
       items: [
-        { ...main, grams: mainGrams },
-        { ...side, grams: sideGrams },
-        { ...fat, grams: fatGrams }
+        { ...main, grams: mainGrams, tip: main.tip },
+        { ...side, grams: sideGrams, tip: side.tip },
+        { ...fat, grams: fatGrams, tip: fat.tip }
       ],
       totalCalories: [
         (main.calories || 0) * (mainGrams / 100),
@@ -160,13 +215,70 @@ export class MenuGenerator {
     };
   }
 
+  generateDinnerAlternatives(excludeIds = [], count = 3, targetCalories = 600) {
+    const alternatives = [];
+    for (let i = 0; i < count; i++) {
+      const used = [...excludeIds];
+      if (alternatives.length > 0) {
+        used.push(...alternatives.flatMap(a => a.items.map(it => it.id)));
+      }
+
+      const mainOpts = this.findFoodAlternatives({ category: 'protein', targetCalories: targetCalories * 0.5 }, used, 1);
+      if (mainOpts.length === 0) break;
+
+      const main = mainOpts[0];
+      const side = this.findFood({ category: 'carbs', targetCalories: targetCalories * 0.2 }, [...used, main.id]);
+      const fat = this.findFood({ category: 'fats', targetCalories: targetCalories * 0.3 }, [...used, main.id, side.id]);
+
+      const mainGrams = main.grams;
+      const sideGrams = this.calculateGrams(side, targetCalories * 0.2);
+      const fatGrams = this.calculateGrams(fat, targetCalories * 0.3);
+
+      alternatives.push({
+        items: [
+          { ...main, grams: mainGrams, tip: main.tip },
+          { ...side, grams: sideGrams, tip: side.tip },
+          { ...fat, grams: fatGrams, tip: fat.tip }
+        ],
+        totalCalories: [
+          (main.calories || 0) * (mainGrams / 100),
+          (side.calories || 0) * (sideGrams / 100),
+          (fat.calories || 0) * (fatGrams / 100)
+        ].reduce((a, b) => a + b, 0)
+      });
+    }
+
+    return alternatives.length > 0 ? alternatives : [this.generateDinner(excludeIds, targetCalories)];
+  }
+
   async generateMenu() {
     await this.loadFoods();
     await this.loadTargetMacros();
 
-    const breakfast = this.generateBreakfast();
-    const lunch = this.generateLunch();
-    const dinner = this.generateDinner();
+    const totalTarget = this.targetMacros.calories || 2000;
+
+    // Минимумы для приёмов пищи
+    const minBreakfast = Math.max(400, totalTarget * 0.25);
+    const minLunch = Math.max(500, totalTarget * 0.35);
+    const minDinner = Math.max(300, totalTarget * 0.25);
+
+    // Завтрак — 30% от цели, но не меньше minBreakfast
+    let breakfast = this.generateBreakfast([], minBreakfast);
+    let remaining = totalTarget - breakfast.totalCalories;
+
+    // Обед — 40% от цели или всё, что осталось (но не меньше minLunch)
+    let lunchTarget = Math.min(remaining, Math.max(minLunch, totalTarget * 0.4));
+    let lunch = this.generateLunch([breakfast.items[0].id], lunchTarget);
+    remaining -= lunch.totalCalories;
+
+    // Ужин — всё оставшееся, но не меньше minDinner
+    let dinnerTarget = Math.max(remaining, minDinner);
+    let dinnerAlternatives = this.generateDinnerAlternatives(
+      [breakfast.items[0].id, lunch.items[0].id],
+      3,
+      dinnerTarget
+    );
+    let dinner = dinnerAlternatives[0];
 
     const totalCalories = Math.round(
       breakfast.totalCalories +
@@ -178,9 +290,10 @@ export class MenuGenerator {
       breakfast,
       lunch,
       dinner,
+      dinnerAlternatives,
       totalCalories,
-      targetCalories: this.targetMacros.calories || 2000,
-      deficit: (this.targetMacros.calories || 2000) - totalCalories
+      targetCalories: totalTarget,
+      deficit: totalTarget - totalCalories
     };
   }
 }
