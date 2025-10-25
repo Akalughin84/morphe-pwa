@@ -10,274 +10,26 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#f97316">
 
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/styles-shared.css">
-  <link rel="stylesheet" href="/styles-header.css">
-  <style>
-    :root {
-      --transition-fast: 0.2s ease;
-      --transition-normal: 0.3s ease;
-    }
+  <!-- База -->
+  <link rel="stylesheet" href="/styles/base/reset.css">
+  <link rel="stylesheet" href="/styles/base/theme.css">
+  <link rel="stylesheet" href="/styles/base/typography.css">
+  <link rel="stylesheet" href="/styles/base/utilities.css">
 
-    .session-header {
-      text-align: center;
-      margin-bottom: 1.2rem;
-      padding: 1rem 0;
-    }
-    .session-title {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin: 0;
-    }
-    .session-progress {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin-top: 0.25rem;
-    }
+  <!-- Компоненты -->
+  <link rel="stylesheet" href="/styles/components/buttons.css">
+  <link rel="stylesheet" href="/styles/components/cards.css">
+  <link rel="stylesheet" href="/styles/components/forms.css">
+  <link rel="stylesheet" href="/styles/components/tabs.css">
+  <link rel="stylesheet" href="/styles/components/mobile-menu.css">
 
-    .exercise-card {
-      background: var(--bg-surface);
-      border-radius: 18px;
-      padding: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 3px 10px var(--shadow);
-      border: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
-    }
+  <!-- Макет -->
+  <link rel="stylesheet" href="/styles/layout/header.css">
+  <link rel="stylesheet" href="/styles/layout/footer.css">
+  <link rel="stylesheet" href="/styles/layout/scroll-top.css">
 
-    .exercise-number {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: var(--accent);
-      color: white;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.75rem;
-    }
-
-    .exercise-name {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin: 0 0 10px 0;
-      color: var(--text-primary);
-    }
-
-    .exercise-meta {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .meta-item {
-      background: var(--bg-surface-alt);
-      padding: 4px 10px;
-      border-radius: 50px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-    .meta-item.tempo { color: var(--accent); }
-
-    .form-tips, .scientific-basis {
-      background: var(--bg-surface-alt);
-      padding: 8px;
-      border-radius: 8px;
-      margin: 8px 0;
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-    }
-    .form-tips small, .scientific-basis small {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 3px;
-      color: var(--text-primary);
-    }
-    .form-tips ul {
-      margin: 3px 0 0 14px;
-      padding: 0;
-      list-style: disc;
-    }
-
-    .comparison {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px;
-      background: var(--bg-surface-alt);
-      border-radius: 8px;
-      margin: 10px 0;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-    .comparison.up { color: var(--success); }
-    .comparison.down { color: var(--warning); }
-
-    .form-row {
-      display: flex;
-      gap: 12px;
-      margin: 10px 0;
-      flex-wrap: wrap;
-    }
-    .form-group {
-      flex: 1 1 140px;
-      margin-bottom: 0;
-    }
-    label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 6px;
-      display: block;
-      color: var(--text-primary);
-    }
-    .weight-input, .rir-select, .notes-input {
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg-input);
-      font-size: 1rem;
-      font-weight: 600;
-    }
-    .weight-input {
-      font-size: 1.2rem;
-      text-align: center;
-    }
-    .notes-input {
-      min-height: 44px;
-      padding: 8px;
-      font-size: 0.95rem;
-      font-weight: normal;
-    }
-
-    .rest-btn {
-      width: 100%;
-      padding: 12px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      border-radius: 12px;
-      margin: 12px 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .advice-box {
-      background: var(--bg-surface-alt);
-      border-left: 3px solid var(--accent);
-      padding: 12px;
-      border-radius: 0 8px 8px 0;
-      margin-top: 12px;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-    }
-    .advice-box strong { color: var(--text-primary); }
-
-    /* === ТАЙМЕР ОТДЫХА === */
-    .rest-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    .rest-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .timer-ring {
-      width: 200px;
-      height: 200px;
-      position: relative;
-      margin-bottom: 20px;
-    }
-    .timer-ring svg {
-      transform: rotate(-90deg);
-    }
-    .timer-text {
-      font-size: 3rem;
-      font-weight: 800;
-      color: white;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.3);
-    }
-    .timer-label {
-      color: rgba(255,255,255,0.85);
-      font-size: 1.2rem;
-      margin-top: 10px;
-    }
-    .skip-rest-btn {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      border: none;
-      padding: 8px 24px;
-      border-radius: 50px;
-      font-size: 1rem;
-      margin-top: 16px;
-      backdrop-filter: blur(6px);
-    }
-    .skip-rest-btn:hover {
-      background: rgba(255,255,255,0.25);
-    }
-
-    /* === ГОТОВНОСТЬ И КНОПКА СОХРАНЕНИЯ === */
-    .readiness-section {
-      background: var(--bg-surface);
-      border-radius: 18px;
-      padding: 18px;
-      margin: 1.2rem 0;
-      box-shadow: 0 3px 10px var(--shadow);
-    }
-    .readiness-title {
-      font-size: 1.2rem;
-      margin: 0 0 14px 0;
-      color: var(--text-primary);
-    }
-
-    .save-btn {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 14px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      border-radius: 0;
-      z-index: 900;
-      box-shadow: 0 -3px 16px rgba(0,0,0,0.12);
-    }
-    @media (min-width: 769px) {
-      .save-btn {
-        position: static;
-        border-radius: 14px;
-        margin: 1.2rem 0 2.5rem;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .container { padding: 12px; }
-      .exercise-card { padding: 14px; }
-      .form-row { flex-direction: column; gap: 10px; }
-      .form-group { flex: 1 1 100%; }
-      .timer-text { font-size: 2.8rem; }
-    }
-  </style>
+  <!-- Стили страницы -->
+  <link rel="stylesheet" href="/styles/pages/workout-session.css">
 </head>
 <body>
 
@@ -285,36 +37,42 @@
 
   <main id="main-content" tabindex="-1">
     <div class="container">
+      <div class="week-selector" id="weekSelector" style="display:none;"></div>
       <div class="session-header">
         <h1 class="session-title" id="sessionTitle">🏋️ Тренировка</h1>
         <div class="session-progress" id="sessionProgress">Загрузка...</div>
+        <div class="session-progress-bar">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
       </div>
 
-      <div id="exercisesContainer"></div>
+      <div class="workout-container">
+        <div class="exercise-list"></div>
+      </div>
 
-      <section class="readiness-section" id="readinessSection" style="display: none;">
+      <section class="readiness-section" id="readinessSection">
         <h2 class="readiness-title">📊 Как прошла тренировка?</h2>
-        <div class="form-group">
+        <div class="workout-form-group">
           <label for="rpeInput">Насколько было тяжело? (RPE)</label>
           <select id="rpeInput" class="form-control">
             <option value="">Выберите</option>
-            <option value="5">5 — легко</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10 — максимум</option>
+            <option value="5">5 — легко: мог бы продолжать ещё долго</option>
+            <option value="6">6 — умеренно легко: лёгкое напряжение, дыхание свободное</option>
+            <option value="7">7 — умеренно тяжело: дыхание учащено, но разговаривать можно</option>
+            <option value="8">8 — тяжело: дыхание глубокое, разговаривать трудно</option>
+            <option value="9">9 — очень тяжело: почти на пределе, хочется остановиться</option>
+            <option value="10">10 — максимум: невозможно продолжать, полное истощение</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="workout-form-group">
           <label for="domsInput">Боль в мышцах?</label>
           <select id="domsInput" class="form-control">
             <option value="">Выберите</option>
-            <option value="1">1 — нет боли</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 — сильная боль</option>
+            <option value="1">1 — нет боли: мышцы не беспокоят</option>
+            <option value="2">2 — лёгкая скованность: чувствуется при движении</option>
+            <option value="3">3 — умеренная боль: ощущается в покое, но не мешает</option>
+            <option value="4">4 — сильная боль: мешает обычной активности</option>
+            <option value="5">5 — очень сильная боль: трудно двигаться, нужен отдых</option>
           </select>
         </div>
       </section>
@@ -325,8 +83,7 @@
     </div>
   </main>
 
-  <!-- Полноэкранный таймер -->
-  <div class="rest-overlay" id="restOverlay" role="timer" aria-live="polite">
+  <!-- <div class="rest-overlay" id="restOverlay" role="timer" aria-live="polite">
     <div class="timer-ring" id="timerRing">
       <svg width="200" height="200">
         <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"></circle>
@@ -337,7 +94,7 @@
     <div class="timer-text" id="timerText">90</div>
     <div class="timer-label">Отдых</div>
     <button class="skip-rest-btn" id="skipRestBtn" type="button">Пропустить</button>
-  </div>
+  </div> -->
 
   <div id="footer-placeholder"></div>
 
@@ -355,27 +112,513 @@
     import { WorkoutTracker } from '/modules/workoutTracker.js';
     import { DataService } from '/services/dataService.js';
     import { StorageManager } from '/utils/storage.js';
-
-    let timerInterval = null;
+    import { UserService } from '/services/userService.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
-      await HeaderController.loadHeader();
+      let timerInterval = null;
+      let hasUnsavedChanges = false;
+      const aiAdviceCache = new Map();
+      let session = null;
+      let exerciseMap = {};
+      let profile = null;
+      let isDataLoaded = false;
+      let activeDetails = null;
+      let programId = null;
+      let programName = null;
+
+      // --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
+
+      function getLastSessionForExercise(exId) {
+        const keys = Object.keys(localStorage)
+          .filter(k => k.startsWith('morphe-workout-'))
+          .sort((a, b) => b.localeCompare(a));
+        for (const key of keys) {
+          const s = StorageManager.getItem(key);
+          if (!s?.exercises) continue;
+          const ex = s.exercises.find(e => e.id === exId);
+          if (ex) return ex;
+        }
+        return null;
+      }
+
+      let currentRestInterval = null;
+
+      function startRestTimerLocal(duration, displayElement, exerciseIndex, setsElement) {
+        let time = duration;
+        let setsCompleted = parseInt(setsElement.textContent.split('/')[0]) || 0;
+        const totalSets = session.exercises[exerciseIndex].sets;
+        displayElement.textContent = time;
+        if (currentRestInterval) clearInterval(currentRestInterval);
+        currentRestInterval = setInterval(() => {
+          time--;
+          displayElement.textContent = time;
+          if (time <= 0) {
+            stopRestTimerLocal();
+            if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
+            setsCompleted++;
+            if (setsElement) {
+              setsElement.innerHTML = `<span>${setsCompleted}/${totalSets}</span><small>Подходов</small>`;
+            }
+            if (setsCompleted < totalSets) {
+              alert('Время отдыха окончено! 💪');
+            } else {
+              alert('Последний подход завершён! Отличная работа! 🎉');
+            }
+          }
+        }, 1000);
+      }
+
+      function stopRestTimerLocal() {
+        if (currentRestInterval) {
+          clearInterval(currentRestInterval);
+          currentRestInterval = null;
+        }
+      }
+
+      // function startRestTimer(duration) {
+      //   const overlay = document.getElementById('restOverlay');
+      //   const timerText = document.getElementById('timerText');
+      //   const circle = document.getElementById('timerCircle');
+      //   const total = 2 * Math.PI * 90;
+      //   let time = duration;
+      //   timerText.textContent = time;
+      //   circle.style.strokeDasharray = total;
+      //   circle.style.strokeDashoffset = total;
+      //   overlay.classList.add('active');
+      //   if (timerInterval) clearInterval(timerInterval);
+      //   timerInterval = setInterval(() => {
+      //     time--;
+      //     timerText.textContent = time;
+      //     const offset = total * (time / duration);
+      //     circle.style.strokeDashoffset = offset;
+      //     if (time <= 0) {
+      //       stopRestTimer();
+      //       if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
+      //       alert('Время отдыха окончено! 💪');
+      //     }
+      //   }, 1000);
+      // }
+
+      // function stopRestTimer() {
+      //   if (timerInterval) {
+      //     clearInterval(timerInterval);
+      //     timerInterval = null;
+      //   }
+      //   document.getElementById('restOverlay').classList.remove('active');
+      // }
+
+      async function generateExerciseAdvice(exerciseConfig, exerciseData, profile, card) {
+        const placeholder = card.querySelector('.advice-placeholder');
+        if (!placeholder) return;
+        const cacheKey = `advice-${exerciseConfig.id}-${profile?.injuries?.join(',') || 'none'}`;
+        if (aiAdviceCache.has(cacheKey)) {
+          placeholder.innerHTML = aiAdviceCache.get(cacheKey);
+          return;
+        }
+        try {
+          const { AIAssistant } = await import('/core/aiAssistant.js');
+          const ai = new AIAssistant();
+          let focus = 'full';
+          if (exerciseData.muscleGroup) {
+            const muscleToFocus = { legs: 'legs', chest: 'push', back: 'pull', shoulders: 'push', arms: 'pull', abs: 'core' };
+            focus = muscleToFocus[exerciseData.muscleGroup] || 'full';
+          }
+          const advice = ai.generateWarmupAdvice(focus, {
+            injuries: profile?.injuries || [],
+            level: profile?.level || 'beginner',
+            workoutLocation: profile?.workoutLocation || 'gym'
+          });
+
+          let shouldShow = true;
+          if (exerciseData.contraindications?.length && profile?.injuries?.length) {
+            const hasConflict = exerciseData.contraindications.some(c => profile.injuries.includes(c));
+            if (hasConflict) shouldShow = false;
+          }
+
+          if (!shouldShow) {
+            aiAdviceCache.set(cacheKey, '');
+            placeholder.innerHTML = '';
+            return;
+          }
+
+          const adviceHtml = `
+            <div class="exercise-advice">
+              <strong>${advice.title}</strong>
+              <p>${advice.message}</p>
+              <div class="ai-actions">
+                <button class="btn-sm btn-outline" data-reaction="accepted">Полезно</button>
+                <button class="btn-sm btn-outline" data-reaction="not_helpful">Не нужно</button>
+              </div>
+            </div>
+          `;
+          placeholder.innerHTML = adviceHtml;
+          aiAdviceCache.set(cacheKey, adviceHtml);
+          placeholder.querySelectorAll('.ai-actions button').forEach(btn => {
+            btn.addEventListener('click', () => {
+              ai.recordAdviceFeedback(advice.id, btn.dataset.reaction);
+              placeholder.innerHTML = '<p class="info-text">Спасибо за отзыв!</p>';
+            });
+          });
+        } catch (e) {
+          console.warn('Не удалось сгенерировать совет для упражнения:', e);
+          placeholder.innerHTML = '';
+        }
+      }
+
+      async function showPostWorkoutAdvice(session, profile) {
+        const intensity = session.exercises.filter(e => e.weight).length > 3 ? 'high' : 'moderate';
+        const userAllergies = profile?.allergies || [];
+        let mealAdvice = 'Белковый перекус (творог, яйца, курица)';
+        let supplementAdvice = '';
+        let extraAdvice = '';
+        try {
+          const { DataService } = await import('/services/dataService.js');
+          const allFoods = await DataService.getFoods();
+          const safeFoods = allFoods.filter(food => {
+            if (!food.allergens || food.allergens.length === 0) return true;
+            return !food.allergens.some(a => userAllergies.includes(a));
+          });
+          const postWorkoutOptions = safeFoods.filter(f => f.tags?.includes('post-workout') || (f.protein >= 20));
+          if (postWorkoutOptions.length > 0) {
+            mealAdvice = `${postWorkoutOptions[0].name} (${postWorkoutOptions[0].protein} г белка)`;
+          } else if (userAllergies.length > 0) {
+            mealAdvice = 'Белковый перекус без аллергенов (рис, чечевица, курица)';
+          }
+        } catch (e) {
+          console.warn('Не удалось загрузить безопасные продукты:', e);
+        }
+        if (profile?.goal === 'lose' || profile?.workoutType === 'cardio') {
+          supplementAdvice = '<li>💊 Омега-3: 1–2 г в день с едой</li>';
+        } else if (profile?.goal === 'gain') {
+          supplementAdvice = '<li>💊 Креатин: 3–5 г после тренировки</li>';
+        }
+        if (profile?.smoking && profile.smoking !== 'no') {
+          extraAdvice += '<li>🍊 Дополнительно: витамин C (апельсин, болгарский перец)</li>';
+        }
+        if (profile?.alcohol && profile.alcohol !== 'none') {
+          extraAdvice += '<li>💧 +500 мл воды — алкоголь обезвоживает</li>';
+        }
+        if (profile?.hemoglobin !== null && profile.hemoglobin < 120) {
+          extraAdvice += '<li>🩸 Отдыхай сегодня — низкий гемоглобин снижает выносливость</li>';
+        }
+        if (profile?.vitaminD !== null && profile.vitaminD < 20) {
+          extraAdvice += '<li>☀️ Прими витамин D (2000–4000 МЕ) с жирной пищей</li>';
+        }
+        const adviceHtml = `
+          <div class="exercise-card" style="background:#f0fdf4; border-left:4px solid #10b981; margin-top:24px;">
+            <h3 style="margin-top:0;">🔥 Отличная работа!</h3>
+            <ul style="text-align:left; margin:12px 0; padding-left:20px;">
+              <li>💧 Выпей <strong>500 мл воды</strong></li>
+              <li>🚿 ${intensity === 'high' ? 'Прими душ' : 'Умойся'}</li>
+              <li>🍗 Через 30–45 мин: ${mealAdvice}</li>
+              ${supplementAdvice}
+              ${extraAdvice}
+            </ul>
+          </div>
+        `;
+
+        // ✅ ИСПРАВЛЕНО: используем .workout-container вместо несуществующего #exercisesContainer
+        const workoutContainer = document.querySelector('.workout-container');
+        if (workoutContainer) {
+          workoutContainer.insertAdjacentHTML('beforeend', adviceHtml);
+        } else {
+          console.warn('Контейнер .workout-container не найден для отображения совета.');
+        }
+      }
+
+      function closeAllDetails() {
+        if (activeDetails) {
+          activeDetails.classList.remove('active');
+          activeDetails = null;
+        }
+      }
+
+      function renderPlanView() {
+        const exerciseList = document.querySelector('.exercise-list');
+        exerciseList.innerHTML = '';
+        session.exercises.forEach((ex, index) => {
+          const exercise = exerciseMap[ex.id] || { name: ex.name || 'Упражнение' };
+          const metaItems = [];
+          if (ex.type === 'warmup' || ex.type === 'stretch') {
+            metaItems.push(`${ex.duration || ex.reps} мин`);
+          } else {
+            metaItems.push(`${ex.sets}×${ex.reps}`);
+            if (ex.tempo) metaItems.push(`⏱ ${ex.tempo}`);
+          }
+
+          const item = document.createElement('div');
+          item.className = 'exercise-item';
+          const imgSrc = exercise.posterUrl || '/assets/icons/default-exercise.png';
+          item.innerHTML = `
+            <img src="${imgSrc}" alt="${exercise.name}" onerror="this.src='/assets/icons/default-exercise.png'">
+            <div class="exercise-info">
+              <h3>${exercise.name}</h3>
+              <div class="exercise-meta-small">${metaItems.join(' • ')}</div>
+            </div>
+          `;
+          item.addEventListener('click', () => {
+            closeAllDetails();
+            const details = item.nextElementSibling;
+            if (details && details.classList.contains('exercise-details')) {
+              details.classList.add('active');
+              activeDetails = details;
+            } else {
+              const details = document.createElement('div');
+              details.className = 'exercise-details';
+              details.innerHTML = getExerciseDetailsHTML(ex, exercise, index);
+              item.parentNode.insertBefore(details, item.nextSibling);
+              details.classList.add('active');
+              activeDetails = details;
+              initExerciseDetails(details, ex, exercise, index);
+            }
+          });
+          exerciseList.appendChild(item);
+        });
+      }
+
+      function getExerciseDetailsHTML(ex, exercise, index) {
+        const restTime = ex.rest || 90;
+        const circularProgressHtml = `
+          <div class="circular-progress">
+            <div class="circle"><span>${ex.reps}</span><small>Повторений</small></div>
+            <div class="circle"><span>${Math.floor(restTime/60)}:${(restTime%60).toString().padStart(2,'0')}</span><small>Отдых</small></div>
+            <div class="circle" id="sets-circle-${index}"><span>0/${ex.sets}</span><small>Подходов</small></div>
+          </div>
+        `;
+
+        const restTimerHtml = `
+          <div class="rest-timer-local">
+            <span>⏱ Отдых:</span>
+            <span class="timer-display" id="restTimerDisplay_${index}">${restTime}</span>
+            <button class="start-rest-btn" data-index="${index}">▶️ Начать</button>
+            <button class="skip-rest-btn" data-index="${index}">Пропустить</button>
+          </div>
+        `;
+
+        let formHtml = '';
+        if (ex.type === 'warmup' || ex.type === 'stretch') {
+          formHtml = `
+            <div class="workout-form-group">
+              <label>Заметки (что чувствовали, как прошла техника)</label>
+              <textarea class="notes-input" data-id="${ex.id}" placeholder="Например: «Было легко», «Чувствовал напряжение в плечах»"></textarea>
+            </div>
+          `;
+        } else {
+          const last = getLastSessionForExercise(ex.id);
+          const lastWeight = last ? last.weight : '';
+          const showWeightInput = !['cardio', 'core', 'mobility', 'light'].includes(exercise.type);
+
+          if (showWeightInput) {
+            formHtml = `
+              <div class="form-row">
+                <div class="workout-form-group">
+                  <label>Вес (кг)</label>
+                  <input type="number" step="0.5" class="weight-input" data-id="${ex.id}" placeholder="0" value="${lastWeight}">
+                </div>
+                <div class="workout-form-group">
+                  <label>RIR (Повторения в запасе)</label>
+                  <select class="rir-select" data-id="${ex.id}">
+                    <option value="">?</option>
+                    <option value="0">0 — до полного отказа</option>
+                    <option value="1">1 — мог бы сделать ещё 1</option>
+                    <option value="2">2 — мог бы сделать ещё 2</option>
+                    <option value="3">3 — мог бы сделать ещё 3</option>
+                  </select>
+                </div>
+              </div>
+              <div class="workout-form-group">
+                <label>Заметки</label>
+                <textarea class="notes-input" data-id="${ex.id}" placeholder="Как прошла техника?"></textarea>
+              </div>
+            `;
+          } else {
+            formHtml = `
+              <div class="workout-form-group">
+                <label>Заметки (повторения, время, ощущения)</label>
+                <textarea class="notes-input" data-id="${ex.id}" placeholder="Например: 45 сек, без остановки"></textarea>
+              </div>
+            `;
+          }
+        }
+
+        return `
+          <div class="exercise-card">
+            <div class="exercise-header">
+              <div class="exercise-number">${index + 1}</div>
+              <h2 class="exercise-name">${exercise.name}</h2>
+            </div>
+            ${getMediaHtml(exercise)}
+            ${circularProgressHtml}
+            ${restTimerHtml}
+            ${formHtml}
+            <div class="advice-placeholder" data-id="${ex.id}"></div>
+          </div>
+        `;
+      }
+
+      function getMediaHtml(exercise) {
+        let mediaHtml = '';
+        let mediaUrl = exercise.posterUrl || exercise.gifUrl || exercise.videoUrl;
+
+        if (mediaUrl && mediaUrl !== '#') {
+          if (mediaUrl.endsWith('.mp4') || mediaUrl.endsWith('.webm')) {
+            mediaHtml = `<div class="exercise-video"><video controls preload="metadata" poster="${exercise.posterUrl || ''}"><source src="${mediaUrl}" type="video/mp4">Ваш браузер не поддерживает видео.</video></div>`;
+          } else {
+            mediaHtml = `<div class="exercise-gif"><img src="${mediaUrl}" alt="${exercise.name}" loading="lazy"></div>`;
+          }
+        } else {
+          mediaHtml = `
+            <div class="exercise-fallback" style="text-align: center; padding: 20px;">
+              <img src="/assets/icons/default-exercise.png" alt="Иконка упражнения" style="width: 60px; height: 60px; margin-bottom: 12px;">
+              <small>ℹ️ ${exercise.description || 'Выполняйте плавно и контролируемо.'}</small>
+            </div>
+          `;
+        }
+        return mediaHtml;
+      }
+
+      function initExerciseDetails(details, ex, exercise, index) {
+        const advicePlaceholder = details.querySelector('.advice-placeholder');
+        if (advicePlaceholder) {
+          generateExerciseAdvice(ex, exercise, profile, details);
+        }
+
+        const startBtn = details.querySelector('.start-rest-btn');
+        if (startBtn) {
+          startBtn.addEventListener('click', () => {
+            const displayElement = details.querySelector('.timer-display');
+            const setsElement = document.getElementById(`sets-circle-${index}`).querySelector('span');
+            startRestTimerLocal(ex.rest || 90, displayElement, index, setsElement);
+          });
+        }
+
+        const skipBtn = details.querySelector('.skip-rest-btn');
+        if (skipBtn) {
+          skipBtn.addEventListener('click', () => {
+            stopRestTimerLocal();
+            const displayElement = details.querySelector('.timer-display');
+            displayElement.textContent = ex.rest || 90;
+          });
+        }
+
+        details.querySelectorAll('input, select, textarea').forEach(el => {
+          el.addEventListener('input', () => {
+            hasUnsavedChanges = true;
+            updateSaveButtonState();
+          });
+        });
+      }
+
+      function updateSaveButtonState() {
+        const saveBtn = document.getElementById('saveSession');
+        const inputs = document.querySelectorAll('.weight-input, .notes-input');
+        const hasInput = Array.from(inputs).some(input => input.value.trim() !== '');
+
+        if (hasInput) {
+          saveBtn.style.display = 'block';
+        } else {
+          saveBtn.style.display = 'none';
+        }
+      }
+
+      // === ОБРАБОТЧИК СОХРАНЕНИЯ (ДЕЛЕГИРОВАНИЕ) ===
+      document.addEventListener('click', async (e) => {
+        if (e.target.id === 'saveSession') {
+          e.preventDefault();
+          if (!isDataLoaded || !session) {
+            alert('Данные ещё не загружены. Подождите.');
+            return;
+          }
+
+          const rpe = document.getElementById('rpeInput').value || null;
+          const doms = document.getElementById('domsInput').value || null;
+
+          const exercises = [];
+          document.querySelectorAll('.weight-input').forEach(input => {
+            const id = input.dataset.id;
+            const weight = input.value;
+            if (!weight) return;
+            const rir = document.querySelector(`.rir-select[data-id="${id}"]`).value;
+            const notes = document.querySelector(`.notes-input[data-id="${id}"]`).value;
+            exercises.push({
+              id,
+              weight: parseFloat(weight),
+              rir: rir || null,
+              notes: notes || null
+            });
+          });
+
+          document.querySelectorAll('.notes-input').forEach(textarea => {
+            const id = textarea.dataset.id;
+            const notes = textarea.value;
+            const exType = session.exercises.find(ex => ex.id === id)?.type;
+            if (notes && !exercises.some(e => e.id === id) && exType !== 'warmup' && exType !== 'stretch') {
+              exercises.push({ id, weight: null, rir: null, notes });
+            }
+          });
+
+          if (exercises.length === 0) {
+            alert('⚠️ Введите данные хотя бы для одного упражнения');
+            return;
+          }
+
+          const tracker = new WorkoutTracker();
+          const savedSession = tracker.logSession({
+            programId,
+            programName: session.name || programName,
+            date: new Date().toISOString(),
+            rpe,
+            doms,
+            exercises,
+            completed: true
+          });
+
+          try {
+            const { AIAssistant } = await import('/core/aiAssistant.js');
+            const ai = new AIAssistant();
+            ai.recordUserAction('completed_workout', {
+              rpe: rpe,
+              exercisesCount: exercises.length
+            });
+          } catch (e) {
+            console.warn('Не удалось записать действие в ИИ:', e);
+          }
+
+          await showPostWorkoutAdvice(savedSession, profile);
+          hasUnsavedChanges = false;
+
+          setTimeout(() => {
+            window.location.href = '/pages/workouts.html';
+          }, 5000);
+        }
+      });
+
+      // --- ИНИЦИАЛИЗАЦИЯ UI ---
+
+      try {
+        await HeaderController.loadHeader();
+      } catch (e) {
+        console.warn('Не удалось загрузить хедер:', e);
+      }
+
       new ThemeManager();
 
-      const exercisesContainer = document.getElementById('exercisesContainer');
+      // ❌ УДАЛЕНО: const exercisesContainer = document.getElementById('exercisesContainer'); — не используется
+
       const sessionProgress = document.getElementById('sessionProgress');
       const sessionTitle = document.getElementById('sessionTitle');
       const readinessSection = document.getElementById('readinessSection');
-      const saveBtn = document.getElementById('saveSession');
+      const weekSelector = document.getElementById('weekSelector');
 
-      document.getElementById('skipRestBtn').addEventListener('click', () => {
-        stopRestTimer();
-      });
+      // document.getElementById('skipRestBtn').addEventListener('click', stopRestTimer);
+
+      // --- ЗАГРУЗКА ДАННЫХ ---
 
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const programId = urlParams.get('id');
-        const programName = urlParams.get('name');
+        programId = urlParams.get('id');
+        programName = urlParams.get('name');
+        const weekParam = parseInt(urlParams.get('week')) || 1;
 
         if (!programId || !programName) {
           sessionProgress.textContent = "❌ Не указана программа";
@@ -389,288 +632,90 @@
 
         let program = planner.getCurrent();
         if (!program || !program.schedule?.length) {
-          program = await planner.generate();
+          if (programId) {
+            program = await planner.usePredefinedProgram(programId, weekParam);
+          } else {
+            program = await planner.generate();
+          }
         }
 
         if (!program.schedule?.length) throw new Error("Программа пуста");
 
-        const todayIndex = new Date().getDay() % program.schedule.length;
-        const session = program.schedule[todayIndex]?.session || program.schedule[0]?.session;
+        const warnings = program.warnings || [];
+        if (warnings.length > 0) {
+          const warningsEl = document.createElement('div');
+          warningsEl.className = 'alert warning';
+          warningsEl.innerHTML = warnings.map(w => `<p>${w}</p>`).join('');
+          document.querySelector('.session-header').insertAdjacentElement('beforebegin', warningsEl);
+        }
+
+        const originalProgramId = program.originalProgramId || program.id;
+        if (originalProgramId && program.week) {
+          weekSelector.style.display = 'flex';
+          weekSelector.innerHTML = '';
+          const maxWeeks = program.durationWeeks || 6;
+          for (let w = 1; w <= maxWeeks; w++) {
+            const btn = document.createElement('button');
+            btn.className = `week-btn ${w === program.week ? 'active' : ''}`;
+            btn.textContent = `Неделя ${w}`;
+            btn.onclick = () => {
+              if (w !== program.week) {
+                window.location.href = `/pages/workout-session.html?id=${originalProgramId}&name=${encodeURIComponent(program.name)}&week=${w}`;
+              }
+            };
+            weekSelector.appendChild(btn);
+          }
+        }
+
+        const today = new Date().toISOString().split('T')[0];
+        const todayEntry = program.schedule.find(s => s.date === today);
+        if (!todayEntry) {
+          alert('❌ Сегодня не ваш тренировочный день.');
+          window.location.href = '/pages/workouts.html';
+          return;
+        }
+
+        if (todayEntry.focus === 'rest') {
+          alert('Сегодня день отдыха. Отлично, дай телу восстановиться!');
+          window.location.href = '/pages/workouts.html';
+          return;
+        }
+
+        session = todayEntry.session;
         if (!session?.exercises?.length) throw new Error("Нет упражнений");
+
+        if (session.warnings?.length > 0) {
+          const warningsEl = document.createElement('div');
+          warningsEl.className = 'alert warning';
+          warningsEl.innerHTML = session.warnings.map(w => `<p>${w}</p>`).join('');
+          document.querySelector('.session-header').insertAdjacentElement('beforebegin', warningsEl);
+        }
 
         sessionTitle.textContent = session.name || 'Тренировка';
         sessionProgress.textContent = `Упражнение 1 из ${session.exercises.length}`;
 
         const exercisesData = await DataService.getExercises();
-        const exerciseMap = Object.fromEntries(exercisesData.map(e => [e.id, e]));
+        exerciseMap = Object.fromEntries(exercisesData.map(e => [e.id, e]));
+        profile = UserService.getRawData ? UserService.getRawData() : {};
 
-        function getLastSessionForExercise(exId) {
-          const keys = Object.keys(localStorage)
-            .filter(k => k.startsWith('morphe-workout-'))
-            .sort((a, b) => b.localeCompare(a));
-
-          for (const key of keys) {
-            const s = StorageManager.getItem(key);
-            if (!s?.exercises) continue;
-            const ex = s.exercises.find(e => e.id === exId);
-            if (ex) return ex;
-          }
-          return null;
-        }
-
-        exercisesContainer.innerHTML = '';
-
-        session.exercises.forEach((ex, index) => {
-          const exercise = exerciseMap[ex.id] || { name: ex.name || 'Упражнение' };
-          const last = getLastSessionForExercise(ex.id);
-
-          // Сравнение с прошлым
-          let comparisonHtml = '';
-          if (last) {
-            const weightDiff = parseFloat(ex.weight) - parseFloat(last.weight);
-            const repsDiff = parseInt(ex.reps) - parseInt(last.reps);
-            let trend = '', text = '';
-
-            if (weightDiff > 0) {
-              trend = 'up';
-              text = `↑ ${weightDiff} кг`;
-            } else if (weightDiff < 0) {
-              trend = 'down';
-              text = `↓ ${Math.abs(weightDiff)} кг`;
-            } else if (repsDiff > 0) {
-              trend = 'up';
-              text = `↑ ${repsDiff} повт.`;
-            } else {
-              text = 'Без изменений';
-            }
-
-            comparisonHtml = `
-              <div class="comparison ${trend}">
-                📌 Последний раз: ${last.weight || '?'} кг × ${last.reps || '?'}
-                ${text ? `<span style="margin-left:6px;">${text}</span>` : ''}
-              </div>
-            `;
-          }
-
-          // Метаданные
-          const metaItems = [];
-          metaItems.push(`<span class="meta-item">${ex.sets}×${ex.reps}</span>`);
-          if (ex.tempo) metaItems.push(`<span class="meta-item tempo">⏱ ${ex.tempo}</span>`);
-          if (ex.technique) metaItems.push(`<span class="meta-item">${ex.technique}</span>`);
-
-          // Советы по технике
-          let formTipsHtml = '';
-          if (exercise.formTips && exercise.formTips.length > 0) {
-            formTipsHtml = `
-              <div class="form-tips">
-                <small>📌 Советы по технике:</small>
-                <ul>${exercise.formTips.map(tip => `<li>${tip}</li>`).join('')}</ul>
-              </div>
-            `;
-          }
-
-          // Научная основа
-          let scientificBasisHtml = '';
-          if (exercise.scientificBasis?.progressionRule) {
-            scientificBasisHtml = `
-              <div class="scientific-basis">
-                <small>💡 Прогрессия:</small>
-                <p>${exercise.scientificBasis.progressionRule}</p>
-              </div>
-            `;
-          }
-
-          // Определяем, нужно ли поле "Вес"
-          const showWeightInput = !['cardio', 'core', 'mobility', 'light'].includes(exercise.type);
-
-          // Форма ввода
-          let formHtml = '';
-          if (showWeightInput) {
-            formHtml = `
-              <div class="form-row">
-                <div class="form-group">
-                  <label>Вес (кг)</label>
-                  <input type="number" step="0.5" class="weight-input" data-id="${ex.id}" placeholder="0">
-                </div>
-                <div class="form-group">
-                  <label>RIR</label>
-                  <select class="rir-select" data-id="${ex.id}">
-                    <option value="">?</option>
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label>Заметки</label>
-                <textarea class="notes-input" data-id="${ex.id}" placeholder="Как прошла техника?"></textarea>
-              </div>
-            `;
-          } else {
-            formHtml = `
-              <div class="form-group">
-                <label>Заметки (повторения, время, ощущения)</label>
-                <textarea class="notes-input" data-id="${ex.id}" placeholder="Например: 45 сек, без остановки"></textarea>
-              </div>
-            `;
-          }
-
-          const card = document.createElement('div');
-          card.className = 'exercise-card';
-          card.innerHTML = `
-            <div class="exercise-number">${index + 1}</div>
-            <h2 class="exercise-name">${exercise.name}</h2>
-            <div class="exercise-meta">${metaItems.join('')}</div>
-            ${formTipsHtml}
-            ${scientificBasisHtml}
-            ${comparisonHtml}
-            ${formHtml}
-            <button type="button" class="btn-primary rest-btn" data-rest="${ex.rest || 90}">
-              ⏱ Отдых (${ex.rest || 90} сек)
-            </button>
-            <div class="advice-placeholder" data-id="${ex.id}"></div>
-          `;
-          exercisesContainer.appendChild(card);
-        });
-
-        // Загрузить советы от системы
-        try {
-          const { StrengthProgress } = await import('/core/strengthProgress.js');
-          const progressEngine = new StrengthProgress();
-
-          session.exercises.forEach((ex, idx) => {
-            const last = getLastSessionForExercise(ex.id);
-            if (!last) return;
-
-            const rm = progressEngine.calculateOneRepMax(last.weight, last.reps, last.rir);
-            const ready = progressEngine.checkDoubleProgression(ex.id, last);
-
-            const adviceLines = [];
-            if (rm) adviceLines.push(`📊 1ПМ: ~${Math.round(rm)} кг`);
-            if (ready.ready) adviceLines.push(`✅ Готовы увеличить вес!`);
-
-            if (adviceLines.length) {
-              const placeholder = document.querySelector(`.advice-placeholder[data-id="${ex.id}"]`);
-              if (placeholder) {
-                placeholder.innerHTML = `<div class="advice-box">${adviceLines.join('<br>')}</div>`;
-              }
-            }
-          });
-        } catch (err) {
-          console.warn('Советы недоступны:', err.message);
-        }
-
-        // Обработчик кнопок отдыха
-        document.querySelectorAll('.rest-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const restSec = parseInt(e.target.dataset.rest) || 90;
-            startRestTimer(restSec);
-          });
-        });
-
-        // Кнопка сохранения
-        saveBtn.style.display = 'block';
-        saveBtn.addEventListener('click', () => {
-          const rpe = document.getElementById('rpeInput').value || null;
-          const doms = document.getElementById('domsInput').value || null;
-
-          const exercises = [];
-          document.querySelectorAll('.weight-input').forEach(input => {
-            const id = input.dataset.id;
-            const weight = input.value;
-            if (!weight) return;
-
-            const rir = document.querySelector(`.rir-select[data-id="${id}"]`).value;
-            const notes = document.querySelector(`.notes-input[data-id="${id}"]`).value;
-
-            exercises.push({
-              id,
-              weight: parseFloat(weight),
-              rir: rir || null,
-              notes: notes || null
-            });
-          });
-
-          // Для упражнений без веса — берём заметки
-          document.querySelectorAll('.notes-input').forEach(textarea => {
-            const id = textarea.dataset.id;
-            const notes = textarea.value;
-            if (notes && !exercises.some(e => e.id === id)) {
-              exercises.push({ id, weight: null, rir: null, notes });
-            }
-          });
-
-          if (exercises.length === 0) {
-            alert('⚠️ Введите данные хотя бы для одного упражнения');
-            return;
-          }
-
-          const tracker = new WorkoutTracker();
-          tracker.logSession({
-            programId,
-            programName: session.name || programName,
-            date: new Date().toISOString(),
-            rpe,
-            doms,
-            exercises
-          });
-
-          alert('✅ Тренировка сохранена!');
-          window.location.href = '/index.html';
-        });
-
-        readinessSection.style.display = 'block';
+        renderPlanView();
+        isDataLoaded = true;
 
       } catch (err) {
         console.error(err);
-        document.getElementById('sessionProgress').textContent = `❌ ${err.message}`;
-        document.getElementById('sessionProgress').className = 'error-text';
+        sessionProgress.textContent = `❌ ${err.message}`;
+        sessionProgress.className = 'error-text';
       }
-    });
 
-    function startRestTimer(duration) {
-      const overlay = document.getElementById('restOverlay');
-      const timerText = document.getElementById('timerText');
-      const circle = document.getElementById('timerCircle');
-      const total = 2 * Math.PI * 90;
-
-      let time = duration;
-      timerText.textContent = time;
-      circle.style.strokeDasharray = total;
-      circle.style.strokeDashoffset = total;
-
-      overlay.classList.add('active');
-
-      if (timerInterval) clearInterval(timerInterval);
-
-      timerInterval = setInterval(() => {
-        time--;
-        timerText.textContent = time;
-        const offset = total * (time / duration);
-        circle.style.strokeDashoffset = offset;
-
-        if (time <= 0) {
-          stopRestTimer();
-          if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
-          alert('Время отдыха окончено! 💪');
+      window.addEventListener('beforeunload', (e) => {
+        if (hasUnsavedChanges) {
+          e.preventDefault();
+          e.returnValue = 'У вас есть несохранённые данные. Точно выйти?';
+          return e.returnValue;
         }
-      }, 1000);
-    }
+      });
 
-    function stopRestTimer() {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
-      document.getElementById('restOverlay').classList.remove('active');
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      import('/core/HeaderController.js')
-        .then(m => m.HeaderController.loadFooter())
-        .catch(console.error);
+      document.addEventListener('input', updateSaveButtonState);
     });
   </script>
 </body>
