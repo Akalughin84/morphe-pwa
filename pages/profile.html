@@ -11,11 +11,26 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#f97316">
 
-  <!-- Стили -->
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/styles-shared.css">
-  <link rel="stylesheet" href="/styles-form.css">
-  <link rel="stylesheet" href="/styles-header.css">
+  <!-- База -->
+  <link rel="stylesheet" href="/styles/base/reset.css">
+  <link rel="stylesheet" href="/styles/base/theme.css">
+  <link rel="stylesheet" href="/styles/base/typography.css">
+  <link rel="stylesheet" href="/styles/base/utilities.css">
+
+  <!-- Компоненты -->
+  <link rel="stylesheet" href="/styles/components/buttons.css">
+  <link rel="stylesheet" href="/styles/components/cards.css">
+  <link rel="stylesheet" href="/styles/components/forms.css">
+  <link rel="stylesheet" href="/styles/components/tabs.css">
+  <link rel="stylesheet" href="/styles/components/mobile-menu.css">
+
+  <!-- Макет -->
+  <link rel="stylesheet" href="/styles/layout/header.css">
+  <link rel="stylesheet" href="/styles/layout/footer.css">
+  <link rel="stylesheet" href="/styles/layout/scroll-top.css">
+
+  <!-- Страница -->
+  <link rel="stylesheet" href="/styles/pages/profile.css">
 </head>
 <body>
 
@@ -64,6 +79,14 @@
               <small class="text-muted">Рост / Вес</small>
               <div class="value"><span id="v-height">—</span> см / <span id="v-weight">—</span> кг</div>
             </div>
+            <div class="profile-item">
+              <small class="text-muted">Аллергии</small>
+              <div class="value" id="v-allergies">—</div>
+            </div>
+            <div class="profile-item">
+              <small class="text-muted">Травмы</small>
+              <div class="value" id="v-injuries">—</div>
+            </div>
           </div>
 
           <hr class="divider">
@@ -78,6 +101,10 @@
               <div class="value" id="v-workoutType">—</div>
             </div>
             <div class="profile-item">
+              <small class="text-muted">Дни тренировок</small>
+              <div class="value" id="v-trainingDays">—</div>
+            </div>
+            <div class="profile-item">
               <small class="text-muted">Место</small>
               <div class="value" id="v-workoutLocation">—</div>
             </div>
@@ -86,11 +113,11 @@
               <div class="pill" id="v-goal-pill">—</div>
             </div>
           </div>
-        </div>
 
-        <button id="editBtn" class="btn-primary btn-large" style="width: 100%;">
-          ✏️ Изменить профиль
-        </button>
+          <button id="editBtn" class="btn-primary btn-large" style="width: 100%;">
+            ✏️ Изменить профиль
+          </button>
+        </div>
       </div>
 
       <!-- Режим редактирования -->
@@ -104,114 +131,269 @@
         </div>
 
         <form id="profileForm" novalidate>
-          <!-- Шаг 1: Личные данные -->
-          <div class="step active" data-step="1">
-            <div class="card">
-              <h3>🧍‍♂️ Личная информация</h3>
-              <div class="form-group">
-                <label for="name">Имя</label>
-                <input type="text" id="name" name="name" autocapitalize="words" required placeholder="Алексей">
-              </div>
-              <div class="form-group">
-                <label>Пол</label>
-                <div class="radio-group">
-                  <label><input type="radio" name="gender" value="male" required> Мужской</label>
-                  <label><input type="radio" name="gender" value="female"> Женский</label>
+            <!-- Шаг 1: О себе -->
+            <div class="step active" data-step="1">
+              <div class="card">
+                <h3>🧍‍♂️ О себе</h3>
+                <p class="form-subtitle">Начнём с основ.</p>
+
+                <div class="form-group">
+                  <label for="name">Имя</label>
+                  <input type="text" id="name" name="name" autocomplete="name" autocapitalize="words" required placeholder="Алексей">
+                </div>
+
+                <div class="form-group">
+                  <label for="gender">Пол</label>
+                  <select id="gender" name="gender" required>
+                    <option value="">Выберите...</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                  </select>
+                </div>
+
+                <div class="form-row two-cols">
+                  <div class="form-group">
+                    <label for="age">Возраст</label>
+                    <input type="number" id="age" name="age" inputmode="numeric" min="14" max="99" required placeholder="28">
+                  </div>
+                  <div class="form-group">
+                    <label for="height">Рост (см)</label>
+                    <input type="number" id="height" name="height" inputmode="numeric" min="140" max="230" required placeholder="178">
+                  </div>
                 </div>
               </div>
-              <div class="form-group">
-                <label for="age">Возраст</label>
-                <input type="number" id="age" name="age" inputmode="numeric" min="14" max="99" required placeholder="28">
-              </div>
             </div>
-          </div>
 
-          <!-- Шаг 2: Параметры тела -->
+          <!-- Шаг 2: Вес и цель -->
           <div class="step" data-step="2">
             <div class="card">
-              <h3>📏 Параметры тела</h3>
+              <h3>🎯 Вес и цель</h3>
+              <p class="form-subtitle">Это основа вашего персонального плана.</p>
+
               <div class="form-group">
-                <label for="height">Рост (см)</label>
-                <input type="number" id="height" name="height" inputmode="numeric" min="140" max="230" required placeholder="178">
-              </div>
-              <div class="form-group">
-                <label for="weight">Вес (кг)</label>
+                <label for="weight">Текущий вес (кг)</label>
                 <input type="number" id="weight" name="weight" inputmode="decimal" step="0.1" min="40" max="200" required placeholder="75.5">
               </div>
+
+              <div class="form-group">
+                <label for="targetWeight">Желаемый вес (кг)</label>
+                <input type="number" id="targetWeight" name="targetWeight" inputmode="decimal" step="0.5" min="40" max="200" placeholder="80.0">
+                <small class="form-hint">Оставьте пустым, если хотите поддерживать текущий вес или фокусироваться на здоровье.</small>
+              </div>
+
+              <div class="form-group">
+                <label for="goal">Какая у вас основная цель?</label>
+                <select id="goal" name="goal" required>
+                  <option value="">Выберите...</option>
+                  <option value="lose">⚖️ Похудеть</option>
+                  <option value="gain">💪 Набрать массу</option>
+                  <option value="maintain">🔄 Поддерживать форму</option>
+                  <option value="health">❤️ Здоровье и самочувствие</option>
+                </select>               
+              </div>
             </div>
           </div>
 
-          <!-- Шаг 3: Активность -->
+          <!-- Шаг 3: Образ жизни -->
           <div class="step" data-step="3">
             <div class="card">
-              <h3>⚡ Активность и тренировки</h3>
+              <h3>🌿 Образ жизни</h3>
+              <p class="form-subtitle">Это влияет на восстановление, сон и прогресс.</p>
+
               <div class="form-group">
-                <label>Где вы тренируетесь?</label>
-                <div class="radio-group">
-                  <label><input type="radio" name="workoutLocation" value="gym" required> В зале</label>
-                  <label><input type="radio" name="workoutLocation" value="home"> Дома или на улице</label>
-                </div>
+                <label for="smoking">Вы курите или используете никотин?</label>
+                <select id="smoking" name="smoking" required>
+                  <option value="">Выберите...</option>
+                  <option value="no">Нет</option>
+                  <option value="occasional">Иногда</option>
+                  <option value="regular">Регулярно</option>
+                </select>
               </div>
+
               <div class="form-group">
-                <label>Сколько времени вы уделяете активности в неделю?</label>
-                <small class="form-hint">Учитываем тренировки, ходьбу, работу и повседневную активность.</small>
-                <div class="radio-group">
-                  <label>
-                    <input type="radio" name="activity" value="1.2" required>
-                    <strong>Минимум движения</strong><br>
-                    <small>Менее 1.5 часов | Сидячая работа</small>
-                  </label>
-                  <label>
-                    <input type="radio" name="activity" value="1.375">
-                    <strong>Лёгкая активность</strong><br>
-                    <small>1.5–3 часа | 1–3 тренировки</small>
-                  </label>
-                  <label>
-                    <input type="radio" name="activity" value="1.55">
-                    <strong>Средняя активность</strong><br>
-                    <small>3–5 часов | 3–5 тренировок</small>
-                  </label>
-                  <label>
-                    <input type="radio" name="activity" value="1.725">
-                    <strong>Высокая активность</strong><br>
-                    <small>5–7 часов | Ежедневно</small>
-                  </label>
-                  <label>
-                    <input type="radio" name="activity" value="1.9">
-                    <strong>Очень высокая</strong><br>
-                    <small>Более 7 часов | Работа + спорт</small>
-                  </label>
-                </div>
+                <label for="alcohol">Употребляете ли вы алкоголь?</label>
+                <select id="alcohol" name="alcohol" required>
+                  <option value="">Выберите...</option>
+                  <option value="none">Нет</option>
+                  <option value="occasional">Иногда (1–2 раза в неделю)</option>
+                  <option value="frequent">Часто (3+ раз в неделю)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="activity">Насколько вы активны вне тренировок?</label>
+                <small class="form-hint">Ходьба, работа, повседневная активность.</small>
+                <select id="activity" name="activity" required>
+                  <option value="">Выберите...</option>
+                  <option value="1.375">Лёгкая — 1–3 тренировки в неделю</option>
+                  <option value="1.55">Средняя — 3–5 тренировок в неделю</option>
+                  <option value="1.725">Высокая — 5+ тренировок в неделю</option>
+                </select>
               </div>
             </div>
           </div>
 
-          <!-- Шаг 4: Цель -->
+          <!-- Шаг 4: Тренировки -->
           <div class="step" data-step="4">
             <div class="card">
-              <h3>🎯 Цель и стиль тренировок</h3>
+              <h3>🏋️‍♂️ Тренировки</h3>
+              <p class="form-subtitle">Настройте расписание под ваш ритм жизни.</p>
+
               <div class="form-group">
-                <label>Какая у вас цель?</label>
-                <div class="radio-group">
-                  <label><input type="radio" name="goal" value="lose" required> Сбросить вес</label>
-                  <label><input type="radio" name="goal" value="maintain"> Поддерживать форму</label>
-                  <label><input type="radio" name="goal" value="gain"> Набрать массу</label>
-                </div>
+                <label for="workoutLocation">Где вы тренируетесь?</label>
+                <select id="workoutLocation" name="workoutLocation" required>
+                  <option value="">Выберите...</option>
+                  <option value="gym">В зале</option>
+                  <option value="home">Дома или на улице</option>
+                </select>
               </div>
+
               <div class="form-group">
                 <label for="workoutType">Какие тренировки вам ближе?</label>
                 <select id="workoutType" name="workoutType" required>
-                  <option value="balanced">Сбалансированные (сила + кардио)</option>
+                  <option value="">Выберите...</option>
+                  <option value="balanced">Силовые + кардио</option>
                   <option value="cardio">Больше кардио</option>
                   <option value="strength">Больше силовых</option>
                   <option value="light">Лёгкие и регулярные</option>
                 </select>
               </div>
-              <!-- В шаге "Цель" -->
+
               <div class="form-group">
-                <label for="targetWeight">Желаемый вес (кг)</label>
-                <input type="number" id="targetWeight" name="targetWeight" step="0.5" min="40" max="200" placeholder="80.0">
-                <small class="form-hint">Укажите вес, к которому стремитесь. Оставьте пустым для поддержания.</small>
+                <label for="workoutDuration">Сколько времени вы готовы уделять тренировке?</label>
+                <select id="workoutDuration" name="workoutDuration" required>
+                  <option value="30">30 минут</option>
+                  <option value="45">45 минут</option>
+                  <option value="60" selected>1 час</option>
+                  <option value="75">1 час 15 мин</option>
+                  <option value="90">1.5 часа</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="workoutTime">Во сколько вы обычно тренируетесь?</label>
+                <input type="time" id="workoutTime" name="workoutTime" required>
+              </div>
+
+              <div class="form-group">
+                <label>В какие дни недели вам удобно тренироваться?</label>
+                <small class="form-hint">Выберите 2–6 дней в неделю.</small>
+                <div class="checkbox-group days-of-week">
+                  <label><input type="checkbox" name="trainingDays" value="1"> Понедельник</label>
+                  <label><input type="checkbox" name="trainingDays" value="2"> Вторник</label>
+                  <label><input type="checkbox" name="trainingDays" value="3"> Среда</label>
+                  <label><input type="checkbox" name="trainingDays" value="4"> Четверг</label>
+                  <label><input type="checkbox" name="trainingDays" value="5"> Пятница</label>
+                  <label><input type="checkbox" name="trainingDays" value="6"> Суббота</label>
+                  <label><input type="checkbox" name="trainingDays" value="0"> Воскресенье</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Шаг 5: Здоровье и ограничения -->
+          <div class="step" data-step="5">
+            <div class="card">
+              <h3>🩺 Здоровье и ограничения</h3>
+              <p class="form-subtitle">Это поможет нам сделать тренировки и питание безопасными.</p>
+
+              <!-- Аллергии -->
+              <div class="form-group">
+                <label>Есть ли у вас аллергии или непереносимости?</label>
+                <small class="form-hint">Используется для подбора питания.</small>
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="allergies" value="dairy"> 🥛 Молочные продукты</label>
+                  <label><input type="checkbox" name="allergies" value="nuts"> 🥜 Орехи</label>
+                  <label><input type="checkbox" name="allergies" value="gluten"> 🍞 Глютен</label>
+                  <label><input type="checkbox" name="allergies" value="eggs"> 🥚 Яйца</label>
+                  <label><input type="checkbox" name="allergies" value="seafood"> 🐟 Морепродукты</label>
+                  <label><input type="checkbox" name="allergies" value="soy"> 🌱 Соя</label>
+                  <label><input type="checkbox" name="allergies" value="peanuts"> 🥜 Арахис</label>
+                  <label><input type="checkbox" name="allergies" value="other"> 🔍 Другое</label>
+                </div>
+              </div>
+
+              <hr class="divider">
+
+              <!-- Травмы -->
+              <div class="form-group">
+                <label>Есть ли у вас травмы или хронические боли?</label>
+                <small class="form-hint">Мы исключим рискованные упражнения.</small>
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="injuries" value="shoulder"> 🤲 Плечо</label>
+                  <label><input type="checkbox" name="injuries" value="knee"> 🦵 Колено</label>
+                  <label><input type="checkbox" name="injuries" value="back"> 🧍‍♂️ Спина</label>
+                  <label><input type="checkbox" name="injuries" value="elbow"> 💪 Локоть</label>
+                  <label><input type="checkbox" name="injuries" value="ankle"> 🦶 Голеностоп</label>
+                  <label><input type="checkbox" name="injuries" value="wrist"> 🖐️ Запястье</label>
+                  <label><input type="checkbox" name="injuries" value="hip"> 🦴 Тазобедренный сустав</label>
+                  <label><input type="checkbox" name="injuries" value="other"> 🔍 Другое</label>
+                </div>
+              </div>
+
+              <hr class="divider">
+
+              <!-- Хронические заболевания -->
+              <div class="form-group">
+                <label>Есть ли у вас хронические заболевания?</label>
+                <small class="form-hint">Это повлияет на интенсивность и рекомендации.</small>
+                <div class="checkbox-group">
+                  <label><input type="checkbox" name="chronicConditions" value="hypertension"> ❤️ Артериальная гипертензия</label>
+                  <label><input type="checkbox" name="chronicConditions" value="diabetes"> 🍬 Сахарный диабет</label>
+                  <label><input type="checkbox" name="chronicConditions" value="thyroid"> 🦋 Проблемы с щитовидной железой</label>
+                  <label><input type="checkbox" name="chronicConditions" value="heart"> ❤️ Сердечно-сосудистые заболевания</label>
+                  <label><input type="checkbox" name="chronicConditions" value="asthma"> 🫁 Бронхиальная астма</label>
+                  <label><input type="checkbox" name="chronicConditions" value="other"> 🔍 Другое</label>
+                </div>
+              </div>
+
+              <hr class="divider">
+
+              <!-- Чекбокс для анализов -->
+              <div class="form-group">
+                <label class="checkbox-inline">
+                  <input type="checkbox" id="wantsLabData" name="wantsLabData">
+                  Хочу вводить данные анализов (витамины, гормоны, кровь)
+                </label>
+                <small class="form-hint">Это поможет точнее адаптировать питание и восстановление.</small>
+              </div>
+
+              <!-- Дополнительные заметки -->
+              <div class="form-group">
+                <label for="healthNotes">Дополнительные заметки (необязательно)</label>
+                <textarea id="healthNotes" name="healthNotes" rows="2" placeholder="Например: после операции на колене, избегаю приседаний"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- Шаг 6: Анализы (опционально) -->
+          <div class="step" data-step="6" style="display: none;">
+            <div class="card">
+              <h3>📊 Анализы (по желанию)</h3>
+              <p class="form-subtitle">Добавьте данные — мы поможем их интерпретировать.</p>
+
+              <div class="form-group">
+                <label for="lastBloodTestDate">Дата последнего анализа</label>
+                <input type="date" id="lastBloodTestDate" name="lastBloodTestDate">
+              </div>
+
+              <div class="form-grid two-cols">
+                <div class="form-group">
+                  <label for="hemoglobin">Гемоглобин (г/л)</label>
+                  <input type="number" id="hemoglobin" name="hemoglobin" inputmode="decimal" step="0.1" min="80" max="200" placeholder="140">
+                </div>
+                <div class="form-group">
+                  <label for="cholesterol">Холестерин (ммоль/л)</label>
+                  <input type="number" id="cholesterol" name="cholesterol" inputmode="decimal" step="0.1" min="2" max="10" placeholder="5.2">
+                </div>
+                <div class="form-group">
+                  <label for="glucose">Глюкоза (ммоль/л)</label>
+                  <input type="number" id="glucose" name="glucose" inputmode="decimal" step="0.1" min="3" max="15" placeholder="5.5">
+                </div>
+                <div class="form-group">
+                  <label for="vitaminD">Витамин D (нг/мл)</label>
+                  <input type="number" id="vitaminD" name="vitaminD" inputmode="numeric" step="1" min="10" max="100" placeholder="30">
+                </div>
               </div>
             </div>
           </div>
@@ -222,9 +404,9 @@
         <!-- Кнопки навигации -->
         <div class="profile-form-footer">
           <div class="form-nav-buttons">
+            <button id="nextBtn" type="button" class="btn-primary btn-large">Далее →</button>
             <button id="prevBtn" type="button" class="btn-outline" style="display: none;">← Назад</button>
             <button id="cancelBtn" type="button" class="btn-text">Отмена</button>
-            <button id="nextBtn" type="button" class="btn-primary btn-large">Далее →</button>
           </div>
         </div>
       </div>
@@ -242,398 +424,6 @@
     }
   </script>
 
-  <script type="module" src="/js/profile.js"></script>
-
-  <style>
-  :root {
-    --bg-surface: #ffffff;
-    --bg-card: #fafafa;
-    --text-primary: #1e293b;
-    --text-secondary: #475569;
-    --text-tertiary: #94a3b8;
-    --border: #e2e8f0;
-    --accent: #f97316;
-    --accent-hover: #ea580c;
-    --success: #10b981;
-    --shadow: rgba(0, 0, 0, 0.05);
-    --radius: 16px;
-    --transition: all 0.25s ease;
-  }
-
-  [data-theme="dark"] {
-    --bg-surface: #0f172a;
-    --bg-card: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-tertiary: #94a3b8;
-    --border: #334155;
-    --shadow: rgba(0, 0, 0, 0.2);
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--bg-surface);
-    color: var(--text-primary);
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1.5rem;
-  }
-
-  h1 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  /* Прогресс-бар */
-  .profile-progress {
-    margin-bottom: 2rem;
-  }
-
-  .progress-bar {
-    height: 8px;
-    background-color: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), #fb923c);
-    transition: width 0.4s ease;
-    border-radius: 4px;
-  }
-
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    color: var(--text-tertiary);
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
-  }
-
-  /* Карточка профиля */
-  .profile-card {
-    background: var(--bg-card);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    box-shadow: 0 4px 12px var(--shadow);
-    margin-bottom: 1.5rem;
-    transition: var(--transition);
-  }
-
-  .profile-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 1.75rem;
-  }
-
-  .profile-avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.75rem;
-    flex-shrink: 0;
-  }
-
-  .profile-greeting strong {
-    font-size: 1.4rem;
-    color: var(--text-primary);
-    display: block;
-  }
-
-  .profile-greeting small {
-    color: var(--text-tertiary);
-    font-size: 0.95rem;
-  }
-
-  .profile-grid {
-    display: grid;
-    gap: 1.25rem;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
-
-  .profile-item small {
-    display: block;
-    color: var(--text-tertiary);
-    font-size: 0.85rem;
-    margin-bottom: 0.35rem;
-  }
-
-  .profile-item .value {
-    font-weight: 600;
-    color: var(--text-primary);
-    font-size: 1.05rem;
-  }
-
-  .pill {
-    display: inline-block;
-    background: rgba(249, 115, 22, 0.1);
-    color: var(--accent);
-    padding: 0.35rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 1.75rem 0;
-  }
-
-  /* Кнопки */
-  .btn-primary {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 0.85rem 1.25rem;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    font-size: 1rem;
-  }
-
-  .btn-primary:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
-  }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    padding: 0.85rem 1.25rem;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-  }
-
-  .btn-text {
-    background: none;
-    border: none;
-    color: var(--text-tertiary);
-    font-weight: 600;
-    cursor: pointer;
-    padding: 0.85rem;
-    border-radius: 12px;
-    transition: var(--transition);
-  }
-
-  .btn-text:hover {
-    color: var(--accent);
-  }
-
-  /* Форма */
-  .form-intro {
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-    text-align: center;
-  }
-
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-
-  .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-
-  input[type="text"],
-  input[type="number"],
-  select {
-    width: 100%;
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: var(--bg-surface);
-    color: var(--text-primary);
-    font-size: 1rem;
-    transition: var(--transition);
-  }
-
-  input:focus,
-  select:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.2);
-  }
-
-  .radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-  }
-
-  .radio-group label {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 1rem;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: var(--transition);
-    background: var(--bg-surface);
-  }
-
-  .radio-group input[type="radio"] {
-    margin-top: 0.25rem;
-    accent-color: var(--accent);
-  }
-
-  .radio-group label:hover {
-    border-color: var(--accent);
-    background: rgba(249, 115, 22, 0.03);
-  }
-
-  .radio-group input[type="radio"]:checked + label {
-    border-color: var(--accent);
-    background: rgba(249, 115, 22, 0.08);
-  }
-
-  .form-hint {
-    display: block;
-    margin-top: 0.5rem;
-    color: var(--text-tertiary);
-    font-size: 0.875rem;
-  }
-
-  /* Анимации шагов */
-  .step {
-    display: none;
-    animation: fadeIn 0.35s ease forwards;
-  }
-
-  .step.active {
-    display: block;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Навигация формы */
-  .form-nav-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 1rem;
-  }
-
-  .profile-form-footer {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
-  }
-
-  /* Мобильная адаптация */
-  @media (max-width: 768px) {
-    .container {
-      padding: 1rem;
-    }
-
-    h1 {
-      font-size: 1.5rem;
-    }
-
-    .profile-card {
-      padding: 1.25rem;
-    }
-
-    .profile-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .form-nav-buttons {
-      flex-direction: column;
-      align-items: stretch;
-    }
-
-    #prevBtn, #cancelBtn, #nextBtn {
-      width: 100%;
-      margin-bottom: 0.75rem;
-    }
-
-    .profile-form-footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: var(--bg-surface);
-      padding: 16px;
-      box-shadow: 0 -4px 12px var(--shadow);
-      z-index: 100;
-      justify-content: center;
-    }
-
-    #editMode {
-      padding-bottom: 140px;
-    }
-
-    .radio-group label {
-      padding: 0.85rem;
-    }
-  }
-
-  /* Состояние прогресса */
-  #profileStatus {
-    color: var(--accent);
-    font-weight: 600;
-  }
-
-  /* Обратная связь формы */
-  .form-feedback {
-    margin-top: 1rem;
-    padding: 0.75rem;
-    border-radius: 12px;
-    text-align: center;
-    font-weight: 500;
-  }
-
-  .form-feedback.success {
-    background: rgba(16, 185, 129, 0.1);
-    color: var(--success);
-  }
-
-  .form-feedback.error {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-  }
-</style>
+  <script type="module" src="/js/profile.js"></script>  
 </body>
 </html>
