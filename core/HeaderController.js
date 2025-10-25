@@ -104,7 +104,15 @@ export class HeaderController {
       menuToggle.setAttribute('aria-expanded', 'false');
       mainNav.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('menu-open');
+       // 🔥 Убираем фокус с закрывающей кнопки
+      if (closeBtn && closeBtn === document.activeElement) {
+        closeBtn.blur(); // снимаем фокус
+      }
+
+      // Опционально: возвращаем фокус на бургер-кнопку
+      menuToggle.focus();
     };
+    
 
     const toggleMenu = () => {
       const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
