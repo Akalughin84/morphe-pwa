@@ -1,0 +1,83 @@
+/* === СКИП-ЛИНК === */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 10px;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 10px;
+  outline: 2px solid #fff;
+}
+
+/* === СОВЕТ ИИ === */
+.advice-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.advice-emoji {
+  font-size: 1.5rem;
+}
+
+/* === ИСТОРИЯ УВЕДОМЛЕНИЙ === */
+.history-item {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-primary);
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-item.unread {
+  background: var(--bg-surface-alt);
+  border-left: 3px solid var(--accent);
+}
+
+.history-item small {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.history-item strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.history-item p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* === ОШИБКА === */
+.error-card {
+  border-left: 4px solid var(--danger);
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 768px) {
+  .history-item {
+    padding: 12px;
+  }
+
+  .advice-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
