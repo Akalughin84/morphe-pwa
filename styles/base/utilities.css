@@ -1,0 +1,42 @@
+@media print {
+  .theme-toggle-btn,
+  header,
+  footer,
+  .btn-primary.cta {
+    display: none !important;
+  }
+}
+
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.no-transition *,
+body.no-transition *::before,
+body.no-transition *::after {
+  transition: none !important;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 10px;
+  background: #000;
+  color: #fff;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+  transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+  top: 10px;
+  outline: 2px solid #fff;
+}
