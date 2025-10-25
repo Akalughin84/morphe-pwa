@@ -194,7 +194,7 @@
   import { UserService } from '/services/userService.js';
 
   document.addEventListener('DOMContentLoaded', async () => {
-    await HeaderController.loadHeader();
+    // await HeaderController.loadHeader();
     try {
       await HeaderController.loadHeader();
       await HeaderController.loadFooter();
@@ -372,7 +372,7 @@
         const firstDay = new Date(year, month, 1);
         const lastDay = new Date(year, month + 1, 0);
         const daysInMonth = lastDay.getDate();
-        const startDayOfWeek = firstDay.getDay();
+        const startDayOfWeek = (firstDay.getDay() + 6) % 7;
         
         const calendarEl = document.getElementById('progressCalendar');
         calendarEl.innerHTML = '';
