@@ -1,13 +1,14 @@
 // /core/HomeDashboard.js
-// v1.1.0 — Исправлены дубли, добавлены недостающие вызовы, улучшена интеграция
+// v1.2.0 — Интеграция обратной связи с AIAssistant
 
 import { UserService } from '/services/userService.js';
-import { StorageManager } from '/utils/storage.js';
 
 export class HomeDashboard {
   constructor() {
     this.profile = null;
     this.nutritionPlan = null;
+    this.aiAssistant = null;        // ← сохраняем экземпляр ИИ
+    this.currentAdvice = null;      // ← сохраняем текущий совет
   }
 
   async init() {
@@ -20,14 +21,18 @@ export class HomeDashboard {
         return;
       }
 
-      // Обновляем UI — без дублей
+      // Инициализируем ИИ один раз
+      const { AIAssistant } = await import('/core/aiAssistant.js');
+      this.aiAssistant = new AIAssistant();
+
+      // Обновляем UI
       this.updateGreeting();
       this.updateWeightAndGoal();
-      await this.updateWeightDisplay(); // ← теперь вызывается
+      await this.updateWeightDisplay();
       this.updateLastWorkout();
       this.updateReadiness();
       this.updateCTA();
-      this.updateAISuggestion(); // ← теперь вызывается
+      await this.updateAISuggestion(); // ← теперь с обратной связью
     } catch (err) {
       console.error('❌ Ошибка HomeDashboard:', err);
       this.showError("Не удалось загрузить данные.");
@@ -127,7 +132,6 @@ export class HomeDashboard {
       `;
     } catch (err) {
       console.warn('Не удалось рассчитать готовность:', err);
-      // Fallback на имитацию
       const today = new Date().getDay();
       const isHighLoadDay = [1, 3, 5].includes(today);
       const score = isHighLoadDay ? 7 : 9;
@@ -170,22 +174,43 @@ export class HomeDashboard {
     cta.textContent = text;
   }
 
+  // === ОБНОВЛЁННЫЙ МЕТОД С ОБРАТНОЙ СВЯЗЬЮ ===
   async updateAISuggestion() {
     const el = document.getElementById('ai-suggestion');
-    if (!el) return;
+    if (!el || !this.aiAssistant) return;
 
     try {
-      const { AIAssistant } = await import('/core/aiAssistant.js');
-      const ai = new AIAssistant();
-      const advice = await ai.generateAdvice();
+      const advice = await this.aiAssistant.generateAdvice();
+      this.currentAdvice = advice; // сохраняем для обратной связи
 
+      // Формируем HTML с кнопками
       el.innerHTML = `
-        <div class="ai-badge">${advice.emoji || '💡'}</div>
-        <div class="ai-text">
-          <strong>${advice.title}</strong>
-          <small>${advice.message}</small>
+        <div class="ai-advice-card">
+          <div class="ai-badge">${advice.emoji || '💡'}</div>
+          <div class="ai-text">
+            <strong>${advice.title}</strong>
+            <small>${advice.message}</small>
+          </div>
+          <div class="ai-actions">
+            <button class="btn btn-sm btn-outline" data-reaction="accepted">Понятно</button>
+            <button class="btn btn-sm btn-outline" data-reaction="ignored">Напомнить позже</button>
+            <button class="btn btn-sm btn-outline" data-reaction="not_helpful">Не помогло</button>
+          </div>
         </div>
       `;
+
+      // Навешиваем обработчики
+      el.querySelectorAll('.ai-actions button').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const reaction = e.target.dataset.reaction;
+          if (this.currentAdvice && this.aiAssistant) {
+            this.aiAssistant.recordAdviceFeedback(this.currentAdvice.id, reaction);
+            // Опционально: обновить совет сразу
+            setTimeout(() => this.updateAISuggestion(), 300);
+          }
+        });
+      });
+
     } catch (err) {
       console.warn('Совет ИИ недоступен:', err);
       el.innerHTML = '<small>Советы временно недоступны.</small>';
