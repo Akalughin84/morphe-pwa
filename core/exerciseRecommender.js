@@ -92,17 +92,27 @@ export class ExerciseRecommender {
   _getGoalBased() {
     const goal = this.profile.goal;
     const level = this._getExperienceLevel();
+    
+    // Проверяем, можно ли рекомендовать приседания
+    const canRecommendSquats = !this.profile.injuries?.includes('knee');
+
     if (goal === 'gain' || goal === 'maintain') {
-      return [{
-        exercise: this._findExercise('squat-barbell'),
-        reason: 'Базовое упражнение для роста мышц ног и силы',
-        priority: 'high'
-      }, {
+      const recs = [];
+      if (canRecommendSquats) {
+        recs.push({
+          exercise: this._findExercise('squat-barbell'),
+          reason: 'Базовое упражнение для роста мышц ног и силы',
+          priority: 'high'
+        });
+      }
+      recs.push({
         exercise: this._findExercise('bench-press'),
         reason: 'Основное упражнение для развития груди и трицепса',
         priority: 'high'
-      }];
+      });
+      return recs;
     }
+    
     if (goal === 'lose') {
       return [{
         exercise: this._findExercise('pull-ups'),
@@ -141,22 +151,48 @@ export class ExerciseRecommender {
   }
 
   /**
-   * Безопасные альтернативы при высоком риске
-   */
+ * Безопасные альтернативы при травмах из профиля
+ */
   _getSafeAlternatives() {
-    const hasBackPain = localStorage.getItem('morphe-has-back-pain') === 'true';
-    if (hasBackPain) {
-      return [{
+    const profile = this.profile;
+    if (!profile || !Array.isArray(profile.injuries) || profile.injuries.length === 0) {
+      return [];
+    }
+
+    const recommendations = [];
+
+    // Травма колена → исключаем приседания, выпады и т.д.
+    if (profile.injuries.includes('knee')) {
+      recommendations.push({
         exercise: this._findExercise('leg-press'),
-        reason: 'Замена приседаниям с меньшей нагрузкой на поясницу',
+        reason: 'Безопасная альтернатива приседаниям при травме колена — меньше сдвига и сжатия',
         priority: 'critical'
       }, {
+        exercise: this._findExercise('seated-leg-curl'),
+        reason: 'Изолированная проработка бицепса бедра без нагрузки на коленный сустав',
+        priority: 'high'
+      });
+    }
+
+    // Травма спины
+    if (profile.injuries.includes('back')) {
+      recommendations.push({
         exercise: this._findExercise('chest-press-machine'),
         reason: 'Меньше стресса на позвоночник по сравнению с жимом лёжа',
         priority: 'high'
-      }];
+      });
     }
-    return [];
+
+    // Травма плеча
+    if (profile.injuries.includes('shoulder')) {
+      recommendations.push({
+        exercise: this._findExercise('chest-fly-machine'),
+        reason: 'Безопасная альтернатива жиму при травме плеча — меньше компрессии сустава',
+        priority: 'critical'
+      });
+    }
+
+    return recommendations;
   }
 
   /**
