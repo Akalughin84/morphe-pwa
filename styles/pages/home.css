@@ -1,0 +1,364 @@
+/* Герой */
+.hero {
+  padding: 4rem 0;
+  background: linear-gradient(135deg, var(--bg-primary), var(--bg-surface));
+}
+
+.hero-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  text-align: center;
+}
+
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-badge {
+  background: var(--accent);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.8rem;
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.user-summary {
+  background: var(--bg-surface-alt);
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-top: 1rem;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+/* Дашборд */
+.dashboard-section {
+  padding: 3rem 0;
+}
+
+.dashboard-section h2 span {
+  color: var(--accent);
+}
+
+#analyticsSummary h3 {
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+#analyticsSummary p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* Почему Morphe? */
+.why-section {
+  padding: 4rem 0;
+  background: var(--bg-surface);
+}
+
+.why-section h2 span {
+  color: var(--accent);
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 2.5rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Финальный CTA */
+.final-cta {
+  padding: 4rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, var(--accent), #ea580c);
+  color: white;
+}
+
+.final-cta h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.final-cta p {
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 600px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+.final-cta .btn-primary {
+  background: white;
+  color: var(--accent);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.final-cta .btn-primary:hover {
+  background: #fafafa;
+  transform: translateY(-2px);
+}
+
+
+/* SVG-контейнер */
+.hero-svg-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--accent), #ea580c);
+  padding: 1rem;
+}
+
+.hero-svg-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+  opacity: 0.95;
+  transition: transform 0.4s ease;
+}
+
+.hero-svg-container:hover img {
+  transform: scale(1.03);
+}
+
+/* Прогресс */
+.progress-preview-chart {
+  background: var(--bg-surface-alt);
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: monospace;
+  white-space: pre;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+/* Мобильные стили */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-svg-container {
+    max-width: 300px;
+    padding: 0.5rem;
+  }
+
+  .hero-wrapper {
+    text-align: center;
+  }
+
+  .hero-content {
+    order: 2;
+  }
+
+  .hero-svg-container {
+    order: 1;
+    margin-bottom: 2rem;
+  }
+
+  .final-cta {
+    padding-bottom: 4rem;
+  }
+}
+.ai-suggestion-card {
+  background: var(--card-bg);
+  padding: 1.25rem;
+  border-radius: 12px;
+  margin-top: 0.75rem;
+}
+.ai-suggestion-card .ai-badge {
+  font-size: 1.4rem;
+  margin-right: 0.5rem;
+}
+.ai-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.ai-actions .btn-sm {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+
+    .ai-advice-card {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      align-items: flex-start;
+    }
+
+    .ai-badge {
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .ai-text {
+      flex: 1;
+    }
+
+    .ai-text strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+     /* Стили для прогресс-чарта */
+    .progress-preview-chart {
+      font-family: monospace;
+      font-size: 1.2rem;
+      line-height: 1.4;
+      background: var(--bg-secondary);
+      padding: 0.75rem;
+      border-radius: 8px;
+      margin: 0.75rem 0;
+    }
+/* === PWA Install Prompt === */
+.pwa-prompt {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100%);
+  width: calc(100% - 32px);
+  max-width: 480px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  padding: 16px;
+  z-index: 1000;
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s ease;
+  font-family: var(--font-inter);
+  border: 1px solid #f3f4f6;
+}
+
+.pwa-prompt.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.pwa-prompt-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pwa-prompt-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.pwa-prompt-content {
+  flex: 1;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #1f2937;
+}
+
+.pwa-prompt-content strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #111827;
+}
+
+.pwa-prompt-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  margin-top: -4px;
+}
+
+.pwa-prompt-close:hover {
+  color: #4b5563;
+}
+
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.8125rem;
+  border-radius: 8px;
+}
+
+/* iOS-specific hint */
+.pwa-ios-hint::before {
+  content: "Нажмите «Поделиться» → ";
+  color: #6b7280;
+}
+.pwa-ios-hint::after {
+  content: "«На экран „Домой“»";
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* Android hint */
+.pwa-android-hint {
+  color: #1f2937;
+}
+.pwa-android-hint strong {
+  color: #f97316; /* ваш оранжевый акцент */
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .pwa-prompt-inner {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pwa-prompt-icon {
+    align-self: center;
+    margin-bottom: 8px;
+  }
+  .pwa-prompt-close {
+    align-self: flex-end;
+  }
+}
