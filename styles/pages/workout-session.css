@@ -1,0 +1,424 @@
+/* === ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ДЛЯ СТРАНИЦЫ === */
+:root {
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+}
+
+/* === ЗАГОЛОВОК СЕССИИ === */
+.session-header {
+  text-align: center;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem 0;
+}
+
+.session-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.session-progress {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+.session-progress-bar {
+  height: 5px;
+  background: var(--border);
+  border-radius: 2.5px;
+  margin: 6px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.3s ease;
+}
+
+/* === ПРЕДУПРЕЖДЕНИЯ === */
+.alert.warning {
+  background: #fff3cd;
+  color: #856404;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem 0;
+  border: 1px solid #ffeaa7;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+/* === ПЛАН: СПИСОК УПРАЖНЕНИЙ === */
+.exercise-list {
+  margin-bottom: 12px;
+}
+.exercise-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  background: var(--bg-surface);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.exercise-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+.exercise-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 10px;
+  background: var(--bg-surface-alt);
+}
+.exercise-info h3 {
+  margin: 0 0 3px 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.exercise-meta-small {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* === ДЕТАЛИ УПРАЖНЕНИЯ (скрыты по умолчанию) === */
+.exercise-details {
+  display: none;
+  margin-top: 6px;
+  padding: 10px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-surface);
+  border-radius: 0 0 10px 10px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+.exercise-details.active {
+  display: block;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* === КАРТОЧКА УПРАЖНЕНИЯ В ДЕТАЛЯХ === */
+.exercise-card {
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+/* === ЗАГОЛОВОК И НОМЕР === */
+.exercise-number {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: var(--accent);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  line-height: 28px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.exercise-name {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 6px 0 4px;
+  color: var(--text-primary);
+  position: relative;
+  padding-right: 36px;
+}
+
+/* === МЕТА-ДАННЫЕ === */
+.exercise-meta {
+  display: flex;
+  gap: 6px;
+  margin: 4px 0 8px;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  background: var(--bg-surface-alt);
+  padding: 3px 7px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.meta-item.tempo {
+  color: var(--accent);
+}
+
+/* === ФОРМЫ ВВОДА === */
+.weight-input,
+.rir-select,
+.notes-input {
+  width: 100%;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+
+.weight-input {
+  font-size: 1.05rem;
+  text-align: center;
+  font-weight: 700;
+  padding: 6px;
+}
+
+.notes-input {
+  min-height: 40px;
+  padding: 8px;
+  font-size: 0.85rem;
+  font-weight: normal;
+  resize: vertical;
+}
+
+.exercise-inputs {
+  margin: 6px 0;
+}
+
+.input-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.input-row .workout-form-group {
+  flex: 1 1 45%;
+  min-width: 130px;
+}
+
+.workout-form-group {
+  margin: 6px 0;
+  padding: 0;
+}
+
+.workout-form-group label {
+  font-size: 0.85rem;
+  margin-bottom: 3px;
+  display: block;
+  color: var(--text-secondary);
+}
+
+.workout-form-group:last-child {
+  margin-bottom: 0;
+}
+
+/* === ТАЙМЕР ОТДЫХА === */
+.rest-timer-local {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px;
+  background: #f0fdf4;
+  border-radius: 10px;
+  border-left: 3px solid #10b981;
+  margin: 12px 0;
+}
+.rest-timer-local .timer-display {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #10b981;
+}
+.rest-timer-local button {
+  padding: 5px 10px;
+  font-size: 0.85rem;
+  border-radius: 5px;
+}
+
+/* === КНОПКИ ОТДЫХА === */
+.rest-btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 10px rgba(249, 115, 22, 0.3);
+}
+
+.rest-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+}
+
+/* === СЕКЦИЯ ГОТОВНОСТИ === */
+.readiness-section {
+  background: var(--bg-surface);
+  border-radius: 16px;
+  padding: 14px;
+  margin: 0.75rem 0;
+  box-shadow: 0 2px 8px var(--shadow);
+}
+
+.readiness-title {
+  font-size: 1.15rem;
+  margin: 0 0 10px 0;
+  color: var(--text-primary);
+}
+
+.readiness-section .workout-form-group {
+  margin-bottom: 10px;
+}
+
+.readiness-section .workout-form-group:last-child {
+  margin-bottom: 0;
+}
+
+.readiness-section select {
+  padding: 6px 8px;
+  font-size: 0.9rem;
+}
+
+/* === КНОПКА СОХРАНЕНИЯ === */
+.save-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border-radius: 0;
+  z-index: 900;
+  box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 769px) {
+  .save-btn {
+    position: static;
+    border-radius: 12px;
+    margin: 0.75rem 0 1.5rem;
+  }
+}
+
+/* === ВЫБОР НЕДЕЛИ === */
+.week-selector {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin: 6px 0 12px;
+  flex-wrap: wrap;
+}
+.week-btn {
+  padding: 3px 8px;
+  font-size: 0.8rem;
+  border-radius: 5px;
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+.week-btn.active {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .exercise-number {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+    line-height: 26px;
+    top: 6px;
+    right: 6px;
+  }
+
+  .exercise-name {
+    font-size: 1rem;
+    margin: 5px 0 3px;
+    padding-right: 32px;
+  }
+
+  .exercise-meta {
+    gap: 5px;
+    margin: 3px 0 6px;
+    font-size: 0.8rem;
+  }
+
+  .meta-item {
+    padding: 2px 6px;
+    font-size: 0.7rem;
+  }
+
+  .workout-form-group {
+    margin-bottom: 5px;
+  }
+
+  .weight-input,
+  .rir-select,
+  .notes-input {
+    padding: 5px 8px;
+    font-size: 0.85rem;
+  }
+
+  .weight-input {
+    font-size: 1rem;
+  }
+
+  .notes-input {
+    min-height: 40px;
+    padding: 7px;
+    font-size: 0.8rem;
+  }
+
+  .rest-btn {
+    padding: 9px;
+    font-size: 0.95rem;
+    margin: 8px 0;
+  }
+
+  .readiness-section {
+    padding: 12px;
+    margin: 0.6rem 0;
+  }
+
+  .readiness-title {
+    font-size: 1.05rem;
+  }
+}
+
+.tooltip {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 14px;
+  color: #666;
+  cursor: help;
+}
