@@ -11,13 +11,33 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#f97316">
 
-  <!-- Module Preload -->
+  <!-- Module Preload (улучшено) -->
   <link rel="modulepreload" href="/modules/supplementAdvisor.js">
+  <link rel="modulepreload" href="/core/aiAssistant.js">
+  <link rel="modulepreload" href="/services/userService.js">
+  <link rel="modulepreload" href="/modules/supplementTracker.js">
 
-  <!-- Стили -->
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/styles-shared.css">
-  <link rel="stylesheet" href="/styles-header.css">
+  <!-- База -->
+  <link rel="stylesheet" href="/styles/base/reset.css">
+  <link rel="stylesheet" href="/styles/base/theme.css">
+  <link rel="stylesheet" href="/styles/base/typography.css">
+  <link rel="stylesheet" href="/styles/base/utilities.css">
+
+  <!-- Компоненты -->
+  <link rel="stylesheet" href="/styles/components/buttons.css">
+  <link rel="stylesheet" href="/styles/components/cards.css">
+  <link rel="stylesheet" href="/styles/components/forms.css">
+  <link rel="stylesheet" href="/styles/components/tabs.css">
+  <link rel="stylesheet" href="/styles/components/mobile-menu.css">
+
+  <!-- Макет -->
+  <link rel="stylesheet" href="/styles/layout/header.css">
+  <link rel="stylesheet" href="/styles/layout/footer.css">
+  <link rel="stylesheet" href="/styles/layout/scroll-top.css">
+
+  <!-- Страница -->
+  <link rel="stylesheet" href="/styles/pages/supplements.css">
+
 </head>
 <body>
 
@@ -25,38 +45,62 @@
 
   <main id="main-content" tabindex="-1">
     <div class="container">
-      <h1>💊 Витамины и добавки</h1>
+      <h1><span aria-hidden="true">💊</span> Витамины и добавки</h1>
       <p>Научно обоснованные рекомендации — персонально для вас. Без маркетинга, только польза.</p>
+
+      <!-- Совет от ИИ -->
+      <section class="ai-supplement-advice" id="aiSupplementAdvice" aria-live="polite">
+        Загрузка персонального совета...
+      </section>
 
       <!-- План приёма -->
       <section class="card" id="scheduleSection" style="display: none; border-left: 4px solid var(--accent);">
-        <h2>📅 Ваш план приёма на день</h2>
-        <div id="scheduleContent"></div>
+        <h2><span aria-hidden="true">📅</span> Ваш план приёма на день</h2>
+        <div id="scheduleContent" aria-live="polite"></div>
       </section>
 
       <!-- Рекомендации -->
       <section class="card">
-        <h2>🎯 Персональные рекомендации</h2>
+        <h2><span aria-hidden="true">🎯</span> Персональные рекомендации</h2>
         <p id="recStatus">Загрузка...</p>
-        <div id="recommendationsList"></div>
+        <div id="recommendationsList" aria-live="polite"></div>
         <p id="noRecMessage" style="display:none; color:var(--error);">
           <a href="/pages/profile.html">Заполните профиль</a>, чтобы получить персональные рекомендации.
         </p>
       </section>
     </div>
   </main>
+
   <div id="footer-placeholder"></div>
+
+  <noscript>
+    <div class="container" style="padding: 20px; color: var(--error);">
+      <p>Для работы персональных рекомендаций и плана приёма включите JavaScript.</p>
+    </div>
+  </noscript>
 
   <!-- Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js');
+        navigator.serviceWorker.register('/sw.js').catch(console.warn);
       });
     }
   </script>
 
   <script type="module">
+    // === ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ===
+    function escapeHtml(str) {
+      if (typeof str !== 'string') return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '<')
+        .replace(/>/g, '>')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // === ОСНОВНАЯ ЛОГИКА ===
     import { HeaderController } from '/core/HeaderController.js';
     import { ThemeManager } from '/core/themeManager.js';
     import { SupplementAdvisor } from '/modules/supplementAdvisor.js';
@@ -66,45 +110,95 @@
       await HeaderController.loadFooter();
       new ThemeManager();
 
+      const aiAdviceEl = document.getElementById('aiSupplementAdvice');
       const recStatus = document.getElementById('recStatus');
       const recommendationsList = document.getElementById('recommendationsList');
       const noRecMessage = document.getElementById('noRecMessage');
       const scheduleSection = document.getElementById('scheduleSection');
       const scheduleContent = document.getElementById('scheduleContent');
 
-      let currentRecommendations = [];
+      // Генерация ИИ-совета
+      async function generateAISupplementAdvice() {
+        try {
+          const { AIAssistant } = await import('/core/aiAssistant.js');
+          const { UserService } = await import('/services/userService.js');
+          const ai = new AIAssistant();
+          const advice = await ai.generateAdvice();
+          const profile = UserService.getRawData() || {};
 
-      // Принятые добавки
-      function getAcceptedSupplements() {
-        const saved = localStorage.getItem('morphe-accepted-supplements');
-        return saved ? new Set(JSON.parse(saved)) : new Set();
-      }
+          if (advice.type === 'tip' && advice.title.includes('Добавка')) {
+            const safeTitle = escapeHtml(advice.title);
+            const safeMessage = escapeHtml(advice.message);
+            aiAdviceEl.innerHTML = `
+              <strong>${safeTitle}</strong>
+              <p>${safeMessage}</p>
+              <div class="ai-actions" role="group" aria-label="Отзыв о совете">
+                <button class="btn-sm btn-outline" data-reaction="accepted">Понятно</button>
+                <button class="btn-sm btn-outline" data-reaction="ignored">Напомнить позже</button>
+                <button class="btn-sm btn-outline" data-reaction="not_helpful">Не помогло</button>
+              </div>
+            `;
 
-      function setAcceptedSupplement(supplementId, accepted) {
-        const acceptedSet = getAcceptedSupplements();
-        if (accepted) {
-          acceptedSet.add(supplementId);
-        } else {
-          acceptedSet.delete(supplementId);
+            aiAdviceEl.querySelectorAll('.ai-actions button').forEach(btn => {
+              btn.addEventListener('click', () => {
+                ai.recordAdviceFeedback(advice.id, btn.dataset.reaction);
+                aiAdviceEl.innerHTML = '<p class="info-text">Спасибо за отзыв! Совет учтён.</p>';
+              });
+            });
+          } else {
+            let message = 'Принимайте добавки регулярно — это ключ к эффекту.';
+
+            if (profile?.goal === 'gain') {
+              message = 'Креатин и белок — ваши союзники в наборе массы.';
+            } else if (profile?.goal === 'lose') {
+              message = 'Омега-3 и витамин D поддерживают метаболизм при дефиците калорий.';
+            }
+
+            const extra = [];
+            if (profile?.smoking !== 'no') {
+              extra.push('Курение снижает усвоение витамина C — увеличьте дозу.');
+            }
+            if (profile?.alcohol !== 'none') {
+              extra.push('Алкоголь истощает витамины группы B — принимайте комплекс.');
+            }
+            if (profile?.hemoglobin < 120) {
+              extra.push('Низкий гемоглобин — рассмотрите железо с витамином C.');
+            }
+            if (profile?.vitaminD < 20) {
+              extra.push('Низкий витамин D — принимайте 2000–4000 МЕ ежедневно.');
+            }
+
+            if (extra.length > 0) {
+              message += '<br><br>' + extra.map(escapeHtml).join('<br>');
+            }
+
+            aiAdviceEl.innerHTML = `
+              <strong>Совет по добавкам</strong>
+              <p>${escapeHtml(message)}</p>
+            `;
+          }
+        } catch (e) {
+          console.warn('Не удалось загрузить совет ИИ:', e);
+          aiAdviceEl.innerHTML = '<p class="info-text">Персональный совет временно недоступен.</p>';
         }
-        localStorage.setItem('morphe-accepted-supplements', JSON.stringify([...acceptedSet]));
       }
 
-      // Рендер добавок
-      function renderSupplements(supplements, container) {
+      // Рендер рекомендаций с аккордеоном (с ARIA и безопасностью)
+      function renderRecommendations(supplements, container) {
         if (!Array.isArray(supplements) || supplements.length === 0) {
           container.innerHTML = '<p>Нет подходящих добавок.</p>';
           return;
         }
 
-        const acceptedSet = getAcceptedSupplements();
-        container.innerHTML = supplements.map(s => {
-          const benefits = Array.isArray(s.benefits) ? s.benefits.join(', ') : '—';
-          const description = s.description || 'Информация отсутствует';
-          const dosage = s.dosage || '—';
-          const timing = s.timingText || '—';
-          const form = s.form || '—';
-          const sources = Array.isArray(s.sources) ? s.sources[0] : '';
+        const cardsHtml = supplements.map(s => {
+          const id = escapeHtml(s.id);
+          const name = escapeHtml(s.name);
+          const benefits = Array.isArray(s.benefits) ? escapeHtml(s.benefits.join(', ')) : '—';
+          const description = escapeHtml(s.description || 'Информация отсутствует');
+          const dosage = escapeHtml(s.dosage || '—');
+          const timing = escapeHtml(s.timingText || '—');
+          const form = escapeHtml(s.form || '—');
+          const sources = Array.isArray(s.sources) ? escapeHtml(s.sources[0]) : '';
 
           let pillClass = 'pill-bad';
           let evidenceText = 'N/A';
@@ -114,41 +208,73 @@
           } else if (s.evidenceLevel === 'B') {
             pillClass = 'pill-ok';
             evidenceText = 'Moderate';
-          } else if (s.evidenceLevel === 'C') {
-            pillClass = 'pill-bad';
-            evidenceText = 'Limited';
           }
 
-          const isAccepted = acceptedSet.has(s.id);
-          const acceptBtnText = isAccepted ? '✅ Принято' : 'Принять';
-
           return `
-            <div class="card supplement-card">
-              <div class="supplement-header">
-                <h3>${s.name}</h3>
-                <span class="pill ${pillClass}">${evidenceText}</span>
+            <div class="supplement-card" data-id="${id}" id="card-${id}">
+              <div class="supplement-header" 
+                   role="button" 
+                   tabindex="0"
+                   aria-expanded="false"
+                   aria-controls="content-${id}">
+                <div>
+                  <h3>${name}</h3>
+                  <p style="margin:4px 0 0; color:var(--text-secondary); font-size:0.9rem;">
+                    ${dosage} • ${timing}
+                  </p>
+                </div>
+                <div class="supplement-toggle">
+                  <span class="pill ${pillClass}">${evidenceText}</span>
+                  <span class="supplement-toggle-icon" aria-hidden="true">▼</span>
+                </div>
               </div>
-              <p><strong>Польза:</strong> ${benefits}</p>
-              <p><strong>Дозировка:</strong> ${dosage}</p>
-              <p><strong>Когда принимать:</strong> ${timing}</p>
-              <p><strong>Форма:</strong> ${form}</p>
-              <p><small>${description}</small></p>
-              ${sources ? `<p><strong>Источник:</strong> <a href="${sources}" target="_blank" rel="noopener">Исследование</a></p>` : ''}
-              <button type="button" class="btn-outline btn-small accept-btn" data-id="${s.id}">
-                ${acceptBtnText}
-              </button>
+              <div class="supplement-content" id="content-${id}" hidden>
+                <div class="supplement-detail">
+                  <strong>Польза:</strong> ${benefits}
+                </div>
+                <div class="supplement-detail">
+                  <strong>Форма:</strong> ${form}
+                </div>
+                <div class="supplement-detail">
+                  <small>${description}</small>
+                </div>
+                ${sources ? `
+                  <div class="supplement-source">
+                    <strong>Источник:</strong> 
+                    <a href="${sources}" target="_blank" rel="noopener">Исследование</a>
+                  </div>
+                ` : ''}
+                <p class="text-muted" style="margin-top: 12px;">
+                  <a href="#scheduleSection" 
+                     onclick="document.getElementById('scheduleSection').scrollIntoView({behavior:'smooth'}); return false;"
+                     aria-label="Перейти к плану приёма для ${name}">
+                    → Посмотреть в плане приёма
+                  </a>
+                </p>
+              </div>
             </div>
           `;
         }).join('');
 
-        container.querySelectorAll('.accept-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const id = btn.dataset.id;
-            const isNowAccepted = !getAcceptedSupplements().has(id);
-            setAcceptedSupplement(id, isNowAccepted);
-            btn.textContent = isNowAccepted ? '✅ Принято' : 'Принять';
-            btn.classList.toggle('btn-primary', isNowAccepted);
-            btn.classList.toggle('btn-outline', !isNowAccepted);
+        container.innerHTML = cardsHtml;
+
+        // Обработчики аккордеона
+        container.querySelectorAll('.supplement-header').forEach(header => {
+          const card = header.closest('.supplement-card');
+          const content = card.querySelector('.supplement-content');
+
+          const toggle = () => {
+            const isExpanded = card.classList.toggle('expanded');
+            header.setAttribute('aria-expanded', isExpanded);
+            content.toggleAttribute('hidden', !isExpanded);
+          };
+
+          header.addEventListener('click', toggle);
+          header.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              toggle();
+            }
           });
         });
       }
@@ -159,28 +285,97 @@
         recStatus.style.display = 'block';
 
         try {
+          const { UserService } = await import('/services/userService.js');
+          const fullProfile = UserService.getRawData() || {};
+
           const advisor = new SupplementAdvisor();
-          const recommendations = await advisor.getPersonalizedRecommendations();
-          currentRecommendations = recommendations;
-          renderSupplements(recommendations, recommendationsList);
+          let recommendations = await advisor.getPersonalizedRecommendations();
+
+          const chronic = fullProfile.chronicConditions || [];
+          if (chronic.includes('diabetes')) {
+            recommendations = recommendations.filter(s => 
+              !s.name.toLowerCase().includes('гейнер') && 
+              !s.description?.toLowerCase().includes('сахар')
+            );
+          }
+          if (chronic.includes('heart') || chronic.includes('hypertension')) {
+            recommendations = recommendations.filter(s => 
+              !s.name.toLowerCase().includes('кофеин') &&
+              !s.description?.toLowerCase().includes('стимулятор')
+            );
+          }
+
+          renderRecommendations(recommendations, recommendationsList);
 
           if (recommendations.length > 0) {
             scheduleSection.style.display = 'block';
             const schedule = await advisor.getDailySchedule();
+
+            const today = new Date().toISOString().split('T')[0];
+            const { SupplementTracker } = await import('/modules/supplementTracker.js');
+            const tracker = new SupplementTracker();
+            const todayEntries = tracker.getEntriesByDate(today);
+            const todayAccepted = new Set(todayEntries.map(e => e.supplementId));
+
+            const renderSupplementItem = (sup) => {
+              const id = escapeHtml(sup.id);
+              const name = escapeHtml(sup.name);
+              const dosage = escapeHtml(sup.dosage || '—');
+              const isTaken = todayAccepted.has(sup.id);
+              return `
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0;">
+                  <span>${name} — ${dosage}</span>
+                  <button type="button" class="btn-outline btn-small accept-today-btn" 
+                          data-id="${id}" 
+                          data-taken="${isTaken}"
+                          aria-pressed="${isTaken}">
+                    ${isTaken ? '✅ Принято' : 'Принять'}
+                  </button>
+                </div>
+              `;
+            };
+
             let html = '';
             if (schedule.morning?.length) {
-              html += `<div class="schedule-time">🌅 Утро</div>` + schedule.morning.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
+              html += `<div class="schedule-time">🌅 Утро</div>` + schedule.morning.map(renderSupplementItem).join('');
             }
             if (schedule.preWorkout?.length) {
-              html += `<div class="schedule-time">💪 До тренировки</div>` + schedule.preWorkout.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
+              html += `<div class="schedule-time">💪 До тренировки</div>` + schedule.preWorkout.map(renderSupplementItem).join('');
             }
             if (schedule.postWorkout?.length) {
-              html += `<div class="schedule-time">🚿 После тренировки</div>` + schedule.postWorkout.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
+              html += `<div class="schedule-time">🚿 После тренировки</div>` + schedule.postWorkout.map(renderSupplementItem).join('');
             }
             if (schedule.evening?.length) {
-              html += `<div class="schedule-time">🌙 Вечер</div>` + schedule.evening.map(s => `<p>• ${s.name} — ${s.dosage}</p>`).join('');
+              html += `<div class="schedule-time">🌙 Вечер</div>` + schedule.evening.map(renderSupplementItem).join('');
             }
+
             scheduleContent.innerHTML = html || '<p>Нет добавок на сегодня.</p>';
+
+            scheduleContent.querySelectorAll('.accept-today-btn').forEach(btn => {
+              btn.addEventListener('click', async () => {
+                const id = btn.dataset.id;
+                const isNowTaken = !JSON.parse(btn.dataset.taken);
+                
+                const tracker = new SupplementTracker();
+                if (isNowTaken) {
+                  tracker.add(id);
+                  try {
+                    const { AIAssistant } = await import('/core/aiAssistant.js');
+                    const ai = new AIAssistant();
+                    ai.recordUserAction('supplement_taken', { supplementId: id });
+                  } catch (e) {
+                    console.warn('Не удалось записать действие в ИИ:', e);
+                  }
+                }
+                
+                btn.textContent = isNowTaken ? '✅ Принято' : 'Принять';
+                btn.dataset.taken = isNowTaken;
+                btn.setAttribute('aria-pressed', isNowTaken);
+                btn.classList.toggle('btn-primary', isNowTaken);
+                btn.classList.toggle('btn-outline', !isNowTaken);
+              });
+            });
+
           } else {
             scheduleSection.style.display = 'none';
           }
@@ -189,7 +384,7 @@
           noRecMessage.style.display = 'none';
 
         } catch (err) {
-          recStatus.textContent = `❌ Ошибка: ${err.message}`;
+          recStatus.textContent = `❌ Ошибка: ${escapeHtml(err.message)}`;
           recStatus.className = 'error-text';
           noRecMessage.style.display = 'block';
           scheduleSection.style.display = 'none';
@@ -197,46 +392,9 @@
         }
       }
 
-      // Инициализация при загрузке
+      generateAISupplementAdvice();
       updateRecommendations();
     });
-  </script>
-
-  <style>
-    .supplement-card {
-      margin-bottom: 24px;
-      position: relative;
-    }
-    .supplement-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 16px;
-    }
-    .supplement-header h3 {
-      margin: 0;
-      font-size: 1.2rem;
-      color: var(--text-primary);
-    }
-    .schedule-time {
-      font-weight: 600;
-      color: var(--accent);
-      margin: 16px 0 8px 0;
-      font-size: 1.1rem;
-    }
-    .text-center {
-      text-align: center;
-    }
-    @media (max-width: 768px) {
-      .supplement-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .supplement-header .pill {
-        margin-top: 8px;
-      }
-    }
-  </style>
+  </script>  
 </body>
 </html>
