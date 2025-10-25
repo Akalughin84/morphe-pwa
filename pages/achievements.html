@@ -11,30 +11,26 @@
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#f97316">
 
-  <!-- Стили -->
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/styles-shared.css">
-  <link rel="stylesheet" href="/styles-header.css">
-  <link rel="stylesheet" href="/styles-achievements.css">
+  <!-- База -->
+  <link rel="stylesheet" href="/styles/base/reset.css">
+  <link rel="stylesheet" href="/styles/base/theme.css">
+  <link rel="stylesheet" href="/styles/base/typography.css">
+  <link rel="stylesheet" href="/styles/base/utilities.css">
 
-  <!-- Skip-link для доступности -->
-  <style>
-    .skip-link {
-      position: absolute;
-      top: -40px;
-      left: 10px;
-      background: #000;
-      color: #fff;
-      padding: 8px;
-      text-decoration: none;
-      z-index: 1000;
-      transition: top 0.3s ease;
-    }
-    .skip-link:focus {
-      top: 10px;
-      outline: 2px solid #fff;
-    }
-  </style>
+  <!-- Компоненты -->
+  <link rel="stylesheet" href="/styles/components/buttons.css">
+  <link rel="stylesheet" href="/styles/components/cards.css">
+  <link rel="stylesheet" href="/styles/components/forms.css">
+  <link rel="stylesheet" href="/styles/components/tabs.css">
+  <link rel="stylesheet" href="/styles/components/mobile-menu.css">
+
+  <!-- Макет -->
+  <link rel="stylesheet" href="/styles/layout/header.css">
+  <link rel="stylesheet" href="/styles/layout/footer.css">
+  <link rel="stylesheet" href="/styles/layout/scroll-top.css">
+
+  <!-- Страницы -->
+  <link rel="stylesheet" href="/styles/pages/achievements.css"> 
 </head>
 <body>
 
@@ -44,15 +40,24 @@
   <main id="main-content" tabindex="-1">
     <div class="container">
       <section class="card">
-        <h1>🏆 Ваши достижения</h1>
+        <h1>Твоя история силы</h1>
+        <p class="page-subtitle">Каждая тренировка — шаг к лучшей версии себя.</p>
         <p id="achievementsStats" class="info-text">Загрузка...</p>
 
-        <div id="achievementsGrid" style="display: none;">
-          <!-- Будет заполнено через JS -->
+        <!-- Контейнер для категорий (заполняется через JS) -->
+        <div id="achievementsContainer"></div>
+
+        <!-- Блок "Твой следующий шаг" -->
+        <div id="nextStepBlock" style="display: none; margin-top: 2rem;">
+          <div class="card next-step-card">
+            <h2>🎯 Твой следующий шаг</h2>
+            <ul id="nextStepList"></ul>
+          </div>
         </div>
 
-        <div id="noAchievements" style="display: none;">
-          <p>Пока нет достижений. Продолжайте свой путь — они появятся!</p>
+        <!-- Сообщение, если нет достижений -->
+        <div id="noAchievements" style="display: none; text-align: center; padding: 2rem;">
+          <p>Пока нет достижений.<br>Продолжай тренироваться — они появятся!</p>
         </div>
       </section>
     </div>
@@ -82,48 +87,175 @@
         new ThemeManager();
 
         const statsEl = document.getElementById('achievementsStats');
-        const gridEl = document.getElementById('achievementsGrid');
+        const containerEl = document.getElementById('achievementsContainer');
         const noEl = document.getElementById('noAchievements');
 
         const manager = new AchievementsManager();
         const engine = new AchievementEngine();
 
-        // Проверка и выдача достижений
+        const unlockedBefore = new Set(manager.getUnlocked());
         await engine.checkAll();
+        const unlockedAfter = new Set(manager.getUnlocked());
+        const newlyUnlocked = [...unlockedAfter].filter(id => !unlockedBefore.has(id));
 
-        const achievements = manager.getAllWithStatus();
+        const allAchievements = manager.getAllWithStatus();
+        const upcoming = allAchievements
+          .filter(a => 
+            !a.unlocked && 
+            a.target != null && 
+            typeof a.progress === 'number' && 
+            a.progress > 0 && 
+            a.progress >= a.target * 0.7
+          )
+          .sort((a, b) => (b.progress / b.target) - (a.progress / a.target))
+          .slice(0, 2);
+
         const unlockedCount = manager.getUnlockedCount();
+        statsEl.innerHTML = `<strong>${unlockedCount}</strong> из ${allAchievements.length} достижений получено`;
 
-        // Обновление статистики
-        statsEl.innerHTML = `
-          <strong>${unlockedCount}</strong> из ${achievements.length} достижений получено
-        `;
+        const categories = {
+          streak: { title: '🔥 Серии', items: [] },
+          goal: { title: '🎯 Цели', items: [] },
+          progress: { title: '📈 Прогресс', items: [] },
+          profile: { title: '👤 Профиль', items: [] },
+          ethics: { title: '🧘 Дисциплина', items: [] },
+          secret: { title: '❓ Секреты', items: [] },
+          other: { title: 'Разное', items: [] }
+        };
+
+        allAchievements.forEach(a => {
+          const cat = categories[a.type] || categories.other;
+          cat.items.push(a);
+        });
+
+        const visibleCategories = Object.entries(categories).filter(([, cat]) => cat.items.length > 0);
 
         if (unlockedCount === 0) {
           noEl.style.display = 'block';
+          containerEl.style.display = 'none';
         } else {
-          // Рендеринг карточек
-          gridEl.innerHTML = achievements.map(a => {
-            const isUnlocked = a.unlocked;
-            return `
-              <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'}" 
-                   role="article" 
-                   aria-label="${a.title} ${isUnlocked ? '— получено' : '— заблокировано'}">
-                <div class="achievement-icon">
-                  ${isUnlocked ? a.icon : '🔒'}
-                </div>
-                <h3>${a.title}</h3>
-                <p>${a.description}</p>
-                ${a.secret ? `<small class="text-tertiary"><em>Секретное достижение</em></small>` : ''}
-                ${a.type === 'streak' && a.progress !== null ? 
-                  `<progress value="${a.progress}" max="${a.target}" 
-                            aria-label="Прогресс: ${a.progress} из ${a.target}"></progress>
-                   <small>${a.progress}/${a.target}</small>` : ''
+          noEl.style.display = 'none';
+          containerEl.style.display = 'block';
+
+          // === Рендеринг сворачиваемых категорий ===
+          containerEl.innerHTML = visibleCategories.map(([key, cat]) => {
+            const hasUnlocked = cat.items.some(item => item.unlocked);
+            const storageKey = `achievements-category-${key}`;
+            let isOpen = hasUnlocked;
+            const savedState = localStorage.getItem(storageKey);
+            if (savedState !== null) {
+              isOpen = savedState === 'open';
+            }
+
+            const cardsHtml = cat.items.map(a => {
+              const isUnlocked = a.unlocked;
+              const isSecret = a.secret;
+              
+              let levelBadge = '';
+              if (a.type === 'streak' && isUnlocked) {
+                let levelClass = '';
+                if (a.target >= 30) levelClass = 'level-gold';
+                else if (a.target >= 7) levelClass = 'level-silver';
+                else if (a.target >= 3) levelClass = 'level-bronze';
+                
+                if (levelClass) {
+                  const levelIcon = levelClass === 'level-gold' ? '🥇' :
+                                   levelClass === 'level-silver' ? '🥈' : '🥉';
+                  levelBadge = `<span class="achievement-level ${levelClass}">${levelIcon}</span>`;
                 }
-              </div>
+              }
+
+              const icon = isUnlocked ? (a.icon || '🏆') : (isSecret ? '❓' : '🔒');
+
+              let progressHtml = '';
+              if (a.target != null && typeof a.progress === 'number' && !isSecret) {
+                progressHtml = `
+                  <progress value="${Math.min(a.progress, a.target)}" max="${a.target}" 
+                            aria-label="Прогресс: ${a.progress} из ${a.target}"></progress>
+                  <small>${a.progress}/${a.target}</small>
+                `;
+              } else if (isSecret && a.progress != null) {
+                // Для секретов — заглушка (только если хочешь намекнуть, что "что-то идёт")
+                // Или оставь пустым, чтобы ничего не было
+                progressHtml = '<p class="secret-hint">Что-то происходит...</p>';
+              }
+
+              const title = isUnlocked ? a.title : (isSecret ? '???' : a.title || 'Достижение');
+              let desc = '';
+              if (isUnlocked) {
+                desc = a.narrative || a.description;
+              } else if (isSecret) {
+                // Показываем намёк вместо загадки
+                desc = a.hint || 'Соверши неожиданное...';
+              } else {
+                desc = a.description || 'Тренируйся, чтобы разблокировать';
+              }
+
+              return `
+                <div class="achievement-card ${isUnlocked ? 'unlocked' : 'locked'} ${isSecret ? 'secret' : ''}" 
+                     role="article" 
+                     aria-label="${title} ${isUnlocked ? '— получено' : '— заблокировано'}">
+                  <div class="achievement-header">
+                    <div class="achievement-icon">${icon}</div>
+                    <div>
+                      <h3>${title}</h3>
+                      ${levelBadge}
+                    </div>
+                  </div>
+                  <p>${desc}</p>
+                  ${progressHtml}
+                </div>
+              `;
+            }).join('');
+
+            return `
+              <details class="achievements-category" ${isOpen ? 'open' : ''} data-category="${key}">
+                <summary>
+                  <h2>${cat.title}</h2>
+                </summary>
+                <div class="achievements-grid">
+                  ${cardsHtml}
+                </div>
+              </details>
             `;
           }).join('');
-          gridEl.style.display = 'block';
+
+          // === Сохранение состояния сворачивания ===
+          containerEl.addEventListener('toggle', (e) => {
+            if (e.target.tagName === 'DETAILS') {
+              const category = e.target.dataset.category;
+              const isOpen = e.target.hasAttribute('open');
+              localStorage.setItem(`achievements-category-${category}`, isOpen ? 'open' : 'closed');
+            }
+          });
+
+          // === Блок "Твой следующий шаг" ===
+          const nextStepBlock = document.getElementById('nextStepBlock');
+          const nextStepList = document.getElementById('nextStepList');
+
+          if (unlockedCount > 0 && upcoming.length > 0) {
+            nextStepList.innerHTML = upcoming.map(a => `
+              <li>
+                <strong>${a.title}</strong> — осталось ${a.target - a.progress}!
+              </li>
+            `).join('');
+            nextStepBlock.style.display = 'block';
+          } else {
+            nextStepBlock.style.display = 'none';
+          }
+
+          // === Конфетти ===
+          if (newlyUnlocked.length > 0) {
+            import('/utils/confetti.js').then(({ default: confetti }) => {
+              if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                confetti({
+                  particleCount: 150,
+                  spread: 70,
+                  origin: { y: 0.6 }
+                });
+              }
+            }).catch(err => console.warn('Confetti не загружен:', err));
+          }
         }
 
         await HeaderController.loadFooter();
