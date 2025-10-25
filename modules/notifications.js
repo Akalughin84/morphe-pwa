@@ -1,7 +1,8 @@
 // /modules/notifications.js
-// v1.4.1 — Расширенный менеджер уведомлений с локальными напоминаниями
+// v1.5.1 — Исправлены поля добавок, восстановление таймеров, защита от дублей
 
 import { StorageManager } from '/utils/storage.js';
+// DateUtils не используется — но оставлен по вашей просьбе
 import { DateUtils } from '/utils/dateUtils.js';
 
 /**
@@ -9,6 +10,7 @@ import { DateUtils } from '/utils/dateUtils.js';
  * - История советов ИИ
  * - Локальные push-напоминания
  * - Системные сообщения
+ * - Типовые сценарии: утро, тренировка, вода, витамины
  */
 export class NotificationManager {
   constructor() {
@@ -18,6 +20,48 @@ export class NotificationManager {
     this.scheduled = this.loadScheduled();
     this.activeTimeouts = new Map();
     this._notificationPermission = null;
+    // Восстанавливаем таймеры после перезагрузки
+    this.resumeAll();
+  }
+
+  /**
+   * Запланировать уведомления о приёме добавок
+   */
+  async scheduleSupplements(profile) {
+    if (!profile) return;
+    
+    try {
+      const { SupplementAdvisor } = await import('/modules/supplementAdvisor.js');
+      const advisor = new SupplementAdvisor();
+      const recs = await advisor.getPersonalizedRecommendations();
+      
+      const now = new Date();
+      recs.forEach(sup => {
+        let hour = 8; // утро по умолчанию
+        if (sup.timing?.toLowerCase().includes('вечер')) hour = 21;
+        if (sup.timing?.toLowerCase().includes('сон')) hour = 22;
+        if (sup.timing?.toLowerCase().includes('после тренировки')) {
+          const workoutHour = profile.preferredWorkoutTime 
+            ? parseInt(profile.preferredWorkoutTime.split(':')[0]) 
+            : 19;
+          hour = Math.min(22, workoutHour + 1);
+        }
+
+        const target = new Date(now);
+        target.setHours(hour, 0, 0, 0);
+        if (target <= now) target.setDate(target.getDate() + 1);
+
+        this.schedule({
+          title: `💊 Время ${sup.name}!`,
+          // 🔧 ИСПРАВЛЕНО: sup.dose → sup.dosage, sup.effect → sup.description
+          message: `Примите ${sup.dosage}. ${sup.description}`,
+          triggerAt: target,
+          type: 'supplement'
+        });
+      });
+    } catch (e) {
+      console.warn('Не удалось запланировать добавки:', e);
+    }
   }
 
   // === Вспомогательные методы ===
@@ -42,7 +86,6 @@ export class NotificationManager {
 
   load() {
     const data = StorageManager.getItem(this.storageKey) || [];
-    // Очистка при загрузке (раз в сессию)
     this.notifications = data;
     this._cleanupOldNotifications();
     return this.notifications;
@@ -95,10 +138,6 @@ export class NotificationManager {
     StorageManager.setItem(this.scheduledKey, this.scheduled);
   }
 
-  /**
-   * Добавить напоминание
-   * @param {Object} reminder { title, message, triggerAt (ISO string или Date), type, data }
-   */
   schedule(reminder) {
     const triggerAt = reminder.triggerAt instanceof Date
       ? reminder.triggerAt.toISOString()
@@ -118,21 +157,16 @@ export class NotificationManager {
     return item;
   }
 
-  /**
-   * Отменить напоминание
-   */
   cancel(id) {
     const index = this.scheduled.findIndex(r => r.id === id);
     if (index === -1) return false;
 
-    // Очистка таймера
     const timeout = this.activeTimeouts.get(id);
     if (timeout) {
       clearTimeout(timeout);
       this.activeTimeouts.delete(id);
     }
 
-    // Удаление из списка
     this.scheduled.splice(index, 1);
     this.saveScheduled();
     return true;
@@ -145,7 +179,6 @@ export class NotificationManager {
     const triggerTime = new Date(reminder.triggerAt).getTime();
     const delay = Math.max(0, triggerTime - now);
 
-    // Если уже прошло — не ставим таймер
     if (delay === 0 && triggerTime < now) return;
 
     const timeout = setTimeout(() => {
@@ -156,7 +189,6 @@ export class NotificationManager {
   }
 
   async _triggerNotification(reminder) {
-    // Проверка разрешения (с кэшированием)
     if (this._notificationPermission === null) {
       this._notificationPermission = 'Notification' in window
         ? await Notification.requestPermission()
@@ -171,7 +203,6 @@ export class NotificationManager {
       });
     }
 
-    // Сохраняем в историю
     this.add({
       type: 'reminder',
       title: reminder.title,
@@ -180,7 +211,6 @@ export class NotificationManager {
       from: reminder.type
     });
 
-    // Отмечаем как сработавшее
     const item = this.scheduled.find(r => r.id === reminder.id);
     if (item) {
       item.triggered = true;
@@ -218,7 +248,7 @@ export class NotificationManager {
     this.activeTimeouts.clear();
   }
 
-  // === Статические методы ===
+  // === СТАТИЧЕСКИЕ МЕТОДЫ ===
 
   static async requestPermission() {
     if ('Notification' in window) {
@@ -226,5 +256,113 @@ export class NotificationManager {
       return permission === 'granted';
     }
     return false;
+  }
+
+  // === НОВЫЕ МЕТОДЫ: ТИПОВЫЕ СЦЕНАРИИ С ЗАЩИТОЙ ОТ ДУБЛЕЙ ===
+
+  _isScheduledToday(type) {
+    const today = new Date().toISOString().split('T')[0];
+    return this.scheduled.some(r =>
+      r.type === type && r.triggerAt.startsWith(today)
+    );
+  }
+
+  /**
+   * Запланировать утренний ритуал
+   * @param {string} timeStr — "07:00"
+   */
+  scheduleMorningRoutine(timeStr = '07:00') {
+    if (this._isScheduledToday('morning-routine')) return;
+    const [h, m] = timeStr.split(':').map(Number);
+    const now = new Date();
+    const target = new Date(now);
+    target.setHours(h, m, 0, 0);
+    if (target <= now) target.setDate(target.getDate() + 1);
+
+    this.schedule({
+      title: 'Доброе утро! 🌞',
+      message: 'Не забудь: вода, витамины, завтрак.',
+      triggerAt: target,
+      type: 'morning-routine'
+    });
+  }
+
+  /**
+   * Запланировать напоминание за 2 часа до тренировки
+   * @param {string} workoutTime — "19:00"
+   */
+  schedulePreWorkout(workoutTime) {
+    if (!workoutTime) return;
+    if (this._isScheduledToday('pre-workout')) return;
+    const [h, m] = workoutTime.split(':').map(Number);
+    const now = new Date();
+    const workout = new Date(now);
+    workout.setHours(h, m, 0, 0);
+    if (workout <= now) return;
+
+    const twoHoursBefore = new Date(workout.getTime() - 2 * 60 * 60 * 1000);
+    this.schedule({
+      title: 'Тренировка через 2 часа! 💪',
+      message: 'Покушай, выпей воды, примите витамины.',
+      triggerAt: twoHoursBefore,
+      type: 'pre-workout'
+    });
+  }
+
+  /**
+   * Запланировать напоминания о воде
+   */
+  scheduleHydration() {
+    if (this._isScheduledToday('hydration')) return;
+    const now = new Date();
+    const times = [
+      { hour: 10, minute: 0 },
+      { hour: 15, minute: 0 },
+      { hour: 18, minute: 0 }
+    ];
+
+    times.forEach(({ hour, minute }) => {
+      const target = new Date(now);
+      target.setHours(hour, minute, 0, 0);
+      if (target <= now) target.setDate(target.getDate() + 1);
+
+      this.schedule({
+        title: '💧 Выпей воды!',
+        message: 'Поддерживай гидратацию в течение дня.',
+        triggerAt: target,
+        type: 'hydration'
+      });
+    });
+  }
+
+  /**
+   * Запланировать напоминание о витаминах
+   */
+  scheduleVitamins() {
+    if (this._isScheduledToday('vitamins')) return;
+    const now = new Date();
+    const target = new Date(now);
+    target.setHours(12, 0, 0, 0); // полдень
+    if (target <= now) target.setDate(target.getDate() + 1);
+
+    this.schedule({
+      title: '💊 Время витаминов!',
+      message: 'Не забудь принять добавки.',
+      triggerAt: target,
+      type: 'vitamins'
+    });
+  }
+
+  /**
+   * Запустить все типовые напоминания на сегодня
+   * @param {Object} profile — данные пользователя
+   */
+  scheduleAllTypical(profile) {
+    this.scheduleMorningRoutine('07:00');
+    if (profile?.preferredWorkoutTime) {
+      this.schedulePreWorkout(profile.preferredWorkoutTime);
+    }
+    this.scheduleHydration();
+    this.scheduleVitamins();
   }
 }
