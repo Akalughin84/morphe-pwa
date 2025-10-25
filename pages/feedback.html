@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Обратная связь — Morphe</title>
+
+  <!-- Favicon & manifest -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#f97316">
+
+  <!-- База -->
+  <link rel="stylesheet" href="/styles/base/reset.css">
+  <link rel="stylesheet" href="/styles/base/theme.css">
+  <link rel="stylesheet" href="/styles/base/typography.css">
+  <link rel="stylesheet" href="/styles/base/utilities.css">
+
+  <!-- Компоненты -->
+  <link rel="stylesheet" href="/styles/components/buttons.css">
+  <link rel="stylesheet" href="/styles/components/cards.css">
+  <link rel="stylesheet" href="/styles/components/forms.css">
+  <link rel="stylesheet" href="/styles/components/tabs.css">
+  <link rel="stylesheet" href="/styles/components/mobile-menu.css">
+
+  <!-- Макет -->
+  <link rel="stylesheet" href="/styles/layout/header.css">
+  <link rel="stylesheet" href="/styles/layout/footer.css">
+  <link rel="stylesheet" href="/styles/layout/scroll-top.css">
+  <link rel="stylesheet" href="/styles/pages/feedback.css"> 
+</head>
+<body>
+  <div id="header-placeholder"></div>
+
+  <main class="feedback-page">
+    <h1>Обратная связь</h1>
+    <p>Ваше мнение помогает Morphe становиться лучше. Расскажите, что можно улучшить, или поделитесь идеей!</p>
+
+    <div class="feedback-card">
+      <form id="feedbackForm">
+        <div class="form-group">
+          <label for="feedbackType">Тип обращения</label>
+          <select id="feedbackType" class="form-control" required>
+            <option value="">Выберите...</option>
+            <option value="idea">Идея для улучшения</option>
+            <option value="bug">Ошибка или баг</option>
+            <option value="question">Вопрос</option>
+            <option value="praise">Слово благодарности 💛</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="feedbackEmail">Email (опционально)</label>
+          <input type="email" id="feedbackEmail" class="form-control" placeholder="you@example.com">
+          <small style="color: var(--text-secondary); font-size: 0.875rem;">
+            Нужен, только если хотите получить ответ
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="feedbackMessage">Сообщение</label>
+          <textarea id="feedbackMessage" class="form-control" placeholder="Опишите подробно..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit">Отправить</button>
+
+        <div id="feedbackStatus"></div>
+      </form>
+
+      <div class="alternative-options">
+        <p>Предпочитаете GitHub?</p>
+        <a href="https://github.com/Akalughin84" target="_blank" class="btn-outline">
+          Открыть Issue →
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+
+  <script type="module">
+    import { HeaderController } from '/core/HeaderController.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await HeaderController.loadHeader();
+      await HeaderController.loadFooter();
+
+      const form = document.getElementById('feedbackForm');
+      const statusEl = document.getElementById('feedbackStatus');
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const type = document.getElementById('feedbackType').value;
+        const email = document.getElementById('feedbackEmail').value;
+        const message = document.getElementById('feedbackMessage').value;
+
+        // В реальном приложении здесь был бы fetch() к бэкенду
+        // Но Morphe оффлайн → сохраняем в localStorage как "отложенное сообщение"
+        const feedback = {
+          id: Date.now(),
+          type,
+          email: email || null,
+          message,
+          timestamp: new Date().toISOString(),
+          sent: false
+        };
+
+        // Сохраняем в очередь
+        const queue = JSON.parse(localStorage.getItem('morphe_feedback_queue') || '[]');
+        queue.push(feedback);
+        localStorage.setItem('morphe_feedback_queue', JSON.stringify(queue));
+
+        // Показываем статус
+        statusEl.className = 'status-message status-success';
+        statusEl.textContent = '✅ Сообщение сохранено! Оно будет отправлено, когда появится интернет.';
+
+        // Очищаем форму
+        form.reset();
+
+        // Имитация отправки (в будущем — через Service Worker)
+        console.log('Feedback saved to queue:', feedback);
+      });
+    });
+  </script>
+</body>
+</html>
