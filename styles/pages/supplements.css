@@ -1,0 +1,188 @@
+/* === КАРТОЧКА ДОБАВКИ (АККОРДЕОН) === */
+.supplement-card {
+  margin-bottom: 24px;
+  position: relative;
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* Заголовок — кликабельная область */
+.supplement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.supplement-header:hover {
+  background-color: var(--bg-surface-alt);
+}
+
+.supplement-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}
+
+.supplement-header p {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Переключатель (стрелка + уровень доказательности) */
+.supplement-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: fit-content;
+}
+
+.supplement-toggle-icon {
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+  color: var(--text-secondary);
+}
+
+/* Содержимое (изначально скрыто) */
+.supplement-content {
+  padding: 0 16px 16px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+
+/* Когда карточка открыта */
+.supplement-card.expanded .supplement-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.supplement-card.expanded .supplement-content {
+  max-height: 600px; /* достаточно для любого контента */
+  padding: 0 16px 16px;
+}
+
+/* Детали внутри открытой карточки */
+.supplement-detail {
+  margin: 10px 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.supplement-detail strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.supplement-source {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.supplement-source a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.supplement-source a:hover {
+  text-decoration: underline;
+}
+
+/* Ссылка на план приёма */
+.supplement-content .text-muted a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.supplement-content .text-muted a:hover {
+  text-decoration: underline;
+}
+
+/* === СОВЕТ ОТ ИИ === */
+.ai-supplement-advice {
+  background: var(--bg-surface-alt);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid var(--accent);
+}
+
+.ai-supplement-advice .ai-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.ai-supplement-advice .ai-actions .btn-sm {
+  padding: 4px 10px;
+  font-size: 0.85rem;
+}
+
+/* === ПЛАН ПРИЁМА === */
+.schedule-time {
+  font-weight: 600;
+  color: var(--accent);
+  margin: 16px 0 8px 0;
+  font-size: 1.1rem;
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 768px) {
+  .supplement-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .supplement-toggle {
+    align-items: flex-start;
+    margin-top: 12px;
+  }
+
+  .supplement-header .pill {
+    margin-top: 0;
+  }
+
+  .ai-supplement-advice .ai-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ai-supplement-advice .ai-actions .btn-sm {
+    width: 100%;
+    text-align: center;
+  }
+}
+  /* Анимация аккордеона */
+    .supplement-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    .supplement-card.expanded .supplement-content {
+      max-height: 500px; /* достаточно для большинства контента */
+      padding: 12px 0 0;
+    }
+    .supplement-header {
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+    }
+    .supplement-header:focus-visible {
+      outline: 2px solid var(--accent);
+      border-radius: 4px;
+    }
+    .ai-supplement-advice, #recommendationsList, #scheduleContent {
+      aria-live: polite;
+    }
