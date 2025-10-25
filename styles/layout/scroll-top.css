@@ -1,0 +1,39 @@
+/* === ГЛОБАЛЬНАЯ КНОПКА "ВВЕРХ" === */
+.scroll-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: none;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.scroll-top:hover {
+  background: var(--accent-dark); /* Исправлено: было --accent-hover */
+  transform: translateY(-2px);
+}
+
+.scroll-top.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .scroll-top {
+    bottom: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+  }
+}
