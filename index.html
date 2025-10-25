@@ -15,12 +15,12 @@
   <meta name="twitter:description" content="Стань лучшей версией себя с персональным AI-тренером.">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/icons/icon-32.png" alt="Иконка Morphe" width="32" height="32">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icons/icon-16.png">
   <link rel="apple-touch-icon" href="/assets/icons/icon-192.png">
   <link rel="manifest" href="/manifest.json">
 
-  <!-- Theme color — обновлён на оранжевый -->
+  <!-- Theme color -->
   <meta name="theme-color" content="#f97316">
 
   <!-- Шрифты -->
@@ -28,15 +28,29 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" media="print" onload="this.media='all'">
   <noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800&display=swap" rel="stylesheet">
   </noscript>
 
-  <!-- Стили -->
-  <link rel="stylesheet" href="/styles.css">
-  <link rel="stylesheet" href="/styles-shared.css">
-  <link rel="stylesheet" href="/styles-header.css">
-  <link rel="stylesheet" href="/styles-home.css">
-  <link rel="stylesheet" href="/styles-achievements.css">
+  <!-- База -->
+  <link rel="stylesheet" href="/styles/base/reset.css">
+  <link rel="stylesheet" href="/styles/base/theme.css">
+  <link rel="stylesheet" href="/styles/base/typography.css">
+  <link rel="stylesheet" href="/styles/base/utilities.css">
+
+  <!-- Компоненты -->
+  <link rel="stylesheet" href="/styles/components/buttons.css">
+  <link rel="stylesheet" href="/styles/components/cards.css">
+  <link rel="stylesheet" href="/styles/components/forms.css">
+  <link rel="stylesheet" href="/styles/components/tabs.css">
+  <link rel="stylesheet" href="/styles/components/mobile-menu.css">
+
+  <!-- Макет -->
+  <link rel="stylesheet" href="/styles/layout/header.css">
+  <link rel="stylesheet" href="/styles/layout/footer.css">
+  <link rel="stylesheet" href="/styles/layout/scroll-top.css">
+
+  <!-- Страница -->
+  <link rel="stylesheet" href="/styles/pages/home.css">
 </head>
 <body>
 
@@ -155,9 +169,22 @@
     </section>
   </main>
 
-  <!-- Плавающая кнопка УДАЛЕНА -->
-
   <div id="footer-placeholder"></div>
+
+  <!-- PWA Install Prompt -->
+  <div id="pwa-install-prompt" class="pwa-prompt" aria-hidden="true">
+    <div class="pwa-prompt-inner">
+      <div class="pwa-prompt-icon">📲</div>
+      <div class="pwa-prompt-content">
+        <strong>Установите Morphe</strong>
+        <p id="pwa-instruction">Добавьте приложение на главный экран для оффлайн-доступа.</p>
+      </div>
+      <button id="pwa-install-btn" class="btn-sm btn-secondary" style="display: none;">Установить</button>
+      <button id="pwa-dismiss-btn" class="pwa-prompt-close" aria-label="Закрыть">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+  </div>
 
   <!-- Service Worker -->
   <script>
@@ -173,9 +200,9 @@
   <!-- Модульная загрузка ядра -->
   <script type="module">
     import { HeaderController } from './core/HeaderController.js';
-    import { HomeDashboard } from './core/HomeDashboard.js';
     import { AnalyticsEngine } from './core/analytics.js';
     import { OnboardingManager } from './modules/onboardingManager.js';
+    import { ThemeManager } from '/core/themeManager.js';
 
     document.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -185,10 +212,12 @@
           return;
         }
 
+        // Загружаем шапку и подвал ОДИН раз
         await HeaderController.loadHeader();
         await HeaderController.loadFooter();
+        new ThemeManager();
 
-        // === 1. Обновлённый дашборд с целями и БЖУ ===
+        // === Дашборд ===
         const currentStatsEl = document.getElementById('current-stats');
         const dashboardStatus = document.getElementById('dashboardStatus');
         const analyticsSummary = document.getElementById('analyticsSummary');
@@ -199,46 +228,35 @@
         const progressForecast = document.getElementById('progressForecast');
 
         try {
-          // Загружаем профиль
           const { UserService } = await import('./services/userService.js');
           const user = UserService.getProfile();
-          if (!user || !user.data) {
-            throw new Error("Профиль не заполнен");
-          }
+          if (!user || !user.data) throw new Error("Профиль не заполнен");
           const profile = user.data;
 
-          // Расчёт БЖУ
           const { NutritionEngine } = await import('./core/nutritionEngine.js');
           const engine = new NutritionEngine(user);
           const macros = engine.calculateMacros();
-          const advice = engine.getAdvice();
 
-          // Целевой вес — берём из профиля
           let targetWeight = profile.targetWeight;
-          let goalText = '';
+          let goalText = profile.goal === 'maintain'
+            ? 'Цель: поддержание формы'
+            : targetWeight
+              ? `Цель: ${targetWeight} кг (${profile.goal === 'gain' ? 'набор массы' : 'похудение'})`
+              : (() => {
+                  targetWeight = profile.goal === 'gain'
+                    ? Math.round(profile.weight + 7)
+                    : Math.max(50, Math.round(profile.weight - 5));
+                  return `Цель: ${targetWeight} кг (${profile.goal === 'gain' ? 'набор массы' : 'похудение'})`;
+                })();
 
-          if (profile.goal === 'maintain') {
-            goalText = 'Цель: поддержание формы';
-          } else if (targetWeight) {
-            goalText = `Цель: ${targetWeight} кг (${profile.goal === 'gain' ? 'набор массы' : 'похудение'})`;
-          } else {
-            // Если пользователь не указал цель — используем разумный дефолт
-            targetWeight = profile.goal === 'gain' 
-              ? Math.round(profile.weight + 7) 
-              : Math.max(50, Math.round(profile.weight - 5));
-            goalText = `Цель: ${targetWeight} кг (${profile.goal === 'gain' ? 'набор массы' : 'похудение'})`;
-          }
-
-          // Прогноз срока (0.25–0.5 кг/неделю — безопасный темп)
           let forecastText = '';
           if (profile.goal !== 'maintain' && targetWeight) {
             const diff = Math.abs(targetWeight - profile.weight);
-            const safeRate = profile.goal === 'lose' ? 0.4 : 0.3; // кг/неделю
+            const safeRate = profile.goal === 'lose' ? 0.4 : 0.3;
             const weeks = Math.max(1, Math.ceil(diff / safeRate));
             forecastText = `Прогноз: цель за ~${weeks} недель при безопасном темпе.`;
           }
 
-          // Обновляем блок профиля
           currentStatsEl.innerHTML = `
             <div class="stat-row">
               <strong>⚖️ ${profile.weight} кг</strong>
@@ -254,23 +272,18 @@
             ${forecastText ? `<div class="stat-row"><small>${forecastText}</small></div>` : ''}
           `;
 
-          // === 2. Заполнение дашборда реальными данными ===
-
-          // Тренировки
+          // Тренировки и БЖУ
           const { WorkoutTracker } = await import('./modules/workoutTracker.js');
           const workoutTracker = new WorkoutTracker();
-          const weeklyWorkouts = workoutTracker.getWeeklyCount();
-          document.getElementById('workoutCount').textContent = weeklyWorkouts;
+          document.getElementById('workoutCount').textContent = workoutTracker.getWeeklyCount();
 
-          // Средняя интенсивность (упрощённо: на основе RPE из последних тренировок)
           const allWorkouts = workoutTracker.getAll();
-          const recentWorkouts = allWorkouts.slice(0, 3); // последние 3
+          const recentWorkouts = allWorkouts.slice(0, 3);
           const avgRPE = recentWorkouts.length > 0
             ? (recentWorkouts.reduce((sum, w) => sum + (w.rpe || 7), 0) / recentWorkouts.length).toFixed(1)
             : '—';
           document.getElementById('avgIntensity').textContent = avgRPE + (avgRPE !== '—' ? '/10' : '');
 
-          // БЖУ: сравнение плана и факта
           const { NutritionTracker } = await import('./modules/nutritionTracker.js');
           const nutritionTracker = new NutritionTracker();
           const todayMacros = nutritionTracker.getTotalMacrosToday();
@@ -278,11 +291,9 @@
 
           let macroStatus = 'в норме';
           let macroClass = 'pill-ok';
-
           if (plan?.macros) {
             const proteinPct = todayMacros.protein / plan.macros.protein;
             const caloriesPct = todayMacros.calories / plan.calories;
-
             if (proteinPct < 0.7 || caloriesPct < 0.7) {
               macroStatus = 'низкое';
               macroClass = 'pill-bad';
@@ -291,7 +302,6 @@
               macroClass = 'pill-warning';
             }
           }
-
           const macroBalanceEl = document.getElementById('macroBalance');
           macroBalanceEl.textContent = macroStatus;
           macroBalanceEl.className = `pill ${macroClass}`;
@@ -304,31 +314,22 @@
           dashboardStatus.style.display = 'none';
           analyticsSummary.style.display = 'block';
 
-          // === 2. Прогресс за 21 день ===
+          // Прогресс за 21 день
           const { ProgressTracker } = await import('./modules/progressTracker.js');
           const tracker = new ProgressTracker();
           const recent = tracker.getSince(21);
-
           if (recent.length >= 2) {
-            // Сортируем по дате
             recent.sort((a, b) => new Date(a.date) - new Date(b.date));
             const weights = recent.map(r => r.weight);
             const min = Math.min(...weights);
             const max = Math.max(...weights);
             const range = max - min || 1;
-
-            // Генерируем "график" из символов
-            const chart = weights.map(w => {
-              const height = Math.round(((w - min) / range) * 5); // 0–5 уровней
-              return '█'.repeat(height || 1);
-            }).join(' ');
-
+            const chart = weights.map(w => '█'.repeat(Math.round(((w - min) / range) * 5) || 1)).join(' ');
             weightChart.textContent = chart;
             weightChart.style.fontFamily = 'monospace';
             weightChart.style.fontSize = '1.2rem';
             weightChart.style.lineHeight = 1;
 
-            // Прогноз
             const first = recent[0];
             const last = recent[recent.length - 1];
             const change = last.weight - first.weight;
@@ -347,12 +348,9 @@
             }
             progressPreview.style.display = 'block';
           }
-
         } catch (err) {
           console.error('Ошибка загрузки данных:', err);
-          currentStatsEl.innerHTML = `
-            <p><a href="/pages/profile.html" class="link-primary">Заполните профиль</a>, чтобы увидеть ваши цели и БЖУ.</p>
-          `;
+          currentStatsEl.innerHTML = `<p><a href="/pages/profile.html" class="link-primary">Заполните профиль</a>, чтобы увидеть ваши цели и БЖУ.</p>`;
           dashboardStatus.textContent = "Данные загружены. Настройте профиль!";
           dashboardStatus.className = "info-text";
         }
@@ -361,7 +359,7 @@
         const whySection = document.querySelector('.why-section');
         const whyGrid = document.querySelector('.why-grid');
         if (whySection && whyGrid) {
-          const observer = new IntersectionObserver((entries) => {
+          const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
               if (entry.isIntersecting) {
                 whyGrid.classList.add('visible');
@@ -372,6 +370,9 @@
           observer.observe(whySection);
         }
 
+        // === Инициализация PWA-подсказки ===
+        initPwaPrompt();
+
       } catch (err) {
         console.error('❌ Ошибка инициализации index.html:', err);
         const statusEl = document.getElementById('dashboardStatus');
@@ -381,41 +382,63 @@
         }
       }
     });
+
+    // === PWA Install Prompt ===
+    function initPwaPrompt() {
+      const promptEl = document.getElementById('pwa-install-prompt');
+      if (!promptEl) return;
+
+      // Уже установлено?
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                          (window.navigator.standalone === true);
+      if (isStandalone) return;
+
+      // Уже закрыто?
+      if (localStorage.getItem('pwaPromptDismissed') === 'true') return;
+
+      const installBtn = document.getElementById('pwa-install-btn');
+      const dismissBtn = document.getElementById('pwa-dismiss-btn');
+      const instructionEl = document.getElementById('pwa-instruction');
+
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      const isAndroid = /Android/.test(navigator.userAgent);
+
+      let deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+      });
+
+      if (isIOS) {
+        instructionEl.textContent = 'Нажмите «Поделиться» → «На экран „Домой“».';
+        installBtn.style.display = 'none';
+      } else if (isAndroid && deferredPrompt) {
+        instructionEl.textContent = 'Нажмите кнопку ниже, чтобы установить Morphe как приложение.';
+        installBtn.style.display = 'inline-block';
+        installBtn.addEventListener('click', async () => {
+          if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            if (outcome === 'accepted') console.log('✅ PWA установлено');
+            localStorage.setItem('pwaPromptDismissed', 'true');
+            promptEl.classList.remove('show');
+          }
+        });
+      } else {
+        instructionEl.textContent = 'Откройте меню браузера и выберите «Добавить на главный экран».';
+        installBtn.style.display = 'none';
+      }
+
+      dismissBtn.addEventListener('click', () => {
+        promptEl.classList.remove('show');
+        localStorage.setItem('pwaPromptDismissed', 'true');
+      });
+
+      setTimeout(() => {
+        promptEl.classList.add('show');
+        promptEl.setAttribute('aria-hidden', 'false');
+      }, 4000);
+    }
   </script>
-
-  <!-- Минимальные встроенные стили -->
-  <style>
-    body {
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-      margin: 0;
-    }
-
-    /* Анимации */
-    .why-card {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
-    }
-    .why-grid.visible .why-card {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .why-card:nth-child(1) { transition-delay: 0.1s; }
-    .why-card:nth-child(2) { transition-delay: 0.2s; }
-    .why-card:nth-child(3) { transition-delay: 0.3s; }
-    .why-card:nth-child(4) { transition-delay: 0.4s; }
-
-    /* НОВЫЙ СТИЛЬ для прогресса */
-    .progress-preview-chart {
-      background: var(--bg-surface-alt);
-      padding: 1rem;
-      border-radius: 8px;
-      font-family: monospace;
-      white-space: pre;
-      overflow-x: auto;
-      margin: 1rem 0;
-    }
-  </style>
 </body>
 </html>
