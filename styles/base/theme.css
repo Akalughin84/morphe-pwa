@@ -1,0 +1,33 @@
+:root[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-surface: #fafafa;
+  --bg-surface-alt: #f4f4f5;
+  --bg-input: #ffffff;
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #4b5563;
+  --border: #e5e7eb;
+  --accent: #f97316; /* orange-500 — энергия и движение */
+  --accent-dark: #ea580c; /* orange-600 */
+  --success: #10b981; /* emerald-500 — успех */
+  --warning: #f59e0b; /* amber-500 — внимание */
+  --danger: #f87171; /* red-400 — интенсивность */
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="dark"] {
+  --bg-primary: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-surface-alt: #334155;
+  --bg-input: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --border: #374151;
+  --accent: #fb923c; /* orange-400 */
+  --accent-dark: #f97316; /* orange-500 */
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #fca5a5;
+  --shadow: rgba(0, 0, 0, 0.35);
+}
