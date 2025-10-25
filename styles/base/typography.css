@@ -1,0 +1,39 @@
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; font-weight: 800; }
+h2 { font-size: 2rem; font-weight: 700; }
+h3 { font-size: 1.5rem; font-weight: 600; }
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--accent-dark);
+}
+
+strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+small {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+}
+
+input, select, textarea, button {
+  font-family: inherit;
+  font-size: 1rem;
+}
