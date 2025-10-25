@@ -14,6 +14,7 @@
 
 .hero-content {
   max-width: 600px;
+  width: 100%;
 }
 
 .hero-badge {
@@ -42,12 +43,15 @@
   font-size: 0.95rem;
   color: var(--text-secondary);
   margin-top: 1rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .stat-row {
   display: flex;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 /* Дашборд */
@@ -86,6 +90,7 @@
   font-size: 1.1rem;
   color: var(--text-secondary);
   line-height: 1.6;
+  width: 100%;
 }
 
 .why-grid {
@@ -106,6 +111,8 @@
   text-align: center;
   background: linear-gradient(135deg, var(--accent), #ea580c);
   color: white;
+  width: 100%;
+  overflow: hidden; /* ← защита от вылезания */
 }
 
 .final-cta h2 {
@@ -118,6 +125,7 @@
   max-width: 600px;
   margin: 0 auto 1.5rem;
   line-height: 1.6;
+  width: 100%;
 }
 
 .final-cta .btn-primary {
@@ -131,17 +139,17 @@
   transform: translateY(-2px);
 }
 
-
-/* SVG-контейнер */
+/* SVG-контейнер — ИСПРАВЛЕНО */
 .hero-svg-container {
   position: relative;
   width: 100%;
-  max-width: 500px;
+  max-width: 100%; /* ← БЫЛО 500px, ТЕПЕРЬ 100% */
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.1));
   border-radius: 20px;
   overflow: hidden;
   background: linear-gradient(135deg, var(--accent), #ea580c);
   padding: 1rem;
+  box-sizing: border-box;
 }
 
 .hero-svg-container img {
@@ -156,7 +164,7 @@
   transform: scale(1.03);
 }
 
-/* Прогресс */
+/* Прогресс — ИСПРАВЛЕНО */
 .progress-preview-chart {
   background: var(--bg-surface-alt);
   padding: 1rem;
@@ -165,6 +173,9 @@
   white-space: pre;
   overflow-x: auto;
   margin: 1rem 0;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 100%; /* ← защита */
 }
 
 /* Мобильные стили */
@@ -178,7 +189,7 @@
   }
 
   .hero-svg-container {
-    max-width: 300px;
+    max-width: 100%; /* ← критически важно */
     padding: 0.5rem;
   }
 
@@ -199,11 +210,15 @@
     padding-bottom: 4rem;
   }
 }
+
+/* AI карточки */
 .ai-suggestion-card {
   background: var(--card-bg);
   padding: 1.25rem;
   border-radius: 12px;
   margin-top: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 .ai-suggestion-card .ai-badge {
   font-size: 1.4rem;
@@ -220,39 +235,44 @@
   font-size: 0.85rem;
 }
 
-    .ai-advice-card {
-      display: flex;
-      gap: 12px;
-      padding: 16px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      align-items: flex-start;
-    }
+.ai-advice-card {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-    .ai-badge {
-      font-size: 1.5rem;
-      flex-shrink: 0;
-    }
+.ai-badge {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
 
-    .ai-text {
-      flex: 1;
-    }
+.ai-text {
+  flex: 1;
+}
 
-    .ai-text strong {
-      display: block;
-      margin-bottom: 4px;
-    }
+.ai-text strong {
+  display: block;
+  margin-bottom: 4px;
+}
 
-     /* Стили для прогресс-чарта */
-    .progress-preview-chart {
-      font-family: monospace;
-      font-size: 1.2rem;
-      line-height: 1.4;
-      background: var(--bg-secondary);
-      padding: 0.75rem;
-      border-radius: 8px;
-      margin: 0.75rem 0;
-    }
+/* Стили для прогресс-чарта */
+.progress-preview-chart {
+  font-family: monospace;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  background: var(--bg-secondary);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin: 0.75rem 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 /* === PWA Install Prompt === */
 .pwa-prompt {
   position: fixed;
@@ -270,6 +290,7 @@
   transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.3s ease;
   font-family: var(--font-inter);
   border: 1px solid #f3f4f6;
+  box-sizing: border-box;
 }
 
 .pwa-prompt.show {
