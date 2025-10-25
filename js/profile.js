@@ -284,6 +284,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         allergies: fd.getAll('allergies'),
         injuries: fd.getAll('injuries'),
         chronicConditions: fd.getAll('chronicConditions'),
+        trainingDays: fd.getAll('trainingDays').map(Number),
         wantsLabData: fd.get('wantsLabData') === 'on',
         lastBloodTestDate: fd.get('lastBloodTestDate') || null,
         hemoglobin: fd.get('hemoglobin') ? safeParseFloat(fd.get('hemoglobin')) : null,
